@@ -10,9 +10,14 @@ import SelectSchool from './SelectSchool';
 import SchoolInformation from './SchoolInformation';
 
 const SchoolInfo: React.FC = () => {
+
+    const handleSubmit = (event: any) => {
+        console.log(event);
+    }
+
     return (
         <ContentContainer>
-            <Form name="school-info">
+            <Form name="school-info" onFinish={handleSubmit}>
                 <SelectSchool />
                 <SchoolInformation />
                 <FormFooter />

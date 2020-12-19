@@ -19,11 +19,12 @@ const FormFooter: React.FC = () => {
     <>
       <ContentContainer>
         <Row>
-        <Col span={8}>
+        <Col flex={8}>
             <Form.Item>
               <Button
                 size="large"
                 type="text"
+                htmlType="submit"
                 icon={<ArrowLeftOutlined />}
                 ghost
               >
@@ -31,20 +32,22 @@ const FormFooter: React.FC = () => {
               </Button>
             </Form.Item>
           </Col>
-          <Col push={3} span={8}>
+          <Col push={3} flex={8}>
             <Form.Item>
               <Button 
                 type="primary" 
+                htmlType="submit"
                 ghost>
                 Save Progress
               </Button>
             </Form.Item>
           </Col>
-          <Col push={4} span={8}>
+          <Col push={4} flex={8}>
             <Form.Item>
               <Button
                 size="large"
                 type="text"
+                htmlType="submit"
                 ghost
               >
                 Next Section <ArrowRightOutlined />
