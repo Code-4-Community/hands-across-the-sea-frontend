@@ -8,27 +8,24 @@ import {
     SectionTitle,
     ClarifyText
 } from '../../components';
-import FormFooter from '../../components/FormFooter';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormPiece from '../../components/form-style/FormPiece';
 
 const { Option } = Select;
 
 
 const SelectSchool: React.FC = () => {
+    
     return (
-        <ContentContainer>
-            <SectionTitle level={4}>
-                Select the School
-            </SectionTitle>
-            <Form name="select-school">
-                <ClarifyText>
-                    Which school will you be monitoring today?
-                </ClarifyText>
-                <Select>
-                    <Option value="1">One option</Option>
-                </Select>
-                <FormFooter/>
-            </Form>
-        </ContentContainer>
+        <FormContainer title="Select the School">
+            <FormPiece firstPiece lastPiece note="Which school will you be monitoring today?">
+                <Form.Item>
+                    <Select>
+                       <Option value="1">One option</Option>
+                    </Select>
+                </Form.Item>
+            </FormPiece>
+        </FormContainer>
     )
 }
 

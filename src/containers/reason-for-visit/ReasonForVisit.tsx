@@ -3,13 +3,15 @@ import {
     Form, 
     Input, 
     Select,
+    Button
 } from 'antd';
 import { 
     ContentContainer,
     SectionTitle,
     ClarifyText
 } from '../../components';
-import FormFooter from '../../components/FormFooter';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormFooter from '../../components/form-style/FormFooter';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -24,18 +26,21 @@ const ReasonForVisit: React.FC = () => {
         setSelected(value.label);
     }
 
+    const handleSubmit = (event: any) => {
+        console.log(event);
+    }
+
   return (
     <>
       <ContentContainer>
           <Form 
-            name="reason-to-visit">
-              <SectionTitle level={4}>
-                  Reason For Visit
-              </SectionTitle>
-              <Form.Item>
-                  <ClarifyText>
+            name="reason-to-visit"
+            onFinish={handleSubmit}>
+              <FormContainer title="Reason For Visit">
+              <ClarifyText>
                       What is the purpose for today's visit?
-                  </ClarifyText>
+              </ClarifyText>
+              <Form.Item name="purpose">
                   <Select 
                     onChange={handleChange}
                     labelInValue>
@@ -53,13 +58,14 @@ const ReasonForVisit: React.FC = () => {
                   </Select>
               </Form.Item>
               {currSelect === 'other' && 
-                <Form.Item>
+                <Form.Item name="other">
                     <TextArea 
                         placeholder="Please enter why here"
                         autoSize={{ minRows: 4 }}/>
                 </Form.Item>}
+                </FormContainer>
+            <FormFooter />
           </Form>
-          <FormFooter />
       </ContentContainer>
     </>
   );

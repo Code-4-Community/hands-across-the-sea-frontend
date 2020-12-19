@@ -11,7 +11,7 @@ import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
 
 import NotFound from './containers/not-found/NotFound';
-import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
+import SchoolInfo from './containers/school-info/SchoolInfo';
 import NavBar from './components/navbar/NavBar';
 import Footer from './components/Footer';
 import { Layout } from 'antd';
@@ -40,7 +40,7 @@ const App: React.FC = () => {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/block-template" exact component={BlockTemplate} />
-                <Route path="/grid-template" exact component={ReasonForVisit} />
+                <Route path="/grid-template" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/settings" exact component={Settings} />

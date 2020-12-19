@@ -10,7 +10,7 @@ export const SectionTitle = styled(Title)`
 
 export const ClarifyText = styled(Paragraph)`
   margin: auto;
-`
+`;
 
 export const ContentContainer = styled.div`
   display: block;
