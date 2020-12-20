@@ -1,22 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Form,
     Input,
     Row,
     Col,
-    Radio
+    Radio,
+    Typography
 } from 'antd';
 import { ClarifyText } from '../../components';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
+import AddContact from './AddContact';
+import styled from 'styled-components';
 
 const { TextArea } = Input;
+const { Title } = Typography;
+
+const AddContactContainer = styled(FormPiece)`
+    font-size: 32px;
+`;
+
+const MakeRight = styled.div`
+    text-align: right;
+`;
+
 
 const SchoolInformation: React.FC = () => {
+
+    const [extraContacts, setExtraContacts] = useState<any []>([]);
+
+    const removeExtraContact = (ii: number) => {
+        extraContacts.splice(ii - 1, 1);
+        setExtraContacts(extraContacts);
+    }
+
+    const addExtraContact = () => {
+        let ii = extraContacts.length + 1;
+        setExtraContacts(extraContacts.concat(<AddContact onDelete={removeExtraContact} index={ii}/>));
+    }
     
     return (
         <FormContainer title="School Information">
-            <FormPiece firstPiece={true} lastPiece={false} note="School Address">
+            <FormPiece firstPiece note="School Address">
                 <Form.Item name="schoolStreetAddress">
                     <Input placeholder="Street Address"/>
                 </Form.Item>  
@@ -27,7 +53,7 @@ const SchoolInformation: React.FC = () => {
                     <TextArea minLength={2} placeholder="Any Specific Instructions?"/>
                 </Form.Item>  
             </FormPiece>
-            <FormPiece firstPiece={false} lastPiece={false} note="School Contact Information">
+            <FormPiece note="School Contact Information">
                 <Row>
                     <Col span={11}>
                         <Form.Item name="schoolPhone">
@@ -80,7 +106,7 @@ const SchoolInformation: React.FC = () => {
                     </Radio.Group>
                 </Form.Item>
             </FormPiece>
-            <FormPiece firstPiece={false} lastPiece={false} note="Literacy Coordinator Contact Information">
+            <FormPiece note="Literacy Coordinator Contact Information">
                 <Row>
                     <Col span={11}>
                         <Form.Item name="lcFirstName">
@@ -115,7 +141,7 @@ const SchoolInformation: React.FC = () => {
                     </Radio.Group>
                 </Form.Item>
             </FormPiece>
-            <FormPiece firstPiece={false} lastPiece={false} note="Librarian Contact Information">
+            <FormPiece note="Librarian Contact Information">
                 <Row>
                     <Col span={11}>
                         <Form.Item name="llFirstName">
@@ -150,6 +176,19 @@ const SchoolInformation: React.FC = () => {
                     </Radio.Group>
                 </Form.Item>
             </FormPiece>
+            {extraContacts}
+            <AddContactContainer lastPiece limitPadding onClick={addExtraContact}>
+                <Row>
+                    <Col span={12}>
+                        <ClarifyText>Any Addition Contacts to Add?</ClarifyText>
+                    </Col>
+                    <Col span={12}>
+                        <MakeRight>
+                            <PlusCircleOutlined />
+                        </MakeRight>
+                    </Col>
+                </Row>
+            </AddContactContainer>
         </FormContainer>
     )
 }
