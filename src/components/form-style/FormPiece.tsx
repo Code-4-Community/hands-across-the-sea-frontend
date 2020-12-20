@@ -19,6 +19,10 @@ interface FormPieceProps {
 
 const MakeRight = styled.div`
     text-align: right;
+
+    &:hover {
+        color: red;
+    }
 `;
 
 const FormPiece: React.FC<FormPieceProps> = (props) => {

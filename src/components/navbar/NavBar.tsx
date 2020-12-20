@@ -43,8 +43,8 @@ const NavBar: React.FC = () => {
     <NavRow align="middle">
       <Col flex={3}>
         <AntButtonLink to="/">Home</AntButtonLink>
-        <AntButtonLink to="/block-template">Block Template</AntButtonLink>
-        <AntButtonLink to="/grid-template">Grid Template</AntButtonLink>
+        <AntButtonLink to="/reason-for-visit">Reason For Visit</AntButtonLink>
+        <AntButtonLink to="/school-info">School Info</AntButtonLink>
       </Col>
 
       <div>

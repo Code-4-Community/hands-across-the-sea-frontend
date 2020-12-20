@@ -7,11 +7,11 @@ import Home from './containers/home/Home';
 import Signup from './containers/signup/Signup';
 import Login from './containers/login/Login';
 import Settings from './containers/settings/Settings';
-import BlockTemplate from './containers/template-1-col-block/Template';
-import GridTemplate from './containers/template-24-col-grid/Template';
+import SchoolInfo from './containers/school-info/SchoolInfo';
+import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
+import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 
 import NotFound from './containers/not-found/NotFound';
-import SchoolInfo from './containers/school-info/SchoolInfo';
 import NavBar from './components/navbar/NavBar';
 import Footer from './components/Footer';
 import { Layout } from 'antd';
@@ -39,8 +39,14 @@ const App: React.FC = () => {
             <AppInnerContainer>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/block-template" exact component={BlockTemplate} />
-                <Route path="/grid-template" exact component={SchoolInfo} />
+                <Route path="/reason-for-visit" exact component={ReasonForVisit} />
+                <Route path="/student-book-information" exact component={StudentBookInformation} />
+                <Route path="/library-info" exact component={ReasonForVisit} />
+                <Route path="/monitoring-information" exact component={ReasonForVisit} />
+                <Route path="/training-and-mentoring-information" exact component={ReasonForVisit} />
+                <Route path="/form-sub-confirmation" exact component={ReasonForVisit} />
+                <Route path="/from-sub-fail" exact component={ReasonForVisit} />
+                <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/settings" exact component={Settings} />
@@ -48,7 +54,6 @@ const App: React.FC = () => {
               </Switch>
             </AppInnerContainer>
           </Content>
-          <Footer />
         </Layout>
       </Router>
     </>

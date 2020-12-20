@@ -17,12 +17,26 @@ import styled from 'styled-components';
 const { TextArea } = Input;
 const { Title } = Typography;
 
+const UpdatedTextArea = styled(TextArea)`
+    resize: none;
+`;
+
 const AddContactContainer = styled(FormPiece)`
     font-size: 32px;
 `;
 
 const MakeRight = styled.div`
     text-align: right;
+`;
+
+const PointerChange = styled.div`
+    cursor: pointer;
+
+    &:hover {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
 `;
 
 
@@ -50,7 +64,7 @@ const SchoolInformation: React.FC = () => {
                     <Input placeholder="Town or District"/>
                 </Form.Item>  
                 <Form.Item name="schoolInstructions">
-                    <TextArea minLength={2} placeholder="Any Specific Instructions?"/>
+                    <UpdatedTextArea minLength={2} placeholder="Any Specific Instructions?"/>
                 </Form.Item>  
             </FormPiece>
             <FormPiece note="School Contact Information">
@@ -68,7 +82,7 @@ const SchoolInformation: React.FC = () => {
                     </Col>
                 </Row>
                 <Form.Item name="schoolOtherContactInfo">
-                    <TextArea minLength={2} placeholder="Anything Else"/>
+                    <UpdatedTextArea minLength={2} placeholder="Anything Else"/>
                 </Form.Item>  
             </FormPiece>
             <FormPiece firstPiece={false} lastPiece={false} note="Principal or Director Contact Information">
@@ -177,18 +191,20 @@ const SchoolInformation: React.FC = () => {
                 </Form.Item>
             </FormPiece>
             {extraContacts}
-            <AddContactContainer lastPiece limitPadding onClick={addExtraContact}>
-                <Row>
-                    <Col span={12}>
-                        <ClarifyText>Any Addition Contacts to Add?</ClarifyText>
-                    </Col>
-                    <Col span={12}>
-                        <MakeRight>
-                            <PlusCircleOutlined />
-                        </MakeRight>
-                    </Col>
-                </Row>
-            </AddContactContainer>
+            <PointerChange>
+                <AddContactContainer lastPiece limitPadding onClick={addExtraContact}>
+                    <Row>
+                        <Col span={12}>
+                                <ClarifyText>Any Addition Contacts to Add?</ClarifyText>
+                        </Col>
+                        <Col span={12}>
+                            <MakeRight>
+                                <PlusCircleOutlined />
+                            </MakeRight>
+                        </Col>
+                    </Row>
+                </AddContactContainer>
+            </PointerChange>
         </FormContainer>
     )
 }
