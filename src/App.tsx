@@ -10,6 +10,7 @@ import Settings from './containers/settings/Settings';
 import SchoolInfo from './containers/school-info/SchoolInfo';
 import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
+import LibraryInfo from './containers/library-info/LibraryInfo';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/navbar/NavBar';
@@ -28,7 +29,7 @@ const App: React.FC = () => {
       <Helmet>
         <meta
           name="keywords"
-          content="C4C,code,for,community,code4community,codeforcommunity,northeastern,boston"
+          content="HATS, Hands for the Sea"
         />
       </Helmet>
 
@@ -41,11 +42,10 @@ const App: React.FC = () => {
                 <Route path="/" exact component={Home} />
                 <Route path="/reason-for-visit" exact component={ReasonForVisit} />
                 <Route path="/student-book-information" exact component={StudentBookInformation} />
-                <Route path="/library-info" exact component={ReasonForVisit} />
+                <Route path="/library-info" exact component={LibraryInfo} />
                 <Route path="/monitoring-information" exact component={ReasonForVisit} />
                 <Route path="/training-and-mentoring-information" exact component={ReasonForVisit} />
                 <Route path="/form-sub-confirmation" exact component={ReasonForVisit} />
-                <Route path="/from-sub-fail" exact component={ReasonForVisit} />
                 <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />

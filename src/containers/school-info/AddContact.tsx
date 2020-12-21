@@ -11,8 +11,8 @@ import FormPiece from '../../components/form-style/FormPiece';
 import styled from 'styled-components';
 
 interface AddContactProps {
-    index: number;
-    onDelete: (ii: number) => void;
+    readonly index: number;
+    readonly onDelete: (ii: number) => void;
 }
 
 const AddContact: React.FC<AddContactProps> = (props) => {

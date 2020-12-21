@@ -1,11 +1,67 @@
-import React from 'react'
+import React from 'react';
+import { 
+    Form,
+    Row,
+    Col,
+    Input,
+    Radio
+} from 'antd';
+import FormFooter from '../../components/form-style/FormFooter';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormContentContainer from '../../components/form-style/FormContentContainer';
+import FormPiece from '../../components/form-style/FormPiece';
 
-const StudentBookInformation: React.FC = () => {
+const SchoolInfo: React.FC = () => {
+
+    const handleSubmit = (event: any) => {
+        console.log(event);
+    }
+
     return (
-        <div>
-            
-        </div>
+        <FormContentContainer>
+            <Form name="student-book-information" onFinish={handleSubmit}>
+                <FormContainer title="Student and Book Information">
+                    <Row>
+                        <Col span={12}>
+                            <FormPiece firstPiece left note="How Many Children attended?">
+                                <Form.Item name="childrenAttended">
+                                    <Input placeholder="Please enter a number"/>
+                                </Form.Item>
+                            </FormPiece>
+                        </Col>
+                        <Col span={12}>
+                            <FormPiece firstPiece right note="How Many Books?">
+                                <Form.Item name="booksAmount">
+                                    <Input placeholder="Please enter a number"/>
+                                </Form.Item>
+                            </FormPiece>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormPiece lastPiece left note="What grades attended?">
+                                <Form.Item name="gradesAttended">
+                                    <Radio.Group buttonStyle="solid">
+                                        <Radio.Button value="grade1">Grade</Radio.Button>
+                                        <Radio.Button value="grade2">Grade</Radio.Button>
+                                        <Radio.Button value="grade3">Grade</Radio.Button>
+                                     </Radio.Group>
+                                </Form.Item>
+                            </FormPiece>
+                        </Col>
+                        <Col span={12}>
+                            <FormPiece lastPiece right note="Most recent shipment year?">
+                                <Form.Item name="shipmentYear">
+                                    <Input placeholder="Please enter a number"/>
+                                </Form.Item>
+                            </FormPiece>
+                        </Col>
+                    </Row>
+                </FormContainer>
+                <FormFooter />
+            </Form>
+        </FormContentContainer>
     )
 }
 
-export default StudentBookInformation;
+export default SchoolInfo;

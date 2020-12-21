@@ -9,15 +9,23 @@ import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { ContentContainer } from '..';
 import styled from 'styled-components';
 
+interface FormFooterProps {
+  readonly submit?: boolean;
+}
+
 const Foot = styled(Row)`
   margin: 0 0 0 145px;
 `;
 
+const FooterContainer = styled(ContentContainer)`
+    max-width: 960px;
+`;
 
-const FormFooter: React.FC = () => {
+
+const FormFooter: React.FC<FormFooterProps> = () => {
   return (
     <>
-      <ContentContainer>
+      <FooterContainer>
         <Row>
         <Col flex={8}>
             <Form.Item>
@@ -55,7 +63,7 @@ const FormFooter: React.FC = () => {
             </Form.Item>
           </Col>
         </Row>
-      </ContentContainer>
+      </FooterContainer>
     </>
   );
 };

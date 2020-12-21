@@ -1,11 +1,14 @@
 import React from 'react';
 import { 
-    Form
+    Form,
+    Row,
+    Col
 } from 'antd';
 import { 
     ContentContainer,
 } from '../../components';
 import FormFooter from '../../components/form-style/FormFooter';
+import FormContentContainer from '../../components/form-style/FormContentContainer';
 import SelectSchool from './SelectSchool';
 import SchoolInformation from './SchoolInformation';
 
@@ -16,13 +19,19 @@ const SchoolInfo: React.FC = () => {
     }
 
     return (
-        <ContentContainer>
-            <Form name="school-info" onFinish={handleSubmit}>
-                <SelectSchool />
-                <SchoolInformation />
-                <FormFooter />
-            </Form>
-        </ContentContainer>
+        <FormContentContainer>
+            <Row>
+                <Col>
+                </Col>
+                <Col>
+                    <Form name="school-info" onFinish={handleSubmit}>
+                        <SelectSchool />
+                        <SchoolInformation />
+                        <FormFooter />
+                    </Form>
+                </Col>
+            </Row>
+        </FormContentContainer>
     )
 }
 

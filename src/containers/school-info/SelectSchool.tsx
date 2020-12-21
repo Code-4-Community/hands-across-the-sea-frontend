@@ -19,7 +19,7 @@ const SelectSchool: React.FC = () => {
     return (
         <FormContainer title="Select the School">
             <FormPiece firstPiece lastPiece note="Which school will you be monitoring today?">
-                <Form.Item>
+                <Form.Item name="school">
                     <Select>
                        <Option value="1">One option</Option>
                     </Select>

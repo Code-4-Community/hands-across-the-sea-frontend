@@ -3,7 +3,7 @@ import { ContentContainer, SectionTitle } from '..';
 import styled from 'styled-components';
 
 interface FormContainerProps {
-  title: String;
+  readonly title: String;
 }
 
 const Outer = styled.div`
@@ -12,14 +12,19 @@ const Outer = styled.div`
   border-radius: 5px;
 `;
 
+const Container = styled(ContentContainer)`
+  min-width: 960px;
+  max-width: 960px;
+`;
+
 const FormContainer: React.FC<FormContainerProps> = (props) => {
   return (
-    <ContentContainer>
+    <Container>
       <SectionTitle level={4}>{props.title}</SectionTitle>
       <Outer>
         {props.children}
       </Outer>
-    </ContentContainer>
+    </Container>
   );
 };
 

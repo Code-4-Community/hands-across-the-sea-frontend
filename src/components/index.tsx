@@ -1,7 +1,12 @@
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Typography, Input } from 'antd';
 
+const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
+
+export const FormTextArea = styled(TextArea)`
+  resize: none;
+`;
 
 export const SectionTitle = styled(Title)`
   font-weight: bold;
@@ -10,11 +15,11 @@ export const SectionTitle = styled(Title)`
 
 export const ClarifyText = styled(Paragraph)`
   margin: auto;
-`;
+`
 
+//max-width: 960px
 export const ContentContainer = styled.div`
   display: block;
   padding: 24px;
-  max-width: 960px;
   margin: auto;
 `;

@@ -8,13 +8,15 @@ import { DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 interface FormPieceProps {
-  note?: string;
-  firstPiece?: boolean;
-  lastPiece?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  limitPadding?: boolean;
-  additionalPiece?: boolean;
-  removeAdditionPiece?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  readonly note?: string;
+  readonly firstPiece?: boolean;
+  readonly lastPiece?: boolean;
+  readonly onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  readonly limitPadding?: boolean;
+  readonly additionalPiece?: boolean;
+  readonly removeAdditionPiece?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  readonly left?: boolean;
+  readonly right?: boolean;
 }
 
 const MakeRight = styled.div`
@@ -27,12 +29,17 @@ const MakeRight = styled.div`
 
 const FormPiece: React.FC<FormPieceProps> = (props) => {
     
-    const first = props.firstPiece ? '0px' : '24px';
-    const last = props.lastPiece ? '0px' : '24px';
+    let top = props.firstPiece ? '0px' : '24px';
+    let bottom = props.lastPiece ? '0px' : '24px';
     const padding = props.limitPadding ? 'padding: 10px 32px 10px 32px;' : 'padding: 32px 32px 10px 32px;';
+    let left = props.left ? '0px' : '10px';
+    props.left && (props.lastPiece || props.firstPiece) ? top = '0px' : top = top;
+    let right = props.right ? '0px' : '10px';
+    props.right && (props.lastPiece || props.firstPiece) ? top = '0px' : top = top;
+
     
     const Piece = styled.div`
-        margin: ${first} 0px ${last} 0px;
+        margin: ${top} ${right} ${bottom} ${left};
         ${padding}
         background-color: #ffffff;
         border-radius: 5px;

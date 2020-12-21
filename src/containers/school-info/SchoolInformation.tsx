@@ -7,19 +7,14 @@ import {
     Radio,
     Typography
 } from 'antd';
-import { ClarifyText } from '../../components';
+import { ClarifyText, FormTextArea } from '../../components';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import AddContact from './AddContact';
 import styled from 'styled-components';
 
-const { TextArea } = Input;
 const { Title } = Typography;
-
-const UpdatedTextArea = styled(TextArea)`
-    resize: none;
-`;
 
 const AddContactContainer = styled(FormPiece)`
     font-size: 32px;
@@ -64,7 +59,7 @@ const SchoolInformation: React.FC = () => {
                     <Input placeholder="Town or District"/>
                 </Form.Item>  
                 <Form.Item name="schoolInstructions">
-                    <UpdatedTextArea minLength={2} placeholder="Any Specific Instructions?"/>
+                    <FormTextArea minLength={2} placeholder="Any Specific Instructions?"/>
                 </Form.Item>  
             </FormPiece>
             <FormPiece note="School Contact Information">
@@ -82,7 +77,7 @@ const SchoolInformation: React.FC = () => {
                     </Col>
                 </Row>
                 <Form.Item name="schoolOtherContactInfo">
-                    <UpdatedTextArea minLength={2} placeholder="Anything Else"/>
+                    <FormTextArea minLength={2} placeholder="Anything Else"/>
                 </Form.Item>  
             </FormPiece>
             <FormPiece firstPiece={false} lastPiece={false} note="Principal or Director Contact Information">
