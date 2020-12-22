@@ -34,6 +34,7 @@ const ReasonForVisit: React.FC = () => {
                         <FormPiece note="What is the purpose for today's visit?">
                             <Form.Item name="purpose">
                                 <Select 
+                                    placeholder="Select a reason"
                                     onChange={handleChange}
                                     labelInValue>
                                     <Option value="read-aloud/read-time">Read aloud / Reading time</Option>

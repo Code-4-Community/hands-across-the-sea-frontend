@@ -11,6 +11,8 @@ import SchoolInfo from './containers/school-info/SchoolInfo';
 import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
+import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
+import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/navbar/NavBar';
@@ -43,8 +45,8 @@ const App: React.FC = () => {
                 <Route path="/reason-for-visit" exact component={ReasonForVisit} />
                 <Route path="/student-book-information" exact component={StudentBookInformation} />
                 <Route path="/library-info" exact component={LibraryInfo} />
-                <Route path="/monitoring-information" exact component={ReasonForVisit} />
-                <Route path="/training-and-mentoring-information" exact component={ReasonForVisit} />
+                <Route path="/monitoring-information" exact component={MonitoringInfo} />
+                <Route path="/training-and-mentoring-information" exact component={TrainingMentorshipInfo} />
                 <Route path="/form-sub-confirmation" exact component={ReasonForVisit} />
                 <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />

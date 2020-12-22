@@ -209,7 +209,7 @@ const SchoolInformation: React.FC = () => {
             <Row gutter={[0,0]}>
                 <Col flex={24}>
                     <PointerChange>
-                        <AddContactContainer onClick={addExtraContact}>
+                        <AddContactContainer addPaddingTop={-20} onClick={addExtraContact}>
                             <Row>
                                 <Col flex={12}>
                                         <ClarifyText>Any Addition Contacts to Add?</ClarifyText>

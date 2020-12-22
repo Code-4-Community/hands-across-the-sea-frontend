@@ -74,7 +74,7 @@ const NoLibrary: React.FC = () => {
                         {assignedToLibrary && <div>
                             <ClarifyText>What is the title of this peron assigned to the library?</ClarifyText>
                             <Form.Item name="titleOfPersonAssignedToLibrary">
-                                <Select onChange={handleChangeTitle} labelInValue>
+                                <Select placeholder="Select the title" onChange={handleChangeTitle} labelInValue>
                                     <Option value="librarian">Librarian</Option>
                                     <Option value="school-secretary">School Secretary</Option>
                                     <Option value="classroom-teacher">Classroom Teacher</Option>
@@ -103,7 +103,7 @@ const NoLibrary: React.FC = () => {
                         </Form.Item>
                         {hasApprenticeship && 
                             <Form.Item name="apprenticeshipType">
-                                <Select placeholder="Select">
+                                <Select placeholder="Select the program">
                                     <Option value="oecs-yes">OECS YES</Option>
                                     <Option value="nep">NEP</Option>
                                     <Option value="waiting-on-amanda">Another waiting on/from Amanda</Option>

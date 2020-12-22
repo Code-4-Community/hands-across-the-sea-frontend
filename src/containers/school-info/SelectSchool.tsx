@@ -5,11 +5,6 @@ import {
     Row,
     Col
 } from 'antd';
-import { 
-    ContentContainer, 
-    SectionTitle,
-    ClarifyText
-} from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 
@@ -24,7 +19,7 @@ const SelectSchool: React.FC = () => {
                 <Col flex={24}>
                     <FormPiece note="Which school will you be monitoring today?">
                         <Form.Item name="school">
-                            <Select>
+                            <Select placeholder="Select a school">
                             <Option value="1">One option</Option>
                             </Select>
                         </Form.Item>
