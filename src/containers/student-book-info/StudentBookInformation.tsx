@@ -21,25 +21,25 @@ const SchoolInfo: React.FC = () => {
         <FormContentContainer>
             <Form name="student-book-information" onFinish={handleSubmit}>
                 <FormContainer title="Student and Book Information">
-                    <Row>
+                    <Row gutter={[24, 24]}>
                         <Col span={12}>
-                            <FormPiece firstPiece left note="How Many Children attended?">
+                            <FormPiece  note="How Many Children attended?">
                                 <Form.Item name="childrenAttended">
                                     <Input placeholder="Please enter a number"/>
                                 </Form.Item>
                             </FormPiece>
                         </Col>
                         <Col span={12}>
-                            <FormPiece firstPiece right note="How Many Books?">
+                            <FormPiece  note="How Many Books?">
                                 <Form.Item name="booksAmount">
                                     <Input placeholder="Please enter a number"/>
                                 </Form.Item>
                             </FormPiece>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row gutter={[24,0]}>
                         <Col span={12}>
-                            <FormPiece lastPiece left note="What grades attended?">
+                            <FormPiece  note="What grades attended?">
                                 <Form.Item name="gradesAttended">
                                     <Radio.Group buttonStyle="solid">
                                         <Radio.Button value="grade1">Grade</Radio.Button>
@@ -50,7 +50,7 @@ const SchoolInfo: React.FC = () => {
                             </FormPiece>
                         </Col>
                         <Col span={12}>
-                            <FormPiece lastPiece right note="Most recent shipment year?">
+                            <FormPiece  note="Most recent shipment year?">
                                 <Form.Item name="shipmentYear">
                                     <Input placeholder="Please enter a number"/>
                                 </Form.Item>

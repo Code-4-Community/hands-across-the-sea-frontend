@@ -1,7 +1,9 @@
 import React from 'react'
 import {
     Form,
-    Select
+    Select,
+    Row,
+    Col
 } from 'antd';
 import { 
     ContentContainer, 
@@ -18,13 +20,17 @@ const SelectSchool: React.FC = () => {
     
     return (
         <FormContainer title="Select the School">
-            <FormPiece firstPiece lastPiece note="Which school will you be monitoring today?">
-                <Form.Item name="school">
-                    <Select>
-                       <Option value="1">One option</Option>
-                    </Select>
-                </Form.Item>
-            </FormPiece>
+            <Row gutter={[0,0]}>
+                <Col flex={24}>
+                    <FormPiece note="Which school will you be monitoring today?">
+                        <Form.Item name="school">
+                            <Select>
+                            <Option value="1">One option</Option>
+                            </Select>
+                        </Form.Item>
+                    </FormPiece>
+                </Col>
+            </Row>
         </FormContainer>
     )
 }

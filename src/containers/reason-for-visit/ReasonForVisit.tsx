@@ -31,7 +31,7 @@ const ReasonForVisit: React.FC = () => {
                     name="reason-to-visit"
                     onFinish={handleSubmit}>
                     <FormContainer title="Reason For Visit">
-                        <FormPiece firstPiece lastPiece note="What is the purpose for today's visit?">
+                        <FormPiece note="What is the purpose for today's visit?">
                             <Form.Item name="purpose">
                                 <Select 
                                     onChange={handleChange}

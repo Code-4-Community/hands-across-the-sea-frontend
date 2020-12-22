@@ -30,27 +30,25 @@ const AddContact: React.FC<AddContactProps> = (props) => {
 
     return (
         <FormPiece additionalPiece removeAdditionPiece={handleDelete} note={note}>
-            <Row>
-                <Col span={11}>
+            <Row gutter={[24,0]}>
+                <Col flex={12}>
                     <Form.Item name={firstName}>
                         <Input placeholder="First Name" />
                     </Form.Item>
                 </Col>
-                <Col span={2} />
-                <Col span={11}>
+                <Col flex={12}>
                     <Form.Item name={lastName}>
                         <Input placeholder="Last Name" />
                     </Form.Item>
                 </Col>
             </Row>
-            <Row>
-                <Col span={11}>
+            <Row gutter={[24,0]}>
+                <Col flex={12}>
                     <Form.Item name={phoneNumber}>
                         <Input placeholder="Phone Number" />
                     </Form.Item>
                 </Col>
-                <Col span={2} />
-                <Col span={11}>
+                <Col flex={12}>
                     <Form.Item name={email}>
                         <Input placeholder="Email" />
                     </Form.Item>

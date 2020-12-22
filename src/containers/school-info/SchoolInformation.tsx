@@ -51,155 +51,179 @@ const SchoolInformation: React.FC = () => {
     
     return (
         <FormContainer title="School Information">
-            <FormPiece firstPiece note="School Address">
-                <Form.Item name="schoolStreetAddress">
-                    <Input placeholder="Street Address"/>
-                </Form.Item>  
-                <Form.Item name="schoolTownDistrict">
-                    <Input placeholder="Town or District"/>
-                </Form.Item>  
-                <Form.Item name="schoolInstructions">
-                    <FormTextArea minLength={2} placeholder="Any Specific Instructions?"/>
-                </Form.Item>  
-            </FormPiece>
-            <FormPiece note="School Contact Information">
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="schoolPhone">
-                            <Input placeholder="Phone Number" />
+            <Row gutter={[0,24]}>
+                <Col flex={24}>
+                    <FormPiece note="School Address">
+                        <Form.Item name="schoolStreetAddress">
+                            <Input placeholder="Street Address"/>
+                        </Form.Item>  
+                        <Form.Item name="schoolTownDistrict">
+                            <Input placeholder="Town or District"/>
+                        </Form.Item>  
+                        <Form.Item name="schoolInstructions">
+                            <FormTextArea minLength={2} placeholder="Any Specific Instructions?"/>
+                        </Form.Item>  
+                    </FormPiece>
+                </Col>
+            </Row>
+            <Row gutter={[0,24]}>
+                <Col flex={24}>
+                    <FormPiece note="School Contact Information">
+                        <Row>
+                            <Col flex={11}>
+                                <Form.Item name="schoolPhone">
+                                    <Input placeholder="Phone Number" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={2} />
+                            <Col flex={11}>
+                                <Form.Item name="schoolEmail">
+                                    <Input placeholder="Email" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Form.Item name="schoolOtherContactInfo">
+                            <FormTextArea minLength={2} placeholder="Anything Else"/>
+                        </Form.Item>  
+                    </FormPiece>
+                </Col>
+            </Row>
+            <Row gutter={[0,24]}>
+                <Col flex={24}>
+                    <FormPiece note="Principal or Director Contact Information">
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="pdFirstName">
+                                    <Input placeholder="First Name" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="pdLastName">
+                                    <Input placeholder="Last Name" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="pdPhoneNumber">
+                                    <Input placeholder="Phone Number" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="pdEmail">
+                                    <Input placeholder="Email" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
+                        <Form.Item name="pdContactType">
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button value="primary">Primary</Radio.Button>
+                                <Radio.Button value="secondary">Secondary</Radio.Button>
+                            </Radio.Group>
                         </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="schoolEmail">
-                            <Input placeholder="Email" />
+                    </FormPiece>
+                </Col>
+            </Row>
+            <Row gutter={[0,24]}>
+                <Col flex={24}>
+                    <FormPiece note="Literacy Coordinator Contact Information">
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="lcFirstName">
+                                    <Input placeholder="First Name" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="lcLastName">
+                                    <Input placeholder="Last Name" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="lcPhoneNumber">
+                                    <Input placeholder="Phone Number" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="lcEmail">
+                                    <Input placeholder="Email" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
+                        <Form.Item name="lcContactType">
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button value="primary">Primary</Radio.Button>
+                                <Radio.Button value="secondary">Secondary</Radio.Button>
+                            </Radio.Group>
                         </Form.Item>
+                    </FormPiece>
+                </Col>
+            </Row>
+            <Row gutter={[0,24]}>
+                <Col flex={24}>
+                    <FormPiece note="Librarian Contact Information">
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="llFirstName">
+                                    <Input placeholder="First Name" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="llLastName">
+                                    <Input placeholder="Last Name" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={[24,0]}>
+                            <Col flex={12}>
+                                <Form.Item name="llPhoneNumber">
+                                    <Input placeholder="Phone Number" />
+                                </Form.Item>
+                            </Col>
+                            <Col flex={12}>
+                                <Form.Item name="llEmail">
+                                    <Input placeholder="Email" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
+                        <Form.Item name="llContactType">
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button value="primary">Primary</Radio.Button>
+                                <Radio.Button value="secondary">Secondary</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                    </FormPiece>
+                </Col>
+            </Row>
+            {extraContacts.map((contact) => (
+                <Row gutter={[0,24]}>
+                    <Col flex={24}>
+                        {contact}
                     </Col>
                 </Row>
-                <Form.Item name="schoolOtherContactInfo">
-                    <FormTextArea minLength={2} placeholder="Anything Else"/>
-                </Form.Item>  
-            </FormPiece>
-            <FormPiece firstPiece={false} lastPiece={false} note="Principal or Director Contact Information">
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="pdFirstName">
-                            <Input placeholder="First Name" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="pdLastName">
-                            <Input placeholder="Last Name" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="pdPhoneNumber">
-                            <Input placeholder="Phone Number" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="pdEmail">
-                            <Input placeholder="Email" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
-                <Form.Item name="pdContactType">
-                    <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="primary">Primary</Radio.Button>
-                        <Radio.Button value="secondary">Secondary</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-            </FormPiece>
-            <FormPiece note="Literacy Coordinator Contact Information">
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="lcFirstName">
-                            <Input placeholder="First Name" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="lcLastName">
-                            <Input placeholder="Last Name" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="lcPhoneNumber">
-                            <Input placeholder="Phone Number" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="lcEmail">
-                            <Input placeholder="Email" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
-                <Form.Item name="lcContactType">
-                    <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="primary">Primary</Radio.Button>
-                        <Radio.Button value="secondary">Secondary</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-            </FormPiece>
-            <FormPiece note="Librarian Contact Information">
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="llFirstName">
-                            <Input placeholder="First Name" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="llLastName">
-                            <Input placeholder="Last Name" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={11}>
-                        <Form.Item name="llPhoneNumber">
-                            <Input placeholder="Phone Number" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={11}>
-                        <Form.Item name="llEmail">
-                            <Input placeholder="Email" />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <ClarifyText>Is this person a primary or secondary contact?</ClarifyText>
-                <Form.Item name="llContactType">
-                    <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="primary">Primary</Radio.Button>
-                        <Radio.Button value="secondary">Secondary</Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-            </FormPiece>
-            {extraContacts}
-            <PointerChange>
-                <AddContactContainer lastPiece limitPadding onClick={addExtraContact}>
-                    <Row>
-                        <Col span={12}>
-                                <ClarifyText>Any Addition Contacts to Add?</ClarifyText>
-                        </Col>
-                        <Col span={12}>
-                            <MakeRight>
-                                <PlusCircleOutlined />
-                            </MakeRight>
-                        </Col>
-                    </Row>
-                </AddContactContainer>
-            </PointerChange>
+            ))}
+            <Row gutter={[0,0]}>
+                <Col flex={24}>
+                    <PointerChange>
+                        <AddContactContainer onClick={addExtraContact}>
+                            <Row>
+                                <Col flex={12}>
+                                        <ClarifyText>Any Addition Contacts to Add?</ClarifyText>
+                                </Col>
+                                <Col flex={12}>
+                                    <MakeRight>
+                                        <PlusCircleOutlined />
+                                    </MakeRight>
+                                </Col>
+                            </Row>
+                        </AddContactContainer>
+                    </PointerChange>
+                </Col>
+            </Row>
         </FormContainer>
     )
 }

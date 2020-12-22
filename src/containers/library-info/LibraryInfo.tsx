@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import {
     Radio,
-    Form
+    Form,
+    Row,
+    Col
 } from 'antd';
 import YesLibrary from './YesLibrary';
 import NoLibrary from './NoLibrary';
@@ -12,26 +14,35 @@ import FormContainer from '../../components/form-style/FormContainer';
 
 const LibraryInfo: React.FC = () => {
 
-    const [noLibrary, setNoLibrary] = useState<boolean>();
+    const [noLibrary, setNoLibrary] = useState<boolean>(false);
+    const [yesLibrary, setYesLibrary] = useState<boolean>(false);
 
     const handleLibraryStatus = (event: any) => {
         setNoLibrary(event.target.value === 'no'); 
+        setYesLibrary(event.target.value === 'yes' || event.target.value === 'in-progress');
     }
+
+    const gutter: number = noLibrary || yesLibrary ? 24 : 0;
 
     return (
         <FormContentContainer disableLastTwo={noLibrary}>
             <Form>
                 <FormContainer title="Library Information">
-                    <FormPiece firstPiece lastPiece={noLibrary === undefined} note="Is there a library?">
-                        <Form.Item name="isThereLibrary">
-                            <Radio.Group buttonStyle="solid" onChange={handleLibraryStatus}>
-                                <Radio.Button value="yes">Yes</Radio.Button>
-                                <Radio.Button value="no">No</Radio.Button>
-                                <Radio.Button value="in-progress">In Progress</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                    </FormPiece>
-                    {noLibrary ? (<NoLibrary />) : (<YesLibrary />)}
+                <Row gutter={[0, gutter]}>
+                    <Col flex={24}>
+                        <FormPiece note="Is there a library?">
+                            <Form.Item name="isThereLibrary">
+                                <Radio.Group buttonStyle="solid" onChange={handleLibraryStatus}>
+                                    <Radio.Button value="yes">Yes</Radio.Button>
+                                    <Radio.Button value="no">No</Radio.Button>
+                                    <Radio.Button value="in-progress">In Progress</Radio.Button>
+                                </Radio.Group>
+                            </Form.Item>
+                        </FormPiece>
+                    </Col>
+                </Row>
+                    {noLibrary && <NoLibrary />}
+                    {yesLibrary && <YesLibrary />}
                 </FormContainer>
                 <FormFooter submit={noLibrary}/>    
             </Form>            

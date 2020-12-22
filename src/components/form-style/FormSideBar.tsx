@@ -19,6 +19,7 @@ const FormSideBar: React.FC<FormSideBarProps> = (props) => {
 
     const FormLinkButton = styled(LinkButton)`
         text-align: left;
+        padding: 0px 0px 2.25em 0px;
 
         &.currPage {
             font-weight: bold;

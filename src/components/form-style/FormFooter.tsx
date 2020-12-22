@@ -13,16 +13,16 @@ interface FormFooterProps {
   readonly submit?: boolean;
 }
 
-const Foot = styled(Row)`
-  margin: 0 0 0 145px;
-`;
-
 const FooterContainer = styled(ContentContainer)`
     max-width: 960px;
+    margin: 0px 0px 0px 120px;
 `;
 
 
-const FormFooter: React.FC<FormFooterProps> = () => {
+const FormFooter: React.FC<FormFooterProps> = (props) => {
+
+  const saveSubmit = props.submit ? 'Submit' : 'Save Progress';
+
   return (
     <>
       <FooterContainer>
@@ -40,17 +40,17 @@ const FormFooter: React.FC<FormFooterProps> = () => {
               </Button>
             </Form.Item>
           </Col>
-          <Col push={3} flex={8}>
+          <Col flex={8}>
             <Form.Item>
               <Button 
                 type="primary" 
                 htmlType="submit"
                 ghost>
-                Save Progress
+                {saveSubmit}
               </Button>
             </Form.Item>
           </Col>
-          <Col push={4} flex={8}>
+          <Col flex={8}>
             <Form.Item>
               <Button
                 size="large"
