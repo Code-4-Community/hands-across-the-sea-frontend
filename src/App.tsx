@@ -29,10 +29,7 @@ const App: React.FC = () => {
   return (
     <>
       <Helmet>
-        <meta
-          name="keywords"
-          content="HATS, Hands for the Sea"
-        />
+        <meta name="keywords" content="HATS, Hands for the Sea" />
       </Helmet>
 
       <Router>
@@ -42,12 +39,32 @@ const App: React.FC = () => {
             <AppInnerContainer>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/reason-for-visit" exact component={ReasonForVisit} />
-                <Route path="/student-book-information" exact component={StudentBookInformation} />
+                <Route
+                  path="/reason-for-visit"
+                  exact
+                  component={ReasonForVisit}
+                />
+                <Route
+                  path="/student-book-information"
+                  exact
+                  component={StudentBookInformation}
+                />
                 <Route path="/library-info" exact component={LibraryInfo} />
-                <Route path="/monitoring-information" exact component={MonitoringInfo} />
-                <Route path="/training-and-mentoring-information" exact component={TrainingMentorshipInfo} />
-                <Route path="/form-sub-confirmation" exact component={ReasonForVisit} />
+                <Route
+                  path="/monitoring-information"
+                  exact
+                  component={MonitoringInfo}
+                />
+                <Route
+                  path="/training-and-mentoring-information"
+                  exact
+                  component={TrainingMentorshipInfo}
+                />
+                <Route
+                  path="/form-sub-confirmation"
+                  exact
+                  component={ReasonForVisit}
+                />
                 <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />

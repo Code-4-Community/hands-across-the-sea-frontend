@@ -21,9 +21,7 @@ const FormContainer: React.FC<FormContainerProps> = (props) => {
   return (
     <Container>
       <SectionTitle level={4}>{props.title}</SectionTitle>
-      <Outer>
-        {props.children}
-      </Outer>
+      <Outer>{props.children}</Outer>
     </Container>
   );
 };
