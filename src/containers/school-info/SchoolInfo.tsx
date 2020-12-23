@@ -12,7 +12,7 @@ import SchoolInformation from './SchoolInformation';
 const SchoolInfo: React.FC = () => {
 
     const handleSubmit = (event: any): void => {
-        console.log(event);
+       // console.log(event);
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ContentContainer } from '..';
 import { LinkButton } from '../LinkButton';
 import styled from 'styled-components';

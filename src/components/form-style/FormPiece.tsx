@@ -28,21 +28,10 @@ const MakeRight = styled.div`
 
 const FormPiece: React.FC<FormPieceProps> = (props) => {
     
-    let padTop = props.addPaddingTop != undefined ? `${32 + props.addPaddingTop}px` : '32px';
-    let padRight = props.addPaddingRight != undefined ? `${32 + props.addPaddingRight}px` : '32px';
-    let padBottom = props.addPaddingBottom != undefined ? `${10 + props.addPaddingBottom}px` : '10px';
-    let padLeft = props.addPaddingLeft != undefined ? `${32 + props.addPaddingLeft}px` : '32px';
-    
-    /*
-    let textTop = props.addPaddingTop != undefined ? `${props.addPaddingTop}px` : '0px';
-    let textRight = props.addPaddingRight != undefined ? `${props.addPaddingRight}px` : '0px';
-    let textBottom = props.addPaddingBottom != undefined ? `${props.addPaddingBottom}px` : '0px';
-    let textLeft = props.addPaddingLeft != undefined ? `${props.addPaddingLeft}px` : '0px';
-
-    const Text = styled(ClarifyText)`
-        padding: ${textTop} ${textRight} ${textBottom} ${textLeft};
-    `;
-    */
+    const padTop = props.addPaddingTop !== undefined ? `${32 + props.addPaddingTop}px` : '32px';
+    const padRight = props.addPaddingRight !== undefined ? `${32 + props.addPaddingRight}px` : '32px';
+    const padBottom = props.addPaddingBottom !== undefined ? `${10 + props.addPaddingBottom}px` : '10px';
+    const padLeft = props.addPaddingLeft !==  undefined ? `${32 + props.addPaddingLeft}px` : '32px';
 
     const Piece = styled.div`
         padding: ${padTop} ${padRight} ${padBottom} ${padLeft};

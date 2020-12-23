@@ -3,7 +3,7 @@ import { ContentContainer, SectionTitle } from '..';
 import styled from 'styled-components';
 
 interface FormContainerProps {
-  readonly title: String;
+  readonly title: string;
 }
 
 const Outer = styled.div`

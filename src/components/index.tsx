@@ -15,9 +15,9 @@ export const SectionTitle = styled(Title)`
 
 export const ClarifyText = styled(Paragraph)`
   margin: auto;
-`
+`;
 
-//max-width: 960px
+// max-width: 960px
 export const ContentContainer = styled.div`
   display: block;
   padding: 24px;

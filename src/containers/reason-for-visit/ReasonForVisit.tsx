@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
-    Form, 
-    Input, 
+    Form,
     Select,
 } from 'antd';
 import { FormTextArea } from '../../components';
@@ -21,7 +20,7 @@ const ReasonForVisit: React.FC = () => {
     }
 
     const handleSubmit = (event: any) => {
-        console.log(event);
+       // console.log(event);
     }
 
   return (

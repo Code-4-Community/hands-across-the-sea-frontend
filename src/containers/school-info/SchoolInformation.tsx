@@ -4,8 +4,7 @@ import {
     Input,
     Row,
     Col,
-    Radio,
-    Typography
+    Radio
 } from 'antd';
 import { ClarifyText, FormTextArea } from '../../components';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -13,8 +12,6 @@ import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import AddContact from './AddContact';
 import styled from 'styled-components';
-
-const { Title } = Typography;
 
 const AddContactContainer = styled(FormPiece)`
     font-size: 32px;
@@ -45,7 +42,7 @@ const SchoolInformation: React.FC = () => {
     }
 
     const addExtraContact = () => {
-        let ii = extraContacts.length + 1;
+        const ii = extraContacts.length + 1;
         setExtraContacts(extraContacts.concat(<AddContact onDelete={removeExtraContact} index={ii}/>));
     }
     

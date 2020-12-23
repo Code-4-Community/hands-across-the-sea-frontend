@@ -14,7 +14,7 @@ import FormPiece from '../../components/form-style/FormPiece';
 const SchoolInfo: React.FC = () => {
 
     const handleSubmit = (event: any) => {
-        console.log(event);
+        // console.log(event);
     }
 
     return (

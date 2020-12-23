@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Form,
     Input,
@@ -8,7 +8,6 @@ import {
 } from 'antd';
 import { ClarifyText } from '../../components';
 import FormPiece from '../../components/form-style/FormPiece';
-import styled from 'styled-components';
 
 interface AddContactProps {
     readonly index: number;

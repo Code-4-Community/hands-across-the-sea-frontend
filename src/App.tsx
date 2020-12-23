@@ -16,7 +16,7 @@ import TrainingMentorshipInfo from './containers/training-mentorship-info/Traini
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/navbar/NavBar';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 const { Content } = Layout;
