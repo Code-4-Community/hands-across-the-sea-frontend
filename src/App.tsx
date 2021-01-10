@@ -15,7 +15,8 @@ import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 
 import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/navbar/NavBar';
+// import NavBar from './components/navbar/NavBar';
+import Header from './components/navbar/Header';
 // import Footer from './components/Footer';
 import { Layout } from 'antd';
 import styled from 'styled-components';
@@ -29,12 +30,12 @@ const App: React.FC = () => {
   return (
     <>
       <Helmet>
-        <meta name="keywords" content="HATS, Hands for the Sea" />
+        <meta name="keywords" content="HATS, Hands Across the Sea" />
       </Helmet>
 
       <Router>
         <Layout className="app-flex-container">
-          <NavBar />
+          <Header />
           <Content className="content-padding">
             <AppInnerContainer>
               <Switch>
