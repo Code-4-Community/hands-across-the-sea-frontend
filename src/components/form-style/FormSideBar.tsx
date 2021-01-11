@@ -39,7 +39,7 @@ const FormSideBar: React.FC<FormSideBarProps> = (props) => {
           block
           to={paths[ii]}
           type="text"
-          disabled={props.disableLastTwo}>
+          disabled={props.disableLastTwo && (ii === paths.length - 2 || ii === paths.length - 1)}>
             {pathNames[ii]} 
         </ActiveFormLinkButton> 
         : 
@@ -47,7 +47,7 @@ const FormSideBar: React.FC<FormSideBarProps> = (props) => {
           block
           to={paths[ii]}
           type="text"
-          disabled={props.disableLastTwo}>
+          disabled={props.disableLastTwo && (ii === paths.length - 2 || ii === paths.length - 1)}>
             {pathNames[ii]} 
         </FormLinkButton>
       )}

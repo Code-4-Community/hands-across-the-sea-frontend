@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Input, Radio } from 'antd';
+import { Form, Row, Col, Input } from 'antd';
 import FormFooter from '../../components/form-style/FormFooter';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
@@ -34,11 +34,7 @@ const SchoolInfo: React.FC = () => {
             <Col span={12}>
               <FormPiece note="What grades attended?">
                 <Form.Item name="gradesAttended">
-                  <Radio.Group buttonStyle="solid">
-                    <Radio.Button value="grade1">Grade</Radio.Button>
-                    <Radio.Button value="grade2">Grade</Radio.Button>
-                    <Radio.Button value="grade3">Grade</Radio.Button>
-                  </Radio.Group>
+                  <Input placeholder="Please enter a number" />
                 </Form.Item>
               </FormPiece>
             </Col>

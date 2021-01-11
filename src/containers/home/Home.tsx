@@ -1,9 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Typography } from 'antd';
 import { ContentContainer } from '../../components';
+import { LinkButton } from '../../components/LinkButton';
+import styled from 'styled-components';
 
-const { Title } = Typography;
+const HomeButton = styled(LinkButton)`
+  color: black;
+  margin: 5em 0;
+  font-size: 48px;
+`;
 
 const Home: React.FC = () => {
   return (
@@ -13,13 +18,7 @@ const Home: React.FC = () => {
         <meta name="description" content="Description goes here." />
       </Helmet>
       <ContentContainer>
-        {/*
-          Place relevant components in here
-        */}
-        <Title>Code4Community Frontend Scaffold</Title>
-        <Title level={3}>
-          Built with React.js, Typescript, and AntD components.
-        </Title>
+        <HomeButton to="/reason-for-visit" block>Start Form</HomeButton>
       </ContentContainer>
     </>
   );

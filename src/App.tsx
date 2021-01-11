@@ -30,7 +30,10 @@ const App: React.FC = () => {
   return (
     <>
       <Helmet>
-        <meta name="keywords" content="HATS, Hands Across the Sea" />
+        <meta name="keywords" content="child literacy, 
+        Caribbean, books, libraries, reading, Linskey, 
+        Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
+        St. Vincent and the Grenadines, Grenada" />
       </Helmet>
 
       <Router>
