@@ -7,12 +7,15 @@ import Home from './containers/home/Home';
 import Signup from './containers/signup/Signup';
 import Login from './containers/login/Login';
 import Settings from './containers/settings/Settings';
-import BlockTemplate from './containers/template-1-col-block/Template';
-import GridTemplate from './containers/template-24-col-grid/Template';
+import SchoolInfo from './containers/school-info/SchoolInfo';
+import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
+import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
+import LibraryInfo from './containers/library-info/LibraryInfo';
+import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
+import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 
 import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/navbar/NavBar';
-import Footer from './components/Footer';
+import Header from './components/navbar/Header';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 const { Content } = Layout;
@@ -25,21 +28,47 @@ const App: React.FC = () => {
   return (
     <>
       <Helmet>
-        <meta
-          name="keywords"
-          content="C4C,code,for,community,code4community,codeforcommunity,northeastern,boston"
-        />
+        <meta name="keywords" content="child literacy, 
+        Caribbean, books, libraries, reading, Linskey, 
+        Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
+        St. Vincent and the Grenadines, Grenada, HATS, hats,
+        hand across the sea" />
       </Helmet>
 
       <Router>
         <Layout className="app-flex-container">
-          <NavBar />
+          <Header />
           <Content className="content-padding">
             <AppInnerContainer>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/block-template" exact component={BlockTemplate} />
-                <Route path="/grid-template" exact component={GridTemplate} />
+                <Route
+                  path="/reason-for-visit"
+                  exact
+                  component={ReasonForVisit}
+                />
+                <Route
+                  path="/student-book-information"
+                  exact
+                  component={StudentBookInformation}
+                />
+                <Route path="/library-info" exact component={LibraryInfo} />
+                <Route
+                  path="/monitoring-information"
+                  exact
+                  component={MonitoringInfo}
+                />
+                <Route
+                  path="/training-and-mentoring-information"
+                  exact
+                  component={TrainingMentorshipInfo}
+                />
+                <Route
+                  path="/form-sub-confirmation"
+                  exact
+                  component={ReasonForVisit}
+                />
+                <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/settings" exact component={Settings} />
@@ -47,7 +76,6 @@ const App: React.FC = () => {
               </Switch>
             </AppInnerContainer>
           </Content>
-          <Footer />
         </Layout>
       </Router>
     </>
