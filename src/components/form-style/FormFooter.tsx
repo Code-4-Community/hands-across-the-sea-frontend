@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col, Form } from 'antd';
 import { LinkButton } from '../LinkButton';
 import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { ContentContainer } from '..';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface FormFooterProps {
-  readonly submit?: boolean;
+  // used to change text from "Save" to
+  // "Submit"
+  readonly areAbleToSubmit?: boolean;
 }
 
 const FooterContainer = styled(ContentContainer)`
@@ -19,23 +22,37 @@ const paths: string[] = ['/reason-for-visit',
 '/library-info', '/monitoring-information',
 '/training-and-mentoring-information'];
 
+
+function getPage(type: string, currPage: string): string {
+  if(type === 'next' || type === 'prev') {
+    const edge = type === 'next' ? paths.length - 1 : 0;
+    let inc;
+    for(let ii = 0; ii < paths.length; ii++) {
+      inc = type === 'next' ? ii + 1 : ii - 1;
+      if(paths[ii] === currPage) {
+        if(ii === edge) {
+          return paths[ii];
+        } else {
+          return paths[inc];
+        }
+      }
+    }
+    return 'error';
+  } else {
+    return 'error';
+  }
+}
+
 const FormFooter: React.FC<FormFooterProps> = (props) => {
-  const saveSubmit = props.submit ? 'Submit' : 'Save Progress';
-
-  const [nextPage, setNextPage] = useState(1);
-  const [prevPage, setPrevPage] = useState(-1);
-
-  const handleClickNext = () => {
-    setNextPage(nextPage+1);
-  }
-
-  const handleClickPrev = () => {
-    setPrevPage(nextPage);
-  }
+  const saveSubmit = props.areAbleToSubmit ? 'Submit' : 'Save Progress';
   
+  let location = useLocation();
+  const page = location.pathname;
+
+  const nextPage = getPage('next', page);
+  const prevPage = getPage('prev', page);
 
   return (
-    <>
       <FooterContainer>
         <Row>
           <Col flex={8}>
@@ -46,9 +63,7 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
                 htmlType="submit"
                 icon={<ArrowLeftOutlined />}
                 ghost
-                to={paths[prevPage]}
-                onClick={handleClickPrev}
-              >
+                to={prevPage}>
                 Prev Section
               </LinkButton>
             </Form.Item>
@@ -67,15 +82,13 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
                 type="text" 
                 htmlType="submit" 
                 ghost
-                to={paths[nextPage]}
-                onClick={handleClickNext}>
+                to={nextPage}>
                 Next Section <ArrowRightOutlined />
               </LinkButton>
             </Form.Item>
           </Col>
         </Row>
       </FooterContainer>
-    </>
   );
 };
 

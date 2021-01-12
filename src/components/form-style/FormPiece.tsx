@@ -5,14 +5,22 @@ import { DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 interface FormPieceProps {
+  // description for form item
   readonly note?: string;
+  // if piece would like to have a callback
+  // for when it is clicked
   readonly onClick?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
+  // used to determine if we are adding 
+  // additional pieces (for spacing)
   readonly additionalPiece?: boolean;
+  // callback function for removing an 
+  // addition piece
   readonly removeAdditionPiece?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
+  //edit padding by given amount from the default (32px)
   readonly addPaddingBottom?: number;
   readonly addPaddingTop?: number;
   readonly addPaddingLeft?: number;
@@ -47,7 +55,7 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
 
   const Piece = styled.div`
     padding: ${padTop} ${padRight} ${padBottom} ${padLeft};
-    background-color: #ffffff;
+    background-color: white;
     border-radius: 5px;
   `;
 

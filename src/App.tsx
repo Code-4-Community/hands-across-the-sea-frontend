@@ -15,9 +15,7 @@ import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 
 import NotFound from './containers/not-found/NotFound';
-// import NavBar from './components/navbar/NavBar';
 import Header from './components/navbar/Header';
-// import Footer from './components/Footer';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 const { Content } = Layout;
@@ -33,7 +31,8 @@ const App: React.FC = () => {
         <meta name="keywords" content="child literacy, 
         Caribbean, books, libraries, reading, Linskey, 
         Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
-        St. Vincent and the Grenadines, Grenada" />
+        St. Vincent and the Grenadines, Grenada, HATS, hats,
+        hand across the sea" />
       </Helmet>
 
       <Router>

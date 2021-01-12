@@ -15,7 +15,7 @@ module.exports = {
       [
         'babel-plugin-styled-components',
         {
-          namespace: 'scaffold',
+          namespace: 'hats-frontend',
         },
       ],
     ],

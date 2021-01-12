@@ -42,20 +42,20 @@ const LibraryInfo: React.FC = () => {
                   </Radio.Group>
                 </Form.Item>
                 {isStudentLibrary === 'yes' && (
-                  <div>
+                  <>
                     <ClarifyText>How many student librarians?</ClarifyText>
                     <Form.Item name="howManyStudentLibrarians">
                       <Input placeholder="Please enter student librarians?" />
                     </Form.Item>
-                  </div>
+                  </>
                 )}
                 {isStudentLibrary === 'no' && (
-                  <div>
+                  <>
                     <ClarifyText>Why not?</ClarifyText>
                     <Form.Item name="whyNoStudentLibraryProgram">
                       <FormTextArea placeholder="Please enter your answer here" />
                     </Form.Item>
-                  </div>
+                  </>
                 )}
               </FormPiece>
             </Col>
@@ -87,12 +87,12 @@ const LibraryInfo: React.FC = () => {
                   </Radio.Group>
                 </Form.Item>
                 {teachersSeekingSupport && (
-                  <div>
+                  <>
                     <ClarifyText>What kind?</ClarifyText>
                     <Form.Item name="kindOfTeacherSupport">
                       <FormTextArea placeholder="Please enter your answer here" />
                     </Form.Item>
-                  </div>
+                  </>
                 )}
               </FormPiece>
             </Col>
@@ -111,18 +111,18 @@ const LibraryInfo: React.FC = () => {
                   </Radio.Group>
                 </Form.Item>
                 {involvedParents && (
-                  <div>
+                  <>
                     <ClarifyText>Please share examples:</ClarifyText>
                     <Form.Item name="exampleOfParentInvolvement">
                       <FormTextArea placeholder="Please enter your answer here" />
                     </Form.Item>
-                  </div>
+                  </>
                 )}
               </FormPiece>
             </Col>
           </Row>
         </FormContainer>
-        <FormFooter submit />
+        <FormFooter areAbleToSubmit />
       </Form>
     </FormContentContainer>
   );

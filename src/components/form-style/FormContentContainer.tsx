@@ -5,6 +5,8 @@ import FormSideBar from './FormSideBar';
 import styled from 'styled-components';
 
 interface FormContentContainerProps {
+  // used when the NO flow is selected to
+  // prevent further form filling out
   readonly disableLastTwo?: boolean;
 }
 

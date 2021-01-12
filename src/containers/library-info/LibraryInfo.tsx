@@ -43,7 +43,7 @@ const LibraryInfo: React.FC = () => {
           {noLibrary && <NoLibrary />}
           {yesLibrary && <YesLibrary />}
         </FormContainer>
-        <FormFooter submit={noLibrary} />
+        <FormFooter areAbleToSubmit={noLibrary} />
       </Form>
     </FormContentContainer>
   );
