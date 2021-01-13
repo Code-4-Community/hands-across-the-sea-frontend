@@ -15,7 +15,7 @@ const Template: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Title goes here</title>
+        <title>Hands Across The Sea</title>
         <meta name="description" content="Description goes here." />
       </Helmet>
       <div className="content-container">

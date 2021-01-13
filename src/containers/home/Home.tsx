@@ -8,13 +8,15 @@ const HomeButton = styled(LinkButton)`
   color: black;
   margin: 5em 0;
   font-size: 48px;
+  min-height: 65px;
+  text-align: center;
 `;
 
 const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Title goes here</title>
+        <title>Hands Across The Sea</title>
         <meta name="description" content="Description goes here." />
       </Helmet>
       <ContentContainer>
