@@ -8,7 +8,7 @@ import Signup from './containers/signup/Signup';
 import Login from './containers/login/Login';
 import Settings from './containers/settings/Settings';
 import SchoolInfo from './containers/school-info/SchoolInfo';
-import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
+import SelectSchool from './containers/select-school/SelectSchool';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
@@ -43,9 +43,9 @@ const App: React.FC = () => {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route
-                  path="/reason-for-visit"
+                  path="/select-school"
                   exact
-                  component={ReasonForVisit}
+                  component={SelectSchool}
                 />
                 <Route
                   path="/student-book-information"
@@ -66,7 +66,7 @@ const App: React.FC = () => {
                 <Route
                   path="/form-sub-confirmation"
                   exact
-                  component={ReasonForVisit}
+                  component={SelectSchool}
                 />
                 <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />

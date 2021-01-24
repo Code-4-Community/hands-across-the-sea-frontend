@@ -3,8 +3,6 @@ import { Form, Select } from 'antd';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
-import FormFooter from '../../components/form-style/FormFooter';
-import FormContentContainer from '../../components/form-style/FormContentContainer';
 
 const { Option } = Select;
 
@@ -15,14 +13,9 @@ const ReasonForVisit: React.FC = () => {
     setCurrSelected(value.value);
   };
 
-  const handleSubmit = (event: any) => {
-    // console.log(event);
-  };
 
   return (
     <>
-      <FormContentContainer>
-        <Form name="reason-to-visit" onFinish={handleSubmit}>
           <FormContainer title="Reason For Visit">
             <FormPiece note="What is the purpose for today's visit?">
               <Form.Item name="purpose">
@@ -70,9 +63,6 @@ const ReasonForVisit: React.FC = () => {
               )}
             </FormPiece>
           </FormContainer>
-          <FormFooter />
-        </Form>
-      </FormContentContainer>
     </>
   );
 };

@@ -20,7 +20,7 @@ const Home: React.FC = () => {
         <meta name="description" content="Description goes here." />
       </Helmet>
       <ContentContainer>
-        <HomeButton to="/reason-for-visit" block>Start Form</HomeButton>
+        <HomeButton to="/select-school" block>Start Form</HomeButton>
       </ContentContainer>
     </>
   );

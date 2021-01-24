@@ -17,14 +17,17 @@ const FooterContainer = styled(ContentContainer)`
   margin: 0px 0px 0px 120px;
 `;
 
-const paths: string[] = ['/reason-for-visit', 
-'/school-info', '/student-book-information', 
-'/library-info', '/monitoring-information',
-'/training-and-mentoring-information'];
-
+const paths: string[] = [
+  '/select-school',
+  '/school-info',
+  '/student-book-information',
+  '/library-info',
+  '/monitoring-information',
+  '/training-and-mentoring-information',
+];
 
 function getPage(type: string, currPage: string): string {
-  if(type === 'next' || type === 'prev') {
+  if (type === 'next' || type === 'prev') {
     const edge = type === 'next' ? paths.length - 1 : 0;
     let inc;
     for(let ii = 0; ii < paths.length; ii++) {

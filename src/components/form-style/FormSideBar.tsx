@@ -20,7 +20,7 @@ const FormSideBar: React.FC<FormSideBarProps> = (props) => {
   
   const page = location.pathname;
 
-  const paths: Paths[] = [{name: 'Reason To Visit', link: '/reason-for-visit'}, 
+  const paths: Paths[] = [{name: 'Select School', link: '/select-school'}, 
     {name: 'School Info', link: '/school-info'}, 
     {name: 'Student and Book Info', link: '/student-book-information'}, 
     {name: 'Library Info', link: '/library-info'}, 
