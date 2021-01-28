@@ -14,4 +14,4 @@
 
 ## Verification Steps
 
-<!-- What steps did you take to verify your changes work? These should be clear enough for someone to be able to clone the branch and follow the steps themselves. -->
+<!-- What steps did you take to verify your changes work? These should be clear enough for someone to be able to clone the branch and follow the steps themselves. --> 
