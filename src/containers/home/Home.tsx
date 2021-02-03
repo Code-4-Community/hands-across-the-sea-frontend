@@ -9,7 +9,7 @@ const HomeButton = styled(LinkButton)`
   margin: 5em 0;
   font-size: 48px;
   min-height: 65px;
-  text-align: center;
++  text-align: center;
 `;
 
 const Home: React.FC = () => {
