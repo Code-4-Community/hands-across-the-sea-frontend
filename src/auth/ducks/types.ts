@@ -51,12 +51,12 @@ export enum PrivilegeLevel {
 export const NO_USER_ID = -1;
 
 export interface HATSFormData {
-  reasonForVisit: {
+  reasonForVisit?: {
     purpose: string;
     otherPurpose?: string;
   }
 
-  schoolInfo: {
+  schoolInfo?: {
     school: number; // ???
     schoolAddress: {
       schoolStreetAddress: string;
@@ -74,14 +74,14 @@ export interface HATSFormData {
     additionalContacts: ContactInfo[];
   }
 
-  studentBookInfo: {
+  studentBookInfo?: {
     childrenAttended: number;
     booksAmount: number;
     gradesAttended: number;
     shipmentYear: number;
   }
 
-  libraryInfo: {
+  libraryInfo?: {
     isThereLibrary: boolean;
     noLibrary?: {
       whyNoLibrary: string;
@@ -111,12 +111,12 @@ export interface HATSFormData {
     }
   }
 
-  monitoringInfo: {
+  monitoringInfo?: {
     doesLibraryKeepCheckInTimetable: boolean;
     doesLibraryBookCheckOutSystem: boolean;
   }
 
-  trainingAndMentorshipInfo: {
+  trainingAndMentorshipInfo?: {
     isThereStudentLibraryProgram: boolean;
     howManyStudentLibrarians?: number;
     whyNoStudentLibraryProgram?: string;
