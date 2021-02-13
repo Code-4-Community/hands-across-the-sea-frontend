@@ -8,7 +8,6 @@ import FormFooter from '../../components/form-style/FormFooter';
 const { Option } = Select;
 
 const SelectSchool: React.FC = () => {
-
   const handleSubmit = (event: any) => {
     // console.log(event);
   };
@@ -29,7 +28,7 @@ const SelectSchool: React.FC = () => {
             </Col>
           </Row>
         </FormContainer>
-      <FormFooter />
+        <FormFooter />
       </Form>
     </FormContentContainer>
   );

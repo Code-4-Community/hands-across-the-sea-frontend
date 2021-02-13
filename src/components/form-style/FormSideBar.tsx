@@ -16,19 +16,26 @@ interface Paths {
 }
 
 const FormSideBar: React.FC<FormSideBarProps> = (props) => {
-  let location = useLocation();
-  
+  const location = useLocation();
+
   const page = location.pathname;
 
-  const paths: Paths[] = [{name: 'Select School', link: '/select-school'}, 
-    {name: 'School Info', link: '/school-info'}, 
-    {name: 'Student and Book Info', link: '/student-book-information'}, 
-    {name: 'Library Info', link: '/library-info'}, 
-    {name: 'Monitoring Info', link: '/monitoring-information'},
-    {name: 'Training and Mentorship', link: '/training-and-mentoring-information'}];
+  const paths: Paths[] = [
+    { name: 'Select School', link: '/select-school' },
+    { name: 'School Info', link: '/school-info' },
+    { name: 'Student and Book Info', link: '/student-book-information' },
+    { name: 'Library Info', link: '/library-info' },
+    { name: 'Monitoring Info', link: '/monitoring-information' },
+    {
+      name: 'Training and Mentorship',
+      link: '/training-and-mentoring-information',
+    },
+  ];
 
-  const disabledPaths: string[] = ['/monitoring-information', 
-  '/training-and-mentoring-information'];
+  const disabledPaths: string[] = [
+    '/monitoring-information',
+    '/training-and-mentoring-information',
+  ];
 
   const FormLinkButton = styled(LinkButton)`
     text-align: left;
@@ -43,23 +50,26 @@ const FormSideBar: React.FC<FormSideBarProps> = (props) => {
 
   return (
     <ContentContainer>
-      {paths.map((pp, ii) => 
-        pp.link === page ? 
-        <ActiveFormLinkButton
-          block
-          to={pp.link}
-          type="text"
-          disabled={props.disableLastTwo && disabledPaths.includes(pp.link)}>
-            {pp.name} 
-        </ActiveFormLinkButton> 
-        : 
-        <FormLinkButton
-          block
-          to={pp.link}
-          type="text"
-          disabled={props.disableLastTwo && disabledPaths.includes(pp.link)}>
-            {pp.name} 
-        </FormLinkButton>
+      {paths.map((pp, ii) =>
+        pp.link === page ? (
+          <ActiveFormLinkButton
+            block
+            to={pp.link}
+            type="text"
+            disabled={props.disableLastTwo && disabledPaths.includes(pp.link)}
+          >
+            {pp.name}
+          </ActiveFormLinkButton>
+        ) : (
+          <FormLinkButton
+            block
+            to={pp.link}
+            type="text"
+            disabled={props.disableLastTwo && disabledPaths.includes(pp.link)}
+          >
+            {pp.name}
+          </FormLinkButton>
+        ),
       )}
     </ContentContainer>
   );

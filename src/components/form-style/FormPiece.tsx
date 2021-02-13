@@ -12,10 +12,10 @@ interface FormPieceProps {
   readonly onClick?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
-  // used to determine if we are adding 
+  // used to determine if we are adding
   // additional pieces (for spacing)
   readonly additionalPiece?: boolean;
-  // callback function for removing an 
+  // callback function for removing an
   // addition piece
   readonly removeAdditionPiece?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
