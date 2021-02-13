@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Row, Col } from 'antd';
 import FormFooter from '../../components/form-style/FormFooter';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
-import SelectSchool from './SelectSchool';
+import ReasonForVisit from './ReasonForVisit';
 import SchoolInformation from './SchoolInformation';
 
 const SchoolInfo: React.FC = () => {
@@ -15,7 +15,7 @@ const SchoolInfo: React.FC = () => {
       <Row>
         <Col>
           <Form name="school-info" onFinish={handleSubmit}>
-            <SelectSchool />
+            <ReasonForVisit />
             <SchoolInformation />
             <FormFooter />
           </Form>

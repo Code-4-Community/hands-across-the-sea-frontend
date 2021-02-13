@@ -8,7 +8,7 @@ import Signup from './containers/signup/Signup';
 import Login from './containers/login/Login';
 import Settings from './containers/settings/Settings';
 import SchoolInfo from './containers/school-info/SchoolInfo';
-import ReasonForVisit from './containers/reason-for-visit/ReasonForVisit';
+import SelectSchool from './containers/select-school/SelectSchool';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
@@ -28,11 +28,14 @@ const App: React.FC = () => {
   return (
     <>
       <Helmet>
-        <meta name="keywords" content="child literacy, 
+        <meta
+          name="keywords"
+          content="child literacy, 
         Caribbean, books, libraries, reading, Linskey, 
         Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
         St. Vincent and the Grenadines, Grenada, HATS, hats,
-        hand across the sea" />
+        hand across the sea"
+        />
       </Helmet>
 
       <Router>
@@ -42,11 +45,7 @@ const App: React.FC = () => {
             <AppInnerContainer>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route
-                  path="/reason-for-visit"
-                  exact
-                  component={ReasonForVisit}
-                />
+                <Route path="/select-school" exact component={SelectSchool} />
                 <Route
                   path="/student-book-information"
                   exact
@@ -66,7 +65,7 @@ const App: React.FC = () => {
                 <Route
                   path="/form-sub-confirmation"
                   exact
-                  component={ReasonForVisit}
+                  component={SelectSchool}
                 />
                 <Route path="/school-info" exact component={SchoolInfo} />
                 <Route path="/login" exact component={Login} />

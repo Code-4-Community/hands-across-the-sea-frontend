@@ -11,7 +11,7 @@ AntD Components:
 https://ant.design/components/overview/
 */
 
-const Template: React.FC = () => {
+const NotFound: React.FC = () => {
   return (
     <>
       <Helmet>
@@ -19,9 +19,6 @@ const Template: React.FC = () => {
         <meta name="description" content="Description goes here." />
       </Helmet>
       <div className="content-container">
-        {/*
-          Place relevant components in here
-        */}
         <Title>Oops! We can't find the page you're looking for.</Title>
 
         <Link to="/">
@@ -32,4 +29,4 @@ const Template: React.FC = () => {
   );
 };
 
-export default Template;
+export default NotFound;

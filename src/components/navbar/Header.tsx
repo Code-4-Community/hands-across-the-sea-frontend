@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col} from 'antd';
+import { Row, Col } from 'antd';
 import styled from 'styled-components';
 
 const NavRow = styled(Row)`
@@ -13,12 +13,11 @@ const HeadTitle = styled.h1`
   padding 15px 0 0 31px;
 `;
 
-
 const Header: React.FC = () => (
-    <NavRow>
-        <Col>
-            <HeadTitle>Hands Across The Sea</HeadTitle>
-        </Col>
-    </NavRow>
+  <NavRow>
+    <Col>
+      <HeadTitle>Hands Across The Sea</HeadTitle>
+    </Col>
+  </NavRow>
 );
 export default Header;
