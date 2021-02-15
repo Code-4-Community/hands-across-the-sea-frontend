@@ -10,7 +10,7 @@ import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import LoginContainer from '../../components/login-signup/LoginContainer';
 import styled from 'styled-components';
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const SubmitButton = styled(Button)`
   border-radius: 5px;

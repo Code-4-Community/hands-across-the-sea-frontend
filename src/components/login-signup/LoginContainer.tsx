@@ -1,6 +1,6 @@
 import React from 'react';
-import { Row, Col, Typography } from 'antd';
-import { ContentContainer, SectionTitle, Outer, Inner } from '..';
+import { Typography } from 'antd';
+import { ContentContainer, Outer, Inner } from '..';
 import styled from 'styled-components';
 
 const { Title } = Typography;
