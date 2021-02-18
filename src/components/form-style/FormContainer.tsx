@@ -3,7 +3,7 @@ import { ContentContainer, SectionTitle } from '..';
 import styled from 'styled-components';
 
 interface FormContainerProps {
-  //title of form section
+  // title of form section
   readonly title: string;
 }
 

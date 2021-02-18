@@ -20,7 +20,7 @@ interface FormPieceProps {
   readonly removeAdditionPiece?: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => void;
-  //edit padding by given amount from the default (32px)
+  // edit padding by given amount from the default (32px)
   readonly addPaddingBottom?: number;
   readonly addPaddingTop?: number;
   readonly addPaddingLeft?: number;
