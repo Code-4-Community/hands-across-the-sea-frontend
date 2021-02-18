@@ -49,7 +49,7 @@ function getPage(type: string, currPage: string): string {
 const FormFooter: React.FC<FormFooterProps> = (props) => {
   const saveSubmit = props.areAbleToSubmit ? 'Submit' : 'Save Progress';
 
-  let location = useLocation();
+  const location = useLocation();
   const page = location.pathname;
 
   const nextPage = getPage('next', page);
