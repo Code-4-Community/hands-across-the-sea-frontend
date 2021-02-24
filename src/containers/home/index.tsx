@@ -8,10 +8,6 @@ import {
   FolderOpenOutlined,
   PoweroffOutlined,
 } from '@ant-design/icons';
-import { PrivilegeLevel } from '../../auth/ducks/types';
-import { C4CState } from '../../store';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -48,10 +44,6 @@ const Home: React.FC = () => {
   const link = (to: string) => {
     history.push(to);
   };
-
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
-    return getPrivilegeLevel(state.authenticationState.tokens);
-  });
 
   return (
     <>

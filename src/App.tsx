@@ -2,29 +2,50 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import './App.less';
-import Home from './containers/home/Home';
-import Signup from './containers/signup/Signup';
-import Login from './containers/login/Login';
-import Settings from './containers/settings/Settings';
-import SchoolInfo from './containers/school-info/SchoolInfo';
+import Home from './containers/home';
+import Signup from './containers/signup';
+import Login from './containers/login';
+import Settings from './containers/settings';
+import NotFound from './containers/notFound';
+import NavBar from './components/navbar';
+import { Layout } from 'antd';
+import styled from 'styled-components';
+import { PrivilegeLevel } from './auth/ducks/types';
+import { C4CState } from './store';
+import { getPrivilegeLevel } from './auth/ducks/selectors';
+import { useSelector } from 'react-redux';
 import SelectSchool from './containers/select-school/SelectSchool';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
+import SchoolInfo from './containers/school-info/SchoolInfo';
 
-import NotFound from './containers/not-found/NotFound';
-import Header from './components/navbar/Header';
-import { Layout } from 'antd';
-import styled from 'styled-components';
 const { Content } = Layout;
 
 const AppInnerContainer = styled.div`
   min-height: 100vh;
 `;
 
+export enum Routes {
+  HOME = '/',
+  LOGIN = '/login',
+  SIGNUP = '/signup',
+  SETTINGS = '/settings',
+  SELECT_SCHOOL = '/select-school',
+  STUDENT_BOOK_INFORMATION = '/student-book-information',
+  LIBRARY_INFO = '/library-info',
+  MONITORING_INFORMATION = '/monitoring-information',
+  TRAINING_AND_MENTORING_INFORMATION = '/training-and-mentoring-information',
+  FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
+  SCHOOL_INFO = '/school-info',
+}
+
 const App: React.FC = () => {
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
+
   return (
     <>
       <Helmet>
@@ -39,40 +60,68 @@ const App: React.FC = () => {
       </Helmet>
 
       <Router>
-        <Layout className="app-flex-container">
-          <Header />
-          <Content className="content-padding">
+        <Layout>
+          <NavBar />
+          <Content>
             <AppInnerContainer>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/select-school" exact component={SelectSchool} />
-                <Route
-                  path="/student-book-information"
-                  exact
-                  component={StudentBookInformation}
-                />
-                <Route path="/library-info" exact component={LibraryInfo} />
-                <Route
-                  path="/monitoring-information"
-                  exact
-                  component={MonitoringInfo}
-                />
-                <Route
-                  path="/training-and-mentoring-information"
-                  exact
-                  component={TrainingMentorshipInfo}
-                />
-                <Route
-                  path="/form-sub-confirmation"
-                  exact
-                  component={SelectSchool}
-                />
-                <Route path="/school-info" exact component={SchoolInfo} />
-                <Route path="/login" exact component={Login} />
-                <Route path="/signup" exact component={Signup} />
-                <Route path="/settings" exact component={Settings} />
-                <Route path="*" exact component={NotFound} />
-              </Switch>
+              {(() => {
+                switch (privilegeLevel) {
+                  case PrivilegeLevel.ADMIN:
+                  case PrivilegeLevel.STANDARD:
+                    return (
+                      <Switch>
+                        <Route path={Routes.HOME} exact component={Home} />
+                        <Route
+                          path={Routes.SELECT_SCHOOL}
+                          exact
+                          component={SelectSchool}
+                        />
+                        <Route
+                          path={Routes.STUDENT_BOOK_INFORMATION}
+                          exact
+                          component={StudentBookInformation}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_INFO}
+                          exact
+                          component={LibraryInfo}
+                        />
+                        <Route
+                          path={Routes.MONITORING_INFORMATION}
+                          exact
+                          component={MonitoringInfo}
+                        />
+                        <Route
+                          path={Routes.TRAINING_AND_MENTORING_INFORMATION}
+                          exact
+                          component={TrainingMentorshipInfo}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_INFO}
+                          exact
+                          component={SchoolInfo}
+                        />
+                        <Route path={Routes.LOGIN} exact component={Login} />
+                        <Route path={Routes.SIGNUP} exact component={Signup} />
+                        <Route
+                          path={Routes.SETTINGS}
+                          exact
+                          component={Settings}
+                        />
+                        <Route path="*" exact component={NotFound} />
+                      </Switch>
+                    );
+                  case PrivilegeLevel.NONE:
+                    return (
+                      <Switch>
+                        <Route path={Routes.HOME} exact component={Home} />
+                        <Route path={Routes.SIGNUP} exact component={Signup} />
+                        <Route path={Routes.LOGIN} exact component={Login} />
+                        <Route path="*" exact component={NotFound} />
+                      </Switch>
+                    );
+                }
+              })()}
             </AppInnerContainer>
           </Content>
         </Layout>
