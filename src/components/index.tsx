@@ -35,4 +35,3 @@ export const Inner = styled.div`
   background-color: white;
   border-radius: 5px;
 `;
-

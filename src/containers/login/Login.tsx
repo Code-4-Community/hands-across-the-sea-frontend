@@ -79,22 +79,6 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                 </Form.Item>
               </Col>
             </Row>
-            {/*
-            <Paragraph>
-              Need an account? Sign up{' '}
-              <Link to="/signup" component={Typography.Link}>
-                here
-              </Link>
-              !
-            </Paragraph>
-            <Paragraph>
-              Forgot your password? Click{' '}
-              <Link to="/" component={Typography.Link}>
-                here
-              </Link>{' '}
-            to reset it.
-            </Paragraph>
-            */}
             {tokens.kind === AsyncRequestKinds.Failed && (
               <Paragraph>{tokens.error}</Paragraph>
             )}

@@ -2,6 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { ContentContainer, Outer } from '../../components';
 import { Row, Col, Typography } from 'antd';
+import {
+  FormOutlined,
+  UserOutlined,
+  FolderOpenOutlined,
+  PoweroffOutlined,
+} from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -35,7 +41,7 @@ const InContain = styled.div`
 const Home: React.FC = () => {
   const history = useHistory();
 
-  const fakeLink = (to: string) => {
+  const link = (to: string) => {
     history.push(to);
   };
 
@@ -52,12 +58,18 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  fakeLink('/select-school');
+                  link('/select-school');
                 }}
               >
                 <Row>
                   <Col span={8}>
-                    <Paragraph>ICON</Paragraph>
+                    <FormOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
                   </Col>
                   <Col span={16}>
                     <Row>
@@ -79,12 +91,18 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  fakeLink('/not-found');
+                  link('/not-found');
                 }}
               >
                 <Row>
                   <Col span={8}>
-                    <Paragraph>ICON</Paragraph>
+                    <UserOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
                   </Col>
                   <Col span={16}>
                     <Row>
@@ -108,12 +126,18 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  fakeLink('/not-found');
+                  link('/not-found');
                 }}
               >
                 <Row>
                   <Col span={8}>
-                    <Paragraph>ICON</Paragraph>
+                    <FolderOpenOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
                   </Col>
                   <Col span={16}>
                     <Row>
@@ -135,12 +159,18 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  fakeLink('/not-found');
+                  link('/not-found');
                 }}
               >
                 <Row>
                   <Col span={8}>
-                    <Paragraph>ICON</Paragraph>
+                    <PoweroffOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
                   </Col>
                   <Col span={16}>
                     <Row>
