@@ -23,3 +23,15 @@ export const ContentContainer = styled.div`
   padding: 24px;
   margin: auto;
 `;
+
+export const Outer = styled.div`
+  background-color: #d4d9e7;
+  padding: 32px 32px 32px 32px;
+  border-radius: 5px;
+`;
+
+export const Inner = styled.div`
+  padding: 32px 32px 32px 32px;
+  background-color: white;
+  border-radius: 5px;
+`;

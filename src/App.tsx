@@ -7,7 +7,7 @@ import Signup from './containers/signup';
 import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
-import NavBar from './components/navbar';
+import NavBar from './components/navbar/NavBar';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 import { PrivilegeLevel } from './auth/ducks/types';
@@ -97,11 +97,6 @@ const App: React.FC = () => {
                           component={TrainingMentorshipInfo}
                         />
                         <Route
-                          path={Routes.SELECT_SCHOOL}
-                          exact
-                          component={SelectSchool}
-                        />
-                        <Route
                           path={Routes.SCHOOL_INFO}
                           exact
                           component={SchoolInfo}
@@ -119,10 +114,9 @@ const App: React.FC = () => {
                   case PrivilegeLevel.NONE:
                     return (
                       <Switch>
-                        <Route path={Routes.HOME} exact component={Home} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route path={Routes.LOGIN} exact component={Login} />
-                        <Route path="*" exact component={NotFound} />
+                        <Route path="*" exact component={Login} />
                       </Switch>
                     );
                 }
