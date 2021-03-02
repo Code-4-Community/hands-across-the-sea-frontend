@@ -5,16 +5,6 @@ import styled from 'styled-components';
 
 const { Title } = Typography;
 
-/*
-const FormTitle = styled(Title)`
-  text-align: center;
-  margin: 24px 0px 0px 0px;
-`;
-
-const ChildrenContainer = styled.div`
-  max-width: 960px;
-`;*/
-
 const LoginTitle = styled(Title)`
   font-weight: bold;
   text-align: center;

@@ -8,8 +8,11 @@ import {
   FolderOpenOutlined,
   PoweroffOutlined,
 } from '@ant-design/icons';
+import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../auth/ducks/thunks';
 
 const { Title, Paragraph } = Typography;
 
@@ -40,10 +43,7 @@ const InContain = styled.div`
 
 const Home: React.FC = () => {
   const history = useHistory();
-
-  const link = (to: string) => {
-    history.push(to);
-  };
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  link('/select-school');
+                  history.push(Routes.SELECT_SCHOOL);
                 }}
               >
                 <Row>
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  link('/not-found');
+                  history.push(Routes.SETTINGS);
                 }}
               >
                 <Row>
@@ -126,7 +126,7 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  link('/not-found');
+                  history.push(Routes.SETTINGS);
                 }}
               >
                 <Row>
@@ -159,7 +159,7 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 onClick={() => {
-                  link('/not-found');
+                  dispatch(logout());
                 }}
               >
                 <Row>

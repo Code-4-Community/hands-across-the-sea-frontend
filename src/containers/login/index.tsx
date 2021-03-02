@@ -1,14 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, Input, Typography, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { login } from '../../auth/ducks/thunks';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
 import LoginContainer from '../../components/login-signup/LoginContainer';
 import styled from 'styled-components';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { Routes } from '../../App';
 
 const { Paragraph } = Typography;
 
@@ -33,9 +38,20 @@ type LoginProps = UserAuthenticationReducerState;
 
 const Login: React.FC<LoginProps> = ({ tokens }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
+
   const onFinish = (values: any) => {
     dispatch(login({ email: values.email, password: values.password }));
   };
+
+  if (privilegeLevel !== PrivilegeLevel.NONE) {
+    history.push(Routes.HOME);
+  }
+
   return (
     <>
       <Helmet>
