@@ -5,7 +5,10 @@ import { Helmet } from 'react-helmet';
 import Home from './containers/home';
 import Signup from './containers/signup';
 import Login from './containers/login';
+import ForgotPassword from './containers/forgotPasswordRequest';
+import ForgotPasswordReset from './containers/forgotPasswordReset';
 import Settings from './containers/settings';
+import VerifyEmail from './containers/verifyEmail';
 import NotFound from './containers/notFound';
 import NavBar from './components/navbar/NavBar';
 import { Layout } from 'antd';
@@ -39,6 +42,9 @@ export enum Routes {
   TRAINING_AND_MENTORING_INFORMATION = '/training-and-mentoring-information',
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
+  FORGOT_PASSWORD_REQUEST = '/forgot-password',
+  FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
+  VERIFY_EMAIL = '/verify/:key',
 }
 
 const App: React.FC = () => {
@@ -116,6 +122,13 @@ const App: React.FC = () => {
                       <Switch>
                         <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route path={Routes.LOGIN} exact component={Login} />
+                        <Route path={Routes.FORGOT_PASSWORD_REQUEST} exact component={ForgotPassword} />
+                        <Route path={Routes.FORGOT_PASSWORD_RESET} exact component={ForgotPasswordReset} />
+                        <Route
+                          path={Routes.VERIFY_EMAIL}
+                          exact
+                          component={VerifyEmail}
+                        />
                         <Route path="*" exact component={Login} />
                       </Switch>
                     );
