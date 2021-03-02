@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Button } from 'antd';
 import { LinkButton } from '../LinkButton';
 import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { ContentContainer } from '..';
@@ -60,34 +60,22 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
       <Row>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton
-              size="large"
-              type="text"
-              htmlType="submit"
-              icon={<ArrowLeftOutlined />}
-              ghost
-              to={prevPage}
-            >
+            <LinkButton to={prevPage}>
               Prev Section
+              <ArrowLeftOutlined />
             </LinkButton>
           </Form.Item>
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton type="primary" htmlType="submit" ghost>
+            <Button type="primary" htmlType="submit" ghost>
               {saveSubmit}
-            </LinkButton>
+            </Button>
           </Form.Item>
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton
-              size="large"
-              type="text"
-              htmlType="submit"
-              ghost
-              to={nextPage}
-            >
+            <LinkButton to={nextPage}>
               Next Section <ArrowRightOutlined />
             </LinkButton>
           </Form.Item>

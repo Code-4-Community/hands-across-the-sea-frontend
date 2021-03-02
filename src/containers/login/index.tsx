@@ -58,69 +58,67 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
         <title>Login</title>
         <meta name="description" content="Description goes here." />
       </Helmet>
-      <div className="content-container">
-        <LoginContainer>
-          <Form name="login" onFinish={onFinish}>
-            <Row>
-              <Col span={24}>
-                <Paragraph>Email:</Paragraph>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: 'Please input your email!' },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Paragraph>Password:</Paragraph>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    { required: true, message: 'Please input your password!' },
-                  ]}
-                >
-                  <Input.Password />
-                </Form.Item>
-              </Col>
-            </Row>
-            {tokens.kind === AsyncRequestKinds.Failed && (
-              <Paragraph>{tokens.error}</Paragraph>
-            )}
-            <Row>
-              <Col span={24}>
-                <Form.Item>
-                  <Center>
-                    <SubmitButton type="primary" htmlType="submit">
-                      Submit
-                    </SubmitButton>
-                  </Center>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
+      <LoginContainer>
+        <Form name="login" onFinish={onFinish}>
+          <Row>
+            <Col span={24}>
+              <Paragraph>Email:</Paragraph>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                name="email"
+                rules={[
+                  { required: true, message: 'Please input your email!' },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Paragraph>Password:</Paragraph>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                name="password"
+                rules={[
+                  { required: true, message: 'Please input your password!' },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </Col>
+          </Row>
+          {tokens.kind === AsyncRequestKinds.Failed && (
+            <Paragraph>{tokens.error}</Paragraph>
+          )}
+          <Row>
+            <Col span={24}>
+              <Form.Item>
                 <Center>
-                  <Link to="/not-found" component={Typography.Link}>
-                    <SubText>Trouble logging in?</SubText>
-                  </Link>
+                  <SubmitButton type="primary" htmlType="submit">
+                    Submit
+                  </SubmitButton>
                 </Center>
-              </Col>
-            </Row>
-          </Form>
-        </LoginContainer>
-      </div>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Center>
+                <Link to="/not-found" component={Typography.Link}>
+                  <SubText>Trouble logging in?</SubText>
+                </Link>
+              </Center>
+            </Col>
+          </Row>
+        </Form>
+      </LoginContainer>
     </>
   );
 };
