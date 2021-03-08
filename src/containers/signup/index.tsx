@@ -1,16 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Select, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
-import {
-  SignupRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { SignupRequest, UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { ContentContainer } from '../../components';
+import { Countries } from '../../utils/countries';
 
 const { Title, Paragraph } = Typography;
 
@@ -26,6 +24,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
+        country: values.country
       }),
     );
   };
@@ -85,6 +84,22 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             rules={[{ required: true, message: 'Required' }]}
           >
             <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            label="Country"
+            name="country"
+            rules={[{ required: true, message: 'Required' }]}
+          >
+            <Select placeholder="Select a country">
+              {(Object.keys(Countries) as (keyof typeof Countries)[]).map(
+                (country) => (
+                  <Select.Option value={country} key={country}>
+                    {Countries[country]}
+                  </Select.Option>
+                ),
+              )}
+            </Select>
           </Form.Item>
 
           <Paragraph>
