@@ -1,5 +1,9 @@
 import AppAxiosInstance from '../auth/axios';
 
+// add to interface
+// add to enum
+// include function in object Client
+
 export interface ProtectedApiClient {
   readonly changePassword: (request: {
     currentPassword: string;
