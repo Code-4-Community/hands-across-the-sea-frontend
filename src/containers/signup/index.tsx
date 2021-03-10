@@ -3,12 +3,19 @@ import { Helmet } from 'react-helmet';
 import { Button, Form, Input, Select, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/ducks/thunks';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { SignupRequest, UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { useHistory } from 'react-router-dom';
+import {
+  PrivilegeLevel,
+  SignupRequest,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { ContentContainer } from '../../components';
 import { Countries } from '../../utils/countries';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { Routes } from '../../App';
 
 const { Title, Paragraph } = Typography;
 
@@ -16,6 +23,14 @@ type SignupProps = UserAuthenticationReducerState;
 
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const privilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
+
+  if (privilegeLevel !== PrivilegeLevel.NONE) {
+    history.push(Routes.HOME);
+  }
 
   const onFinish = (values: SignupRequest) => {
     dispatch(
