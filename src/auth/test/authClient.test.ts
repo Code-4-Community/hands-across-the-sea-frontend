@@ -1,6 +1,7 @@
 import { RefreshTokenResponse, TokenPayload } from '../ducks/types';
 import AuthClient, { API_ROUTE } from '../authClient';
 import nock from 'nock';
+import { Countries } from '../../utils/countries';
 
 const BASE_URL = 'http://localhost';
 
@@ -41,6 +42,7 @@ describe('Authentication Client Tests', () => {
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jblanc222@gmail.com',
+        country: Countries.DOMINICA,
       });
 
       expect(result).toEqual(response);
@@ -78,7 +80,7 @@ describe('Authentication Client Tests', () => {
 
   describe('Verify Email', () => {
     it('makes the right request', async () => {
-      const secretKey: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9';
+      const secretKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9';
 
       nock(BASE_URL).get(`${API_ROUTE.VERIFY_EMAIL}${secretKey}`).reply(200);
 
@@ -87,6 +89,6 @@ describe('Authentication Client Tests', () => {
       } catch (e) {
         fail(e);
       }
-    })
-  })
+    });
+  });
 });
