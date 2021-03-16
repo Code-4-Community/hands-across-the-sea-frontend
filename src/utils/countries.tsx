@@ -5,5 +5,5 @@ export const Countries = {
   GRENADA: 'Grenada',
   ST_KITTS_AND_NEVIS: 'St. Kitts and Nevis',
   ST_LUCIA: 'St. Lucia',
-  ST_VINCENT_AND_THE_GRENADINES: 'St. Vincent and the Grenadines'
-}
+  ST_VINCENT_AND_THE_GRENADINES: 'St. Vincent and the Grenadines',
+};

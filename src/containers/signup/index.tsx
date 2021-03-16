@@ -39,7 +39,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
-        country: values.country
+        country: values.country,
       }),
     );
   };
