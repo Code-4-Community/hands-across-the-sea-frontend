@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Select, Typography } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import {
 } from '../../auth/ducks/types';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { ContentContainer } from '../../components';
+import { Countries } from '../../utils/countries';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { Routes } from '../../App';
 
@@ -98,6 +99,22 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            label="Country"
+            name="country"
+            rules={[{ required: true, message: 'Required' }]}
+          >
+            <Select placeholder="Select a country">
+              {(Object.keys(Countries) as (keyof typeof Countries)[]).map(
+                (country) => (
+                  <Select.Option value={country} key={country}>
+                    {Countries[country]}
+                  </Select.Option>
+                ),
+              )}
+            </Select>
           </Form.Item>
 
           <Paragraph>

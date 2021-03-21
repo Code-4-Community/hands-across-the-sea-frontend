@@ -29,6 +29,7 @@ export interface SignupRequest {
   readonly password: string;
   readonly firstName: string;
   readonly lastName: string;
+  readonly country: string;
 }
 
 export interface ForgotPasswordRequest {
