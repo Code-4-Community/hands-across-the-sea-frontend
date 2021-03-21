@@ -25,7 +25,15 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const history = useHistory();
 
   const onFinish = (values: SignupRequest) => {
-    dispatch(signup(values));
+    dispatch(
+      signup({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        country: values.country,
+        password: values.password,
+      }),
+    );
   };
 
   if (getPrivilegeLevel(tokens) !== PrivilegeLevel.NONE) {
@@ -60,14 +68,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: 'Required' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="Username"
-            name="username"
             rules={[{ required: true, message: 'Required' }]}
           >
             <Input />
