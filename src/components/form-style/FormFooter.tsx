@@ -74,7 +74,7 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton type="primary" htmlType="submit" ghost>
+            <LinkButton to={prevPage} type="primary" htmlType="submit" ghost>
               {saveSubmit}
             </LinkButton>
           </Form.Item>

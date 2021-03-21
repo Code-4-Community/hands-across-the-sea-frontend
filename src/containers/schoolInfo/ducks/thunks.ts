@@ -1,24 +1,22 @@
 import {
-  LoginRequest,
-  TokenPayload,
-  UserAuthenticationThunkAction,
-} from '../../../auth/ducks/types';
-import { authenticateUser } from '../../../auth/ducks/actions';
-import AppAxiosInstance from '../../../auth/axios';
-import { SchoolRequest, SchoolResponse } from "./types";
+  SchoolInformationThunkAction,
+  SchoolRequest,
+  SchoolResponse,
+} from './types';
+import { createSchool } from './actions';
 
-export const createSchool = (
+export const createSchoolRequest = (
   schoolRequest: SchoolRequest,
-): UserAuthenticationThunkAction<void> => {
+): SchoolInformationThunkAction<void> => {
   return (dispatch, getState, { protectedApiClient }): Promise<void> => {
-    dispatch(authenticateUser.loading());
+    dispatch(createSchool.loading());
     return protectedApiClient
       .createSchool(schoolRequest)
       .then((response: SchoolResponse) => {
-        dispatch(authenticateUser.loaded(response));
+        dispatch(createSchool.loaded(response));
       })
       .catch((error) => {
-        dispatch(authenticateUser.failed(error.response.data));
+        dispatch(createSchool.failed(error.response)); // TODO: make typesafe with utils
       });
   };
 };

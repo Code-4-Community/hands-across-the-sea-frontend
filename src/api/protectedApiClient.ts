@@ -4,6 +4,10 @@ import {
   SchoolResponse,
 } from '../containers/schoolInfo/ducks/types';
 
+export interface ApiExtraArgs {
+  protectedApiClient: ProtectedApiClient;
+}
+
 export interface ProtectedApiClient {
   readonly changePassword: (request: {
     currentPassword: string;

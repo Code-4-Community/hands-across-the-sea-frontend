@@ -1,13 +1,13 @@
 import { ThunkAction } from 'redux-thunk';
 import { C4CState } from '../../../store';
-import { UserAuthenticationActions } from '../../../auth/ducks/actions';
-import { UserAuthenticationExtraArgs } from '../../../auth/ducks/types';
+import { ApiExtraArgs } from '../../../api/protectedApiClient';
+import { SchoolInfoActions } from './actions';
 
 export type SchoolInformationThunkAction<R> = ThunkAction<
   R,
   C4CState,
-  UserAuthenticationExtraArgs,
-  UserAuthenticationActions
+  ApiExtraArgs,
+  SchoolInfoActions
 >;
 
 export interface SchoolResponse extends SchoolRequest {
