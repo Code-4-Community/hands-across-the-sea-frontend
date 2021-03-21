@@ -122,8 +122,16 @@ const App: React.FC = () => {
                       <Switch>
                         <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route path={Routes.LOGIN} exact component={Login} />
-                        <Route path={Routes.FORGOT_PASSWORD_REQUEST} exact component={ForgotPassword} />
-                        <Route path={Routes.FORGOT_PASSWORD_RESET} exact component={ForgotPasswordReset} />
+                        <Route
+                          path={Routes.FORGOT_PASSWORD_REQUEST}
+                          exact
+                          component={ForgotPassword}
+                        />
+                        <Route
+                          path={Routes.FORGOT_PASSWORD_RESET}
+                          exact
+                          component={ForgotPasswordReset}
+                        />
                         <Route
                           path={Routes.VERIFY_EMAIL}
                           exact

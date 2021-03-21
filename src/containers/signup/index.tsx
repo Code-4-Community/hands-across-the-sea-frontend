@@ -1,16 +1,21 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Select, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/ducks/thunks';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
+import { useHistory } from 'react-router-dom';
 import {
+  PrivilegeLevel,
   SignupRequest,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { ContentContainer } from '../../components';
+import { Countries } from '../../utils/countries';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { Routes } from '../../App';
 
 const { Title, Paragraph } = Typography;
 
@@ -18,6 +23,14 @@ type SignupProps = UserAuthenticationReducerState;
 
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
+
+  if (privilegeLevel !== PrivilegeLevel.NONE) {
+    history.push(Routes.HOME);
+  }
 
   const onFinish = (values: SignupRequest) => {
     dispatch(
@@ -26,6 +39,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
+        country: values.country,
       }),
     );
   };
@@ -85,6 +99,22 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             rules={[{ required: true, message: 'Required' }]}
           >
             <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            label="Country"
+            name="country"
+            rules={[{ required: true, message: 'Required' }]}
+          >
+            <Select placeholder="Select a country">
+              {(Object.keys(Countries) as (keyof typeof Countries)[]).map(
+                (country) => (
+                  <Select.Option value={country} key={country}>
+                    {Countries[country]}
+                  </Select.Option>
+                ),
+              )}
+            </Select>
           </Form.Item>
 
           <Paragraph>

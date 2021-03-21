@@ -3,6 +3,7 @@ import { login, signup } from '../ducks/thunks';
 import { authenticateUser } from '../ducks/actions';
 import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
+import { Countries } from '../../utils/countries';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
   ...initialStoreState,
@@ -97,6 +98,7 @@ describe('User Authentication Thunks', () => {
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jack@jackblanc.com',
+        country: Countries.ST_KITTS_AND_NEVIS,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
@@ -128,6 +130,7 @@ describe('User Authentication Thunks', () => {
         password: 'password',
         firstName: 'Jack',
         lastName: 'Blanc',
+        country: Countries.ST_LUCIA,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
