@@ -24,7 +24,7 @@ type SignupProps = UserAuthenticationReducerState;
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const privilegeLevel = useSelector((state: C4CState) =>
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
