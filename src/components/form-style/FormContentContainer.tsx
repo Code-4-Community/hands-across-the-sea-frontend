@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Typography } from 'antd';
 import { ContentContainer } from '..';
-import FormSideBar from './FormSideBar';
 import styled from 'styled-components';
 
 interface FormContentContainerProps {
@@ -30,9 +29,6 @@ const FormContentContainer: React.FC<FormContentContainerProps> = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col span={5}>
-          <FormSideBar disableLastTwo={props.disableLastTwo} />
-        </Col>
         <Col span={19}>
           <ChildrenContainer>{props.children}</ChildrenContainer>
         </Col>

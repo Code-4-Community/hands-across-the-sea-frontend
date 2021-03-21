@@ -1,7 +1,7 @@
 import React from 'react';
-import { Row, Col, Form } from 'antd';
+import { Col, Form, Row } from 'antd';
 import { LinkButton } from '../LinkButton';
-import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { ContentContainer } from '..';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -60,15 +60,9 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
       <Row>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton
-              size="large"
-              type="text"
-              htmlType="submit"
-              icon={<ArrowLeftOutlined />}
-              ghost
-              to={prevPage}
-            >
+            <LinkButton to={prevPage}>
               Prev Section
+              <ArrowLeftOutlined />
             </LinkButton>
           </Form.Item>
         </Col>
@@ -81,13 +75,7 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton
-              size="large"
-              type="text"
-              htmlType="submit"
-              ghost
-              to={nextPage}
-            >
+            <LinkButton to={nextPage}>
               Next Section <ArrowRightOutlined />
             </LinkButton>
           </Form.Item>
