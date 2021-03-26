@@ -13,6 +13,7 @@ export type SchoolInformationThunkAction<R> = ThunkAction<
 
 export interface SchoolInformationReducerState {
   readonly schoolInformation: AsyncRequest<SchoolResponse, any>;
+  readonly getSchool: AsyncRequest<SchoolResponse, any>;
 }
 
 export interface SchoolResponse extends SchoolRequest {

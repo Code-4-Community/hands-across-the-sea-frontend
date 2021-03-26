@@ -32,28 +32,6 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
           </FormPiece>
         </Col>
       </Row>
-      <Row gutter={[0, 24]}>
-        <Col flex={24}>
-          <FormPiece note="School Contact Information">
-            <Row>
-              <Col flex={11}>
-                <Form.Item name="schoolPhone">
-                  <Input placeholder="Phone Number" />
-                </Form.Item>
-              </Col>
-              <Col flex={2} />
-              <Col flex={11}>
-                <Form.Item name="schoolEmail">
-                  <Input placeholder="Email" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item name="schoolOtherContactInfo">
-              <FormTextArea minLength={2} placeholder="Anything Else" />
-            </Form.Item>
-          </FormPiece>
-        </Col>
-      </Row>
     </FormContainer>
   </Form>
 );

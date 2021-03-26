@@ -14,12 +14,14 @@ export interface ProtectedApiClient {
     newPassword: string;
   }) => Promise<void>;
   readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
+  readonly getSchool: (id: number) => Promise<SchoolResponse>;
   readonly deleteUser: (request: { password: string }) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
-  SCHOOL_INFO = '/api/v1/protected/schools',
+  CREATE_SCHOOL = '/api/v1/protected/schools',
+  GET_SCHOOL = '/api/v1/protected/schools/',
   DELETE_USER = '/api/v1/protected/user/',
 }
 
@@ -42,7 +44,13 @@ const deleteUser = (request: { password: string }): Promise<void> => {
 };
 
 const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.SCHOOL_INFO, request)
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.CREATE_SCHOOL, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const getSchool = (id: number): Promise<SchoolResponse> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_SCHOOL + id)
     .then((r) => r.data)
     .catch((e) => e);
 };
@@ -50,6 +58,7 @@ const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
+  getSchool,
   deleteUser,
 });
 
