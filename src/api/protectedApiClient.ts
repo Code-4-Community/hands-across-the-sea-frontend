@@ -23,6 +23,16 @@ export interface ProtectedApiClient {
     contactId: number,
     updatedSchoolContact: SchoolContactRequest,
   ) => Promise<void>;
+
+  readonly createSchoolContact: (
+    schoolId: number,
+    schoolContact: SchoolContactRequest,
+  ) => Promise<void>;
+
+  readonly deleteSchoolContact: (
+    schoolId: number,
+    contactId: number,
+  ) => Promise<void>;
 }
 
 enum ProtectedApiClientRoutes {
@@ -71,10 +81,41 @@ const updateSchoolContact = (
     .catch((err) => err);
 };
 
+const createSchoolContact = (
+  schoolId: number,
+  updatedSchoolContact: SchoolContactRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.SCHOOL_CONTACTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    updatedSchoolContact,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
+const deleteSchoolContact = (
+  schoolId: number,
+  contactId: number,
+): Promise<void> => {
+  return AppAxiosInstance.delete(
+    `${ProtectedApiClientRoutes.SCHOOL_CONTACTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    )}/${contactId.toString()}`,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   getSchoolContacts,
   updateSchoolContact,
+  createSchoolContact,
+  deleteSchoolContact,
 });
 
 export default Client;

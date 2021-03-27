@@ -11,7 +11,7 @@ import {
 export const getPrivilegeLevel = (
   tokens: UserAuthenticationReducerState['tokens'],
 ): PrivilegeLevel => {
-  if (tokens.kind === AsyncRequestKinds.Completed) {
+  if (asyncRequestIsComplete(tokens)) {
     const payload = JSON.parse(atob(tokens.result.accessToken.split('.')[1]));
     return payload.privilegeLevel;
   }

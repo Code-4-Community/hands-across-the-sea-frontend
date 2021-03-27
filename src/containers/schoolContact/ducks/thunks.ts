@@ -4,9 +4,8 @@ import {
   SchoolContactsThunkAction,
 } from './types';
 import { schoolContacts } from './actions';
-import protectedApiClient from '../../../api/protectedApiClient';
 
-export const getSchoolContacts = (
+export const loadSchoolContacts = (
   schoolId: number,
 ): SchoolContactsThunkAction<void> => {
   return (dispatch, getState, { protectedApiClient }) => {
@@ -27,11 +26,43 @@ export const updateSchoolContact = (
   contactId: number,
   updatedContact: SchoolContactRequest,
 ): SchoolContactsThunkAction<void> => {
-  return (dispatch, getState, extraArgument) => {
+  return (dispatch, getState, { protectedApiClient }) => {
     return protectedApiClient
       .updateSchoolContact(schoolId, contactId, updatedContact)
       .then(() => {
-        dispatch(getSchoolContacts(schoolId));
+        dispatch(loadSchoolContacts(schoolId));
+      })
+      .catch((error) => {
+        dispatch(schoolContacts.failed(error.response.data));
+      });
+  };
+};
+
+export const createSchoolContact = (
+  schoolId: number,
+  contact: SchoolContactRequest,
+): SchoolContactsThunkAction<void> => {
+  return (dispatch, getState, { protectedApiClient }) => {
+    return protectedApiClient
+      .createSchoolContact(schoolId, contact)
+      .then(() => {
+        dispatch(loadSchoolContacts(schoolId));
+      })
+      .catch((error) => {
+        dispatch(schoolContacts.failed(error.response.data));
+      });
+  };
+};
+
+export const deleteSchoolContact = (
+  schoolId: number,
+  contactId: number,
+): SchoolContactsThunkAction<void> => {
+  return (dispatch, getState, { protectedApiClient }) => {
+    return protectedApiClient
+      .deleteSchoolContact(schoolId, contactId)
+      .then(() => {
+        dispatch(loadSchoolContacts(schoolId));
       })
       .catch((error) => {
         dispatch(schoolContacts.failed(error.response.data));

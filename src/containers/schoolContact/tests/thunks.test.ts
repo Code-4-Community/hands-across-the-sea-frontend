@@ -3,7 +3,7 @@ import { SchoolContactResponse } from '../ducks/types';
 import protectedApiClient, {
   ApiExtraArgs,
 } from '../../../api/protectedApiClient';
-import { getSchoolContacts } from '../ducks/thunks';
+import { loadSchoolContacts } from '../ducks/thunks';
 import { schoolContacts } from '../ducks/actions';
 
 describe('School Contacts Thunks', () => {
@@ -20,7 +20,7 @@ describe('School Contacts Thunks', () => {
           getSchoolContacts: mockGetSchoolContactsApi,
         },
       };
-      await getSchoolContacts(1)(mockDispatch, getState, mockExtraArgs);
+      await loadSchoolContacts(1)(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
