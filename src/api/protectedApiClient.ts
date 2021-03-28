@@ -33,11 +33,14 @@ export interface ProtectedApiClient {
     schoolId: number,
     contactId: number,
   ) => Promise<void>;
+
+  readonly getAllSchools: () => Promise<void>;
 }
 
 enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
+  SCHOOLS = '/api/v1/protected/schools',
 }
 
 const changePassword = (request: {
@@ -110,12 +113,19 @@ const deleteSchoolContact = (
     .catch((err) => err);
 };
 
+const getAllSchools = (): Promise<void> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   getSchoolContacts,
   updateSchoolContact,
   createSchoolContact,
   deleteSchoolContact,
+  getAllSchools,
 });
 
 export default Client;

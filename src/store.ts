@@ -23,6 +23,7 @@ import { SchoolContactsReducerState } from './containers/schoolContact/ducks/typ
 import schoolContactsReducer, {
   initialSchoolContactsState,
 } from './containers/schoolContact/ducks/reducers';
+import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -34,7 +35,7 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions | SchoolContactsActions;
+export type C4CAction = UserAuthenticationActions | SchoolContactsActions | SelectSchoolActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs | ApiExtraArgs;
 
