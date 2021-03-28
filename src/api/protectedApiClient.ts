@@ -3,6 +3,7 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
+import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -34,7 +35,7 @@ export interface ProtectedApiClient {
     contactId: number,
   ) => Promise<void>;
 
-  readonly getAllSchools: () => Promise<void>;
+  readonly getAllSchools: () => Promise<WithCount<{ schools: SchoolEntry[] }>>;
 }
 
 enum ProtectedApiClientRoutes {
@@ -42,6 +43,10 @@ enum ProtectedApiClientRoutes {
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   SCHOOLS = '/api/v1/protected/schools',
 }
+
+type WithCount<T> = T & {
+  count: number;
+};
 
 const changePassword = (request: {
   currentPassword: string;
@@ -113,9 +118,9 @@ const deleteSchoolContact = (
     .catch((err) => err);
 };
 
-const getAllSchools = (): Promise<void> => {
+const getAllSchools = (): Promise<WithCount<{ schools: SchoolEntry[] }>> => {
   return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
 };
 
