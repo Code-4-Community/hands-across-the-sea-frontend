@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 // onClick is overwritten
 
 interface LinkButtonProps {
-  to: string;
+  readonly to: string;
+  readonly disabled?: boolean;
 }
 
 export const LinkButton: React.FC<LinkButtonProps> = ({ to, ...rest }) => {
