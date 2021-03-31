@@ -13,6 +13,8 @@ import {
 import { Routes } from '../../App';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../auth/ducks/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
@@ -28,6 +30,18 @@ const HeadTitle = styled(Title)`
 `;
 
 const MenuOption = styled(Link)`
+  padding: 15px 20px 15px 20px;
+  background-color: white;
+  border-radius: 5px;
+  display: block;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+`;
+
+const MenuOptionDiv = styled.div`
   padding: 15px 20px 15px 20px;
   background-color: white;
   border-radius: 5px;
@@ -69,7 +83,7 @@ interface MenuButtonProps {
 
 const MenuButton: React.FC<MenuButtonProps> = (props) => {
   return (
-    <MenuOption to={Routes.SELECT_SCHOOL}>
+    <MenuOption to={props.to}>
       <MenuTitleContainer>
         {props.children}
         <MenuTitle>{props.title}</MenuTitle>
@@ -80,6 +94,8 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
 };
 
 const Home: React.FC = () => {
+  const dispatch = useDispatch();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
@@ -269,13 +285,12 @@ const Home: React.FC = () => {
               </Col>
             )}
             <Col span={12}>
-              <MenuButton
-                to={Routes.TODO}
-                title={'Sign Out'}
-                description={'Sign out of your account'}
-              >
-                <PoweroffOutlined style={iconStyle} />
-              </MenuButton>
+              <MenuOptionDiv onClick={() => dispatch(logout())}>
+                <MenuTitleContainer>
+                  <MenuTitle>Sign Out</MenuTitle>
+                </MenuTitleContainer>
+                <MenuDescription>Sign out of your account</MenuDescription>
+              </MenuOptionDiv>
             </Col>
           </Row>
         </Outer>

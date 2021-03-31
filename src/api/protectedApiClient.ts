@@ -270,7 +270,7 @@ const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
 };
 
 const getAllSchools = (): Promise<SchoolEntry[]> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOL_CONTACTS)
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
     .then((res) => res.data.schools)
     .catch((err) => err);
 };
