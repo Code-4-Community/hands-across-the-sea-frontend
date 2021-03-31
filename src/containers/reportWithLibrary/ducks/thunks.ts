@@ -1,4 +1,5 @@
 import {
+  ReportWithLibraryRequest,
   ReportWithLibraryResponse,
   ReportWithLibraryThunkAction,
 } from './types';
@@ -16,6 +17,22 @@ export const loadReportWithLibrary = (
       })
       .catch((error) => {
         dispatch(reportWithLibrary.failed(error.repsonse.data));
+      });
+  };
+};
+
+export const createReportWithLibrary = (
+  schoolId: number,
+  report: ReportWithLibraryRequest,
+): ReportWithLibraryThunkAction<void> => {
+  return (dispatch, getState, { protectedApiClient }) => {
+    return protectedApiClient
+      .createReportWithLibrary(schoolId, report)
+      .then(() => {
+        dispatch(loadReportWithLibrary(schoolId));
+      })
+      .catch((error) => {
+        dispatch(reportWithLibrary.failed(error.response.data));
       });
   };
 };

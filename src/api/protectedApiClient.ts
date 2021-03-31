@@ -3,7 +3,10 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
-import { ReportWithLibraryResponse } from '../containers/reportWithLibrary/ducks/types';
+import {
+  ReportWithLibraryRequest,
+  ReportWithLibraryResponse,
+} from '../containers/reportWithLibrary/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -37,6 +40,11 @@ export interface ProtectedApiClient {
 
   readonly getReportWithLibrary: (
     reportId: number,
+  ) => Promise<ReportWithLibraryResponse>;
+
+  readonly createReportWithLibrary: (
+    schoolId: number,
+    report: ReportWithLibraryRequest,
   ) => Promise<ReportWithLibraryResponse>;
 }
 
@@ -129,6 +137,21 @@ const getReportWithLibrary = (
     .catch((err) => err);
 };
 
+const createReportWithLibrary = (
+  schoolId: number,
+  report: ReportWithLibraryRequest,
+): Promise<ReportWithLibraryResponse> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    report,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   getSchoolContacts,
@@ -136,6 +159,7 @@ const Client: ProtectedApiClient = Object.freeze({
   createSchoolContact,
   deleteSchoolContact,
   getReportWithLibrary,
+  createReportWithLibrary,
 });
 
 export default Client;
