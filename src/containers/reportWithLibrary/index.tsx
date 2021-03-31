@@ -1,11 +1,14 @@
 import React from 'react';
 import ReportWithLibrary from '../../components/reportWithLibrary/ReportWithLibrary';
 import { ReportWithLibraryRequest } from './ducks/types';
+import { useDispatch } from 'react-redux';
+import { createReportWithLibrary } from './ducks/thunks';
 
 const ReportWithLibraryContainer = () => {
+  const dispatch = useDispatch();
+  //
   // TODO: Add functionality for loading existing data
   //
-  // const dispatch = useDispatch();
   //
   // useEffect(() => {
   //   dispatch(loadReportWithLibrary(reportWithLibraryId));
@@ -15,10 +18,10 @@ const ReportWithLibraryContainer = () => {
   //   getReportWithLibrary(state.reportWithLibraryState),
   // );
 
-  const handleSubmit = (r: ReportWithLibraryRequest) => {
-    // tslint:disable-next-line:no-console
-    console.log(r);
-    // TODO
+  const schoolId = 1; // TODO
+
+  const handleSubmit = (report: ReportWithLibraryRequest) => {
+    dispatch(createReportWithLibrary(schoolId, report));
   };
 
   return <ReportWithLibrary onSubmit={handleSubmit} />;

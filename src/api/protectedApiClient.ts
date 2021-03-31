@@ -1,17 +1,14 @@
 import AppAxiosInstance from '../auth/axios';
-import {
-  SchoolRequest,
-  SchoolResponse,
-} from '../containers/schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../containers/schoolInfo/ducks/types';
 import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
-import { ReportWithLibraryResponse } from '../containers/reportWithLibrary/ducks/types';
 import {
-  BookLogRequest,
-  BookLogResponse,
-} from '../containers/bookLogs/ducks/types';
+  ReportWithLibraryRequest,
+  ReportWithLibraryResponse,
+} from '../containers/reportWithLibrary/ducks/types';
+import { BookLogRequest, BookLogResponse } from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 
 export interface ApiExtraArgs {
@@ -75,6 +72,11 @@ export interface ProtectedApiClient {
 
   readonly getReportWithLibrary: (
     reportId: number,
+  ) => Promise<ReportWithLibraryResponse>;
+
+  readonly createReportWithLibrary: (
+    schoolId: number,
+    report: ReportWithLibraryRequest,
   ) => Promise<ReportWithLibraryResponse>;
 
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
@@ -216,6 +218,21 @@ const getReportWithLibrary = (
     .catch((err) => err);
 };
 
+const createReportWithLibrary = (
+  schoolId: number,
+  report: ReportWithLibraryRequest,
+): Promise<ReportWithLibraryResponse> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    report,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const createBookLog = (
   schoolId: number,
   report: BookLogRequest,
@@ -292,6 +309,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getBookLogs,
   deleteBookLog,
   getAllSchools,
+  createReportWithLibrary,
 });
 
 export default Client;
