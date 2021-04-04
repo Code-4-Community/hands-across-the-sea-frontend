@@ -18,9 +18,15 @@ import throttle from 'lodash/throttle';
 import AppAxiosInstance from './auth/axios';
 import { asyncRequestIsComplete } from './utils/asyncRequest';
 import protectedApiClient, { ApiExtraArgs } from './api/protectedApiClient';
+import { SchoolInformationReducerState } from './containers/schoolInfo/ducks/types';
+import { SchoolInformationActions } from './containers/schoolInfo/ducks/actions';
+import schoolInformationReducer, {
+  initialSchoolInfoState,
+} from './containers/schoolInfo/ducks/reducers';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
+  schoolInformationState: SchoolInformationReducerState;
 }
 
 export interface Action<T, P> {
@@ -28,16 +34,18 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions;
+export type C4CAction = UserAuthenticationActions | SchoolInformationActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
+  schoolInformationState: schoolInformationReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
+  schoolInformationState: initialSchoolInfoState,
 };
 
 export const LOCALSTORAGE_STATE_KEY = 'state';
@@ -82,8 +90,8 @@ const enhancer = composeEnhancers(
 const store: Store<C4CState, C4CAction> = createStore<
   C4CState,
   C4CAction,
-  {},
-  {}
+  Record<string, unknown>,
+  Record<string, unknown>
 >(reducers, preloadedState || initialStoreState, enhancer);
 
 store.subscribe(

@@ -1,19 +1,18 @@
 import { ThunkAction } from 'redux-thunk';
 import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { SchoolInfoActions } from './actions';
+import { SchoolInformationActions } from './actions';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export type SchoolInformationThunkAction<R> = ThunkAction<
   R,
   C4CState,
   ApiExtraArgs,
-  SchoolInfoActions
+  SchoolInformationActions
 >;
 
 export interface SchoolInformationReducerState {
   readonly schoolInformation: AsyncRequest<SchoolResponse, any>;
-  readonly getSchool: AsyncRequest<SchoolResponse, any>;
 }
 
 export interface SchoolResponse extends SchoolRequest {

@@ -3,20 +3,20 @@ import {
   SchoolRequest,
   SchoolResponse,
 } from './types';
-import { createSchool, getSchool } from './actions';
+import { getSchool } from './actions';
 
 export const createSchoolRequest = (
   schoolRequest: SchoolRequest,
 ): SchoolInformationThunkAction<void> => {
   return (dispatch, getState, { protectedApiClient }): Promise<void> => {
-    dispatch(createSchool.loading());
+    dispatch(getSchool.loading());
     return protectedApiClient
       .createSchool(schoolRequest)
       .then((response: SchoolResponse) => {
-        dispatch(createSchool.loaded(response));
+        dispatch(getSchool.loaded(response));
       })
       .catch((error) => {
-        dispatch(createSchool.failed(error.response)); // TODO: make typesafe with utils
+        dispatch(getSchool.failed(error.response)); // TODO: make typesafe with utils
       });
   };
 };

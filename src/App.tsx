@@ -27,7 +27,7 @@ import StudentBookInformation from './containers/student-book-info/StudentBookIn
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
-import SchoolInfo from './containers/schoolInfo';
+import SchoolInformation from './containers/schoolInfo';
 
 const { Content } = Layout;
 
@@ -110,7 +110,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.SCHOOL_INFO}
                           exact
-                          component={SchoolInfo}
+                          component={SchoolInformation}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

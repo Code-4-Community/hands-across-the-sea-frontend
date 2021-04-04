@@ -1,16 +1,23 @@
 import React from 'react';
 import { useEffect } from 'react';
 import SchoolInformationForm from '../../components/schoolInfoForm';
-import { SchoolRequest } from './ducks/types';
-import { useDispatch } from 'react-redux';
+import { SchoolInformationReducerState, SchoolRequest } from './ducks/types';
+import { connect, useDispatch } from 'react-redux';
 import { createSchoolRequest, getSchoolRequest } from './ducks/thunks';
+import { C4CState } from '../../store';
 
-const SchoolInfo: React.FC = () => {
+interface SchoolInformationProps {
+  readonly schoolInformation: SchoolInformationReducerState['schoolInformation'];
+}
+
+const SchoolInformation: React.FC<SchoolInformationProps> = ({
+  schoolInformation,
+}) => {
   const dispatch = useDispatch();
   const SCHOOL_ID = 123;
 
   useEffect(() => {
-    const response = getSchoolRequest(SCHOOL_ID);
+    dispatch(getSchoolRequest(SCHOOL_ID));
   });
 
   const handleFinish = (schoolRequest: SchoolRequest): void => {
@@ -20,4 +27,10 @@ const SchoolInfo: React.FC = () => {
   return <SchoolInformationForm onFinish={handleFinish} />;
 };
 
-export default SchoolInfo;
+const mapStateToProps = (state: C4CState): SchoolInformationProps => {
+  return {
+    schoolInformation: state.schoolInformationState.schoolInformation,
+  };
+};
+
+export default connect(mapStateToProps)(SchoolInformation);
