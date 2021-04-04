@@ -3,10 +3,7 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from './types';
-import {
-  asyncRequestIsComplete,
-  AsyncRequestKinds,
-} from '../../utils/asyncRequest';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 
 export const getPrivilegeLevel = (
   tokens: UserAuthenticationReducerState['tokens'],
