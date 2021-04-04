@@ -36,13 +36,14 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
 
   const onSubmitHandler = (c: SchoolContactRequest) => {
     onSubmit(c);
+    setSchoolContact(c);
     setEditMode(false);
   };
 
   const onCancelHandler = () => {
     if (defaultSchoolContact) {
       setEditMode(false);
-    } else if (onCancel) {
+    } else if (onCancel !== undefined) {
       onCancel();
     }
   };
