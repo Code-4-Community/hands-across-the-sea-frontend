@@ -44,7 +44,7 @@ enum ProtectedApiClientRoutes {
   SCHOOLS = '/api/v1/protected/schools',
 }
 
-type WithCount<T> = T & {
+export type WithCount<T> = T & {
   count: number;
 };
 

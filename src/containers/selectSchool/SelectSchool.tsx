@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { Col, Form, Row, Select } from 'antd';
+import { Button, Col, Form, Row, Select } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
-import FormFooter from '../../components/form-style/FormFooter';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSchools } from './ducks/selectors';
 import { loadSchools } from './ducks/thunks';
 import { SchoolEntry } from './ducks/types';
 import { selectSchoolId } from './ducks/actions';
 import { useHistory } from 'react-router';
 import { Routes } from '../../App';
+import { C4CState } from '../../store';
+import { AsyncRequestKinds } from '../../utils/asyncRequest';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -18,7 +18,9 @@ interface SelectSchoolForm {
 
 const SelectSchool: React.FC = () => {
   const dispatch = useDispatch();
-  const availableSchools = useSelector(selectSchools);
+  const availableSchools = useSelector(
+    (state: C4CState) => state.selectSchoolState.schools,
+  );
   const history = useHistory();
 
   useEffect(() => {
@@ -34,28 +36,42 @@ const SelectSchool: React.FC = () => {
     <Select.Option value={school.id}>{school.name}</Select.Option>
   );
 
-  return (
-    <FormContentContainer>
-      <Form name="select-school" onFinish={handleSubmit}>
-        <FormContainer title="Select a School">
-          <Row gutter={[0, 0]}>
-            <Col flex={24}>
-              <FormPiece note="Which school will you be monitoring today?">
-                <Form.Item name="schoolId" rules={[{ required: true }]}>
-                  {availableSchools && (
-                    <Select placeholder="Select a school">
-                      {availableSchools.map(renderSchoolOption)}
-                    </Select>
-                  )}
-                </Form.Item>
-              </FormPiece>
-            </Col>
-          </Row>
-        </FormContainer>
-        <FormFooter />
-      </Form>
-    </FormContentContainer>
-  );
+  switch (availableSchools.kind) {
+    case AsyncRequestKinds.NotStarted:
+    case AsyncRequestKinds.Loading:
+      return <p>Loading schools...</p>;
+    case AsyncRequestKinds.Failed:
+      return <p>An error occurred loading schools</p>;
+    case AsyncRequestKinds.Completed:
+      return (
+        <FormContentContainer>
+          <Form name="select-school" onFinish={handleSubmit}>
+            <FormContainer title="Select a School">
+              <Row gutter={[0, 0]}>
+                <Col flex={24}>
+                  <FormPiece note="Which school will you be monitoring today?">
+                    <Form.Item name="schoolId" rules={[{ required: true }]}>
+                      <Select placeholder="Select a school">
+                        {availableSchools.result.map(renderSchoolOption)}
+                      </Select>
+                    </Form.Item>
+                  </FormPiece>
+                </Col>
+              </Row>
+              <Row>
+                <Col flex={8}>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" ghost>
+                      Next
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </FormContainer>
+          </Form>
+        </FormContentContainer>
+      );
+  }
 };
 
 export default SelectSchool;

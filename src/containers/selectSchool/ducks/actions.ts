@@ -2,7 +2,7 @@ import { genericAsyncActions } from '../../../utils/asyncRequest';
 import { Action } from '../../../store';
 import { SchoolEntry } from './types';
 
-export const getAllSchools = genericAsyncActions<SchoolEntry[], void>();
+export const getAllSchools = genericAsyncActions<SchoolEntry[], string>();
 
 export const SET_SCHOOL_ID = 'setSchoolId';
 export const selectSchoolId = (
