@@ -31,18 +31,21 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
       phone: '',
       type: suggestedContactType,
     } as SchoolContactRequest);
-  const [schoolContact, setSchoolContact] = useState(initialSchoolContactState);
-  const [editMode, setEditMode] = useState(!defaultSchoolContact);
+  const [schoolContact, setSchoolContact] = useState<SchoolContactRequest>(
+    initialSchoolContactState,
+  );
+  const [editMode, setEditMode] = useState<boolean>(!defaultSchoolContact);
 
   const onSubmitHandler = (c: SchoolContactRequest) => {
     onSubmit(c);
+    setSchoolContact(c);
     setEditMode(false);
   };
 
   const onCancelHandler = () => {
     if (defaultSchoolContact) {
       setEditMode(false);
-    } else if (onCancel) {
+    } else if (onCancel !== undefined) {
       onCancel();
     }
   };

@@ -16,7 +16,7 @@ export const loadSchoolContacts = (
         dispatch(schoolContacts.loaded(response));
       })
       .catch((error) => {
-        dispatch(schoolContacts.failed(error.repsonse.data));
+        dispatch(schoolContacts.failed(error.response.data));
       });
   };
 };

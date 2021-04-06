@@ -6,23 +6,24 @@ import {
   updateSchoolContact,
 } from './ducks/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSchoolContacts } from './ducks/selectors';
 import { C4CState } from '../../store';
 import {
   ContactType,
   SchoolContactRequest,
   SchoolContactResponse,
+  SchoolContactsReducerState,
 } from './ducks/types';
 import SchoolContact from '../../components/schoolContact/SchoolContact';
 import { Button } from 'antd';
+import { AsyncRequestKinds } from '../../utils/asyncRequest';
 
-const SchoolContactContainer = () => {
+const SchoolContacts: React.FC = () => {
   const dispatch = useDispatch();
   const schoolId = 1; // Will eventually fetch from store
-  const schoolContacts = useSelector((state: C4CState) =>
-    getSchoolContacts(state.schoolContactsState, schoolId),
+  const schoolContacts: SchoolContactsReducerState['schoolContacts'] = useSelector(
+    (state: C4CState) => state.schoolContactsState.schoolContacts,
   );
-  const [showAddContact, setShowAddContact] = useState(false);
+  const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(loadSchoolContacts(schoolId));
@@ -32,8 +33,10 @@ const SchoolContactContainer = () => {
     dispatch(deleteSchoolContact(schoolId, contactId));
   };
 
-  const renderExistingSchoolContact = (contact: SchoolContactResponse) => {
-    const submitCallback = (c: SchoolContactRequest) => {
+  const renderExistingSchoolContact = (
+    contact: SchoolContactResponse,
+  ): JSX.Element => {
+    const submitCallback = (c: SchoolContactRequest): void => {
       dispatch(updateSchoolContact(schoolId, contact.id, c));
     };
     return (
@@ -46,8 +49,8 @@ const SchoolContactContainer = () => {
     );
   };
 
-  const renderAddSchoolContact = () => {
-    const submitCallback = (c: SchoolContactRequest) => {
+  const renderAddSchoolContact = (): JSX.Element => {
+    const submitCallback = (c: SchoolContactRequest): void => {
       dispatch(createSchoolContact(schoolId, c));
       setShowAddContact(false);
     };
@@ -60,15 +63,23 @@ const SchoolContactContainer = () => {
     );
   };
 
-  return (
-    <div>
-      {schoolContacts.map(renderExistingSchoolContact)}
-      {!showAddContact && (
-        <Button onClick={() => setShowAddContact(true)}>Add Contact</Button>
-      )}
-      {showAddContact && renderAddSchoolContact()}
-    </div>
-  );
+  switch (schoolContacts.kind) {
+    case AsyncRequestKinds.NotStarted:
+    case AsyncRequestKinds.Loading:
+      return <p>Loading school contacts...</p>;
+    case AsyncRequestKinds.Failed:
+      return <p>Failed to load contacts</p>;
+    case AsyncRequestKinds.Completed:
+      return (
+        <div>
+          {schoolContacts.result.map(renderExistingSchoolContact)}
+          {!showAddContact && (
+            <Button onClick={() => setShowAddContact(true)}>Add Contact</Button>
+          )}
+          {showAddContact && renderAddSchoolContact()}
+        </div>
+      );
+  }
 };
 
-export default SchoolContact;
+export default SchoolContacts;
