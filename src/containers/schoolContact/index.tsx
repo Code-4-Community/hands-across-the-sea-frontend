@@ -23,7 +23,7 @@ const SchoolContacts: React.FC = () => {
   const schoolContacts: SchoolContactsReducerState['schoolContacts'] = useSelector(
     (state: C4CState) => state.schoolContactsState.schoolContacts,
   );
-  const [showAddContact, setShowAddContact] = useState(false);
+  const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(loadSchoolContacts(schoolId));
