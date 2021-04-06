@@ -3,6 +3,12 @@ import { Helmet } from 'react-helmet';
 import { Container, Outer } from '../../components';
 import { Col, Row, Typography } from 'antd';
 import {
+  FolderOpenOutlined,
+  FormOutlined,
+  PoweroffOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import {
   BulbOutlined,
   DatabaseOutlined,
   FolderOpenOutlined,
@@ -128,7 +134,7 @@ const Home: React.FC = () => {
                 title={'Account Settings'}
                 description={'View and edit your account'}
               >
-                <PoweroffOutlined style={iconStyle} />
+                <UserOutlined style={iconStyle} />
               </MenuButton>
             </Col>
           </Row>
@@ -140,7 +146,7 @@ const Home: React.FC = () => {
                 title={'Form History'}
                 description={'View past forms'}
               >
-                <FormOutlined style={iconStyle} />
+                <FolderOpenOutlined style={iconStyle} />
               </MenuButton>
             </Col>
 
