@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, ContentContainer, Outer, SectionTitle } from '..';
-import styled from 'styled-components';
+import { Container, Outer, SectionTitle } from '..';
 
 interface FormContainerProps {
   // title of form section

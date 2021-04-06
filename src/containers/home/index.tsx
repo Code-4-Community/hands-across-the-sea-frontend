@@ -2,7 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Container, Outer } from '../../components';
 import { Col, Row, Typography } from 'antd';
-import { FormOutlined, PoweroffOutlined } from '@ant-design/icons';
+import {
+  FolderOpenOutlined,
+  FormOutlined,
+  PoweroffOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Routes } from '../../App';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -95,7 +100,7 @@ const Home: React.FC = () => {
                 title={'Account Settings'}
                 description={'View and edit your account'}
               >
-                <PoweroffOutlined style={iconStyle} />
+                <UserOutlined style={iconStyle} />
               </MenuButton>
             </Col>
           </Row>
@@ -107,7 +112,7 @@ const Home: React.FC = () => {
                 title={'Form History'}
                 description={'View past forms'}
               >
-                <FormOutlined style={iconStyle} />
+                <FolderOpenOutlined style={iconStyle} />
               </MenuButton>
             </Col>
 

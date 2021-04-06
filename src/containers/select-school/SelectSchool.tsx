@@ -4,6 +4,7 @@ import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormFooter from '../../components/form-style/FormFooter';
+import { Routes } from '../../App';
 
 const { Option } = Select;
 
@@ -28,7 +29,7 @@ const SelectSchool: React.FC = () => {
             </Col>
           </Row>
         </FormContainer>
-        <FormFooter />
+        <FormFooter next={Routes.SCHOOL_INFO} />
       </Form>
     </FormContentContainer>
   );
