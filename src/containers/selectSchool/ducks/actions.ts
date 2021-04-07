@@ -5,6 +5,7 @@ import { SchoolEntry } from './types';
 export const getAllSchools = genericAsyncActions<SchoolEntry[], string>();
 
 export const SET_SCHOOL_ID = 'setSchoolId';
+
 export const selectSchoolId = (
   schoolId?: number,
 ): Action<typeof SET_SCHOOL_ID, number | undefined> => ({

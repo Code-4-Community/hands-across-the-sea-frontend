@@ -7,7 +7,7 @@ export const loadSchools = (): SelectSchoolThunkAction<void> => {
     return protectedApiClient
       .getAllSchools()
       .then((response) => {
-        dispatch(getAllSchools.loaded(response.schools));
+        dispatch(getAllSchools.loaded(response));
       })
       .catch((error) => {
         dispatch(getAllSchools.failed(error.response.data));

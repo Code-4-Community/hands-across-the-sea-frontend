@@ -10,7 +10,7 @@ import { selectSchoolId } from './ducks/actions';
 import { useHistory } from 'react-router';
 import { Routes } from '../../App';
 import { C4CState } from '../../store';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -18,7 +18,7 @@ interface SelectSchoolForm {
 
 const SelectSchool: React.FC = () => {
   const dispatch = useDispatch();
-  const availableSchools = useSelector(
+  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
     (state: C4CState) => state.selectSchoolState.schools,
   );
   const history = useHistory();

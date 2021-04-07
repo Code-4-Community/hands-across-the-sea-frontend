@@ -35,7 +35,7 @@ export interface ProtectedApiClient {
     contactId: number,
   ) => Promise<void>;
 
-  readonly getAllSchools: () => Promise<WithCount<{ schools: SchoolEntry[] }>>;
+  readonly getAllSchools: () => Promise<SchoolEntry[]>;
 }
 
 enum ProtectedApiClientRoutes {
@@ -118,9 +118,9 @@ const deleteSchoolContact = (
     .catch((err) => err);
 };
 
-const getAllSchools = (): Promise<WithCount<{ schools: SchoolEntry[] }>> => {
+const getAllSchools = (): Promise<SchoolEntry[]> => {
   return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
-    .then((res) => res.data)
+    .then((res) => res.data.schools)
     .catch((err) => err);
 };
 
