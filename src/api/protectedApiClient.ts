@@ -3,6 +3,10 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
+import {
+  BookLogRequest,
+  BookLogResponse,
+} from '../containers/bookLogs/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -33,11 +37,30 @@ export interface ProtectedApiClient {
     schoolId: number,
     contactId: number,
   ) => Promise<void>;
+
+  readonly createBookLog: (
+    schoolId: number,
+    report: BookLogRequest,
+  ) => Promise<BookLogRequest>;
+
+  readonly updateBookLog: (
+    schoolId: number,
+    bookLogId: number,
+    report: BookLogRequest,
+  ) => Promise<BookLogRequest>;
+
+  readonly getBookLogs: (schoolId: number) => Promise<BookLogResponse[]>;
+
+  readonly deleteBookLog: (
+    schoolId: number,
+    bookLogId: number,
+  ) => Promise<void>;
 }
 
 enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
+  BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
 }
 
 const changePassword = (request: {
@@ -110,12 +133,69 @@ const deleteSchoolContact = (
     .catch((err) => err);
 };
 
+const createBookLog = (
+  schoolId: number,
+  report: BookLogRequest,
+): Promise<BookLogResponse> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.BOOK_REPORTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    report,
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const updateBookLog = (
+  schoolId: number,
+  bookLogId: number,
+  report: BookLogRequest,
+): Promise<BookLogResponse> => {
+  return AppAxiosInstance.put(
+    ProtectedApiClientRoutes.BOOK_REPORTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${bookLogId}`,
+    report,
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const getBookLogs = (schoolId: number): Promise<BookLogResponse[]> => {
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.BOOK_REPORTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+  )
+    .then((res) => res.data.bookLogs)
+    .catch((err) => err);
+};
+
+const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ProtectedApiClientRoutes.BOOK_REPORTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${bookLogId}`,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   getSchoolContacts,
   updateSchoolContact,
   createSchoolContact,
   deleteSchoolContact,
+  createBookLog,
+  updateBookLog,
+  getBookLogs,
+  deleteBookLog,
 });
 
 export default Client;
