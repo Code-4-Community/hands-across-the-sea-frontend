@@ -14,21 +14,18 @@ describe('School selection thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockGetAllSchools = jest.fn();
-      const mockSchoolResponse: WithCount<{ schools: SchoolEntry[] }> = {
-        count: 2,
-        schools: [
-          {
-            id: 1,
-            name: 'Northeastern University',
-            country: 'UNITED_STATES',
-          },
-          {
-            id: 2,
-            name: 'Boston University',
-            country: 'DOMINICA',
-          },
-        ],
-      };
+      const mockSchoolResponse: SchoolEntry[] = [
+        {
+          id: 1,
+          name: 'Northeastern University',
+          country: 'UNITED_STATES',
+        },
+        {
+          id: 2,
+          name: 'Boston University',
+          country: 'DOMINICA',
+        },
+      ];
       mockGetAllSchools.mockResolvedValue(mockSchoolResponse);
       const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
@@ -42,7 +39,7 @@ describe('School selection thunks', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         2,
-        getAllSchools.loaded(mockSchoolResponse.schools),
+        getAllSchools.loaded(mockSchoolResponse),
       );
       expect(mockGetAllSchools).toBeCalledTimes(1);
     });
