@@ -18,7 +18,7 @@ export interface BookLogsReducerState {
 export interface BookLogRequest {
   count: number;
   date: string;
-  notes: string;
+  notes?: string;
 }
 
 export interface BookLogResponse extends BookLogRequest {
