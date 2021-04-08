@@ -34,7 +34,6 @@ export const updateBookLog = (
 
 export const createBookLog = (
   schoolId: number,
-  bookLogId: number,
   updatedLog: BookLogRequest,
 ): BookLogsThunkAction<void> => {
   return (dispatch, getState, { protectedApiClient }) => {
@@ -55,7 +54,7 @@ export const deleteBookLog = (
 ): BookLogsThunkAction<void> => {
   return (dispatch, getState, { protectedApiClient }) => {
     return protectedApiClient
-      .deleteSchoolContact(schoolId, bookLogId)
+      .deleteBookLog(schoolId, bookLogId)
       .then(() => {
         dispatch(getBookLogs(schoolId));
       })
