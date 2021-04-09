@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, DatePicker, Form, Input, Row } from 'antd';
+import moment from 'moment';
 import {
   BookLogRequest,
   BookLogResponse,
@@ -22,8 +23,8 @@ const BookLog: React.FC<BookLogProps> = ({
     defaultBookLog ||
     ({
       count: 0,
-      date: '',
-      notes: '',
+      date: new Date().toISOString(),
+      notes: undefined,
     } as BookLogRequest);
   const [bookLog, setBookLog] = useState<BookLogRequest>(initialBookLog);
   const [editMode, setEditMode] = useState<boolean>(!defaultBookLog);
@@ -74,13 +75,37 @@ interface EditBookLogProps {
   onSubmit: (c: BookLogRequest) => void;
   onCancel: () => void;
 }
+
+/**
+ * For a book log form, the date must be represented as a Moment object rather than a string.
+ */
+type BookLogForm = Omit<BookLogRequest, 'date'> & {
+  date: moment.Moment;
+};
+
 const EditBookLog: React.FC<EditBookLogProps> = ({
   initialBookLog,
   onSubmit,
   onCancel,
 }) => {
+  const initialValues: BookLogForm = {
+    ...initialBookLog,
+    date: moment(initialBookLog.date),
+  };
+
+  const onSubmitHandler = (values: BookLogForm) => {
+    onSubmit({
+      ...values,
+      date: values.date.toISOString(),
+    });
+  };
+
   return (
-    <Form initialValues={initialBookLog} name="book-log" onFinish={onSubmit}>
+    <Form
+      initialValues={initialValues}
+      name="book-log"
+      onFinish={onSubmitHandler}
+    >
       <Row gutter={[24, 0]}>
         <Col flex={12}>
           <Form.Item name="count">
