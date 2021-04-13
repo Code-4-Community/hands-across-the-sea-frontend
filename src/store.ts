@@ -23,10 +23,16 @@ import { SchoolInformationActions } from './containers/schoolInfo/ducks/actions'
 import schoolInformationReducer, {
   initialSchoolInfoState,
 } from './containers/schoolInfo/ducks/reducers';
+import { SchoolContactsActions } from './containers/schoolContact/ducks/actions';
+import { SchoolContactsReducerState } from './containers/schoolContact/ducks/types';
+import schoolContactsReducer, {
+  initialSchoolContactsState,
+} from './containers/schoolContact/ducks/reducers';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   schoolInformationState: SchoolInformationReducerState;
+  schoolContactsState: SchoolContactsReducerState;
 }
 
 export interface Action<T, P> {
@@ -34,18 +40,23 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions | SchoolInformationActions;
+export type C4CAction =
+  | UserAuthenticationActions
+  | SchoolInformationActions
+  | SchoolContactsActions;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
+export type ThunkExtraArgs = UserAuthenticationExtraArgs | ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   schoolInformationState: schoolInformationReducer,
+  schoolContactsState: schoolContactsReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   schoolInformationState: initialSchoolInfoState,
+  schoolContactsState: initialSchoolContactsState,
 };
 
 export const LOCALSTORAGE_STATE_KEY = 'state';
