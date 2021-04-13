@@ -16,9 +16,9 @@ const SchoolInformation: React.FC<SchoolInformationProps> = ({
   const dispatch = useDispatch();
   const SCHOOL_ID = 123;
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(getSchoolRequest(SCHOOL_ID));
-  });
+  });*/
 
   const handleFinish = (schoolRequest: SchoolRequest): void => {
     dispatch(createSchoolRequest(schoolRequest));

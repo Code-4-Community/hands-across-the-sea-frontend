@@ -50,7 +50,7 @@ const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
 };
 
 const getSchool = (id: number): Promise<SchoolResponse> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_SCHOOL + id)
+  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.GET_SCHOOL}${id}`)
     .then((r) => r.data)
     .catch((e) => e);
 };
