@@ -1,8 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
 
-const { Option } = Select;
-
 export const toTitleCase = (str: string): string => {
   let ret = str.replace(/_/g, ' ');
   ret = ret.replace(/\w\S*/g, (txt: string) => {
@@ -15,8 +13,8 @@ export const getOptionsFromEnum = (e: {
   [s: number]: string;
 }): JSX.Element[] => {
   return Object.keys(e).map((enumKey: string) => (
-    <Option value={enumKey} key={enumKey}>
+    <Select value={enumKey} key={enumKey}>
       {toTitleCase(enumKey)}
-    </Option>
+    </Select>
   ));
 };
