@@ -3,7 +3,6 @@ import { getOptionsFromEnum, toTitleCase } from '../helpers';
 import React from 'react';
 
 import { Select } from 'antd';
-const { Option } = Select;
 
 describe('helpers ', () => {
   describe('toTitleCase', () => {
@@ -64,12 +63,12 @@ describe('helpers ', () => {
       }
 
       const optionsList = [
-        <Option value={'FIRST_KEY'} key={'FIRST_KEY'}>
+        <Select value={'FIRST_KEY'} key={'FIRST_KEY'}>
           First Key
-        </Option>,
-        <Option value={'SECOND_KEY'} key={'SECOND_KEY'}>
+        </Select>,
+        <Select value={'SECOND_KEY'} key={'SECOND_KEY'}>
           Second Key
-        </Option>,
+        </Select>,
       ];
 
       expect(getOptionsFromEnum(testEnum)).toEqual(optionsList);
