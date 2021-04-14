@@ -7,9 +7,6 @@ interface FormPieceBooleanProps {
   readonly note?: string;
   // edit padding by given amount from the default (32px)
   readonly addPaddingBottom?: number;
-  readonly addPaddingTop?: number;
-  readonly addPaddingLeft?: number;
-  readonly addPaddingRight?: number;
   readonly name?: string;
   readonly textTrue?: string;
   readonly textFalse?: string;

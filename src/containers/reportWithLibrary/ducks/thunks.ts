@@ -16,7 +16,7 @@ export const loadReportWithLibrary = (
         dispatch(reportWithLibrary.loaded(response));
       })
       .catch((error) => {
-        dispatch(reportWithLibrary.failed(error.repsonse.data));
+        dispatch(reportWithLibrary.failed(error.response.data));
       });
   };
 };

@@ -130,7 +130,7 @@ const Home: React.FC = () => {
 
             <Col span={12}>
               <MenuButton
-                to={Routes.TODO}
+                to={Routes.HOME} // TODO
                 title={'Account Settings'}
                 description={'View and edit your account'}
               >
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
           <Row gutter={[24, 24]}>
             <Col span={12}>
               <MenuButton
-                to={Routes.TODO}
+                to={Routes.HOME} // TODO
                 title={'Form History'}
                 description={'View past forms'}
               >
@@ -291,6 +291,13 @@ const Home: React.FC = () => {
               </Col>
             )}
             <Col span={12}>
+              <MenuButton
+                to={Routes.HOME} // TODO
+                title={'Sign Out'}
+                description={'Sign out of your account'}
+              >
+                <PoweroffOutlined style={iconStyle} />
+              </MenuButton>
               <MenuOptionDiv onClick={() => dispatch(logout())}>
                 <MenuTitleContainer>
                   <MenuTitle>Sign Out</MenuTitle>
