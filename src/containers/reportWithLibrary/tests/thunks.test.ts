@@ -9,7 +9,6 @@ import {
   loadReportWithLibrary,
 } from '../ducks/thunks';
 import { reportWithLibrary } from '../ducks/actions';
-import { loadSchoolContacts } from '../../schoolContact/ducks/thunks';
 
 describe('Report With Library Thunks', () => {
   describe('getReportWithLibrary', () => {
