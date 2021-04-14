@@ -13,7 +13,9 @@ const LibraryInfo: React.FC = () => {
     setHasLibrary(event.target.value === true || event.target.value === 'IP');
   };
 
-  const routeNext = hasLibrary ? Routes.REPORT_WITH_LIBRARY : Routes.TODO; // TODO: Update this to REPORT_FORM_WITHOUT_LIBRARY
+  const routeNext = hasLibrary
+    ? Routes.REPORT_WITH_LIBRARY
+    : Routes.REPORT_WITHOUT_LIBRARY;
 
   return (
     <FormContentContainer>

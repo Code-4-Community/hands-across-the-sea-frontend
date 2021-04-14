@@ -38,11 +38,10 @@ export enum Routes {
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
   REPORT_WITH_LIBRARY = '/report-with-library',
+  REPORT_WITHOUT_LIBRARY = '/report-without-library',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
-
-  TODO = '/TODO',
 }
 
 const App: React.FC = () => {

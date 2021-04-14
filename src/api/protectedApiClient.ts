@@ -128,10 +128,7 @@ const getReportWithLibrary = (
   reportId: number,
 ): Promise<ReportWithLibraryResponse> => {
   return AppAxiosInstance.get(
-    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
-      ':report_id',
-      reportId.toString(),
-    ),
+    `${ProtectedApiClientRoutes.REPORT_WITH_LIBRARY}/${reportId.toString()}`,
   )
     .then((res) => res.data) // TODO
     .catch((err) => err);

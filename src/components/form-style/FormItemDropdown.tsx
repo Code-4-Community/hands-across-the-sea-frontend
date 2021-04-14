@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select } from 'antd';
-import { ClarifyText } from '../index';
+import { ClarifyText } from '..';
 import { getOptionsFromEnum } from '../../utils/helpers';
 
 interface FormPieceDropdownProps {
