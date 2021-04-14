@@ -1,8 +1,8 @@
 import { getOptionsFromEnum, toTitleCase } from '../helpers';
 
-import { Select } from 'antd';
 import React from 'react';
 
+import { Select } from 'antd';
 const { Option } = Select;
 
 describe('helpers ', () => {
