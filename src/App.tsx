@@ -22,7 +22,7 @@ import { PrivilegeLevel } from './auth/ducks/types';
 import { C4CState } from './store';
 import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { useSelector } from 'react-redux';
-import SelectSchool from './containers/select-school/SelectSchool';
+import SelectSchool from './containers/selectSchool/SelectSchool';
 import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';

@@ -1,4 +1,4 @@
-import { generateState } from '../../../auth/test/thunks.test';
+import { generateExtraArgs, generateState } from '../../../auth/test/thunks.test';
 import { ContactType, SchoolContactResponse } from '../ducks/types';
 import protectedApiClient, {
   ApiExtraArgs,
@@ -46,12 +46,12 @@ describe('School Contacts Thunks', () => {
         },
       };
       mockGetSchoolContacts.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           getSchoolContacts: mockGetSchoolContacts,
         },
-      };
+      });
 
       await loadSchoolContacts(4)(mockDispatch, getState, mockExtraArgs);
 
@@ -100,12 +100,12 @@ describe('School Contacts Thunks', () => {
         },
       };
       mockUpdateSchoolContact.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           updateSchoolContact: mockUpdateSchoolContact,
         },
-      };
+      });
 
       await updateSchoolContact(4, 1, {
         firstName: 'Bob',
@@ -161,12 +161,12 @@ describe('School Contacts Thunks', () => {
         },
       };
       mockCreateSchoolContact.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           createSchoolContact: mockCreateSchoolContact,
         },
-      };
+      });
 
       await createSchoolContact(4, {
         firstName: 'Bob',
@@ -215,12 +215,12 @@ describe('School Contacts Thunks', () => {
         },
       };
       mockCreateSchoolContact.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           deleteSchoolContact: mockCreateSchoolContact,
         },
-      };
+      });
 
       await deleteSchoolContact(4, 1)(mockDispatch, getState, mockExtraArgs);
 
