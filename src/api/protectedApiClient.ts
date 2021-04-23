@@ -18,8 +18,15 @@ export interface ProtectedApiClient {
     currentPassword: string;
     newPassword: string;
   }) => Promise<void>;
+
   readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
-  readonly getSchool: (id: number) => Promise<SchoolResponse>;
+  readonly getSchool: (schoolId: number) => Promise<SchoolResponse>;
+
+  readonly updateSchool: (
+    schoolId: number,
+    updatedSchool: SchoolRequest,
+  ) => Promise<void>;
+
   readonly deleteUser: (request: { password: string }) => Promise<void>;
 
   readonly getSchoolContacts: (
@@ -48,7 +55,8 @@ export interface ProtectedApiClient {
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   CREATE_SCHOOL = '/api/v1/protected/schools',
-  GET_SCHOOL = '/api/v1/protected/schools/',
+  GET_SCHOOL = '/api/v1/protected/schools/:school_id',
+  UPDATE_SCHOOL = '/api/v1/protected/schools/:school_id',
   DELETE_USER = '/api/v1/protected/user/',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   SCHOOLS = '/api/v1/protected/schools',
@@ -82,10 +90,30 @@ const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
     .catch((e) => e);
 };
 
-const getSchool = (id: number): Promise<SchoolResponse> => {
-  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.GET_SCHOOL}${id}`)
+const getSchool = (schoolId: number): Promise<SchoolResponse> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.GET_SCHOOL.replace(
+      ':school_id',
+      schoolId.toString(),
+    )}`,
+  )
     .then((r) => r.data)
     .catch((e) => e);
+};
+
+const updateSchool = (
+  schoolId: number,
+  updatedSchool: SchoolRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    `${ProtectedApiClientRoutes.UPDATE_SCHOOL.replace(
+      ':school_id',
+      schoolId.toString(),
+    )}`,
+    updatedSchool,
+  )
+    .then((res) => res)
+    .catch((err) => err);
 };
 
 const getSchoolContacts = (
@@ -156,6 +184,7 @@ const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
   getSchool,
+  updateSchool,
   deleteUser,
   getSchoolContacts,
   updateSchoolContact,

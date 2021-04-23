@@ -1,9 +1,9 @@
 import { genericAsyncActions } from '../../../utils/asyncRequest';
 import { SchoolResponse } from './types';
 
-export const getSchool = genericAsyncActions<SchoolResponse, any>();
+export const schoolInformation = genericAsyncActions<SchoolResponse, any>();
 
 export type SchoolInformationActions =
-  | ReturnType<typeof getSchool.loading>
-  | ReturnType<typeof getSchool.loaded>
-  | ReturnType<typeof getSchool.failed>;
+  | ReturnType<typeof schoolInformation.loading>
+  | ReturnType<typeof schoolInformation.loaded>
+  | ReturnType<typeof schoolInformation.failed>;

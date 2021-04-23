@@ -1,9 +1,20 @@
-import { UserAuthenticationExtraArgs, UserAuthenticationReducerState } from './auth/ducks/types';
+import {
+  UserAuthenticationExtraArgs,
+  UserAuthenticationReducerState,
+} from './auth/ducks/types';
 import { UserAuthenticationActions } from './auth/ducks/actions';
 import authClient from './auth/authClient';
-import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+  Store,
+} from 'redux';
 import userReducer, { initialUserState } from './auth/ducks/reducers';
-import selectSchoolReducer, { initialSelectSchoolState } from './containers/selectSchool/ducks/reducers';
+import selectSchoolReducer, {
+  initialSelectSchoolState,
+} from './containers/selectSchool/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import throttle from 'lodash/throttle';
@@ -17,7 +28,9 @@ import schoolInformationReducer, {
 } from './containers/schoolInfo/ducks/reducers';
 import { SchoolContactsActions } from './containers/schoolContact/ducks/actions';
 import { SchoolContactsReducerState } from './containers/schoolContact/ducks/types';
-import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
+import schoolContactsReducer, {
+  initialSchoolContactsState,
+} from './containers/schoolContact/ducks/reducers';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
 

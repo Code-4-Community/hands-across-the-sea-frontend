@@ -1,36 +1,51 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import SchoolInformationForm from '../../components/schoolInfoForm';
 import { SchoolInformationReducerState, SchoolRequest } from './ducks/types';
-import { connect, useDispatch } from 'react-redux';
-import { createSchoolRequest, getSchoolRequest } from './ducks/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createSchoolRequest,
+  getSchoolRequest,
+  updatedSchoolRequest,
+} from './ducks/thunks';
 import { C4CState } from '../../store';
+import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 
-interface SchoolInformationProps {
-  readonly schoolInformation: SchoolInformationReducerState['schoolInformation'];
-}
-
-const SchoolInformation: React.FC<SchoolInformationProps> = ({
-  schoolInformation,
-}) => {
+const SchoolInformation: React.FC = () => {
   const dispatch = useDispatch();
-  const SCHOOL_ID = 123;
+  const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+  const schoolInformation: SchoolInformationReducerState['schoolInformation'] = useSelector(
+    (state: C4CState) => state.schoolInformationState.schoolInformation,
+  );
 
-  /*useEffect(() => {
-    dispatch(getSchoolRequest(SCHOOL_ID));
-  });*/
+  useEffect(() => {
+    if (schoolId !== undefined) {
+      dispatch(getSchoolRequest(schoolId));
+    }
+  }, [schoolId]);
 
   const handleFinish = (schoolRequest: SchoolRequest): void => {
-    dispatch(createSchoolRequest(schoolRequest));
+    schoolId === undefined
+      ? dispatch(createSchoolRequest(schoolRequest))
+      : dispatch(updatedSchoolRequest(schoolId, schoolRequest));
   };
 
-  return <SchoolInformationForm onFinish={handleFinish} />;
+  switch (schoolInformation.kind) {
+    case AsyncRequestKinds.NotStarted:
+    case AsyncRequestKinds.Loading:
+      return <p>Loading school information...</p>;
+    case AsyncRequestKinds.Failed:
+      return <p>Failed to load school information</p>;
+    case AsyncRequestKinds.Completed:
+      return (
+        <SchoolInformationForm
+          onFinish={handleFinish}
+          defaultSchoolInformation={schoolInformation.result}
+        />
+      );
+  }
 };
 
-const mapStateToProps = (state: C4CState): SchoolInformationProps => {
-  return {
-    schoolInformation: state.schoolInformationState.schoolInformation,
-  };
-};
-
-export default connect(mapStateToProps)(SchoolInformation);
+export default SchoolInformation;

@@ -7,7 +7,7 @@ import {
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
 import { C4CAction } from '../../../store';
-import { getSchool } from './actions';
+import { schoolInformation } from './actions';
 
 export const initialSchoolInfoState: SchoolInformationReducerState = {
   schoolInformation: AsyncRequestNotStarted<SchoolResponse, any>(),
@@ -17,7 +17,7 @@ const schoolInformationRequestReducer = generateAsyncRequestReducer<
   SchoolInformationReducerState,
   SchoolResponse,
   any
->(getSchool.key);
+>(schoolInformation.key);
 
 const reducers = (
   state: SchoolInformationReducerState = initialSchoolInfoState,

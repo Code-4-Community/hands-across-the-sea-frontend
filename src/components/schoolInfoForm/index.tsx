@@ -3,12 +3,16 @@ import { Button, Col, Form, Input, Row } from 'antd';
 import { FormTextArea } from '../';
 import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
-import { SchoolRequest } from '../../containers/schoolInfo/ducks/types';
+import {
+  SchoolRequest,
+  SchoolResponse,
+} from '../../containers/schoolInfo/ducks/types';
 import styled from 'styled-components';
 import { FacebookFilled } from '@ant-design/icons';
 
 interface SchoolInformationFormProps {
   readonly onFinish: (schoolInfoRequest: SchoolRequest) => void;
+  readonly defaultSchoolInformation?: SchoolResponse;
 }
 
 const Footer = styled.div`
@@ -21,6 +25,7 @@ const SubmitButton = styled(Button)`
 
 const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   onFinish,
+  defaultSchoolInformation,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -30,17 +35,26 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
         <Row gutter={[0, 24]}>
           <Col flex={24}>
             <FormPiece note="School Address">
-              <Form.Item name="schoolStreetAddress">
-                <Input disabled={!editMode} placeholder="Street Address" />
+              <Form.Item name="address">
+                <Input
+                  disabled={!editMode}
+                  placeholder="Street Address"
+                  value={defaultSchoolInformation?.address}
+                />
               </Form.Item>
-              <Form.Item name="schoolArea">
-                <Input disabled={!editMode} placeholder="Town or District" />
+              <Form.Item name="area">
+                <Input
+                  disabled={!editMode}
+                  placeholder="Town or District"
+                  value={defaultSchoolInformation?.area}
+                />
               </Form.Item>
-              <Form.Item name="schoolInstructions">
+              <Form.Item name="notes">
                 <FormTextArea
                   disabled={!editMode}
                   minLength={2}
                   placeholder="Any Specific Instructions?"
+                  value={defaultSchoolInformation?.notes}
                 />
               </Form.Item>
             </FormPiece>
