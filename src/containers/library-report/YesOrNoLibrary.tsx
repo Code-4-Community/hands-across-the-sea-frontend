@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
-import { Radio, Form, Row, Col, RadioChangeEvent } from 'antd';
+import React from 'react';
+import { Col, Form, Radio, RadioChangeEvent, Row } from 'antd';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
-import FormFooter from '../../components/form-style/FormFooter';
 import FormPiece from '../../components/form-style/FormPiece';
 import FormContainer from '../../components/form-style/FormContainer';
 import { Routes } from '../../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsYesReport } from './ducks/actions';
+import { LinkButton } from '../../components/LinkButton';
+import { ArrowRightOutlined } from '@ant-design/icons';
+import { C4CState } from '../../store';
 
-const LibraryInfo: React.FC = () => {
-  const [hasLibrary, setHasLibrary] = useState<boolean>();
+const YesOrNoLibrary: React.FC = () => {
+  const dispatch = useDispatch();
+  const isYesReport = useSelector(
+    (state: C4CState) => state.libraryReportState.isYesReport,
+  );
 
   const handleLibraryStatus = (event: RadioChangeEvent) => {
-    setHasLibrary(event.target.value === true || event.target.value === 'IP');
+    dispatch(
+      setIsYesReport(
+        event.target.value === true || event.target.value === 'IP',
+      ),
+    );
   };
-
-  const routeNext = hasLibrary
-    ? Routes.REPORT_WITH_LIBRARY
-    : Routes.REPORT_WITHOUT_LIBRARY;
 
   return (
     <FormContentContainer>
@@ -38,11 +45,18 @@ const LibraryInfo: React.FC = () => {
               </FormPiece>
             </Col>
           </Row>
+          <Row gutter={[0, 24]}>
+            <LinkButton
+              to={Routes.LIBRARY_REPORT}
+              disabled={isYesReport !== undefined}
+            >
+              Next <ArrowRightOutlined />
+            </LinkButton>
+          </Row>
         </FormContainer>
-        <FormFooter next={routeNext} disableNext={hasLibrary == null} />
       </Form>
     </FormContentContainer>
   );
 };
 
-export default LibraryInfo;
+export default YesOrNoLibrary;

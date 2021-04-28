@@ -16,7 +16,7 @@ const StudentBookInformation: React.FC = () => {
         </Col>
         <Col span={12}>
           <FormPiece note="How Many Books?">
-            <Form.Item name="booksAmount">
+            <Form.Item name="numberOfBooks">
               <InputNumber placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
@@ -32,7 +32,7 @@ const StudentBookInformation: React.FC = () => {
         </Col>
         <Col span={12}>
           <FormPiece note="Most recent shipment year?">
-            <Form.Item name="shipmentYear">
+            <Form.Item name="mostRecentShipmentYear">
               <InputNumber placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>

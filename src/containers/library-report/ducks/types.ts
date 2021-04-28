@@ -1,29 +1,36 @@
 import { ThunkAction } from 'redux-thunk';
 import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { ReportWithLibraryActions } from './actions';
+import { LibraryReportActions } from './actions';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 
-export type ReportWithLibraryThunkAction<R> = ThunkAction<
+export type LibraryReportThunkAction<R> = ThunkAction<
   R,
   C4CState,
   ApiExtraArgs,
-  ReportWithLibraryActions
+  LibraryReportActions
 >;
 
-export interface ReportWithLibraryReducerState {
-  readonly reportWithLibrary: AsyncRequest<ReportWithLibraryResponse, any>;
+export interface LibraryReportReducerState {
+  readonly latestReport: AsyncRequest<LibraryReportResponse, any>;
+  readonly isYesReport?: boolean;
 }
 
-export interface ReportWithLibraryRequest {
+interface LibraryReportShared {
   readonly numberOfChildren: null | number;
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
+  readonly visitReason: null | string;
+  readonly actionPlans: null | string;
+  readonly successStories: null | string;
+}
+
+export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly isSharedSpace: null | boolean;
   readonly hasInvitingSpace: null | boolean;
-  readonly assignedPersonRole: null | string;
-  readonly assignedPersonTitle: null | string;
-  readonly apprenticeshipProgram: null | string;
+  readonly assignedPersonRole: null | AssignedPersonRole;
+  readonly assignedPersonTitle: null | AssignedPersonTitle;
+  readonly apprenticeshipProgram: null | ApprenticeshipProgram;
   readonly trainsAndMentorsApprentices: null | boolean;
   readonly hasCheckInTimetables: null | boolean;
   readonly hasBookCheckoutSystem: null | boolean;
@@ -32,14 +39,30 @@ export interface ReportWithLibraryRequest {
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
-  readonly visitReason: null | string;
 }
 
-export interface ReportWithLibraryResponse extends ReportWithLibraryRequest {
-  readonly id: number;
-  readonly schoolId: number;
-  readonly libraryStatus: string;
+export interface ReportWithoutLibraryRequest extends LibraryReportShared {
+  readonly reasonWhyNot: null | string;
+  readonly wantsLibrary: null | boolean;
+  readonly hasSpace: null | boolean;
+  readonly currentStatus: null | string;
+  readonly readyTimeline: null | string;
 }
+
+export type LibraryReportResponse = {
+  readonly id: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly schoolId: number;
+  readonly userId: string;
+} & (
+  | ({
+      readonly libraryStatus: 'EXISTS';
+    } & ReportWithLibraryRequest)
+  | ({
+      readonly libraryStatus: 'DOES_NOT_EXIST';
+    } & ReportWithoutLibraryRequest)
+);
 
 export enum AssignedPersonRole {
   FULL_TIME = 'FULL_TIME',

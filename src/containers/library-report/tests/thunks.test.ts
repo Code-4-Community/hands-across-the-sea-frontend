@@ -6,9 +6,9 @@ import { ThunkExtraArgs } from '../../../store';
 import { ReportWithLibraryResponse } from '../ducks/types';
 import {
   createReportWithLibrary,
-  loadReportWithLibrary,
+  loadLatestLibraryReport,
 } from '../ducks/thunks';
-import { reportWithLibrary } from '../ducks/actions';
+import { latestLibraryReport } from '../ducks/actions';
 
 describe('Report With Library Thunks', () => {
   describe('getReportWithLibrary', () => {
@@ -43,16 +43,16 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ApiExtraArgs = {
         protectedApiClient: {
           ...protectedApiClient,
-          getReportWithLibrary: mockGetReportWithLibrary,
+          getLatestReport: mockGetReportWithLibrary,
         },
       };
 
-      await loadReportWithLibrary(2)(mockDispatch, getState, mockExtraArgs);
+      await loadLatestLibraryReport(2)(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         2,
-        reportWithLibrary.loaded(mockReportResponse),
+        latestLibraryReport.loaded(mockReportResponse),
       );
       expect(mockGetReportWithLibrary).toBeCalledTimes(1);
     });
@@ -71,16 +71,16 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ThunkExtraArgs = {
         protectedApiClient: {
           ...protectedApiClient,
-          getReportWithLibrary: mockGetReportWithLibrary,
+          getLatestReport: mockGetReportWithLibrary,
         },
       };
 
-      await loadReportWithLibrary(2)(mockDispatch, getState, mockExtraArgs);
+      await loadLatestLibraryReport(2)(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         2,
-        reportWithLibrary.failed(mockAPIError.response.data),
+        latestLibraryReport.failed(mockAPIError.response.data),
       );
       expect(mockGetReportWithLibrary).toHaveBeenCalledTimes(1);
     });
@@ -163,7 +163,7 @@ describe('Report With Library Thunks', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(1);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         1,
-        reportWithLibrary.failed(mockAPIError.response.data),
+        latestLibraryReport.failed(mockAPIError.response.data),
       );
       expect(mockCreateReportWithLibrary).toHaveBeenCalledTimes(1);
     });

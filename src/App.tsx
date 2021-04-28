@@ -17,6 +17,7 @@ import { PrivilegeLevel } from './auth/ducks/types';
 import { C4CState } from './store';
 import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { useSelector } from 'react-redux';
+import YesOrNoLibrary from './containers/library-report/YesOrNoLibrary';
 import SelectSchool from './containers/selectSchool/SelectSchool';
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import ReportWithLibraryContainer from './containers/reportWithLibrary';
@@ -24,6 +25,7 @@ import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
+import LibraryReport from './containers/library-report/LibraryReport';
 
 const { Content } = Layout;
 
@@ -40,8 +42,7 @@ export enum Routes {
   LIBRARY_INFO = '/library-info',
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
-  REPORT_WITH_LIBRARY = '/report-with-library',
-  REPORT_WITHOUT_LIBRARY = '/report-without-library',
+  LIBRARY_REPORT = '/library-report',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
@@ -92,7 +93,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.LIBRARY_INFO}
                           exact
-                          component={LibraryInfo}
+                          component={YesOrNoLibrary}
                         />
                         <Route
                           path={Routes.SCHOOL_INFO}
@@ -100,9 +101,9 @@ const App: React.FC = () => {
                           component={SchoolInformation}
                         />
                         <Route
-                          path={Routes.REPORT_WITH_LIBRARY}
+                          path={Routes.LIBRARY_REPORT}
                           exact
-                          component={ReportWithLibraryContainer}
+                          component={LibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

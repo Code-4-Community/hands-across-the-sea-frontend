@@ -1,14 +1,14 @@
 import { asyncRequestIsComplete } from '../../../utils/asyncRequest';
 import {
-  ReportWithLibraryReducerState,
+  LibraryReportReducerState,
   ReportWithLibraryResponse,
 } from './types';
 
 export const getReportWithLibrary = (
-  state: ReportWithLibraryReducerState,
+  state: LibraryReportReducerState,
 ): ReportWithLibraryResponse | null => {
-  if (asyncRequestIsComplete(state.reportWithLibrary)) {
-    return state.reportWithLibrary.result;
+  if (asyncRequestIsComplete(state.latestReport)) {
+    return state.latestReport.result;
   }
   return null;
 };

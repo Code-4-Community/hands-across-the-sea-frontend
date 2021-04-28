@@ -32,10 +32,10 @@ import schoolContactsReducer, {
   initialSchoolContactsState,
 } from './containers/schoolContact/ducks/reducers';
 import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
-import { ReportWithLibraryReducerState } from './containers/reportWithLibrary/ducks/types';
-import reportWithLibraryReducer, { initialReportWithLibraryState } from './containers/reportWithLibrary/ducks/reducers';
-import { ReportWithLibraryActions } from './containers/reportWithLibrary/ducks/actions';
-import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
+import { LibraryReportReducerState } from './containers/library-report/ducks/types';
+import libraryReportReducer from './containers/library-report/ducks/reducers';
+import { LibraryReportActions } from './containers/library-report/ducks/actions';
+import { initialReportWithLibraryState } from './containers/reportWithLibrary/ducks/reducers';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
 import { BookLogsActions } from './containers/bookLogs/ducks/actions';
@@ -48,9 +48,9 @@ export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   schoolInformationState: SchoolInformationReducerState;
   schoolContactsState: SchoolContactsReducerState;
-  reportWithLibraryState: ReportWithLibraryReducerState;
   bookLogsState: BookLogsReducerState;
   selectSchoolState: SelectSchoolReducerState;
+  libraryReportState: LibraryReportReducerState;
 }
 
 export interface Action<T, P> {
@@ -60,9 +60,9 @@ export interface Action<T, P> {
 
 export type C4CAction =
   | UserAuthenticationActions
-  | ReportWithLibraryActions
-  | SchoolInformationActions
   | SchoolContactsActions
+  | LibraryReportActions
+  | SchoolInformationActions
   | BookLogsActions
   | SelectSchoolActions;
 
@@ -72,7 +72,7 @@ const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   schoolInformationState: schoolInformationReducer,
   schoolContactsState: schoolContactsReducer,
-  reportWithLibraryState: reportWithLibraryReducer,
+  libraryReportState: libraryReportReducer,
   bookLogsState: bookLogsReducer,
   selectSchoolState: selectSchoolReducer,
 });
@@ -81,7 +81,7 @@ export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   schoolInformationState: initialSchoolInfoState,
   schoolContactsState: initialSchoolContactsState,
-  reportWithLibraryState: initialReportWithLibraryState,
+  libraryReportState: initialReportWithLibraryState,
   bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
 };

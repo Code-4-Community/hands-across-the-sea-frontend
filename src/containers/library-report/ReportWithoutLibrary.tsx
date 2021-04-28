@@ -2,14 +2,15 @@ import React from 'react';
 import { Radio, Form, Row, Col, Checkbox } from 'antd';
 import FormPiece from '../../components/form-style/FormPiece';
 import { FormTextArea } from '../../components';
+import FormContainer from '../../components/form-style/FormContainer';
 
-const NoLibrary: React.FC = () => {
+const ReportWithoutLibrary: React.FC = () => {
   return (
-    <div>
+    <FormContainer title="Library Information">
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Why isn't there a library?">
-            <Form.Item name="whyNoLibrary">
+            <Form.Item name="reasonWhyNot">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>
@@ -19,7 +20,7 @@ const NoLibrary: React.FC = () => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Is this school working towards a library / do they want a library?">
-            <Form.Item name="workingTowardsLibrary">
+            <Form.Item name="wantsLibrary">
               <Radio.Group buttonStyle="solid">
                 <Radio.Button value="yes">Yes</Radio.Button>
                 <Radio.Button value="no">No</Radio.Button>
@@ -32,36 +33,24 @@ const NoLibrary: React.FC = () => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <Row gutter={[24, 0]}>
-            <Col span={12}>
-              <FormPiece note="Is this school working towards a library / do they want a library?">
-                <Form.Item name="workingTowardsWantLibrary">
-                  <Radio.Group buttonStyle="solid">
-                    <Radio.Button value="yes">Yes</Radio.Button>
-                    <Radio.Button value="no">No</Radio.Button>
-                  </Radio.Group>
-                </Form.Item>
-              </FormPiece>
-            </Col>
-            <Col span={12}>
-              <FormPiece
-                addPaddingBottom={21}
-                note="Does this school have a designated space for a library?"
-              >
-                <Form.Item name="designatedSpaceForLibrary">
-                  <Radio.Group buttonStyle="solid">
-                    <Radio.Button value="yes">Yes</Radio.Button>
-                    <Radio.Button value="no">No</Radio.Button>
-                  </Radio.Group>
-                </Form.Item>
-              </FormPiece>
-            </Col>
+            <FormPiece
+              addPaddingBottom={21}
+              note="Does this school have a designated space for a library?"
+            >
+              <Form.Item name="hasSpace">
+                <Radio.Group buttonStyle="solid">
+                  <Radio.Button value="yes">Yes</Radio.Button>
+                  <Radio.Button value="no">No</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+            </FormPiece>
           </Row>
         </Col>
       </Row>
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Where are they in the process? (Check all that apply)">
-            <Form.Item name="whereInProcess">
+            <Form.Item name="currentStatus">
               <Checkbox.Group style={{ width: '100%' }}>
                 <Row>
                   <Col span={8}>
@@ -102,7 +91,7 @@ const NoLibrary: React.FC = () => {
       <Row gutter={[0, 0]}>
         <Col flex={24}>
           <FormPiece note="When would they be ready?">
-            <Form.Item name="whenWouldTheyBeReady">
+            <Form.Item name="readyTimeline">
               <Radio.Group buttonStyle="solid">
                 <Radio.Button value="upcoming-school-year">
                   Upcoming School Year
@@ -118,8 +107,8 @@ const NoLibrary: React.FC = () => {
           </FormPiece>
         </Col>
       </Row>
-    </div>
+    </FormContainer>
   );
 };
 
-export default NoLibrary;
+export default ReportWithoutLibrary;
