@@ -8,7 +8,6 @@ import {
   SchoolResponse,
 } from '../../containers/schoolInfo/ducks/types';
 import styled from 'styled-components';
-import { FacebookFilled } from '@ant-design/icons';
 
 interface SchoolInformationFormProps {
   readonly onFinish: (schoolInfoRequest: SchoolRequest) => void;

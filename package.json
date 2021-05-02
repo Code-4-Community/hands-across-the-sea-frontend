@@ -34,7 +34,8 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
     "typescript": "^3.9.9",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "webpack": "^4.42.0"
   },
   "scripts": {
     "start": "nodemon -w craco.config.js -w ./antd.customize.less --exec \"craco start\"",

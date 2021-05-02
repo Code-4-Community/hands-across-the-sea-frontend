@@ -24,7 +24,7 @@ const SchoolInformation: React.FC = () => {
     if (schoolId !== undefined) {
       dispatch(getSchoolRequest(schoolId));
     }
-  }, [schoolId]);
+  }, [schoolId, dispatch]);
 
   const handleFinish = (schoolRequest: SchoolRequest): void => {
     schoolId === undefined
