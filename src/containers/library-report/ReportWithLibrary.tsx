@@ -2,7 +2,6 @@ import {
   ApprenticeshipProgram,
   AssignedPersonRole,
   AssignedPersonTitle,
-  ReportWithLibraryRequest,
 } from './ducks/types';
 import React, { useState } from 'react';
 import { Col, Form, Radio, RadioChangeEvent, Row } from 'antd';
