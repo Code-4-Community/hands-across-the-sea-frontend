@@ -74,7 +74,7 @@ const changePassword = (request: {
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
   )
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => err);
 };
 
