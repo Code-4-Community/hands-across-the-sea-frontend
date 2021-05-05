@@ -31,7 +31,7 @@ const MakeRight = styled.div`
   text-align: right;
 
   &:hover {
-    color: red;
+    color: #ff0000;
   }
 `;
 

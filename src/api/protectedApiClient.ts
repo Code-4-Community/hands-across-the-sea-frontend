@@ -7,6 +7,7 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
+import { ReportWithLibraryResponse } from '../containers/reportWithLibrary/ducks/types';
 import {
   BookLogRequest,
   BookLogResponse,
@@ -72,14 +73,19 @@ export interface ProtectedApiClient {
     bookLogId: number,
   ) => Promise<void>;
 
+  readonly getReportWithLibrary: (
+    reportId: number,
+  ) => Promise<ReportWithLibraryResponse>;
+
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
 }
 
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   DELETE_USER = '/api/v1/protected/user/',
-  SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   SCHOOLS = '/api/v1/protected/schools',
+  SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
+  REPORT_WITH_LIBRARY = '/api/v1/protected/schools/:school_id/reports',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
 }
 
@@ -197,6 +203,19 @@ const deleteSchoolContact = (
     .catch((err) => err);
 };
 
+const getReportWithLibrary = (
+  reportId: number,
+): Promise<ReportWithLibraryResponse> => {
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
+      ':report_id',
+      reportId.toString(),
+    ),
+  )
+    .then((res) => res.data) // TODO
+    .catch((err) => err);
+};
+
 const createBookLog = (
   schoolId: number,
   report: BookLogRequest,
@@ -251,7 +270,7 @@ const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
 };
 
 const getAllSchools = (): Promise<SchoolEntry[]> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOL_CONTACTS)
     .then((res) => res.data.schools)
     .catch((err) => err);
 };
@@ -267,6 +286,7 @@ const Client: ProtectedApiClient = Object.freeze({
   updateSchoolContact,
   createSchoolContact,
   deleteSchoolContact,
+  getReportWithLibrary,
   createBookLog,
   updateBookLog,
   getBookLogs,

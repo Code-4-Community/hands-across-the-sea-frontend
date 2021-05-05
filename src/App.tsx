@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
@@ -23,8 +18,8 @@ import { C4CState } from './store';
 import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import SelectSchool from './containers/selectSchool/SelectSchool';
-import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
 import LibraryInfo from './containers/library-info/LibraryInfo';
+import ReportWithLibraryContainer from './containers/reportWithLibrary';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 import SchoolDirectory from './containers/schoolDirectory';
@@ -42,15 +37,14 @@ export enum Routes {
   SIGNUP = '/signup',
   SETTINGS = '/settings',
   SELECT_SCHOOL = '/select-school',
-  STUDENT_BOOK_INFORMATION = '/student-book-information',
   LIBRARY_INFO = '/library-info',
-  MONITORING_INFORMATION = '/monitoring-information',
-  TRAINING_AND_MENTORING_INFORMATION = '/training-and-mentoring-information',
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
+  REPORT_WITH_LIBRARY = '/report-with-library',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
+  TODO = '/TODO',
   SCHOOL_DIRECTORY = '/school-directory',
 }
 
@@ -64,9 +58,9 @@ const App: React.FC = () => {
       <Helmet>
         <meta
           name="keywords"
-          content="child literacy, 
-        Caribbean, books, libraries, reading, Linskey, 
-        Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
+          content="child literacy,
+        Caribbean, books, libraries, reading, Linskey,
+        Antigua, St. Kitts and Nevis, Dominica, St. Lucia,
         St. Vincent and the Grenadines, Grenada, HATS, hats,
         hand across the sea"
         />
@@ -95,29 +89,19 @@ const App: React.FC = () => {
                           component={SelectSchool}
                         />
                         <Route
-                          path={Routes.STUDENT_BOOK_INFORMATION}
-                          exact
-                          component={StudentBookInformation}
-                        />
-                        <Route
                           path={Routes.LIBRARY_INFO}
                           exact
                           component={LibraryInfo}
                         />
                         <Route
-                          path={Routes.MONITORING_INFORMATION}
-                          exact
-                          component={MonitoringInfo}
-                        />
-                        <Route
-                          path={Routes.TRAINING_AND_MENTORING_INFORMATION}
-                          exact
-                          component={TrainingMentorshipInfo}
-                        />
-                        <Route
                           path={Routes.SCHOOL_INFO}
                           exact
                           component={SchoolInformation}
+                        />
+                        <Route
+                          path={Routes.REPORT_WITH_LIBRARY}
+                          exact
+                          component={ReportWithLibraryContainer}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

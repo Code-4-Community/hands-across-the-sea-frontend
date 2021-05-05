@@ -9,8 +9,9 @@ const NavRow = styled(Row)`
 const HeadTitle = styled.h1`
   font-weight: bold;
   color: white;
-  font-size: 48px;
-  padding 15px 0 0 31px;
+  font-size: 32px;
+  margin: 0;
+  padding: 16px 16px;
 `;
 
 const Header: React.FC = () => (

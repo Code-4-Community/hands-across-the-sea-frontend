@@ -7,23 +7,27 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface FormFooterProps {
-  // used to change text from "Save" to
-  // "Submit"
+  // used to change text from "Save" to "Submit"
   readonly areAbleToSubmit?: boolean;
+  readonly prev?: string;
+  readonly next?: string;
+  readonly disablePrev?: boolean;
+  readonly disableNext?: boolean;
 }
 
 const FooterContainer = styled(ContentContainer)`
   max-width: 960px;
-  margin: 0px 0px 0px 120px;
+  margin: 0 0 0 120px;
 `;
 
 const paths: string[] = [
   '/select-school',
   '/school-info',
-  '/student-book-information',
   '/library-info',
-  '/monitoring-information',
-  '/training-and-mentoring-information',
+  // library info decides which report form is next
+  // '/student-book-information',
+  // '/monitoring-information',
+  // '/training-and-mentoring-information',
 ];
 
 function getPage(type: string, currPage: string): string {
@@ -52,15 +56,15 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
   const location = useLocation();
   const page = location.pathname;
 
-  const nextPage = getPage('next', page);
-  const prevPage = getPage('prev', page);
+  const nextPage = props.next || getPage('next', page);
+  const prevPage = props.prev || getPage('prev', page);
 
   return (
     <FooterContainer>
       <Row>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton to={prevPage}>
+            <LinkButton to={prevPage} disabled={props.disablePrev}>
               Prev Section
               <ArrowLeftOutlined />
             </LinkButton>
@@ -75,7 +79,7 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <LinkButton to={nextPage}>
+            <LinkButton to={nextPage} disabled={props.disableNext}>
               Next Section <ArrowRightOutlined />
             </LinkButton>
           </Form.Item>

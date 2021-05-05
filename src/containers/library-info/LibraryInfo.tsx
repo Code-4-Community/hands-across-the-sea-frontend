@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import { Radio, Form, Row, Col } from 'antd';
-import YesLibrary from './YesLibrary';
-import NoLibrary from './NoLibrary';
+import { Radio, Form, Row, Col, RadioChangeEvent } from 'antd';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormFooter from '../../components/form-style/FormFooter';
 import FormPiece from '../../components/form-style/FormPiece';
 import FormContainer from '../../components/form-style/FormContainer';
+import { Routes } from '../../App';
 
 const LibraryInfo: React.FC = () => {
-  const [noLibrary, setNoLibrary] = useState<boolean>(false);
-  const [yesLibrary, setYesLibrary] = useState<boolean>(false);
+  const [hasLibrary, setHasLibrary] = useState<boolean>();
 
-  const handleLibraryStatus = (event: any) => {
-    setNoLibrary(event.target.value === 'no');
-    setYesLibrary(
-      event.target.value === 'yes' || event.target.value === 'in-progress',
-    );
+  const handleLibraryStatus = (event: RadioChangeEvent) => {
+    setHasLibrary(event.target.value === true || event.target.value === 'IP');
   };
 
-  const gutter: number = noLibrary || yesLibrary ? 24 : 0;
+  const routeNext = hasLibrary ? Routes.REPORT_WITH_LIBRARY : Routes.TODO; // TODO: Update this to REPORT_FORM_WITHOUT_LIBRARY
 
   return (
-    <FormContentContainer disableLastTwo={noLibrary}>
+    <FormContentContainer>
       <Form>
         <FormContainer title="Library Information">
-          <Row gutter={[0, gutter]}>
+          <Row gutter={[0, 24]}>
             <Col flex={24}>
               <FormPiece note="Is there a library?">
                 <Form.Item name="isThereLibrary">
@@ -32,18 +27,17 @@ const LibraryInfo: React.FC = () => {
                     buttonStyle="solid"
                     onChange={handleLibraryStatus}
                   >
-                    <Radio.Button value="yes">Yes</Radio.Button>
-                    <Radio.Button value="no">No</Radio.Button>
-                    <Radio.Button value="in-progress">In Progress</Radio.Button>
+                    <Radio.Button value={true}>Yes</Radio.Button>
+                    <Radio.Button value={false}>No</Radio.Button>
+                    <Radio.Button value={'IP'}>In Progress</Radio.Button>
+                    {/* For our purposes, "Yes" === "In Progress" */}
                   </Radio.Group>
                 </Form.Item>
               </FormPiece>
             </Col>
           </Row>
-          {noLibrary && <NoLibrary />}
-          {yesLibrary && <YesLibrary />}
         </FormContainer>
-        <FormFooter areAbleToSubmit={noLibrary} />
+        <FormFooter next={routeNext} disableNext={hasLibrary == null} />
       </Form>
     </FormContentContainer>
   );
