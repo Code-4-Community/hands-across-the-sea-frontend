@@ -1,9 +1,9 @@
-import { Button } from 'antd';
+import { Button, ButtonProps } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 // onClick is overwritten
 
-interface LinkButtonProps {
+interface LinkButtonProps extends ButtonProps {
   to: string;
 }
 

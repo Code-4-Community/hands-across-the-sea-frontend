@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
@@ -22,7 +27,7 @@ import StudentBookInformation from './containers/student-book-info/StudentBookIn
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
-import SchoolInfo from './containers/school-info/SchoolInfo';
+import SchoolInformation from './containers/schoolInfo';
 
 const { Content } = Layout;
 
@@ -105,7 +110,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.SCHOOL_INFO}
                           exact
-                          component={SchoolInfo}
+                          component={SchoolInformation}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
@@ -137,7 +142,9 @@ const App: React.FC = () => {
                           exact
                           component={VerifyEmail}
                         />
-                        <Route path="*" exact component={Login} />
+                        <Route path="*">
+                          <Redirect to={Routes.LOGIN} />
+                        </Route>
                       </Switch>
                     );
                 }
