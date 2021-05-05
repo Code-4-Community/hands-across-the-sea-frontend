@@ -131,7 +131,7 @@ const Home: React.FC = () => {
               </InContain>
             </Col>
           </Row>
-          {privilegeLevel === PrivilegeLevel.ADMIN ? (
+          {privilegeLevel === PrivilegeLevel.ADMIN && (
             <Row gutter={[32, 0]}>
               <Col span={12}>
                 <InContain
@@ -200,8 +200,6 @@ const Home: React.FC = () => {
                 </InContain>
               </Col>
             </Row>
-          ) : (
-            <></>
           )}
           <Row gutter={[32, 0]}>
             {privilegeLevel === PrivilegeLevel.ADMIN ? (
