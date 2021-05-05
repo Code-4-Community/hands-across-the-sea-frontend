@@ -1,4 +1,4 @@
-import { generateState } from '../../../auth/test/thunks.test';
+import { generateExtraArgs, generateState } from '../../../auth/test/thunks.test';
 import {
   ContactType,
   SchoolContactResponse,
@@ -63,12 +63,12 @@ describe('Book Logs Thunks', () => {
         },
       };
       mockGetBookLogs.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           getBookLogs: mockGetBookLogs,
         },
-      };
+      });
 
       await getBookLogs(4)(mockDispatch, getState, mockExtraArgs);
 
@@ -114,12 +114,12 @@ describe('Book Logs Thunks', () => {
         },
       };
       mockUpdateBookLog.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           updateBookLog: mockUpdateBookLog,
         },
-      };
+      });
 
       await updateBookLog(4, 1, exampleBookLogRequest)(
         mockDispatch,
@@ -169,12 +169,12 @@ describe('Book Logs Thunks', () => {
         },
       };
       mockCreateBookLog.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           createBookLog: mockCreateBookLog,
         },
-      };
+      });
 
       await createBookLog(4, exampleBookLogRequest)(
         mockDispatch,
@@ -220,12 +220,12 @@ describe('Book Logs Thunks', () => {
         },
       };
       mockDeleteBookLog.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           deleteBookLog: mockDeleteBookLog,
         },
-      };
+      });
 
       await deleteBookLog(4, 1)(mockDispatch, getState, mockExtraArgs);
 
