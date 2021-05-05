@@ -54,7 +54,7 @@ export type LibraryReportResponse = {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly schoolId: number;
-  readonly userId: string;
+  readonly userId: number;
 } & (
   | ({
       readonly libraryStatus: 'EXISTS';

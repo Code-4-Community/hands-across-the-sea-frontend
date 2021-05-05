@@ -1,14 +1,17 @@
-import { generateState } from '../../../auth/test/thunks.test';
+import {
+  generateExtraArgs,
+  generateState,
+} from '../../../auth/test/thunks.test';
 import protectedApiClient, {
   ApiExtraArgs,
 } from '../../../api/protectedApiClient';
 import { ThunkExtraArgs } from '../../../store';
-import { ReportWithLibraryResponse } from '../ducks/types';
 import {
   createReportWithLibrary,
   loadLatestLibraryReport,
 } from '../ducks/thunks';
 import { latestLibraryReport } from '../ducks/actions';
+import { LibraryReportResponse } from '../ducks/types';
 
 describe('Report With Library Thunks', () => {
   describe('getReportWithLibrary', () => {
@@ -16,8 +19,11 @@ describe('Report With Library Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockGetReportWithLibrary = jest.fn();
-      const mockReportResponse: ReportWithLibraryResponse = {
+      const mockReportResponse: LibraryReportResponse = {
         id: 2,
+        createdAt: '',
+        updatedAt: '',
+        userId: 3,
         schoolId: 1,
         libraryStatus: 'EXISTS',
         numberOfChildren: null,
@@ -37,6 +43,8 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
+        actionPlans: null,
+        successStories: null,
       };
 
       mockGetReportWithLibrary.mockResolvedValue(mockReportResponse);
@@ -68,12 +76,12 @@ describe('Report With Library Thunks', () => {
       };
 
       mockGetReportWithLibrary.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           getLatestReport: mockGetReportWithLibrary,
         },
-      };
+      });
 
       await loadLatestLibraryReport(2)(mockDispatch, getState, mockExtraArgs);
 
@@ -117,6 +125,8 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
+        actionPlans: null,
+        successStories: null,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -133,12 +143,12 @@ describe('Report With Library Thunks', () => {
         },
       };
       mockCreateReportWithLibrary.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
           createReportWithLibrary: mockCreateReportWithLibrary,
         },
-      };
+      });
 
       await createReportWithLibrary(4, {
         numberOfChildren: null,
@@ -158,6 +168,8 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
+        actionPlans: null,
+        successStories: null,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(1);
