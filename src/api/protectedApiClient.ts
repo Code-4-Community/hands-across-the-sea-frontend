@@ -54,9 +54,6 @@ export interface ProtectedApiClient {
 
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
-  CREATE_SCHOOL = '/api/v1/protected/schools',
-  GET_SCHOOL = '/api/v1/protected/schools/:school_id',
-  UPDATE_SCHOOL = '/api/v1/protected/schools/:school_id',
   DELETE_USER = '/api/v1/protected/user/',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   SCHOOLS = '/api/v1/protected/schools',
@@ -85,15 +82,14 @@ const deleteUser = (request: { password: string }): Promise<void> => {
 };
 
 const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.CREATE_SCHOOL, request)
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.SCHOOLS, request)
     .then((r) => r.data)
     .catch((e) => e);
 };
 
 const getSchool = (schoolId: number): Promise<SchoolResponse> => {
   return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.GET_SCHOOL.replace(
-      ':school_id',
+    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
       schoolId.toString(),
     )}`,
   )
@@ -106,8 +102,7 @@ const updateSchool = (
   updatedSchool: SchoolRequest,
 ): Promise<void> => {
   return AppAxiosInstance.put(
-    `${ProtectedApiClientRoutes.UPDATE_SCHOOL.replace(
-      ':school_id',
+    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
       schoolId.toString(),
     )}`,
     updatedSchool,
