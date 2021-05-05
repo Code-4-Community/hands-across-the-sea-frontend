@@ -7,6 +7,9 @@ import {
   FormOutlined,
   PoweroffOutlined,
   UserOutlined,
+  DatabaseOutlined,
+  TeamOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
@@ -138,7 +141,7 @@ const Home: React.FC = () => {
                 >
                   <Row>
                     <Col span={8}>
-                      <FolderOpenOutlined
+                      <DatabaseOutlined
                         style={{
                           fontSize: '50px',
                           marginTop: '14px',
@@ -171,7 +174,7 @@ const Home: React.FC = () => {
                 >
                   <Row>
                     <Col span={8}>
-                      <PoweroffOutlined
+                      <TeamOutlined
                         style={{
                           fontSize: '50px',
                           marginTop: '14px',
@@ -210,7 +213,7 @@ const Home: React.FC = () => {
                 >
                   <Row>
                     <Col span={8}>
-                      <FolderOpenOutlined
+                      <BulbOutlined
                         style={{
                           fontSize: '50px',
                           marginTop: '14px',
