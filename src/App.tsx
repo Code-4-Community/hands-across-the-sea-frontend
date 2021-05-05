@@ -23,6 +23,7 @@ import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 import SchoolInfo from './containers/school-info/SchoolInfo';
+import SchoolDirectory from './containers/schoolDirectory';
 
 const { Content } = Layout;
 
@@ -76,6 +77,7 @@ const App: React.FC = () => {
                   case PrivilegeLevel.STANDARD:
                     return (
                       <Switch>
+                        <Route path={'/test'} exact component={SchoolDirectory} />
                         <Route path={Routes.HOME} exact component={Home} />
                         <Route
                           path={Routes.SELECT_SCHOOL}
