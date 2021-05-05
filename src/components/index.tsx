@@ -17,6 +17,11 @@ export const ClarifyText = styled(Paragraph)`
   margin: auto;
 `;
 
+export const DirectoryTitle = styled(Title)`
+  text-align: center;
+  margin: 24px; 0px; 24px; 0px;
+`;
+
 // max-width: 960px
 export const ContentContainer = styled.div`
   display: block;
