@@ -63,7 +63,7 @@ const Home: React.FC = () => {
       <Container>
         <HeadTitle level={2}>Welcome</HeadTitle>
         <Outer>
-          <Row gutter={[32, 24]}>
+          <Row gutter={[32, 24]} wrap>
             <Col span={12}>
               <InContain
                 onClick={() => {
@@ -132,7 +132,7 @@ const Home: React.FC = () => {
             </Col>
           </Row>
           {privilegeLevel === PrivilegeLevel.ADMIN && (
-            <Row gutter={[32, 0]}>
+            <Row gutter={[32, 48]} wrap>
               <Col span={12}>
                 <InContain
                   onClick={() => {
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
                       <Row>
                         <Col>
                           <ButtonDescription level={3}>
-                            School Directories
+                            School Directory
                           </ButtonDescription>
                         </Col>
                       </Row>
@@ -186,7 +186,7 @@ const Home: React.FC = () => {
                       <Row>
                         <Col>
                           <ButtonDescription level={3}>
-                            User Directories
+                            User Directory
                           </ButtonDescription>
                         </Col>
                       </Row>
@@ -201,7 +201,7 @@ const Home: React.FC = () => {
               </Col>
             </Row>
           )}
-          <Row gutter={[32, 0]}>
+          <Row gutter={[32, 0]} wrap>
             {privilegeLevel === PrivilegeLevel.ADMIN ? (
               <Col span={12}>
                 <InContain
