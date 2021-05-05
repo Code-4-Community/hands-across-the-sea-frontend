@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Form, Row, Select } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
-import FormItemDropdown from '../form-style/FormItemDropdown';
-import FormItemInput from 'antd/es/form/FormItemInput';
 import FormPiece from '../form-style/FormPiece';
 import { FormTextArea } from '../index';
 
@@ -64,4 +62,4 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
   );
 };
 
-export default MonitoringInfo;
+export default PurposeOfVisit;

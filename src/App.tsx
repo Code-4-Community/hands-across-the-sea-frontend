@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
@@ -27,6 +32,7 @@ import TrainingMentorshipInfo from './containers/training-mentorship-info/Traini
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
 import LibraryReport from './containers/library-report/LibraryReport';
+import SchoolContacts from './containers/schoolContact';
 
 const { Content } = Layout;
 
@@ -41,6 +47,7 @@ export enum Routes {
   SETTINGS = '/settings',
   SELECT_SCHOOL = '/select-school',
   LIBRARY_INFO = '/library-info',
+  SCHOOL_CONTACTS = '/school-contacts',
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
   LIBRARY_REPORT = '/library-report',
@@ -100,6 +107,11 @@ const App: React.FC = () => {
                           path={Routes.SCHOOL_INFO}
                           exact
                           component={SchoolInformation}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_CONTACTS}
+                          exact
+                          component={SchoolContacts}
                         />
                         <Route
                           path={Routes.LIBRARY_REPORT}

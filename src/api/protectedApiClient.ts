@@ -4,14 +4,12 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
-import {
-  LibraryReportResponse,
-  ReportWithLibraryRequest,
-  ReportWithLibraryResponse,
-} from '../containers/reportWithLibrary/ducks/types';
 import { BookLogRequest, BookLogResponse } from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
-import { ReportWithoutLibraryRequest } from '../containers/library-report/ducks/types';
+import {
+  LibraryReportResponse, ReportWithLibraryRequest,
+  ReportWithoutLibraryRequest,
+} from '../containers/library-report/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -74,10 +72,6 @@ export interface ProtectedApiClient {
     schoolId: number,
     bookLogId: number,
   ) => Promise<void>;
-
-  readonly getReportWithLibrary: (
-    reportId: number,
-  ) => Promise<ReportWithLibraryResponse>;
 
   readonly createReportWithLibrary: (
     schoolId: number,
@@ -322,7 +316,6 @@ const Client: ProtectedApiClient = Object.freeze({
   updateSchoolContact,
   createSchoolContact,
   deleteSchoolContact,
-  getReportWithLibrary,
   createBookLog,
   updateBookLog,
   getBookLogs,

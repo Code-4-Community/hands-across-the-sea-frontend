@@ -35,6 +35,7 @@ const YesOrNoLibrary: React.FC = () => {
                   <Radio.Group
                     buttonStyle="solid"
                     onChange={handleLibraryStatus}
+                    defaultValue={isYesReport}
                   >
                     <Radio.Button value={true}>Yes</Radio.Button>
                     <Radio.Button value={false}>No</Radio.Button>
@@ -48,7 +49,7 @@ const YesOrNoLibrary: React.FC = () => {
           <Row gutter={[0, 24]}>
             <LinkButton
               to={Routes.LIBRARY_REPORT}
-              disabled={isYesReport !== undefined}
+              disabled={isYesReport === undefined}
             >
               Next <ArrowRightOutlined />
             </LinkButton>

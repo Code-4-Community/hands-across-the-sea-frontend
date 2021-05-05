@@ -26,34 +26,25 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   onFinish,
   defaultSchoolInformation,
 }) => {
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(!defaultSchoolInformation);
 
   return (
-    <Form onFinish={onFinish}>
+    <Form onFinish={onFinish} initialValues={defaultSchoolInformation}>
       <FormContainer title="School Information">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
             <FormPiece note="School Address">
               <Form.Item name="address">
-                <Input
-                  disabled={!editMode}
-                  placeholder="Street Address"
-                  value={defaultSchoolInformation?.address}
-                />
+                <Input disabled={!editMode} placeholder="Street Address" />
               </Form.Item>
               <Form.Item name="area">
-                <Input
-                  disabled={!editMode}
-                  placeholder="Town or District"
-                  value={defaultSchoolInformation?.area}
-                />
+                <Input disabled={!editMode} placeholder="Town or District" />
               </Form.Item>
               <Form.Item name="notes">
                 <FormTextArea
                   disabled={!editMode}
                   minLength={2}
                   placeholder="Any Specific Instructions?"
-                  value={defaultSchoolInformation?.notes}
                 />
               </Form.Item>
             </FormPiece>

@@ -9,18 +9,18 @@ import {
 import { C4CAction } from '../../../store';
 import { latestLibraryReport, SET_IS_YES_REPORT } from './actions';
 
-export const initialReportWithLibraryState: LibraryReportReducerState = {
+export const initialLibraryReportState: LibraryReportReducerState = {
   latestReport: AsyncRequestNotStarted<LibraryReportResponse, any>(),
 };
 
-const reportWithLibraryReducer = generateAsyncRequestReducer<
+const libraryReportReducer = generateAsyncRequestReducer<
   LibraryReportReducerState,
   LibraryReportResponse,
   void
 >(latestLibraryReport.key);
 
 const reducers = (
-  state: LibraryReportReducerState = initialReportWithLibraryState,
+  state: LibraryReportReducerState = initialLibraryReportState,
   action: C4CAction,
 ): LibraryReportReducerState => {
   switch (action.type) {
@@ -29,7 +29,7 @@ const reducers = (
     case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
-        latestReport: reportWithLibraryReducer(state.latestReport, action),
+        latestReport: libraryReportReducer(state.latestReport, action),
       };
     case SET_IS_YES_REPORT:
       return {

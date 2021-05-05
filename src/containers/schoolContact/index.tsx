@@ -14,11 +14,14 @@ import {
   SchoolContactsReducerState,
 } from './ducks/types';
 import SchoolContact from '../../components/schoolContact/SchoolContact';
-import { Button } from 'antd';
+import { Button, Col, Form, Input, Row } from 'antd';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import FormContainer from '../../components/form-style/FormContainer';
+import { useHistory } from 'react-router-dom';
 
 const SchoolContacts: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const schoolId = 1; // Will eventually fetch from store
   const schoolContacts: SchoolContactsReducerState['schoolContacts'] = useSelector(
     (state: C4CState) => state.schoolContactsState.schoolContacts,
@@ -41,7 +44,7 @@ const SchoolContacts: React.FC = () => {
     };
     return (
       <SchoolContact
-        defaultSchoolContact={contact}
+        initialSchoolContact={contact}
         onSubmit={submitCallback}
         onDelete={() => deleteContact(contact.id)}
         key={contact.id}
@@ -71,13 +74,20 @@ const SchoolContacts: React.FC = () => {
       return <p>Failed to load contacts</p>;
     case AsyncRequestKinds.Completed:
       return (
-        <div>
-          {schoolContacts.result.map(renderExistingSchoolContact)}
-          {!showAddContact && (
-            <Button onClick={() => setShowAddContact(true)}>Add Contact</Button>
-          )}
-          {showAddContact && renderAddSchoolContact()}
-        </div>
+        <FormContainer title="School Contacts">
+          <Row gutter={[0, 24]}>
+            <Col flex={24}>
+              {schoolContacts.result.map(renderExistingSchoolContact)}
+              {!showAddContact && (
+                <Button onClick={() => setShowAddContact(true)}>
+                  Add Contact
+                </Button>
+              )}
+              {showAddContact && renderAddSchoolContact()}
+            </Col>
+          </Row>
+          <Button onClick={() => history.push('/library-info')}>Next</Button>
+        </FormContainer>
       );
   }
 };

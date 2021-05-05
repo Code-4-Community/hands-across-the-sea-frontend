@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Container, Outer } from '../../components';
 import { Col, Row, Typography } from 'antd';
+import { FolderOpenOutlined, FormOutlined, UserOutlined } from '@ant-design/icons';
 import {
   FolderOpenOutlined,
   FormOutlined,
@@ -17,10 +18,13 @@ import {
   TeamOutlined
 } from '@ant-design/icons';
 import { Routes } from '../../App';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../auth/ducks/thunks';
+import { PrivilegeLevel } from '../../auth/ducks/types';
+import { C4CState } from '../../store';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
@@ -100,13 +104,15 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
 };
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
-
   const history = useHistory();
   const dispatch = useDispatch();
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
-    return getPrivilegeLevel(state.authenticationState.tokens);
-  });
+  const tokens = useSelector((state: C4CState) => state.authenticationState.tokens);
+
+  useEffect(() => {
+    if (getPrivilegeLevel(tokens) === PrivilegeLevel.NONE) {
+      history.replace('/login');
+    }
+  }, [tokens]);
 
   return (
     <>
@@ -291,13 +297,6 @@ const Home: React.FC = () => {
               </Col>
             )}
             <Col span={12}>
-              <MenuButton
-                to={Routes.HOME} // TODO
-                title={'Sign Out'}
-                description={'Sign out of your account'}
-              >
-                <PoweroffOutlined style={iconStyle} />
-              </MenuButton>
               <MenuOptionDiv onClick={() => dispatch(logout())}>
                 <MenuTitleContainer>
                   <MenuTitle>Sign Out</MenuTitle>

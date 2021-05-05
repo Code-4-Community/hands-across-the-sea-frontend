@@ -33,9 +33,9 @@ import schoolContactsReducer, {
 } from './containers/schoolContact/ducks/reducers';
 import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
 import { LibraryReportReducerState } from './containers/library-report/ducks/types';
+import { initialLibraryReportState } from './containers/library-report/ducks/reducers';
 import libraryReportReducer from './containers/library-report/ducks/reducers';
 import { LibraryReportActions } from './containers/library-report/ducks/actions';
-import { initialReportWithLibraryState } from './containers/reportWithLibrary/ducks/reducers';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
 import { BookLogsActions } from './containers/bookLogs/ducks/actions';
@@ -81,7 +81,7 @@ export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   schoolInformationState: initialSchoolInfoState,
   schoolContactsState: initialSchoolContactsState,
-  libraryReportState: initialReportWithLibraryState,
+  libraryReportState: initialLibraryReportState,
   bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
 };

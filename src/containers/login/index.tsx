@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, Input, Typography, Row, Col } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
@@ -45,9 +45,12 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     dispatch(login(values));
   };
 
-  if (getPrivilegeLevel(tokens) !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
-  }
+  useEffect(() => {
+    console.log(getPrivilegeLevel(tokens));
+    if (getPrivilegeLevel(tokens) !== PrivilegeLevel.NONE) {
+      history.push(Routes.HOME);
+    }
+  }, [tokens]);
 
   return (
     <>

@@ -10,9 +10,11 @@ import {
 import { C4CState } from '../../store';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
+import { useHistory } from 'react-router-dom';
 
 const SchoolInformation: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
@@ -30,6 +32,7 @@ const SchoolInformation: React.FC = () => {
     schoolId === undefined
       ? dispatch(createSchoolRequest(schoolRequest))
       : dispatch(updatedSchoolRequest(schoolId, schoolRequest));
+    history.push('/school-contacts');
   };
 
   switch (schoolInformation.kind) {
