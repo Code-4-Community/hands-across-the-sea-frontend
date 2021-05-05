@@ -2,12 +2,21 @@ import { TokenPayload } from '../ducks/types';
 import { login, signup } from '../ducks/thunks';
 import { authenticateUser } from '../ducks/actions';
 import authClient from '../authClient';
+import protectedApiClient from '../../api/protectedApiClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
 import { Countries } from '../../utils/countries';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
   ...initialStoreState,
   ...partialState,
+});
+
+export const generateExtraArgs = (
+  partialExtraArgs: Partial<ThunkExtraArgs>,
+): ThunkExtraArgs => ({
+  authClient,
+  protectedApiClient,
+  ...partialExtraArgs,
 });
 
 describe('User Authentication Thunks', () => {
@@ -23,12 +32,12 @@ describe('User Authentication Thunks', () => {
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
       };
       mockLogin.mockResolvedValue(mockTokenResponse);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         authClient: {
           ...authClient,
           login: mockLogin,
         },
-      };
+      });
 
       await login({
         email: 'Jack Blanc',
@@ -53,12 +62,12 @@ describe('User Authentication Thunks', () => {
         },
       };
       mockLogin.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         authClient: {
           ...authClient,
           login: mockLogin,
         },
-      };
+      });
 
       await login({
         email: 'Jack Blanc',
@@ -86,12 +95,12 @@ describe('User Authentication Thunks', () => {
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
       };
       mockSignup.mockResolvedValue(mockTokenResponse);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         authClient: {
           ...authClient,
           signup: mockSignup,
         },
-      };
+      });
 
       await signup({
         password: 'password',
@@ -118,12 +127,12 @@ describe('User Authentication Thunks', () => {
         },
       };
       mockSignup.mockRejectedValue(mockAPIError);
-      const mockExtraArgs: ThunkExtraArgs = {
+      const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         authClient: {
           ...authClient,
           signup: mockSignup,
         },
-      };
+      });
 
       await signup({
         email: 'jblanc222@gmail.com',

@@ -7,6 +7,7 @@ import {
   BookLogRequest,
   BookLogResponse,
 } from '../containers/bookLogs/ducks/types';
+import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -55,13 +56,20 @@ export interface ProtectedApiClient {
     schoolId: number,
     bookLogId: number,
   ) => Promise<void>;
+
+  readonly getAllSchools: () => Promise<SchoolEntry[]>;
 }
 
 enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
+  SCHOOLS = '/api/v1/protected/schools',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
 }
+
+export type WithCount<T> = T & {
+  count: number;
+};
 
 const changePassword = (request: {
   currentPassword: string;
@@ -186,6 +194,12 @@ const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
     .catch((err) => err);
 };
 
+const getAllSchools = (): Promise<SchoolEntry[]> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
+    .then((res) => res.data.schools)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   getSchoolContacts,
@@ -196,6 +210,7 @@ const Client: ProtectedApiClient = Object.freeze({
   updateBookLog,
   getBookLogs,
   deleteBookLog,
+  getAllSchools,
 });
 
 export default Client;

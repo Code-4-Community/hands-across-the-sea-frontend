@@ -1,17 +1,9 @@
-import {
-  UserAuthenticationExtraArgs,
-  UserAuthenticationReducerState,
-} from './auth/ducks/types';
+import { UserAuthenticationExtraArgs, UserAuthenticationReducerState } from './auth/ducks/types';
 import { UserAuthenticationActions } from './auth/ducks/actions';
 import authClient from './auth/authClient';
-import {
-  applyMiddleware,
-  combineReducers,
-  compose,
-  createStore,
-  Store,
-} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import userReducer, { initialUserState } from './auth/ducks/reducers';
+import selectSchoolReducer, { initialSelectSchoolState } from './containers/selectSchool/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import throttle from 'lodash/throttle';
@@ -20,9 +12,8 @@ import { asyncRequestIsComplete } from './utils/asyncRequest';
 import protectedApiClient, { ApiExtraArgs } from './api/protectedApiClient';
 import { SchoolContactsActions } from './containers/schoolContact/ducks/actions';
 import { SchoolContactsReducerState } from './containers/schoolContact/ducks/types';
-import schoolContactsReducer, {
-  initialSchoolContactsState,
-} from './containers/schoolContact/ducks/reducers';
+import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
+import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
 import { BookLogsActions } from './containers/bookLogs/ducks/actions';
 import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
 import bookLogsReducer, { initialBookLogsState } from './containers/bookLogs/ducks/reducers';
@@ -31,6 +22,7 @@ export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   schoolContactsState: SchoolContactsReducerState;
   bookLogsState: BookLogsReducerState;
+  selectSchoolState: SelectSchoolReducerState;
 }
 
 export interface Action<T, P> {
@@ -40,18 +32,20 @@ export interface Action<T, P> {
 
 export type C4CAction = UserAuthenticationActions | SchoolContactsActions | BookLogsActions;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs | ApiExtraArgs;
+export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   schoolContactsState: schoolContactsReducer,
   bookLogsState: bookLogsReducer,
+  selectSchoolState: selectSchoolReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   schoolContactsState: initialSchoolContactsState,
   bookLogsState: initialBookLogsState,
+  selectSchoolState: initialSelectSchoolState,
 };
 
 export const LOCALSTORAGE_STATE_KEY = 'state';
