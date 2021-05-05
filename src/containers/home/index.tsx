@@ -1,18 +1,24 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { ContentContainer, Outer } from '../../components';
-import { Row, Col, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import {
-  FormOutlined,
-  UserOutlined,
   FolderOpenOutlined,
+  FormOutlined,
   PoweroffOutlined,
+  UserOutlined,
+  DatabaseOutlined,
+  TeamOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../auth/ducks/thunks';
+import { PrivilegeLevel } from '../../auth/ducks/types';
+import { C4CState } from '../../store';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 
 const { Title, Paragraph } = Typography;
 
@@ -44,6 +50,9 @@ const InContain = styled.div`
 const Home: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
 
   return (
     <>
@@ -54,7 +63,7 @@ const Home: React.FC = () => {
       <Container>
         <HeadTitle level={2}>Welcome</HeadTitle>
         <Outer>
-          <Row gutter={[32, 24]}>
+          <Row gutter={[32, 24]} wrap>
             <Col span={12}>
               <InContain
                 onClick={() => {
@@ -122,40 +131,146 @@ const Home: React.FC = () => {
               </InContain>
             </Col>
           </Row>
-          <Row gutter={[32, 0]}>
-            <Col span={12}>
-              <InContain
-                onClick={() => {
-                  history.push(Routes.SETTINGS);
-                }}
-              >
-                <Row>
-                  <Col span={8}>
-                    <FolderOpenOutlined
-                      style={{
-                        fontSize: '50px',
-                        marginTop: '14px',
-                        marginLeft: '5px',
-                      }}
-                    />
-                  </Col>
-                  <Col span={16}>
-                    <Row>
-                      <Col>
-                        <ButtonDescription level={3}>
-                          Form History
-                        </ButtonDescription>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Paragraph>View past forms</Paragraph>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </InContain>
-            </Col>
+          {privilegeLevel === PrivilegeLevel.ADMIN && (
+            <Row gutter={[32, 48]} wrap>
+              <Col span={12}>
+                <InContain
+                  onClick={() => {
+                    history.push(Routes.SETTINGS);
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <DatabaseOutlined
+                        style={{
+                          fontSize: '50px',
+                          marginTop: '14px',
+                          marginLeft: '5px',
+                        }}
+                      />
+                    </Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col>
+                          <ButtonDescription level={3}>
+                            School Directory
+                          </ButtonDescription>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Paragraph>View and registered schools</Paragraph>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </InContain>
+              </Col>
+              <Col span={12}>
+                <InContain
+                  onClick={() => {
+                    history.push(Routes.SETTINGS);
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <TeamOutlined
+                        style={{
+                          fontSize: '50px',
+                          marginTop: '14px',
+                          marginLeft: '5px',
+                        }}
+                      />
+                    </Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col>
+                          <ButtonDescription level={3}>
+                            User Directory
+                          </ButtonDescription>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Paragraph>View and registered users</Paragraph>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </InContain>
+              </Col>
+            </Row>
+          )}
+          <Row gutter={[32, 0]} wrap>
+            {privilegeLevel === PrivilegeLevel.ADMIN ? (
+              <Col span={12}>
+                <InContain
+                  onClick={() => {
+                    history.push(Routes.SETTINGS);
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <BulbOutlined
+                        style={{
+                          fontSize: '50px',
+                          marginTop: '14px',
+                          marginLeft: '5px',
+                        }}
+                      />
+                    </Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col>
+                          <ButtonDescription level={3}>
+                            Data Insights
+                          </ButtonDescription>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Paragraph>View past forms</Paragraph>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </InContain>
+              </Col>
+            ) : (
+              <Col span={12}>
+                <InContain
+                  onClick={() => {
+                    history.push(Routes.SETTINGS);
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <FolderOpenOutlined
+                        style={{
+                          fontSize: '50px',
+                          marginTop: '14px',
+                          marginLeft: '5px',
+                        }}
+                      />
+                    </Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col>
+                          <ButtonDescription level={3}>
+                            Form History
+                          </ButtonDescription>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Paragraph>View past forms</Paragraph>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </InContain>
+              </Col>
+            )}
             <Col span={12}>
               <InContain
                 onClick={() => {
