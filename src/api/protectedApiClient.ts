@@ -1,5 +1,9 @@
 import AppAxiosInstance from '../auth/axios';
 import {
+  SchoolRequest,
+  SchoolResponse,
+} from '../containers/schoolInfo/ducks/types';
+import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
@@ -18,6 +22,16 @@ export interface ProtectedApiClient {
     currentPassword: string;
     newPassword: string;
   }) => Promise<void>;
+
+  readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
+  readonly getSchool: (schoolId: number) => Promise<SchoolResponse>;
+
+  readonly updateSchool: (
+    schoolId: number,
+    updatedSchool: SchoolRequest,
+  ) => Promise<void>;
+
+  readonly deleteUser: (request: { password: string }) => Promise<void>;
 
   readonly getSchoolContacts: (
     schoolId: number,
@@ -60,8 +74,9 @@ export interface ProtectedApiClient {
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
 }
 
-enum ProtectedApiClientRoutes {
+export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
+  DELETE_USER = '/api/v1/protected/user/',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   SCHOOLS = '/api/v1/protected/schools',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
@@ -78,6 +93,42 @@ const changePassword = (request: {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const deleteUser = (request: { password: string }): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.SCHOOLS, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const getSchool = (schoolId: number): Promise<SchoolResponse> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
+      schoolId.toString(),
+    )}`,
+  )
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const updateSchool = (
+  schoolId: number,
+  updatedSchool: SchoolRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
+      schoolId.toString(),
+    )}`,
+    updatedSchool,
   )
     .then((res) => res)
     .catch((err) => err);
@@ -202,6 +253,10 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
 
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
+  createSchool,
+  getSchool,
+  updateSchool,
+  deleteUser,
   getSchoolContacts,
   updateSchoolContact,
   createSchoolContact,

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Row, Col, Form, Button } from 'antd';
+import { Col, Form, Row } from 'antd';
 import { LinkButton } from '../LinkButton';
-import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { ContentContainer } from '..';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -68,9 +68,9 @@ const FormFooter: React.FC<FormFooterProps> = (props) => {
         </Col>
         <Col flex={8}>
           <Form.Item>
-            <Button type="primary" htmlType="submit" ghost>
+            <LinkButton to={prevPage} type="primary" htmlType="submit" ghost>
               {saveSubmit}
-            </Button>
+            </LinkButton>
           </Form.Item>
         </Col>
         <Col flex={8}>

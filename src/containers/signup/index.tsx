@@ -1,11 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, Input, Select, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { signup } from '../../auth/ducks/thunks';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
-import { useHistory } from 'react-router-dom';
 import {
   PrivilegeLevel,
   SignupRequest,
@@ -24,25 +23,22 @@ type SignupProps = UserAuthenticationReducerState;
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
-  );
-
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
-  }
 
   const onFinish = (values: SignupRequest) => {
     dispatch(
       signup({
-        email: values.email,
-        password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
+        email: values.email,
         country: values.country,
+        password: values.password,
       }),
     );
   };
+
+  if (getPrivilegeLevel(tokens) !== PrivilegeLevel.NONE) {
+    history.push(Routes.HOME);
+  }
 
   return (
     <>
@@ -78,14 +74,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
           </Form.Item>
 
           <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Required' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
             label="Password"
             name="password"
             rules={[{ required: true, message: 'Required' }]}
@@ -96,7 +84,19 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
           <Form.Item
             label="Confirm Password"
             name="confirmPassword"
-            rules={[{ required: true, message: 'Required' }]}
+            rules={[
+              { required: true, message: 'Required' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    'The two passwords that you entered do not match!',
+                  );
+                },
+              }),
+            ]}
           >
             <Input.Password />
           </Form.Item>
