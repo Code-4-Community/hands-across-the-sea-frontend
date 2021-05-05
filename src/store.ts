@@ -17,6 +17,7 @@ import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types'
 import { BookLogsActions } from './containers/bookLogs/ducks/actions';
 import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
 import bookLogsReducer, { initialBookLogsState } from './containers/bookLogs/ducks/reducers';
+import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -30,7 +31,7 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions | SchoolContactsActions | BookLogsActions;
+export type C4CAction = UserAuthenticationActions | SchoolContactsActions | BookLogsActions | SelectSchoolActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
