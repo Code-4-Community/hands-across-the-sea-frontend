@@ -14,7 +14,7 @@ import {
   SchoolContactsReducerState,
 } from './ducks/types';
 import SchoolContact from '../../components/schoolContact/SchoolContact';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import FormContainer from '../../components/form-style/FormContainer';
 import { useHistory } from 'react-router-dom';
@@ -30,7 +30,7 @@ const SchoolContacts: React.FC = () => {
 
   useEffect(() => {
     dispatch(loadSchoolContacts(schoolId));
-  }, [schoolId]);
+  }, [schoolId, dispatch]);
 
   const deleteContact = (contactId: number) => {
     dispatch(deleteSchoolContact(schoolId, contactId));

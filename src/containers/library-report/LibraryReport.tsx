@@ -30,9 +30,6 @@ const LibraryReport = () => {
   const handleSubmit = (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
   ) => {
-    // tslint:disable-next-line:no-console
-    console.log(report);
-    return;
     if (isYesReport) {
       dispatch(
         createReportWithLibrary(schoolId, report as ReportWithLibraryRequest),

@@ -46,11 +46,10 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   };
 
   useEffect(() => {
-    console.log(getPrivilegeLevel(tokens));
     if (getPrivilegeLevel(tokens) !== PrivilegeLevel.NONE) {
       history.push(Routes.HOME);
     }
-  }, [tokens]);
+  }, [tokens, history]);
 
   return (
     <>

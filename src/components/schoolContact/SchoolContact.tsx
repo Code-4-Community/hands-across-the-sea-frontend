@@ -3,8 +3,8 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../../containers/schoolContact/ducks/types';
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Dropdown, Form, Input, Row, Select } from 'antd';
+import React, { useState } from 'react';
+import { Button, Form, Input, Row, Select } from 'antd';
 import FormPiece from '../form-style/FormPiece';
 
 interface SchoolContactProps {

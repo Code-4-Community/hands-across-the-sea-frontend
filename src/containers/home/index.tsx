@@ -23,6 +23,10 @@ import {
   FolderOpenOutlined,
   FormOutlined,
   PoweroffOutlined,
+  TeamOutlined,
+  UserOutlined,
+  FormOutlined,
+  PoweroffOutlined,
   TeamOutlined
 } from '@ant-design/icons';
 import { Routes } from '../../App';
@@ -140,7 +144,7 @@ const Home: React.FC = () => {
     if (getPrivilegeLevel(tokens) === PrivilegeLevel.NONE) {
       history.replace('/login');
     }
-  }, [tokens]);
+  }, [tokens, history]);
 
   return (
     <>
