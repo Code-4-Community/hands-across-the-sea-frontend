@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Container, Outer } from '../../components';
+import {
+  BulbOutlined,
+  DatabaseOutlined,
+  FolderOpenOutlined,
+  FormOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Col, Row, Typography } from 'antd';
 import { FolderOpenOutlined, FormOutlined, UserOutlined } from '@ant-design/icons';
 import {
@@ -37,6 +45,10 @@ const HeadTitle = styled(Title)`
   font-weight: bold;
   padding: 50px 0 30px 0;
   text-align: center;
+`;
+
+const ButtonDescription = styled(Title)`
+  font-weight: bold;
 `;
 
 const MenuOption = styled(Link)`
@@ -85,6 +97,17 @@ const iconStyle = {
   margin: 'auto 4px',
 };
 
+const InContain = styled.div`
+  padding: 15px 20px 15px 20px;
+  background-color: white;
+  border-radius: 5px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+`;
+
 interface MenuButtonProps {
   readonly to: string;
   readonly title: string;
@@ -106,7 +129,12 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
 const Home: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const tokens = useSelector((state: C4CState) => state.authenticationState.tokens);
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
+  const tokens = useSelector(
+    (state: C4CState) => state.authenticationState.tokens,
+  );
 
   useEffect(() => {
     if (getPrivilegeLevel(tokens) === PrivilegeLevel.NONE) {
@@ -124,6 +152,17 @@ const Home: React.FC = () => {
         <HeadTitle level={2}>Welcome</HeadTitle>
         <Outer>
           <Row gutter={[32, 24]} wrap>
+            <Row gutter={[24, 24]}>
+              <Col span={12}>
+                <MenuButton
+                  to={Routes.SELECT_SCHOOL}
+                  title={'Fill Out a Form'}
+                  description={'Fill out an active form'}
+                >
+                  <FormOutlined style={iconStyle} />
+                </MenuButton>
+              </Col>
+          <Row gutter={[32, 24]} wrap>
             <Col span={12}>
               <MenuButton
                 to={Routes.SELECT_SCHOOL}
@@ -134,176 +173,178 @@ const Home: React.FC = () => {
               </MenuButton>
             </Col>
 
-            <Col span={12}>
-              <MenuButton
-                to={Routes.HOME} // TODO
-                title={'Account Settings'}
-                description={'View and edit your account'}
-              >
-                <UserOutlined style={iconStyle} />
-              </MenuButton>
-            </Col>
-          </Row>
-
-          <Row gutter={[24, 24]}>
-            <Col span={12}>
-              <MenuButton
-                to={Routes.HOME} // TODO
-                title={'Form History'}
-                description={'View past forms'}
-              >
-                <FolderOpenOutlined style={iconStyle} />
-              </MenuButton>
-            </Col>
-
-          {privilegeLevel === PrivilegeLevel.ADMIN && (
-            <Row gutter={[32, 48]} wrap>
               <Col span={12}>
-                <InContain
-                  onClick={() => {
-                    history.push(Routes.SCHOOL_DIRECTORY);
-                  }}
+                <MenuButton
+                  to={Routes.HOME} // TODO
+                  title={'Account Settings'}
+                  description={'View and edit your account'}
                 >
-                  <Row>
-                    <Col span={8}>
-                      <DatabaseOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            School Directory
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View and registered schools</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
-              <Col span={12}>
-                <InContain
-                  onClick={() => {
-                    history.push(Routes.SETTINGS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <TeamOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            User Directory
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View and registered users</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
+                  <UserOutlined style={iconStyle} />
+                </MenuButton>
               </Col>
             </Row>
-          )}
-          <Row gutter={[32, 0]} wrap>
-            {privilegeLevel === PrivilegeLevel.ADMIN ? (
+
+            <Row gutter={[24, 24]}>
               <Col span={12}>
-                <InContain
-                  onClick={() => {
-                    history.push(Routes.SETTINGS);
-                  }}
+                <MenuButton
+                  to={Routes.HOME} // TODO
+                  title={'Form History'}
+                  description={'View past forms'}
                 >
-                  <Row>
-                    <Col span={8}>
-                      <BulbOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Data Insights
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
+                  <FolderOpenOutlined style={iconStyle} />
+                </MenuButton>
               </Col>
-            ) : (
-              <Col span={12}>
-                <InContain
-                  onClick={() => {
-                    history.push(Routes.SETTINGS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <FolderOpenOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Form History
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
+            </Row>
+
+            {privilegeLevel === PrivilegeLevel.ADMIN && (
+              <Row gutter={[32, 48]} wrap>
+                <Col span={12}>
+                  <InContain
+                    onClick={() => {
+                      history.push(Routes.SETTINGS);
+                    }}
+                  >
+                    <Row>
+                      <Col span={8}>
+                        <DatabaseOutlined
+                          style={{
+                            fontSize: '50px',
+                            marginTop: '14px',
+                            marginLeft: '5px',
+                          }}
+                        />
+                      </Col>
+                      <Col span={16}>
+                        <Row>
+                          <Col>
+                            <ButtonDescription level={3}>
+                              School Directory
+                            </ButtonDescription>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Paragraph>View and registered schools</Paragraph>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </InContain>
+                </Col>
+                <Col span={12}>
+                  <InContain
+                    onClick={() => {
+                      history.push(Routes.SETTINGS);
+                    }}
+                  >
+                    <Row>
+                      <Col span={8}>
+                        <TeamOutlined
+                          style={{
+                            fontSize: '50px',
+                            marginTop: '14px',
+                            marginLeft: '5px',
+                          }}
+                        />
+                      </Col>
+                      <Col span={16}>
+                        <Row>
+                          <Col>
+                            <ButtonDescription level={3}>
+                              User Directory
+                            </ButtonDescription>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Paragraph>View and registered users</Paragraph>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </InContain>
+                </Col>
+              </Row>
             )}
-            <Col span={12}>
-              <MenuOptionDiv onClick={() => dispatch(logout())}>
-                <MenuTitleContainer>
-                  <MenuTitle>Sign Out</MenuTitle>
-                </MenuTitleContainer>
-                <MenuDescription>Sign out of your account</MenuDescription>
-              </MenuOptionDiv>
-            </Col>
+            <Row gutter={[32, 0]} wrap>
+              {privilegeLevel === PrivilegeLevel.ADMIN ? (
+                <Col span={12}>
+                  <InContain
+                    onClick={() => {
+                      history.push(Routes.SETTINGS);
+                    }}
+                  >
+                    <Row>
+                      <Col span={8}>
+                        <BulbOutlined
+                          style={{
+                            fontSize: '50px',
+                            marginTop: '14px',
+                            marginLeft: '5px',
+                          }}
+                        />
+                      </Col>
+                      <Col span={16}>
+                        <Row>
+                          <Col>
+                            <ButtonDescription level={3}>
+                              Data Insights
+                            </ButtonDescription>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Paragraph>View past forms</Paragraph>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </InContain>
+                </Col>
+              ) : (
+                <Col span={12}>
+                  <InContain
+                    onClick={() => {
+                      history.push(Routes.SETTINGS);
+                    }}
+                  >
+                    <Row>
+                      <Col span={8}>
+                        <FolderOpenOutlined
+                          style={{
+                            fontSize: '50px',
+                            marginTop: '14px',
+                            marginLeft: '5px',
+                          }}
+                        />
+                      </Col>
+                      <Col span={16}>
+                        <Row>
+                          <Col>
+                            <ButtonDescription level={3}>
+                              Form History
+                            </ButtonDescription>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <Paragraph>View past forms</Paragraph>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </InContain>
+                </Col>
+              )}
+              <Col span={12}>
+                <MenuOptionDiv onClick={() => dispatch(logout())}>
+                  <MenuTitleContainer>
+                    <MenuTitle>Sign Out</MenuTitle>
+                  </MenuTitleContainer>
+                  <MenuDescription>Sign out of your account</MenuDescription>
+                </MenuOptionDiv>
+              </Col>
+            </Row>
           </Row>
         </Outer>
       </Container>
