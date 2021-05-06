@@ -34,6 +34,6 @@ const reducers = (
     default:
       return state;
   }
-}
+};
 
 export default reducers;

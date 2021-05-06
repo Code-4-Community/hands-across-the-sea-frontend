@@ -33,6 +33,7 @@ export const Outer = styled.div`
   background-color: #d4d9e7;
   padding: 32px 32px 32px 32px;
   border-radius: 5px;
+  margin: auto;
 `;
 
 export const Inner = styled.div`

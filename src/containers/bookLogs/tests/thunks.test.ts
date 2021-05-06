@@ -1,4 +1,7 @@
-import { generateExtraArgs, generateState } from '../../../auth/test/thunks.test';
+import {
+  generateExtraArgs,
+  generateState,
+} from '../../../auth/test/thunks.test';
 import {
   ContactType,
   SchoolContactResponse,

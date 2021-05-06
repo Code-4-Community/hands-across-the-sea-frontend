@@ -1,44 +1,20 @@
-import React from 'react';
-import { Outer, Container } from '../form-style/FormContainer';
-import { Button, Dropdown, Menu, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Container, Outer } from '../form-style/FormContainer';
+import { Button, Col, Input, Row, Table } from 'antd';
 import { SchoolEntry } from '../../containers/selectSchool/ducks/types';
-import styled from 'styled-components';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../index';
+import CreateSchool from './CreateSchool';
+import { SchoolRequest } from '../../containers/schoolInfo/ducks/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSchoolRequest } from '../../containers/schoolInfo/ducks/thunks';
+import { loadSchools } from '../../containers/selectSchool/ducks/thunks';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { C4CState } from '../../store';
+import Action from './Action';
+import { deleteSchool } from '../../containers/schoolDirectory/ducks/thunks';
 
-const ActionButton = styled(Button)`
-  width: 100%;
-`;
-
-interface SchoolDirectoryProps {
-  readonly schools: SchoolEntry[];
-}
-
-const handleActionButtonOnClick = ({ key }: any) => {
-  if (key === 'edit') {
-    return;
-  } else if (key === 'books') {
-    return;
-  } else {
-    return;
-  }
-};
-
-const actionOverlay = (
-  <Menu onClick={handleActionButtonOnClick}>
-    <Menu.Item key={'edit'}>Edit School</Menu.Item>
-    <Menu.Item key={'books'}>Books</Menu.Item>
-    <Menu.Item key={'delete'}>Delete School</Menu.Item>
-  </Menu>
-);
-
-const Action: React.FC = () => {
-  return (
-    <Dropdown overlay={actionOverlay} trigger={['click']}>
-      <ActionButton>...</ActionButton>
-    </Dropdown>
-  );
-};
+const { Search } = Input;
 
 const sortStrings = (a: string, b: string): number => {
   if (a < b) {
@@ -50,29 +26,56 @@ const sortStrings = (a: string, b: string): number => {
   return 0;
 };
 
-const SchoolDirectory: React.FC<SchoolDirectoryProps> = ({ schools }) => {
-  const dataSource: SchoolEntry[] = [
-    {
-      id: 1,
-      name: 'D SCHOOL',
-      country: 'UNITED_STATES',
-    },
-    {
-      id: 2,
-      name: 'B SCHOOL',
-      country: 'UNITED_STATES',
-    },
-    {
-      id: 3,
-      name: 'A SCHOOL',
-      country: 'GRENADA',
-    },
-    {
-      id: 4,
-      name: 'C SCHOOL',
-      country: 'DOMINICA',
-    },
-  ];
+const SchoolDirectory: React.FC = () => {
+  const [createSchool, setCreateSchool] = useState<boolean>(false);
+  const [updateSchoolList, setUpdateSchoolList] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
+    (state: C4CState) => state.selectSchoolState.schools,
+  );
+
+  // need useEffect inside of component because the state "updateSchoolList"
+  // needs to be a dependency
+  useEffect(() => {
+    dispatch(loadSchools());
+  }, [dispatch, updateSchoolList]);
+
+  // handles submitting create a school form
+  const handleOnFinishCreateSchool = (schoolInfo: SchoolRequest) => {
+    dispatch(createSchoolRequest(schoolInfo));
+    setCreateSchool(false);
+    setUpdateSchoolList(!updateSchoolList);
+  };
+
+  // handles canceling the create school form
+  const handleOnCancelCreateSchool = () => {
+    setCreateSchool(false);
+  };
+
+  // handles the button click of Create School button
+  const handleOnClickCreateSchool = () => {
+    setCreateSchool(!createSchool);
+  };
+
+  // handles determining what action to do when an action is executed
+  const handleActionButtonOnClick = ({ key }: any) => {
+    const identifiers: string[] = key.split(';');
+    if (identifiers[0] === 'edit') {
+      return;
+    } else if (identifiers[0] === 'books') {
+      return;
+    } else {
+      dispatch(deleteSchool(parseInt(identifiers[1], 10)));
+      setUpdateSchoolList(!updateSchoolList);
+    }
+  };
+
+  // Wrapper component so that we can use the Action component
+  // from out of scope
+  /*  const ActionWrapper: React.FC = () => (
+    <Action onClick={handleActionButtonOnClick} record={{}} />
+  );*/
+
   const columns: ColumnType<SchoolEntry>[] = [
     {
       title: 'Name',
@@ -96,18 +99,56 @@ const SchoolDirectory: React.FC<SchoolDirectoryProps> = ({ schools }) => {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: Action,
+      // eslint-disable-next-line react/display-name
+      render: (record: SchoolEntry) => (
+        <Action onClick={handleActionButtonOnClick} record={record} />
+      ),
     },
   ];
 
-  return (
-    <Container>
-      <DirectoryTitle level={2}>School Directory</DirectoryTitle>
-      <Outer>
-        <Table dataSource={dataSource} columns={columns} />
-      </Outer>
-    </Container>
-  );
+  switch (availableSchools.kind) {
+    case AsyncRequestKinds.NotStarted:
+    case AsyncRequestKinds.Failed:
+      return <p>An error occurred loading schools</p>;
+    case AsyncRequestKinds.Loading:
+    case AsyncRequestKinds.Completed:
+      return (
+        <Container>
+          <Row gutter={[0, 32]}>
+            <DirectoryTitle level={2}>School Directory</DirectoryTitle>
+          </Row>
+          <Row gutter={[48, 32]}>
+            <Col flex={18}>
+              <Search />
+            </Col>
+            <Col flex={6}>
+              <Button onClick={handleOnClickCreateSchool}>Add School</Button>
+            </Col>
+          </Row>
+          {createSchool && (
+            <Row>
+              <Col flex={24}>
+                <CreateSchool
+                  onFinish={handleOnFinishCreateSchool}
+                  onCancel={handleOnCancelCreateSchool}
+                />
+              </Col>
+            </Row>
+          )}
+          <Outer>
+            <Table
+              dataSource={
+                availableSchools.kind === AsyncRequestKinds.Completed
+                  ? availableSchools.result
+                  : undefined
+              }
+              columns={columns}
+              loading={availableSchools.kind === AsyncRequestKinds.Loading}
+            />
+          </Outer>
+        </Container>
+      );
+  }
 };
 
 export default SchoolDirectory;
