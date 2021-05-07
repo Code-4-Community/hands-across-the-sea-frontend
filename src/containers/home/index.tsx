@@ -136,15 +136,6 @@ const Home: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
     return getPrivilegeLevel(state.authenticationState.tokens);
   });
-  const tokens = useSelector(
-    (state: C4CState) => state.authenticationState.tokens,
-  );
-
-  useEffect(() => {
-    if (getPrivilegeLevel(tokens) === PrivilegeLevel.NONE) {
-      history.replace('/login');
-    }
-  }, [tokens, history]);
 
   return (
     <>
