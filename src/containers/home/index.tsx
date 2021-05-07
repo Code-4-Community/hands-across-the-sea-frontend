@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
+import { ContentContainer, Outer } from '../../components';
 import { Container, Outer } from '../../components';
 import {
   BulbOutlined,
@@ -18,19 +19,20 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import {
-  BulbOutlined,
-  DatabaseOutlined,
   FolderOpenOutlined,
   FormOutlined,
   PoweroffOutlined,
+  UserOutlined,
+  DatabaseOutlined,
   TeamOutlined,
+  BulbOutlined,
   UserOutlined,
   FormOutlined,
   PoweroffOutlined,
   TeamOutlined
 } from '@ant-design/icons';
 import { Routes } from '../../App';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../auth/ducks/thunks';
@@ -45,61 +47,19 @@ import { useHistory } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 
-const HeadTitle = styled(Title)`
-  font-weight: bold;
-  padding: 50px 0 30px 0;
-  text-align: center;
-`;
-
 const ButtonDescription = styled(Title)`
   font-weight: bold;
 `;
 
-const MenuOption = styled(Link)`
-  padding: 15px 20px 15px 20px;
-  background-color: white;
-  border-radius: 5px;
-  display: block;
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
+const Container = styled(ContentContainer)`
+  max-width: 800px;
 `;
 
-const MenuOptionDiv = styled.div`
-  padding: 15px 20px 15px 20px;
-  background-color: white;
-  border-radius: 5px;
-  display: block;
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
+const HeadTitle = styled(Title)`
+  font-weight: bold;
+  padding: 50px 0px 30px 0px;
+  text-align: center;
 `;
-
-const MenuTitleContainer = styled.div`
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const MenuTitle = styled(Title)`
-  font-size: 26px !important;
-  margin: auto 12px !important;
-`;
-
-const MenuDescription = styled(Paragraph)`
-  font-size: 16px !important;
-  margin: 12px 0 0 0 !important;
-`;
-
-const iconStyle = {
-  color: 'black',
-  fontSize: '36px',
-  margin: 'auto 4px',
-};
 
 const InContain = styled.div`
   padding: 15px 20px 15px 20px;
@@ -111,24 +71,6 @@ const InContain = styled.div`
     opacity: 0.7;
   }
 `;
-
-interface MenuButtonProps {
-  readonly to: string;
-  readonly title: string;
-  readonly description: string;
-}
-
-const MenuButton: React.FC<MenuButtonProps> = (props) => {
-  return (
-    <MenuOption to={props.to}>
-      <MenuTitleContainer>
-        {props.children}
-        <MenuTitle>{props.title}</MenuTitle>
-      </MenuTitleContainer>
-      <MenuDescription>{props.description}</MenuDescription>
-    </MenuOption>
-  );
-};
 
 const Home: React.FC = () => {
   const history = useHistory();
