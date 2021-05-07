@@ -18,29 +18,38 @@ import { Button, Col, Row } from 'antd';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import FormContainer from '../../components/form-style/FormContainer';
 import { useHistory } from 'react-router-dom';
+import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 
 const SchoolContacts: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const schoolId = 1; // Will eventually fetch from store
+  const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
   const schoolContacts: SchoolContactsReducerState['schoolContacts'] = useSelector(
     (state: C4CState) => state.schoolContactsState.schoolContacts,
   );
   const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(loadSchoolContacts(schoolId));
+    if (schoolId) {
+      dispatch(loadSchoolContacts(schoolId));
+    }
   }, [schoolId, dispatch]);
 
   const deleteContact = (contactId: number) => {
-    dispatch(deleteSchoolContact(schoolId, contactId));
+    if (schoolId) {
+      dispatch(deleteSchoolContact(schoolId, contactId));
+    }
   };
 
   const renderExistingSchoolContact = (
     contact: SchoolContactResponse,
   ): JSX.Element => {
     const submitCallback = (c: SchoolContactRequest): void => {
-      dispatch(updateSchoolContact(schoolId, contact.id, c));
+      if (schoolId) {
+        dispatch(updateSchoolContact(schoolId, contact.id, c));
+      }
     };
     return (
       <SchoolContact
@@ -54,8 +63,10 @@ const SchoolContacts: React.FC = () => {
 
   const renderAddSchoolContact = (): JSX.Element => {
     const submitCallback = (c: SchoolContactRequest): void => {
-      dispatch(createSchoolContact(schoolId, c));
-      setShowAddContact(false);
+      if (schoolId) {
+        dispatch(createSchoolContact(schoolId, c));
+        setShowAddContact(false);
+      }
     };
     return (
       <SchoolContact
@@ -77,7 +88,9 @@ const SchoolContacts: React.FC = () => {
         <FormContainer title="School Contacts">
           <Row gutter={[0, 24]}>
             <Col flex={24}>
-              {schoolContacts.result.map(renderExistingSchoolContact)}
+              {Array.from(schoolContacts.result).map(
+                renderExistingSchoolContact,
+              )}
               {!showAddContact && (
                 <Button onClick={() => setShowAddContact(true)}>
                   Add Contact

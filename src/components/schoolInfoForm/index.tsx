@@ -10,7 +10,10 @@ import {
 import styled from 'styled-components';
 
 interface SchoolInformationFormProps {
-  readonly onFinish: (schoolInfoRequest: SchoolRequest) => void;
+  readonly onFinish: (
+    schoolInfoRequest: SchoolRequest,
+    editMade: boolean,
+  ) => void;
   readonly defaultSchoolInformation?: SchoolResponse;
 }
 
@@ -29,7 +32,10 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   const [editMode, setEditMode] = useState<boolean>(!defaultSchoolInformation);
 
   return (
-    <Form onFinish={onFinish} initialValues={defaultSchoolInformation}>
+    <Form
+      onFinish={(form: SchoolRequest) => onFinish(form, editMode)}
+      initialValues={defaultSchoolInformation}
+    >
       <FormContainer title="School Information">
         <Row gutter={[0, 24]}>
           <Col flex={24}>

@@ -2,15 +2,12 @@ import React, { useEffect } from 'react';
 import SchoolInformationForm from '../../components/schoolInfoForm';
 import { SchoolInformationReducerState, SchoolRequest } from './ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createSchoolRequest,
-  getSchoolRequest,
-  updatedSchoolRequest,
-} from './ducks/thunks';
+import { getSchoolRequest, updatedSchoolRequest } from './ducks/thunks';
 import { C4CState } from '../../store';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 import { useHistory } from 'react-router-dom';
+import { Routes } from '../../App';
 
 const SchoolInformation: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,13 +22,18 @@ const SchoolInformation: React.FC = () => {
   useEffect(() => {
     if (schoolId !== undefined) {
       dispatch(getSchoolRequest(schoolId));
+    } else {
+      history.push(Routes.SELECT_SCHOOL);
     }
-  }, [schoolId, dispatch]);
+  }, [schoolId, dispatch, history]);
 
-  const handleFinish = (schoolRequest: SchoolRequest): void => {
-    schoolId === undefined
-      ? dispatch(createSchoolRequest(schoolRequest))
-      : dispatch(updatedSchoolRequest(schoolId, schoolRequest));
+  const handleFinish = (
+    schoolRequest: SchoolRequest,
+    editMade: boolean,
+  ): void => {
+    if (editMade && schoolId) {
+      dispatch(updatedSchoolRequest(schoolId, schoolRequest));
+    }
     history.push('/school-contacts');
   };
 
