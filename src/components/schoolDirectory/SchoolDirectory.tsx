@@ -120,7 +120,9 @@ const SchoolDirectory: React.FC = () => {
             />
           </Modal>
           <Row gutter={[0, 32]}>
+            <Col flex={24}>
             <DirectoryTitle level={2}>School Directory</DirectoryTitle>
+            </Col>
           </Row>
           <Row gutter={[48, 32]}>
             <Col flex={18}>
