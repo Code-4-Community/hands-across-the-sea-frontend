@@ -68,7 +68,7 @@ const LibraryReport = () => {
         )}
         {!isYesReport && <ReportWithoutLibrary />}
         <ChangesActionPlan />
-        <Button htmlType="submit" />
+        <Button htmlType="submit">Submit</Button>
       </Form>
     </FormContentContainer>
   );
