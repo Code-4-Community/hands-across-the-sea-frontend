@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Outer } from '../form-style/FormContainer';
-import { Button, Col, Input, Row, Table } from 'antd';
+import { Button, Col, Input, Modal, Row, Table } from 'antd';
 import { SchoolEntry } from '../../containers/selectSchool/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../index';
@@ -70,12 +70,6 @@ const SchoolDirectory: React.FC = () => {
     }
   };
 
-  // Wrapper component so that we can use the Action component
-  // from out of scope
-  /*  const ActionWrapper: React.FC = () => (
-    <Action onClick={handleActionButtonOnClick} record={{}} />
-  );*/
-
   const columns: ColumnType<SchoolEntry>[] = [
     {
       title: 'Name',
@@ -114,6 +108,17 @@ const SchoolDirectory: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
+          <Modal
+            visible={createSchool}
+            width={1000}
+            footer={null}
+            destroyOnClose
+          >
+            <CreateSchool
+              onFinish={handleOnFinishCreateSchool}
+              onCancel={handleOnCancelCreateSchool}
+            />
+          </Modal>
           <Row gutter={[0, 32]}>
             <DirectoryTitle level={2}>School Directory</DirectoryTitle>
           </Row>
@@ -125,16 +130,6 @@ const SchoolDirectory: React.FC = () => {
               <Button onClick={handleOnClickCreateSchool}>Add School</Button>
             </Col>
           </Row>
-          {createSchool && (
-            <Row>
-              <Col flex={24}>
-                <CreateSchool
-                  onFinish={handleOnFinishCreateSchool}
-                  onCancel={handleOnCancelCreateSchool}
-                />
-              </Col>
-            </Row>
-          )}
           <Outer>
             <Table
               dataSource={
