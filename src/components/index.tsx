@@ -17,7 +17,11 @@ export const ClarifyText = styled(Paragraph)`
   margin: auto;
 `;
 
-// max-width: 960px
+export const DirectoryTitle = styled(Title)`
+  text-align: center;
+  margin: 24px; 0px; 24px; 0px;
+`;
+
 export const ContentContainer = styled.div`
   display: block;
   padding: 24px;
@@ -28,6 +32,7 @@ export const Outer = styled.div`
   background-color: #d4d9e7;
   padding: 32px 32px 32px 32px;
   border-radius: 5px;
+  margin: auto;
 `;
 
 export const Inner = styled.div`

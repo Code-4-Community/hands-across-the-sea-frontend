@@ -25,6 +25,7 @@ export interface ProtectedApiClient {
 
   readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
   readonly getSchool: (schoolId: number) => Promise<SchoolResponse>;
+  readonly deleteSchool: (schoolId: number) => Promise<void>;
 
   readonly updateSchool: (
     schoolId: number,
@@ -110,11 +111,17 @@ const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
     .catch((e) => e);
 };
 
+const deleteSchool = (schoolId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
+  )
+    .then((res) => res)
+    .catch((err) => err);
+};
+
 const getSchool = (schoolId: number): Promise<SchoolResponse> => {
   return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
-      schoolId.toString(),
-    )}`,
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
   )
     .then((r) => r.data)
     .catch((e) => e);
@@ -125,9 +132,7 @@ const updateSchool = (
   updatedSchool: SchoolRequest,
 ): Promise<void> => {
   return AppAxiosInstance.put(
-    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
-      schoolId.toString(),
-    )}`,
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
     updatedSchool,
   )
     .then((res) => res)
@@ -254,6 +259,7 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
+  deleteSchool,
   getSchool,
   updateSchool,
   deleteUser,

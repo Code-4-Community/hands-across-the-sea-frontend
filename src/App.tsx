@@ -27,6 +27,7 @@ import StudentBookInformation from './containers/student-book-info/StudentBookIn
 import LibraryInfo from './containers/library-info/LibraryInfo';
 import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
 import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
+import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
 
 const { Content } = Layout;
@@ -50,6 +51,7 @@ export enum Routes {
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
+  SCHOOL_DIRECTORY = '/school-directory',
 }
 
 const App: React.FC = () => {
@@ -82,6 +84,11 @@ const App: React.FC = () => {
                     return (
                       <Switch>
                         <Route path={Routes.HOME} exact component={Home} />
+                        <Route
+                          path={Routes.SCHOOL_DIRECTORY}
+                          exact
+                          component={SchoolDirectory}
+                        />
                         <Route
                           path={Routes.SELECT_SCHOOL}
                           exact
