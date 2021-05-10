@@ -47,16 +47,21 @@ const SchoolDirectory: React.FC = () => {
     setCreateSchool(!createSchool);
   };
 
+  enum SchoolDirectoryAction {
+    EDIT = 'edit',
+    BOOKS = 'books',
+    DELETE = 'delete',
+  }
+
   // handles determining what action to do when an action is executed
   const handleActionButtonOnClick = ({ key }: any) => {
     const identifiers: string[] = key.split(';');
-    if (identifiers[0] === 'edit') {
-      return;
-    } else if (identifiers[0] === 'books') {
-      return;
-    } else {
-      dispatch(deleteSchool(parseInt(identifiers[1], 10)));
-      setUpdateSchoolList(!updateSchoolList);
+    switch (identifiers[0]) {
+      case SchoolDirectoryAction.EDIT:
+      case SchoolDirectoryAction.BOOKS:
+      case SchoolDirectoryAction.DELETE:
+        dispatch(deleteSchool(parseInt(identifiers[1], 10)));
+        setUpdateSchoolList(!updateSchoolList);
     }
   };
 
