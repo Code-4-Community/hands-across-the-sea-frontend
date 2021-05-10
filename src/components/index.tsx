@@ -22,7 +22,6 @@ export const DirectoryTitle = styled(Title)`
   margin: 24px; 0px; 24px; 0px;
 `;
 
-// max-width: 960px
 export const ContentContainer = styled.div`
   display: block;
   padding: 24px;

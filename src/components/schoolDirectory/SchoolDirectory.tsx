@@ -16,16 +16,6 @@ import { deleteSchool } from '../../containers/schoolDirectory/ducks/thunks';
 
 const { Search } = Input;
 
-const sortStrings = (a: string, b: string): number => {
-  if (a < b) {
-    return -1;
-  }
-  if (a > b) {
-    return 1;
-  }
-  return 0;
-};
-
 const SchoolDirectory: React.FC = () => {
   const [createSchool, setCreateSchool] = useState<boolean>(false);
   const [updateSchoolList, setUpdateSchoolList] = useState<boolean>(false);
@@ -76,7 +66,7 @@ const SchoolDirectory: React.FC = () => {
       dataIndex: 'name',
       key: 'id',
       sorter: {
-        compare: (a, b) => sortStrings(a.name, b.name),
+        compare: (a, b) => a.name.localeCompare(b.name),
         multiple: 1,
       },
     },
@@ -85,7 +75,7 @@ const SchoolDirectory: React.FC = () => {
       dataIndex: 'country',
       key: 'id',
       sorter: {
-        compare: (a, b) => sortStrings(a.country, b.country),
+        compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
     },
@@ -121,7 +111,7 @@ const SchoolDirectory: React.FC = () => {
           </Modal>
           <Row gutter={[0, 32]}>
             <Col flex={24}>
-            <DirectoryTitle level={2}>School Directory</DirectoryTitle>
+              <DirectoryTitle level={2}>School Directory</DirectoryTitle>
             </Col>
           </Row>
           <Row gutter={[48, 32]}>

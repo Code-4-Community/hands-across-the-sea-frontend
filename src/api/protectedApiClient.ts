@@ -113,9 +113,7 @@ const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
 
 const deleteSchool = (schoolId: number): Promise<void> => {
   return AppAxiosInstance.delete(
-    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
-      schoolId.toString(),
-    )}`,
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
   )
     .then((res) => res)
     .catch((err) => err);
@@ -123,9 +121,7 @@ const deleteSchool = (schoolId: number): Promise<void> => {
 
 const getSchool = (schoolId: number): Promise<SchoolResponse> => {
   return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
-      schoolId.toString(),
-    )}`,
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
   )
     .then((r) => r.data)
     .catch((e) => e);
@@ -136,9 +132,7 @@ const updateSchool = (
   updatedSchool: SchoolRequest,
 ): Promise<void> => {
   return AppAxiosInstance.put(
-    `${ProtectedApiClientRoutes.SCHOOLS.concat('/').concat(
-      schoolId.toString(),
-    )}`,
+    `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
     updatedSchool,
   )
     .then((res) => res)
