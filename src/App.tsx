@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
@@ -22,13 +17,12 @@ import { PrivilegeLevel } from './auth/ducks/types';
 import { C4CState } from './store';
 import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { useSelector } from 'react-redux';
+import YesOrNoLibrary from './containers/library-report/YesOrNoLibrary';
 import SelectSchool from './containers/selectSchool/SelectSchool';
-import StudentBookInformation from './containers/student-book-info/StudentBookInformation';
-import LibraryInfo from './containers/library-info/LibraryInfo';
-import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
-import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
+import LibraryReport from './containers/library-report/LibraryReport';
+import SchoolContacts from './containers/schoolContact';
 
 const { Content } = Layout;
 
@@ -42,15 +36,15 @@ export enum Routes {
   SIGNUP = '/signup',
   SETTINGS = '/settings',
   SELECT_SCHOOL = '/select-school',
-  STUDENT_BOOK_INFORMATION = '/student-book-information',
   LIBRARY_INFO = '/library-info',
-  MONITORING_INFORMATION = '/monitoring-information',
-  TRAINING_AND_MENTORING_INFORMATION = '/training-and-mentoring-information',
+  SCHOOL_CONTACTS = '/school-contacts',
   FORM_SUB_CONFIRMATION = '/form-sub-confirmation',
   SCHOOL_INFO = '/school-info',
+  LIBRARY_REPORT = '/library-report',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
+  TODO = '/TODO',
   SCHOOL_DIRECTORY = '/school-directory',
 }
 
@@ -64,9 +58,9 @@ const App: React.FC = () => {
       <Helmet>
         <meta
           name="keywords"
-          content="child literacy, 
-        Caribbean, books, libraries, reading, Linskey, 
-        Antigua, St. Kitts and Nevis, Dominica, St. Lucia, 
+          content="child literacy,
+        Caribbean, books, libraries, reading, Linskey,
+        Antigua, St. Kitts and Nevis, Dominica, St. Lucia,
         St. Vincent and the Grenadines, Grenada, HATS, hats,
         hand across the sea"
         />
@@ -95,29 +89,24 @@ const App: React.FC = () => {
                           component={SelectSchool}
                         />
                         <Route
-                          path={Routes.STUDENT_BOOK_INFORMATION}
-                          exact
-                          component={StudentBookInformation}
-                        />
-                        <Route
                           path={Routes.LIBRARY_INFO}
                           exact
-                          component={LibraryInfo}
-                        />
-                        <Route
-                          path={Routes.MONITORING_INFORMATION}
-                          exact
-                          component={MonitoringInfo}
-                        />
-                        <Route
-                          path={Routes.TRAINING_AND_MENTORING_INFORMATION}
-                          exact
-                          component={TrainingMentorshipInfo}
+                          component={YesOrNoLibrary}
                         />
                         <Route
                           path={Routes.SCHOOL_INFO}
                           exact
                           component={SchoolInformation}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_CONTACTS}
+                          exact
+                          component={SchoolContacts}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_REPORT}
+                          exact
+                          component={LibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

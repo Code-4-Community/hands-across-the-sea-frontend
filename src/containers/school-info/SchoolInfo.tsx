@@ -4,6 +4,7 @@ import FormFooter from '../../components/form-style/FormFooter';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import ReasonForVisit from './ReasonForVisit';
 import SchoolInformation from './SchoolInformation';
+import { Routes } from '../../App';
 
 const SchoolInfo: React.FC = () => {
   const handleSubmit = (event: any): void => {
@@ -17,7 +18,7 @@ const SchoolInfo: React.FC = () => {
           <Form name="school-info" onFinish={handleSubmit}>
             <ReasonForVisit />
             <SchoolInformation />
-            <FormFooter />
+            <FormFooter next={Routes.LIBRARY_INFO} />
           </Form>
         </Col>
       </Row>

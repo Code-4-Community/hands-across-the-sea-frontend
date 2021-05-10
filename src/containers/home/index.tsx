@@ -40,7 +40,6 @@ const InContain = styled.div`
   padding: 15px 20px 15px 20px;
   background-color: white;
   border-radius: 5px;
-
   &:hover {
     cursor: pointer;
     opacity: 0.7;
