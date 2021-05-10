@@ -31,7 +31,7 @@ const LibraryReport = () => {
   );
   const history = useHistory();
 
-  if (!schoolId) return;
+  if (!schoolId) return null;
 
   const handleSubmit = (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
