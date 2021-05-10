@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
@@ -24,11 +19,6 @@ import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import YesOrNoLibrary from './containers/library-report/YesOrNoLibrary';
 import SelectSchool from './containers/selectSchool/SelectSchool';
-import SchoolInfo from './containers/school-info/SchoolInfo';
-import LibraryInfo from './containers/library-info/LibraryInfo';
-import ReportWithLibraryContainer from './containers/reportWithLibrary';
-import MonitoringInfo from './containers/monitoring-info/MonitoringInfo';
-import TrainingMentorshipInfo from './containers/training-mentorship-info/TrainingMentorshipInfo';
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
 import LibraryReport from './containers/library-report/LibraryReport';
