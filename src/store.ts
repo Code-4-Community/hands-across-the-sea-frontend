@@ -31,10 +31,10 @@ import { SchoolContactsReducerState } from './containers/schoolContact/ducks/typ
 import schoolContactsReducer, {
   initialSchoolContactsState,
 } from './containers/schoolContact/ducks/reducers';
-import schoolContactsReducer, { initialSchoolContactsState } from './containers/schoolContact/ducks/reducers';
 import { LibraryReportReducerState } from './containers/library-report/ducks/types';
-import { initialLibraryReportState } from './containers/library-report/ducks/reducers';
-import libraryReportReducer from './containers/library-report/ducks/reducers';
+import libraryReportReducer, {
+  initialLibraryReportState,
+} from './containers/library-report/ducks/reducers';
 import { LibraryReportActions } from './containers/library-report/ducks/actions';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
