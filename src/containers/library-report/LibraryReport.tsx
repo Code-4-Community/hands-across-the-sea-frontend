@@ -19,13 +19,19 @@ import MonitoringInfo from '../../components/report/MonitoringInfo';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
 import ChangesActionPlan from '../../components/report/ChangesActionPlan';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
+import { useHistory } from 'react-router-dom';
 
 const LibraryReport = () => {
   const dispatch = useDispatch();
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
   );
-  const schoolId = 1; // TODO
+  const schoolId = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+  const history = useHistory();
+
+  if (!schoolId) return;
 
   const handleSubmit = (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -42,6 +48,7 @@ const LibraryReport = () => {
         ),
       );
     }
+    history.push('/');
   };
 
   return (
