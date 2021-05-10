@@ -1,6 +1,6 @@
 import { SchoolInformationThunkAction } from '../../schoolInfo/ducks/types';
 import { schoolInformation } from '../../schoolInfo/ducks/actions';
-import { getSchoolRequest } from '../../schoolInfo/ducks/thunks';
+import { loadSchools } from '../../selectSchool/ducks/thunks';
 
 export const deleteSchool = (
   schoolId: number,
@@ -10,7 +10,7 @@ export const deleteSchool = (
     return protectedApiClient
       .deleteSchool(schoolId)
       .then(() => {
-        dispatch(getSchoolRequest(schoolId));
+        dispatch(loadSchools());
       })
       .catch((error) => {
         dispatch(schoolInformation.failed(error.response.data)); // TODO: make typesafe with utils
