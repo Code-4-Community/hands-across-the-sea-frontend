@@ -274,6 +274,7 @@ const Home: React.FC = () => {
               <InContain
                 onClick={() => {
                   dispatch(logout());
+                  window.location.reload();
                 }}
               >
                 <Row>
