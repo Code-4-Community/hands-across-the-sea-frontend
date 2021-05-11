@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { FormTextArea } from '../';
 import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
@@ -8,6 +8,10 @@ import {
   SchoolResponse,
 } from '../../containers/schoolInfo/ducks/types';
 import styled from 'styled-components';
+import { Countries } from '../../utils/countries';
+import { LibraryStatus } from '../../utils/libraryStatus';
+
+const { Option } = Select;
 
 interface SchoolInformationFormProps {
   readonly onFinish: (
@@ -39,12 +43,39 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
       <FormContainer title="School Information">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="School Address">
+            <FormPiece note="School Information">
+              <Form.Item name="name">
+                <Input disabled={!editMode} placeholder="School Name" />
+              </Form.Item>
               <Form.Item name="address">
                 <Input disabled={!editMode} placeholder="Street Address" />
               </Form.Item>
               <Form.Item name="area">
                 <Input disabled={!editMode} placeholder="Town or District" />
+              </Form.Item>
+              <Form.Item name="email">
+                <Input disabled={!editMode} placeholder="Email Address" />
+              </Form.Item>
+              <Form.Item name="phone">
+                <Input disabled={!editMode} placeholder="Phone Number" />
+              </Form.Item>
+              <Form.Item name="country">
+                <Select disabled={!editMode} placeholder="School's Country">
+                  {Object.keys(Countries).map((key: string) => (
+                    <Option key={key} value={key}>
+                      {key}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item name="libraryStatus">
+                <Select disabled={!editMode} placeholder="Library Status">
+                  {Object.keys(LibraryStatus).map((key: string) => (
+                    <Option key={key} value={key}>
+                      {key}
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
               <Form.Item name="notes">
                 <FormTextArea
