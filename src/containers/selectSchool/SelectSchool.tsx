@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Select } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { Routes } from '../../App';
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import FormButtons from '../../components/form-style/FormButtons';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -22,10 +23,13 @@ const SelectSchool: React.FC = () => {
     (state: C4CState) => state.selectSchoolState.schools,
   );
   const history = useHistory();
+  const [formValues, setFormValues] = useState({} as any);
 
   useEffect(() => {
     dispatch(loadSchools());
   }, [dispatch]);
+
+  const submitDisabled = !formValues.schoolId;
 
   const handleSubmit = (values: SelectSchoolForm) => {
     dispatch(selectSchoolId(values.schoolId));
@@ -45,7 +49,7 @@ const SelectSchool: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <FormContentContainer>
-          <Form name="select-school" onFinish={handleSubmit}>
+          <Form name="select-school" onFinish={handleSubmit} onValuesChange={setFormValues}>
             <FormContainer title="Select a School">
               <Row gutter={[0, 0]}>
                 <Col flex={24}>
@@ -58,16 +62,10 @@ const SelectSchool: React.FC = () => {
                   </FormPiece>
                 </Col>
               </Row>
-              <Row>
-                <Col flex={8}>
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit" ghost>
-                      Next
-                    </Button>
-                  </Form.Item>
-                </Col>
-              </Row>
             </FormContainer>
+            <FormButtons>
+              <FormButtons.Button text="Next" type="primary" isSubmit disabled={submitDisabled} />
+            </FormButtons>
           </Form>
         </FormContentContainer>
       );
