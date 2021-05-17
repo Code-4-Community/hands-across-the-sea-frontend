@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import SchoolInformationForm from '../../components/schoolInfoForm';
 import { SchoolInformationReducerState, SchoolRequest } from './ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSchoolRequest, updatedSchoolRequest } from './ducks/thunks';
@@ -8,6 +7,7 @@ import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
+import SchoolInformationForm from './SchoolInformationForm';
 
 const SchoolInformation: React.FC = () => {
   const dispatch = useDispatch();
