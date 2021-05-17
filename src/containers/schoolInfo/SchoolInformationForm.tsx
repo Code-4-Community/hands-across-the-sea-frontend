@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Select } from 'antd';
+import { Col, Form, Input, Row, Select } from 'antd';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import { SchoolRequest, SchoolResponse } from './ducks/types';
-import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
 import FormButtons from '../../components/form-style/FormButtons';
@@ -19,14 +18,6 @@ interface SchoolInformationFormProps {
   ) => void;
   readonly defaultSchoolInformation?: SchoolResponse;
 }
-
-const Footer = styled.div`
-  text-align: center;
-  margin: 24px 0px 0px 0px;
-`;
-const SubmitButton = styled(Button)`
-  width: 200px;
-`;
 
 const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   onFinish,
