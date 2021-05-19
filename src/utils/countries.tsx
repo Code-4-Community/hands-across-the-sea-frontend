@@ -1,9 +1,9 @@
-export enum Countries {
-  UNITED_STATES = 'United States',
-  ANTIGUA_AND_BARBUDA = 'Antigua and Barbuda',
-  DOMINICA = 'Dominica',
-  GRENADA = 'Grenada',
-  ST_KITTS_AND_NEVIS = 'St. Kitts and Nevis',
-  ST_LUCIA = 'St. Lucia',
-  ST_VINCENT_AND_THE_GRENADINES = 'St. Vincent and the Grenadines',
-}
+export const Countries = {
+  UNITED_STATES: 'UNITED_STATES',
+  ANTIGUA_AND_BARBUDA: 'ANTIGUA_AND_BARBUDA',
+  DOMINICA: 'DOMINICA',
+  GRENADA: 'GRENADA',
+  ST_KITTS_AND_NEVIS: 'ST_KITTS_AND_NEVIS',
+  ST_LUCIA: 'ST_LUCIA',
+  ST_VINCENT_AND_THE_GRENADINES: 'ST_VINCENT_AND_THE_GRENADINES',
+};

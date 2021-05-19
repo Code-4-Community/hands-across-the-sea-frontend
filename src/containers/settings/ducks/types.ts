@@ -5,6 +5,6 @@ export interface GetUserResponse {
   readonly firstName: string;
   readonly lastName: string;
   readonly email: string;
-  readonly country: Countries;
+  readonly country: typeof Countries;
   readonly privilegeLevel: PrivilegeLevel;
 }
