@@ -13,6 +13,7 @@ interface SchoolContactProps {
   onSubmit: (c: SchoolContactRequest) => void;
   onDelete?: () => void;
   onCancel?: () => void;
+  isFirst?: boolean,
 }
 
 const SchoolContact: React.FC<SchoolContactProps> = ({
@@ -20,6 +21,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   onSubmit,
   onDelete,
   onCancel,
+  isFirst,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!initialSchoolContact);
 
@@ -42,6 +44,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
       name="school-contact"
       onFinish={onSubmitHandler}
     >
+      {!isFirst && <br />}
       <FormPiece>
         <Form.Item name="firstName">
           <Input placeholder="First Name" disabled={!editMode} />
@@ -60,31 +63,35 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
         </Form.Item>
         <Form.Item name="type">
           <Select disabled={!editMode}>
-            {Object.values(ContactType).map((contactType) => {
+            {Object.entries(ContactType).map(([key, value]) => {
               return (
-                <Select.Option key={contactType} value={contactType}>
-                  {contactType}
+                <Select.Option key={key} value={key}>
+                  {value}
                 </Select.Option>
               );
             })}
           </Select>
         </Form.Item>
+        {editMode ? (
+          <Row>
+            <Button type="default" onClick={onCancelHandler}>
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Row>
+        ) : (
+          <Row>
+            <Button type="default" onClick={onDelete}>
+              Delete
+            </Button>
+            <Button type="primary" onClick={() => setEditMode(true)}>
+              Edit
+            </Button>
+          </Row>
+        )}
       </FormPiece>
-      {editMode ? (
-        <Row>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-          <Button type="default" onClick={onCancelHandler}>
-            Cancel
-          </Button>
-        </Row>
-      ) : (
-        <Row>
-          <Button onClick={onDelete}>Delete</Button>
-          <Button onClick={() => setEditMode(true)}>Edit</Button>
-        </Row>
-      )}
     </Form>
   );
 };
