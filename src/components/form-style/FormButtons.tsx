@@ -5,6 +5,7 @@ const FormButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-right: -24px;
 `;
 
 const FormButtonElement = styled.button`
@@ -13,6 +14,7 @@ const FormButtonElement = styled.button`
   cursor: pointer;
   border-radius: 16px;
   min-width: 160px;
+  margin-right: 24px;
 `;
 
 interface FormButtonsSubComponents {
