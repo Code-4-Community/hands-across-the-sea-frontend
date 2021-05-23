@@ -12,7 +12,7 @@ import { Routes } from '../../App';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const Settings: React.FC = () => {
-  const userID: number = useSelector((state: C4CState) => {
+  const userId = useSelector((state: C4CState) => {
     return getUserID(state.authenticationState.tokens);
   });
   const [userInfo, setUserInfo] = useState<GetUserResponse>(
@@ -21,9 +21,9 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     ProtectedApiClient.getUser()
-      .then((res) => setUserInfo(res))
+      .then(setUserInfo)
       .catch((e) => e);
-  }, [userID]);
+  }, [userId]);
 
   const onFinishChangePassword = (values: any) => {
     ProtectedApiClient.changePassword(values)
@@ -42,7 +42,7 @@ const Settings: React.FC = () => {
         </BackButton>
         <DirectoryTitle level={2}>Your Profile</DirectoryTitle>
         <Outer>
-          <FormPiece note="Personal Info" level={4}>
+          <FormPiece note="Personal Info" titleLevel={4}>
             <Descriptions column={1}>
               <Descriptions.Item label="First Name">
                 {userInfo.firstName}
@@ -55,7 +55,7 @@ const Settings: React.FC = () => {
               </Descriptions.Item>
             </Descriptions>
           </FormPiece>
-          <FormPiece note="Change Password" lastPiece level={4}>
+          <FormPiece note="Change Password" lastPiece titleLevel={4}>
             <Form name="basic" onFinish={onFinishChangePassword}>
               <Form.Item
                 label="Current Password"

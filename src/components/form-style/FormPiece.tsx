@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import { Row, Col, Typography } from 'antd';
 import { ClarifyText } from '..';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -30,7 +30,7 @@ interface FormPieceProps {
   // if piece is last piece then we do not need to add bottom margin
   readonly lastPiece?: boolean;
   // if we want note to be a title we have it include a level
-  readonly level?: LevelOptions;
+  readonly titleLevel?: ComponentProps<typeof Typography.Title>['level'];
 }
 
 const { Title } = Typography;
@@ -78,8 +78,8 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
       <Piece onClick={props.onClick}>
         <Row>
           <Col span={12}>
-            {props.level ? (
-              <BigClarify level={props.level}>{props.note}</BigClarify>
+            {props.titleLevel ? (
+              <BigClarify level={props.titleLevel}>{props.note}</BigClarify>
             ) : (
               <ClarifyText>{props.note}</ClarifyText>
             )}
@@ -96,8 +96,8 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
   } else {
     return (
       <Piece onClick={props.onClick}>
-        {props.level ? (
-          <BigClarify level={props.level}>{props.note}</BigClarify>
+        {props.titleLevel ? (
+          <BigClarify level={props.titleLevel}>{props.note}</BigClarify>
         ) : (
           <ClarifyText>{props.note}</ClarifyText>
         )}
