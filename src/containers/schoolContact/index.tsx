@@ -14,7 +14,7 @@ import {
   SchoolContactsReducerState,
 } from './ducks/types';
 import SchoolContact from '../../components/schoolContact/SchoolContact';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import FormContainer from '../../components/form-style/FormContainer';
 import { useHistory } from 'react-router-dom';
