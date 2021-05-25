@@ -91,6 +91,7 @@ const ReportWithLibrary: React.FC = () => {
             note={
               'Does this school have a known apprenticeship program in the library?'
             }
+            name="ignore"
           >
             {hasApprenticeship && (
               <FormItemDropdown
