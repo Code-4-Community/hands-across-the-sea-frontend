@@ -7,13 +7,13 @@ interface FormContainerProps {
   readonly title: string;
 }
 
-const Outer = styled.div`
+export const Outer = styled.div`
   background-color: #d4d9e7;
   padding: 32px 32px 32px 32px;
   border-radius: 5px;
 `;
 
-const Container = styled(ContentContainer)`
+export const Container = styled(ContentContainer)`
   min-width: 960px;
   max-width: 960px;
 `;

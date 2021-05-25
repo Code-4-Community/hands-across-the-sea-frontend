@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import { ContentContainer } from '..';
 import styled from 'styled-components';
 
@@ -13,11 +13,12 @@ const { Title } = Typography;
 
 const FormTitle = styled(Title)`
   text-align: center;
-  margin: 24px 0px 0px 0px;
+  margin: 24px 0 0 0;
 `;
 
 const ChildrenContainer = styled.div`
   max-width: 960px;
+  margin: auto;
 `;
 
 const FormContentContainer: React.FC<FormContentContainerProps> = (props) => {
@@ -29,7 +30,7 @@ const FormContentContainer: React.FC<FormContentContainerProps> = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col span={19}>
+        <Col span={24}>
           <ChildrenContainer>{props.children}</ChildrenContainer>
         </Col>
       </Row>
