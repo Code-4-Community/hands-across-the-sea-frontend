@@ -49,7 +49,11 @@ const SelectSchool: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <FormContentContainer>
-          <Form name="select-school" onFinish={handleSubmit} onValuesChange={setFormValues}>
+          <Form
+            name="select-school"
+            onFinish={handleSubmit}
+            onValuesChange={setFormValues}
+          >
             <FormContainer title="Select a School">
               <Row gutter={[0, 0]}>
                 <Col flex={24}>
@@ -78,7 +82,12 @@ const SelectSchool: React.FC = () => {
               </Row>
             </FormContainer>
             <FormButtons>
-              <FormButtons.Button text="Next" type="primary" isSubmit disabled={submitDisabled} />
+              <FormButtons.Button
+                text="Next"
+                type="primary"
+                isSubmit
+                disabled={submitDisabled}
+              />
             </FormButtons>
           </Form>
         </FormContentContainer>

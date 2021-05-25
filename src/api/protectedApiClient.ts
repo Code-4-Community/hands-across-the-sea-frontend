@@ -1,13 +1,20 @@
 import AppAxiosInstance from '../auth/axios';
-import { SchoolRequest, SchoolResponse } from '../containers/schoolInfo/ducks/types';
+import {
+  SchoolRequest,
+  SchoolResponse,
+} from '../containers/schoolInfo/ducks/types';
 import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
-import { BookLogRequest, BookLogResponse } from '../containers/bookLogs/ducks/types';
+import {
+  BookLogRequest,
+  BookLogResponse,
+} from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
-  LibraryReportResponse, ReportWithLibraryRequest,
+  LibraryReportResponse,
+  ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
 } from '../containers/library-report/ducks/types';
 
