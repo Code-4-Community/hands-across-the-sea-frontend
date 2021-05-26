@@ -28,7 +28,7 @@ describe('Protected API Client Tests', () => {
       const response = '';
 
       nock(BASE_URL)
-        .post(ProtectedApiClientRoutes.DELETE_USER)
+        .post(ProtectedApiClientRoutes.USER)
         .reply(200, response);
 
       const result = await ProtectedApiClient.deleteUser({

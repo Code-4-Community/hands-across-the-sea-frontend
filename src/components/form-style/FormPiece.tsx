@@ -1,8 +1,10 @@
-import React from 'react';
-import { Row, Col } from 'antd';
+import React, {ComponentProps} from 'react';
+import { Row, Col, Typography } from 'antd';
 import { ClarifyText } from '..';
 import { DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+
+type LevelOptions = 1 | 2 | 3 | 4 | 5 | undefined;
 
 interface FormPieceProps {
   // description for form item
@@ -25,7 +27,13 @@ interface FormPieceProps {
   readonly addPaddingTop?: number;
   readonly addPaddingLeft?: number;
   readonly addPaddingRight?: number;
+  // if piece is last piece then we do not need to add bottom margin
+  readonly lastPiece?: boolean;
+  // if we want note to be a title we have it include a level
+  readonly titleLevel?: ComponentProps<typeof Typography.Title>['level'];
 }
+
+const { Title } = Typography;
 
 const MakeRight = styled.div`
   text-align: right;
@@ -33,6 +41,10 @@ const MakeRight = styled.div`
   &:hover {
     color: #ff0000;
   }
+`;
+
+const BigClarify = styled(Title)`
+  margin: auto;
 `;
 
 const FormPiece: React.FC<FormPieceProps> = (props) => {
@@ -52,11 +64,13 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
     props.addPaddingLeft !== undefined
       ? `${32 + props.addPaddingLeft}px`
       : '32px';
+  const bottomMargin = props.lastPiece !== undefined ? '0px' : '24px';
 
   const Piece = styled.div`
     padding: ${padTop} ${padRight} ${padBottom} ${padLeft};
     background-color: white;
     border-radius: 5px;
+    margin: 0px 0px ${bottomMargin} 0px;
   `;
 
   if (props.additionalPiece) {
@@ -64,7 +78,11 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
       <Piece onClick={props.onClick}>
         <Row>
           <Col span={12}>
-            <ClarifyText>{props.note}</ClarifyText>
+            {props.titleLevel ? (
+              <BigClarify level={props.titleLevel}>{props.note}</BigClarify>
+            ) : (
+              <ClarifyText>{props.note}</ClarifyText>
+            )}
           </Col>
           <Col span={12}>
             <MakeRight>
@@ -78,7 +96,11 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
   } else {
     return (
       <Piece onClick={props.onClick}>
-        <ClarifyText>{props.note}</ClarifyText>
+        {props.titleLevel ? (
+          <BigClarify level={props.titleLevel}>{props.note}</BigClarify>
+        ) : (
+          <ClarifyText>{props.note}</ClarifyText>
+        )}
         {props.children}
       </Piece>
     );
