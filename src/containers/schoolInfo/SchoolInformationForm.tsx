@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Select } from 'antd';
-import { FormTextArea } from '../';
-import FormContainer from '../form-style/FormContainer';
-import FormPiece from '../form-style/FormPiece';
-import {
-  SchoolRequest,
-  SchoolResponse,
-} from '../../containers/schoolInfo/ducks/types';
-import styled from 'styled-components';
+import { Col, Form, Input, Row, Select } from 'antd';
+import { FormTextArea } from '../../components';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormPiece from '../../components/form-style/FormPiece';
+import { SchoolRequest, SchoolResponse } from './ducks/types';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
+import FormButtons from '../../components/form-style/FormButtons';
+import { useHistory } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -21,19 +19,16 @@ interface SchoolInformationFormProps {
   readonly defaultSchoolInformation?: SchoolResponse;
 }
 
-const Footer = styled.div`
-  text-align: center;
-  margin: 24px 0px 0px 0px;
-`;
-const SubmitButton = styled(Button)`
-  width: 200px;
-`;
-
 const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   onFinish,
   defaultSchoolInformation,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!defaultSchoolInformation);
+  const history = useHistory();
+
+  const goPrev = () => {
+    history.goBack();
+  };
 
   return (
     <Form
@@ -43,36 +38,40 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
       <FormContainer title="School Information">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="School Information">
+            <FormPiece note="Name">
               <Form.Item name="name">
                 <Input disabled={!editMode} placeholder="School Name" />
               </Form.Item>
+            </FormPiece>
+            <FormPiece note="Address">
               <Form.Item name="address">
                 <Input disabled={!editMode} placeholder="Street Address" />
               </Form.Item>
               <Form.Item name="area">
                 <Input disabled={!editMode} placeholder="Town or District" />
               </Form.Item>
+              <Form.Item name="country">
+                <Select disabled={!editMode} placeholder="School's Country">
+                  {Object.entries(Countries).map(([key, value]) => (
+                    <Option key={key} value={key}>
+                      {value}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </FormPiece>
+            <FormPiece note="Contact Information">
               <Form.Item name="email">
                 <Input disabled={!editMode} placeholder="Email Address" />
               </Form.Item>
               <Form.Item name="phone">
                 <Input disabled={!editMode} placeholder="Phone Number" />
               </Form.Item>
-              <Form.Item name="country">
-                <Select disabled={!editMode} placeholder="School's Country">
-                  {Object.keys(Countries).map((key: string) => (
-                    <Option key={key} value={key}>
-                      {key}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
               <Form.Item name="libraryStatus">
                 <Select disabled={!editMode} placeholder="Library Status">
-                  {Object.keys(LibraryStatus).map((key: string) => (
+                  {Object.entries(LibraryStatus).map(([key, value]) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {value}
                     </Option>
                   ))}
                 </Select>
@@ -88,32 +87,27 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
           </Col>
         </Row>
       </FormContainer>
-      <Footer>
-        <Row gutter={[0, 24]}>
-          <Col flex={12}>
-            {editMode ? (
-              <SubmitButton
-                onClick={() => {
-                  setEditMode(false);
-                }}
-              >
-                Cancel
-              </SubmitButton>
-            ) : (
-              <SubmitButton
-                onClick={() => {
-                  setEditMode(true);
-                }}
-              >
-                Edit
-              </SubmitButton>
-            )}
-          </Col>
-          <Col flex={12}>
-            <SubmitButton htmlType={'submit'}>Confirm</SubmitButton>
-          </Col>
-        </Row>
-      </Footer>
+      <FormButtons>
+        <FormButtons.Button text="Back" type="secondary" onClick={goPrev} />
+        {editMode ? (
+          <FormButtons.Button
+            type="secondary"
+            text="Cancel"
+            onClick={() => {
+              setEditMode(false);
+            }}
+          />
+        ) : (
+          <FormButtons.Button
+            text="Edit"
+            type="secondary"
+            onClick={() => {
+              setEditMode(true);
+            }}
+          />
+        )}
+        <FormButtons.Button text="Confirm" type="primary" isSubmit />
+      </FormButtons>
     </Form>
   );
 };

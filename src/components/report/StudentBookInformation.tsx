@@ -2,6 +2,14 @@ import React from 'react';
 import { Col, Form, InputNumber, Row } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
+import styled from 'styled-components';
+
+
+const InputNumberNoArrows = styled(InputNumber)`
+  .ant-input-number-handler-wrap {
+    display: none; 
+  }
+`
 
 const StudentBookInformation: React.FC = () => {
   return (
@@ -10,14 +18,14 @@ const StudentBookInformation: React.FC = () => {
         <Col span={12}>
           <FormPiece note="How Many Children attended?">
             <Form.Item name="numberOfChildren">
-              <InputNumber placeholder="#" min={0} />
+              <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
         </Col>
         <Col span={12}>
           <FormPiece note="How Many Books?">
             <Form.Item name="numberOfBooks">
-              <InputNumber placeholder="#" min={0} />
+              <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
         </Col>
@@ -26,14 +34,14 @@ const StudentBookInformation: React.FC = () => {
         <Col span={12}>
           <FormPiece note="What grades attended?">
             <Form.Item name="gradesAttended">
-              <InputNumber placeholder="#" min={0} />
+              <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
         </Col>
         <Col span={12}>
           <FormPiece note="Most recent shipment year?">
             <Form.Item name="mostRecentShipmentYear">
-              <InputNumber placeholder="#" min={0} />
+              <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
         </Col>
