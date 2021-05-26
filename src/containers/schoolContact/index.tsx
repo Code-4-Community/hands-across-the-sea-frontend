@@ -14,11 +14,12 @@ import {
   SchoolContactsReducerState,
 } from './ducks/types';
 import SchoolContact from '../../components/schoolContact/SchoolContact';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import FormContainer from '../../components/form-style/FormContainer';
 import { useHistory } from 'react-router-dom';
 import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
+import FormButtons from '../../components/form-style/FormButtons';
 
 const SchoolContacts: React.FC = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const SchoolContacts: React.FC = () => {
 
   const renderExistingSchoolContact = (
     contact: SchoolContactResponse,
+    isFirst?: boolean,
   ): JSX.Element => {
     const submitCallback = (c: SchoolContactRequest): void => {
       if (schoolId) {
@@ -57,6 +59,7 @@ const SchoolContacts: React.FC = () => {
         onSubmit={submitCallback}
         onDelete={() => deleteContact(contact.id)}
         key={contact.id}
+        isFirst={isFirst}
       />
     );
   };
@@ -85,22 +88,37 @@ const SchoolContacts: React.FC = () => {
       return <p>Failed to load contacts</p>;
     case AsyncRequestKinds.Completed:
       return (
-        <FormContainer title="School Contacts">
-          <Row gutter={[0, 24]}>
-            <Col flex={24}>
-              {Array.from(schoolContacts.result).map(
-                renderExistingSchoolContact,
-              )}
-              {!showAddContact && (
-                <Button onClick={() => setShowAddContact(true)}>
-                  Add Contact
-                </Button>
-              )}
-              {showAddContact && renderAddSchoolContact()}
-            </Col>
-          </Row>
-          <Button onClick={() => history.push('/library-info')}>Next</Button>
-        </FormContainer>
+        <>
+          <FormContainer title="School Contacts">
+            <Row gutter={[0, 24]}>
+              <Col flex={24}>
+                {Array.from(schoolContacts.result).map((c, index) => {
+                  return renderExistingSchoolContact(c, index === 0);
+                })}
+              </Col>
+            </Row>
+            {showAddContact && renderAddSchoolContact()}
+          </FormContainer>
+          <FormButtons>
+            <FormButtons.Button
+              text="Back"
+              type="secondary"
+              onClick={() => history.push('/school-info')}
+            />
+            {!showAddContact && (
+              <FormButtons.Button
+                text="Add Another Contact"
+                type="secondary"
+                onClick={() => setShowAddContact(true)}
+              />
+            )}
+            <FormButtons.Button
+              text="Next"
+              type="primary"
+              onClick={() => history.push('/library-info')}
+            />
+          </FormButtons>
+        </>
       );
   }
 };
