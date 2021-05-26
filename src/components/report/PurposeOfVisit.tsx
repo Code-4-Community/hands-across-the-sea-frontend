@@ -43,7 +43,9 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
                 labelInValue
               >
                 {Object.entries(reasons).map(([key, value]) => (
-                  <Select.Option value={key} key={key}>{value}</Select.Option>
+                  <Select.Option value={key} key={key}>
+                    {value}
+                  </Select.Option>
                 ))}
               </Select>
             </Form.Item>

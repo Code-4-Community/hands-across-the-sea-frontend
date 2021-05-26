@@ -49,13 +49,31 @@ const SelectSchool: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <FormContentContainer>
-          <Form name="select-school" onFinish={handleSubmit} onValuesChange={setFormValues}>
+          <Form
+            name="select-school"
+            onFinish={handleSubmit}
+            onValuesChange={setFormValues}
+          >
             <FormContainer title="Select a School">
               <Row gutter={[0, 0]}>
                 <Col flex={24}>
                   <FormPiece note="Which school will you be monitoring today?">
                     <Form.Item name="schoolId" rules={[{ required: true }]}>
-                      <Select placeholder="Select a school">
+                      <Select
+                        placeholder="Select a school"
+                        showSearch
+                        optionFilterProp="children"
+                        filterOption={(input, option: any) =>
+                          option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                          optionA.children
+                            .toLowerCase()
+                            .localeCompare(optionB.children.toLowerCase())
+                        }
+                      >
                         {availableSchools.result.map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
@@ -64,7 +82,12 @@ const SelectSchool: React.FC = () => {
               </Row>
             </FormContainer>
             <FormButtons>
-              <FormButtons.Button text="Next" type="primary" isSubmit disabled={submitDisabled} />
+              <FormButtons.Button
+                text="Next"
+                type="primary"
+                isSubmit
+                disabled={submitDisabled}
+              />
             </FormButtons>
           </Form>
         </FormContentContainer>
