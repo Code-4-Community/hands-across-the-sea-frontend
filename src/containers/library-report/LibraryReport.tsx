@@ -20,6 +20,7 @@ import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipIn
 import ChangesActionPlan from '../../components/report/ChangesActionPlan';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
 import { useHistory } from 'react-router-dom';
+import { Routes } from '../../App';
 
 const LibraryReport = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const LibraryReport = () => {
         ),
       );
     }
-    history.push('/');
+    history.replace(Routes.FORM_SUB_CONFIRMATION);
   };
 
   return (

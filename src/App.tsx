@@ -28,6 +28,7 @@ import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
 import LibraryReport from './containers/library-report/LibraryReport';
 import SchoolContacts from './containers/schoolContact';
+import FormSubmission from './containers/formSubmission';
 
 const { Content } = Layout;
 
@@ -112,6 +113,11 @@ const App: React.FC = () => {
                           path={Routes.LIBRARY_REPORT}
                           exact
                           component={LibraryReport}
+                        />
+                        <Route
+                          path={Routes.FORM_SUB_CONFIRMATION}
+                          exact
+                          component={FormSubmission}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
