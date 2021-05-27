@@ -21,7 +21,7 @@ const { Search } = Input;
 const SchoolDirectory: React.FC = () => {
   const [createSchool, setCreateSchool] = useState<boolean>(false);
   const [updateSchoolList, setUpdateSchoolList] = useState<boolean>(false);
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
   const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
     (state: C4CState) => state.selectSchoolState.schools,
@@ -56,7 +56,9 @@ const SchoolDirectory: React.FC = () => {
   ) => {
     switch (key) {
       case SchoolDirectoryAction.EDIT:
+        return;
       case SchoolDirectoryAction.BOOKS:
+        return;
       case SchoolDirectoryAction.DELETE:
         dispatch(deleteSchool(schoolId));
         setUpdateSchoolList(!updateSchoolList);
@@ -122,7 +124,7 @@ const SchoolDirectory: React.FC = () => {
           </Row>
           <Row gutter={[48, 32]}>
             <Col flex={18}>
-              <Search onChange={(e) => setSearchText(e.target.value)}/>
+              <Search onChange={(e) => setSearchText(e.target.value)} />
             </Col>
             <Col flex={6}>
               <Button onClick={handleOnClickCreateSchool}>Add School</Button>
@@ -132,7 +134,11 @@ const SchoolDirectory: React.FC = () => {
             <Table
               dataSource={
                 availableSchools.kind === AsyncRequestKinds.Completed
-                  ? availableSchools.result.filter((entry) => entry.name.toLocaleLowerCase().startsWith(searchText.toLowerCase()))
+                  ? availableSchools.result.filter((entry) =>
+                      entry.name
+                        .toLocaleLowerCase()
+                        .startsWith(searchText.toLowerCase()),
+                    )
                   : undefined
               }
               columns={columns}

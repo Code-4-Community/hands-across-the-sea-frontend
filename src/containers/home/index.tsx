@@ -22,6 +22,13 @@ import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 
 const { Title, Paragraph } = Typography;
 
+interface InContainProps {
+  readonly lastPiece?: boolean;
+  readonly onClick?: (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
+}
+
 const ButtonDescription = styled(Title)`
   font-weight: bold;
 `;
@@ -36,15 +43,25 @@ const HeadTitle = styled(Title)`
   text-align: center;
 `;
 
-const InContain = styled.div`
-  padding: 15px 20px 15px 20px;
-  background-color: white;
-  border-radius: 5px;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
-`;
+const InContain: React.FC<InContainProps> = ({
+  children,
+  lastPiece,
+  onClick,
+}) => {
+  const bottomMargin = lastPiece ? '0px' : '24px';
+  const ContainDiv = styled.div`
+    padding: 15px 20px 15px 20px;
+    margin: 0px 0px ${bottomMargin} 0px;
+    background-color: white;
+    border-radius: 5px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  `;
+
+  return <ContainDiv onClick={onClick}>{children}</ContainDiv>;
+};
 
 const Home: React.FC = () => {
   const history = useHistory();
@@ -204,6 +221,7 @@ const Home: React.FC = () => {
             {privilegeLevel === PrivilegeLevel.ADMIN ? (
               <Col span={12}>
                 <InContain
+                  lastPiece
                   onClick={() => {
                     history.push(Routes.SETTINGS);
                   }}
@@ -238,6 +256,7 @@ const Home: React.FC = () => {
             ) : (
               <Col span={12}>
                 <InContain
+                  lastPiece
                   onClick={() => {
                     history.push(Routes.SETTINGS);
                   }}
@@ -272,9 +291,11 @@ const Home: React.FC = () => {
             )}
             <Col span={12}>
               <InContain
+                lastPiece
                 onClick={() => {
                   dispatch(logout());
-                  window.location.reload();
+                  history.replace(Routes.LOGIN);
+                  history.go(0);
                 }}
               >
                 <Row>
