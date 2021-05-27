@@ -59,10 +59,22 @@ const SelectSchool: React.FC = () => {
                 <Col flex={24}>
                   <FormPiece note="Which school will you be monitoring today?">
                     <Form.Item name="schoolId" rules={[{ required: true }]}>
-                      <Select placeholder="Select a school">
-                        {Array.from(availableSchools.result).map(
-                          renderSchoolOption,
-                        )}
+                      <Select
+                        placeholder="Select a school"
+                        showSearch
+                        optionFilterProp="children"
+                        filterOption={(input, option: any) =>
+                          option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
+                        filterSort={(optionA, optionB) =>
+                          optionA.children
+                            .toLowerCase()
+                            .localeCompare(optionB.children.toLowerCase())
+                        }
+                      >
+                        {Array.from(availableSchools.result).map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>

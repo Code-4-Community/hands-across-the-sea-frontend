@@ -1,7 +1,5 @@
 import { asyncRequestIsComplete } from '../../../utils/asyncRequest';
-import {
-  LibraryReportReducerState, LibraryReportResponse,
-} from './types';
+import { LibraryReportReducerState, LibraryReportResponse } from './types';
 
 export const getReportWithLibrary = (
   state: LibraryReportReducerState,

@@ -1,6 +1,8 @@
 import {
   ReportWithLibraryRequest,
-  LibraryReportThunkAction, LibraryReportResponse, ReportWithoutLibraryRequest,
+  LibraryReportThunkAction,
+  LibraryReportResponse,
+  ReportWithoutLibraryRequest,
 } from './types';
 import { latestLibraryReport } from './actions';
 

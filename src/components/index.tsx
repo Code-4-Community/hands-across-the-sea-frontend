@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 import { Typography, Input } from 'antd';
+import { LinkButton } from './LinkButton';
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
+
+export const BackButton = styled(LinkButton)`
+  margin: auto;
+  background: transparent;
+  color: #54679e;
+`;
 
 export const FormTextArea = styled(TextArea)`
   resize: none;
@@ -50,5 +57,3 @@ export const Inner = styled.div`
   background-color: white;
   border-radius: 5px;
 `;
-
-

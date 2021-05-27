@@ -1,15 +1,23 @@
 import AppAxiosInstance from '../auth/axios';
-import { SchoolRequest, SchoolResponse } from '../containers/schoolInfo/ducks/types';
+import {
+  SchoolRequest,
+  SchoolResponse,
+} from '../containers/schoolInfo/ducks/types';
 import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../containers/schoolContact/ducks/types';
-import { BookLogRequest, BookLogResponse } from '../containers/bookLogs/ducks/types';
+import {
+  BookLogRequest,
+  BookLogResponse,
+} from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
-  LibraryReportResponse, ReportWithLibraryRequest,
+  LibraryReportResponse,
+  ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
 } from '../containers/library-report/ducks/types';
+import { GetUserResponse } from '../containers/settings/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -31,6 +39,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
 
   readonly deleteUser: (request: { password: string }) => Promise<void>;
+  readonly getUser: () => Promise<GetUserResponse>;
 
   readonly getSchoolContacts: (
     schoolId: number,
@@ -88,7 +97,7 @@ export interface ProtectedApiClient {
 
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
-  DELETE_USER = '/api/v1/protected/user/',
+  USER = '/api/v1/protected/user',
   SCHOOLS = '/api/v1/protected/schools',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   LIBRARY_REPORTS = '/api/v1/protected/schools/:school_id/reports',
@@ -113,7 +122,13 @@ const changePassword = (request: {
 };
 
 const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.USER, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const getUser = (): Promise<GetUserResponse> => {
+  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`)
     .then((r) => r.data)
     .catch((e) => e);
 };
@@ -312,6 +327,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getSchool,
   updateSchool,
   deleteUser,
+  getUser,
   getSchoolContacts,
   updateSchoolContact,
   createSchoolContact,

@@ -30,8 +30,8 @@ export interface SchoolContactResponse extends SchoolContactRequest {
 }
 
 export enum ContactType {
-  PRINCIPAL = 'PRINCIPAL',
-  LITERACY_COORDINATOR = 'LITERACY_COORDINATOR',
-  LIBRARIAN = 'LIBRARIAN',
-  OTHER = 'OTHER',
+  PRINCIPAL = 'Principal',
+  LITERACY_COORDINATOR = 'Literacy Coordinator',
+  LIBRARIAN = 'Librarian',
+  OTHER = 'Other',
 }
