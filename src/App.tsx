@@ -52,6 +52,7 @@ export enum Routes {
   VERIFY_EMAIL = '/verify/:key',
   TODO = '/TODO',
   SCHOOL_DIRECTORY = '/school-directory',
+  USER_DIRECTORY = '/user-directory',
 }
 
 const App: React.FC = () => {
@@ -80,7 +81,6 @@ const App: React.FC = () => {
               {(() => {
                 switch (privilegeLevel) {
                   case PrivilegeLevel.ADMIN:
-                  case PrivilegeLevel.STANDARD:
                     return (
                       <Switch>
                         <Route path={Routes.HOME} exact component={Home} />
@@ -89,6 +89,55 @@ const App: React.FC = () => {
                           exact
                           component={SchoolDirectory}
                         />
+                        <Route
+                          path={Routes.USER_DIRECTORY}
+                          exact
+                          component={SchoolDirectory}
+                        />
+                        <Route
+                          path={Routes.SELECT_SCHOOL}
+                          exact
+                          component={SelectSchool}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_INFO}
+                          exact
+                          component={YesOrNoLibrary}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_INFO}
+                          exact
+                          component={SchoolInformation}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_CONTACTS}
+                          exact
+                          component={SchoolContacts}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_REPORT}
+                          exact
+                          component={LibraryReport}
+                        />
+                        <Route
+                          path={Routes.FORM_SUB_CONFIRMATION}
+                          exact
+                          component={FormSubmission}
+                        />
+                        <Route path={Routes.LOGIN} exact component={Login} />
+                        <Route path={Routes.SIGNUP} exact component={Signup} />
+                        <Route
+                          path={Routes.SETTINGS}
+                          exact
+                          component={Settings}
+                        />
+                        <Route path="*" exact component={NotFound} />
+                      </Switch>
+                    );
+                  case PrivilegeLevel.STANDARD:
+                    return (
+                      <Switch>
+                        <Route path={Routes.HOME} exact component={Home} />
                         <Route
                           path={Routes.SELECT_SCHOOL}
                           exact
