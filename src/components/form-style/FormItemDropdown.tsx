@@ -1,5 +1,5 @@
-import React from 'react';
 import { Form, Select } from 'antd';
+import React from 'react';
 import { ClarifyText } from '..';
 import { getOptionsFromEnum } from '../../utils/helpers';
 
@@ -9,15 +9,28 @@ interface FormPieceDropdownProps {
   readonly text: string;
   readonly clarifyText?: string;
   readonly onChange?: (event: any) => void;
+  readonly required?: boolean;
 }
 
-const FormItemDropdown: React.FC<FormPieceDropdownProps> = (props) => {
+const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
+  clarifyText,
+  name,
+  text,
+  optionsEnum,
+  onChange,
+  required,
+}) => {
   return (
     <>
-      {props.clarifyText && <ClarifyText>{props.clarifyText}</ClarifyText>}
-      <Form.Item name={props.name}>
-        <Select placeholder={props.text} onChange={props.onChange}>
-          {getOptionsFromEnum(props.optionsEnum)}
+      {clarifyText && <ClarifyText>{clarifyText}</ClarifyText>}
+      <Form.Item
+        name={name}
+        rules={[
+          { required: required || true, message: 'This field is required' },
+        ]}
+      >
+        <Select placeholder={text} onChange={onChange}>
+          {getOptionsFromEnum(optionsEnum)}
         </Select>
       </Form.Item>
     </>

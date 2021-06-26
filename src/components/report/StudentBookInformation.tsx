@@ -3,6 +3,8 @@ import { Col, Form, InputNumber, Row, Checkbox } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import styled from 'styled-components';
+import { toTitleCase } from '../../utils/helpers';
+import { Grade } from '../../containers/library-report/ducks/types';
 
 const InputNumberNoArrows = styled(InputNumber)`
   .ant-input-number-handler-wrap {
@@ -11,33 +13,30 @@ const InputNumberNoArrows = styled(InputNumber)`
 `;
 
 const StudentBookInformation: React.FC = () => {
-  const gradeOptions = [
-    '1st Grade',
-    '2nd Grade',
-    '3rd Grade',
-    '4th Grade',
-    '5th Grade',
-    '6th Grade',
-    '7th Grade',
-    '9th Grade',
-    '10th Grade',
-    '11th Grade',
-    '12th Grade',
-  ];
+  const gradeOptions = Object.entries(Grade).map(([key, value]) => ({
+    label: toTitleCase(key.replace('_', ' ')),
+    value,
+  }));
 
   return (
     <FormContainer title="Student and Book Information">
       <Row gutter={[24, 24]}>
         <Col span={12}>
           <FormPiece note="How Many Children attended?">
-            <Form.Item name="numberOfChildren">
+            <Form.Item
+              name="numberOfChildren"
+              rules={[{ required: true, message: 'This field is required' }]}
+            >
               <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
         </Col>
         <Col span={12}>
           <FormPiece note="How Many Books?">
-            <Form.Item name="numberOfBooks">
+            <Form.Item
+              name="numberOfBooks"
+              rules={[{ required: true, message: 'This field is required' }]}
+            >
               <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>
@@ -46,14 +45,20 @@ const StudentBookInformation: React.FC = () => {
       <Row gutter={[24, 0]}>
         <Col span={12}>
           <FormPiece note="What grades attended?">
-            <Form.Item name="gradesAttended">
+            <Form.Item
+              name="gradesAttended"
+              rules={[{ required: true, message: 'This field is required' }]}
+            >
               <Checkbox.Group options={gradeOptions} />
             </Form.Item>
           </FormPiece>
         </Col>
         <Col span={12}>
           <FormPiece note="Most recent shipment year?">
-            <Form.Item name="mostRecentShipmentYear">
+            <Form.Item
+              name="mostRecentShipmentYear"
+              rules={[{ required: true, message: 'This field is required' }]}
+            >
               <InputNumberNoArrows placeholder="#" min={0} />
             </Form.Item>
           </FormPiece>

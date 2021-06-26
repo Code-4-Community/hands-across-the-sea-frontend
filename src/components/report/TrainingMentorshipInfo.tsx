@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Col, Form, InputNumber, RadioChangeEvent, Row } from 'antd';
-import { ClarifyText, FormTextArea } from '../index';
+import React, { useState } from 'react';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPieceBoolean from '../form-style/FormPieceBoolean';
+import { ClarifyText, FormTextArea } from '../index';
 
 const TrainingMentorshipInfo: React.FC = () => {
   const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>();
@@ -36,7 +36,12 @@ const TrainingMentorshipInfo: React.FC = () => {
             {isStudentLibrary && (
               <>
                 <ClarifyText>How many student librarians?</ClarifyText>
-                <Form.Item name="numberOfStudentLibrarians">
+                <Form.Item
+                  name="numberOfStudentLibrarians"
+                  rules={[
+                    { required: true, message: 'This field is required' },
+                  ]}
+                >
                   <InputNumber placeholder="#" min={1} />
                 </Form.Item>
               </>
@@ -44,7 +49,12 @@ const TrainingMentorshipInfo: React.FC = () => {
             {isStudentLibrary === false && (
               <>
                 <ClarifyText>Why not?</ClarifyText>
-                <Form.Item name="reasonNoStudentLibrarians">
+                <Form.Item
+                  name="reasonNoStudentLibrarians"
+                  rules={[
+                    { required: true, message: 'This field is required' },
+                  ]}
+                >
                   <FormTextArea placeholder="Please enter the reason here" />
                 </Form.Item>
               </>
@@ -74,7 +84,12 @@ const TrainingMentorshipInfo: React.FC = () => {
             {teachersSeekingSupport && (
               <>
                 <ClarifyText>What kind?</ClarifyText>
-                <Form.Item name="teacherSupport">
+                <Form.Item
+                  name="teacherSupport"
+                  rules={[
+                    { required: true, message: 'This field is required' },
+                  ]}
+                >
                   <FormTextArea placeholder="Please enter your answer here" />
                 </Form.Item>
               </>
@@ -95,7 +110,12 @@ const TrainingMentorshipInfo: React.FC = () => {
             {involvedParents && (
               <>
                 <ClarifyText>Please share examples:</ClarifyText>
-                <Form.Item name="parentSupport">
+                <Form.Item
+                  name="parentSupport"
+                  rules={[
+                    { required: true, message: 'This field is required' },
+                  ]}
+                >
                   <FormTextArea placeholder="Please enter your answer here" />
                 </Form.Item>
               </>

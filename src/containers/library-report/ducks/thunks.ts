@@ -26,14 +26,15 @@ export const createReportWithLibrary = (
   schoolId: number,
   report: ReportWithLibraryRequest,
 ): LibraryReportThunkAction<void> => {
-  return (dispatch, getState, { protectedApiClient }) => {
-    return protectedApiClient
+  return async (dispatch, _getState, { protectedApiClient }) => {
+    return await protectedApiClient
       .createReportWithLibrary(schoolId, report)
       .then(() => {
         dispatch(loadLatestLibraryReport(schoolId));
       })
       .catch((error) => {
         dispatch(latestLibraryReport.failed(error.response.data));
+        throw new Error('Failed to post report');
       });
   };
 };
@@ -42,14 +43,15 @@ export const createReportWithoutLibrary = (
   schoolId: number,
   report: ReportWithoutLibraryRequest,
 ): LibraryReportThunkAction<void> => {
-  return (dispatch, getState, { protectedApiClient }) => {
-    return protectedApiClient
+  return async (dispatch, getState, { protectedApiClient }) => {
+    return await protectedApiClient
       .createReportWithoutLibrary(schoolId, report)
       .then(() => {
         dispatch(loadLatestLibraryReport(schoolId));
       })
       .catch((error) => {
         dispatch(latestLibraryReport.failed(error.response.data));
+        throw new Error('Failed to post report');
       });
   };
 };

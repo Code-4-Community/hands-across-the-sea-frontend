@@ -10,7 +10,7 @@ const ReportWithoutLibrary: React.FC = () => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Why isn't there a library?">
-            <Form.Item name="reasonWhyNot">
+            <Form.Item name="reasonWhyNot" required>
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Col, Form, Row, Select } from 'antd';
+import React from 'react';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
 import { FormTextArea } from '../index';
@@ -35,7 +35,12 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?">
-            <Form.Item name="purpose">
+            <Form.Item
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
+              name="purpose"
+            >
               <Select
                 placeholder="Select a reason"
                 value={input}
@@ -50,7 +55,10 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
               </Select>
             </Form.Item>
             {input === 'other' && (
-              <Form.Item name="other">
+              <Form.Item
+                name="other"
+                rules={[{ required: true, message: 'This field is required' }]}
+              >
                 <FormTextArea
                   placeholder="Please enter why here"
                   autoSize={{ minRows: 4 }}

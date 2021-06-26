@@ -71,16 +71,32 @@ export enum AssignedPersonRole {
 }
 
 export enum AssignedPersonTitle {
-  LIBRARIAN = 'LIBRARIAN',
-  SECRETARY = 'SECRETARY',
-  TEACHER = 'TEACHER',
-  APPRENTICE = 'APPRENTICE',
+  LIBRARIAN = 'Librarian',
+  SECRETARY = 'Secretary',
+  TEACHER = 'Teacher',
+  APPRENTICE = 'Apprentice',
   PCV = 'PCV',
-  OTHER = 'OTHER',
+  OTHER = 'Other',
 }
 
 export enum ApprenticeshipProgram {
-  OECS_YES = 'OECS_YES',
+  OECS_YES = 'OECS YES',
   NEP = 'NEP',
-  OHTER = 'OTHER',
+  OTHER = 'Other',
+  NONE = 'No Apprenticeship Program',
+}
+
+export enum Grade {
+  KINDERGARTEN = 'kindergarten',
+  FIRST_GRADE = 'first_grade',
+  SECOND_GRADE = 'second_grade',
+  THIRD_GRADE = 'third_grade',
+  FOURTH_GRADE = 'fourth_grade',
+  FIFTH_GRADE = 'fifth_grade',
+  SIXTH_GRADE = 'sixth_grade',
+  FORM_ONE = 'form_one',
+  FORM_TWO = 'form_two',
+  FORM_THREE = 'form_three',
+  FORM_FOUR = 'form_four',
+  FORM_FIVE = 'form_five',
 }
