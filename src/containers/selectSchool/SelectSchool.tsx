@@ -74,7 +74,9 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(availableSchools.result).map(renderSchoolOption)}
+                        {Array.from(availableSchools.result).map(
+                          renderSchoolOption,
+                        )}
                       </Select>
                     </Form.Item>
                   </FormPiece>
