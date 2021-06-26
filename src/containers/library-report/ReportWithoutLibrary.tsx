@@ -3,6 +3,8 @@ import { Radio, Form, Row, Col, Checkbox } from 'antd';
 import FormPiece from '../../components/form-style/FormPiece';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
+import { createFalse } from 'typescript';
+import { ReadyTimeline } from './ducks/types';
 
 const ReportWithoutLibrary: React.FC = () => {
   return (
@@ -22,8 +24,8 @@ const ReportWithoutLibrary: React.FC = () => {
           <FormPiece note="Is this school working towards a library / do they want a library?">
             <Form.Item name="wantsLibrary">
               <Radio.Group buttonStyle="solid">
-                <Radio.Button value="yes">Yes</Radio.Button>
-                <Radio.Button value="no">No</Radio.Button>
+                <Radio.Button value={true}>Yes</Radio.Button>
+                <Radio.Button value={false}>No</Radio.Button>
               </Radio.Group>
             </Form.Item>
           </FormPiece>
@@ -39,8 +41,8 @@ const ReportWithoutLibrary: React.FC = () => {
             >
               <Form.Item name="hasSpace">
                 <Radio.Group buttonStyle="solid">
-                  <Radio.Button value="yes">Yes</Radio.Button>
-                  <Radio.Button value="no">No</Radio.Button>
+                  <Radio.Button value={true}>Yes</Radio.Button>
+                  <Radio.Button value={false}>No</Radio.Button>
                 </Radio.Group>
               </Form.Item>
             </FormPiece>
@@ -93,13 +95,13 @@ const ReportWithoutLibrary: React.FC = () => {
           <FormPiece note="When would they be ready?">
             <Form.Item name="readyTimeline">
               <Radio.Group buttonStyle="solid">
-                <Radio.Button value="upcoming-school-year">
+                <Radio.Button value={ReadyTimeline.UPCOMING_SCHOOL_YEAR}>
                   Upcoming School Year
                 </Radio.Button>
-                <Radio.Button value="year-after-next">
+                <Radio.Button value={ReadyTimeline.YEAR_AFTER_NEXT}>
                   Year After Next
                 </Radio.Button>
-                <Radio.Button value="more-than-2-years">
+                <Radio.Button value={ReadyTimeline.MORE_THAN_TWO_YEARS}>
                   More Than 2 Years Out
                 </Radio.Button>
               </Radio.Group>

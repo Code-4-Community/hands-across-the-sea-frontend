@@ -11,7 +11,7 @@ const ChangesActionPlan: React.FC = () => {
         <Col flex={24}>
           <FormPiece note="Action Plans">
             <Form.Item
-              name="actionPlans"
+              name="actionPlan"
               rules={[{ required: true, message: 'This field is required' }]}
             >
               <FormTextArea placeholder="Please enter your answer here" />

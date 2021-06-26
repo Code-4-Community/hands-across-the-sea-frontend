@@ -1,16 +1,16 @@
+import protectedApiClient, {
+  ApiExtraArgs,
+} from '../../../api/protectedApiClient';
 import {
   generateExtraArgs,
   generateState,
 } from '../../../auth/test/thunks.test';
-import protectedApiClient, {
-  ApiExtraArgs,
-} from '../../../api/protectedApiClient';
 import { ThunkExtraArgs } from '../../../store';
+import { latestLibraryReport } from '../ducks/actions';
 import {
   createReportWithLibrary,
   loadLatestLibraryReport,
 } from '../ducks/thunks';
-import { latestLibraryReport } from '../ducks/actions';
 import { LibraryReportResponse } from '../ducks/types';
 
 describe('Report With Library Thunks', () => {
@@ -43,7 +43,7 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
-        actionPlans: null,
+        actionPlan: null,
         successStories: null,
       };
 
@@ -125,7 +125,7 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
-        actionPlans: null,
+        actionPlan: null,
         successStories: null,
       })(mockDispatch, getState, mockExtraArgs);
 
@@ -168,7 +168,7 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
-        actionPlans: null,
+        actionPlan: null,
         successStories: null,
       })(mockDispatch, getState, mockExtraArgs);
 

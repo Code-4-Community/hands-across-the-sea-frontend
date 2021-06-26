@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { LibraryReportActions } from './actions';
+import { C4CState } from '../../../store';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import { LibraryReportActions } from './actions';
 
 export type LibraryReportThunkAction<R> = ThunkAction<
   R,
@@ -21,7 +21,7 @@ interface LibraryReportShared {
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
   readonly visitReason: null | string;
-  readonly actionPlans: null | string;
+  readonly actionPlan: null | string;
   readonly successStories: null | string;
 }
 
@@ -46,7 +46,7 @@ export interface ReportWithoutLibraryRequest extends LibraryReportShared {
   readonly wantsLibrary: null | boolean;
   readonly hasSpace: null | boolean;
   readonly currentStatus: null | string;
-  readonly readyTimeline: null | string;
+  readonly readyTimeline: ReadyTimeline;
 }
 
 export type LibraryReportResponse = {
@@ -72,8 +72,8 @@ export enum AssignedPersonRole {
 
 export enum AssignedPersonTitle {
   LIBRARIAN = 'Librarian',
-  SECRETARY = 'Secretary',
-  TEACHER = 'Teacher',
+  SCHOOL_SECRETARY = 'Secretary',
+  CLASSROOM_TEACHER = 'Teacher',
   APPRENTICE = 'Apprentice',
   PCV = 'PCV',
   OTHER = 'Other',
@@ -87,16 +87,22 @@ export enum ApprenticeshipProgram {
 }
 
 export enum Grade {
-  KINDERGARTEN = 'kindergarten',
-  FIRST_GRADE = 'first_grade',
-  SECOND_GRADE = 'second_grade',
-  THIRD_GRADE = 'third_grade',
-  FOURTH_GRADE = 'fourth_grade',
-  FIFTH_GRADE = 'fifth_grade',
-  SIXTH_GRADE = 'sixth_grade',
-  FORM_ONE = 'form_one',
-  FORM_TWO = 'form_two',
-  FORM_THREE = 'form_three',
-  FORM_FOUR = 'form_four',
-  FORM_FIVE = 'form_five',
+  KINDERGARTEN = 'KINDERGARTEN',
+  FIRST_GRADE = 'FIRST_GRADE',
+  SECOND_GRADE = 'SECOND_GRADE',
+  THIRD_GRADE = 'THIRD_GRADE',
+  FOURTH_GRADE = 'FOURTH_GRADE',
+  FIFTH_GRADE = 'FIFTH_GRADE',
+  SIXTH_GRADE = 'SIXTH_GRADE',
+  FORM_ONE = 'FORM_ONE',
+  FORM_TWO = 'FORM_TWO',
+  FORM_THREE = 'FORM_THREE',
+  FORM_FOUR = 'FORM_FOUR',
+  FORM_FIVE = 'FORM_FIVE',
+}
+
+export enum ReadyTimeline {
+  UPCOMING_SCHOOL_YEAR = 'UPCOMING_SCHOOL_YEAR',
+  YEAR_AFTER_NEXT = 'YEAR_AFTER_NEXT',
+  MORE_THAN_TWO_YEARS = 'MORE_THAN_TWO_YEARS',
 }

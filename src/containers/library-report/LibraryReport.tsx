@@ -40,17 +40,12 @@ const LibraryReport = () => {
     history.replace(Routes.HOME);
   }
 
-  const [submitFormState, setSubmitFormState] = useState(
-    AsyncRequestNotStarted(),
-  );
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
   ) => {
-    setSubmitFormState(AsyncRequestLoading());
     if (schoolId === undefined) {
       throw new Error('School ID is undefined');
     }
-
     try {
       if (isYesReport) {
         await protectedApiClient.createReportWithLibrary(
@@ -64,10 +59,8 @@ const LibraryReport = () => {
         );
       }
       dispatch(loadLatestLibraryReport(schoolId));
-      setSubmitFormState(AsyncRequestCompleted(undefined));
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
-      setSubmitFormState(AsyncRequestFailed(err));
       message.error('Error submitting report, please try again.');
     }
   };

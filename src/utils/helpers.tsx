@@ -13,7 +13,7 @@ export const getOptionsFromEnum = (e: {
   [s: number]: string;
 }): JSX.Element[] => {
   return Object.entries(e).map(([key, value]) => (
-    <Select value={value} key={key}>
+    <Select value={key} key={key}>
       {value}
     </Select>
   ));
