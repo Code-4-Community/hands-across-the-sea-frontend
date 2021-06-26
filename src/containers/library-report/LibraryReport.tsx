@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, message, Row } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -12,12 +12,6 @@ import MonitoringInfo from '../../components/report/MonitoringInfo';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
 import { C4CState } from '../../store';
-import {
-  AsyncRequestCompleted,
-  AsyncRequestFailed,
-  AsyncRequestLoading,
-  AsyncRequestNotStarted,
-} from '../../utils/asyncRequest';
 import { loadLatestLibraryReport } from './ducks/thunks';
 import {
   ReportWithLibraryRequest,

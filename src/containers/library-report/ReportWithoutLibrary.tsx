@@ -3,7 +3,6 @@ import { Radio, Form, Row, Col, Checkbox } from 'antd';
 import FormPiece from '../../components/form-style/FormPiece';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
-import { createFalse } from 'typescript';
 import { ReadyTimeline } from './ducks/types';
 
 const ReportWithoutLibrary: React.FC = () => {
