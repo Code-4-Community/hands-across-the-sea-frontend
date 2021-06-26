@@ -1,7 +1,4 @@
-import {
-  LibraryReportThunkAction,
-  LibraryReportResponse,
-} from './types';
+import { LibraryReportThunkAction, LibraryReportResponse } from './types';
 import { latestLibraryReport } from './actions';
 
 export const loadLatestLibraryReport = (
