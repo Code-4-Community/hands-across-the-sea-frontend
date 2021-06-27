@@ -80,7 +80,7 @@ export enum AssignedPersonTitle {
 }
 
 export enum ApprenticeshipProgram {
-  OECS_YES = 'OECS YES',
+  OECS = 'OECS YES',
   NEP = 'NEP',
   OTHER = 'Other',
   NONE = 'No Apprenticeship Program',
