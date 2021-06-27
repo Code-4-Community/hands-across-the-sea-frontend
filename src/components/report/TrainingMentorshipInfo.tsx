@@ -38,9 +38,6 @@ const TrainingMentorshipInfo: React.FC = () => {
                 <ClarifyText>How many student librarians?</ClarifyText>
                 <Form.Item
                   name="numberOfStudentLibrarians"
-                  rules={[
-                    { required: true, message: 'This field is required' },
-                  ]}
                 >
                   <InputNumber placeholder="#" min={1} />
                 </Form.Item>
@@ -51,9 +48,6 @@ const TrainingMentorshipInfo: React.FC = () => {
                 <ClarifyText>Why not?</ClarifyText>
                 <Form.Item
                   name="reasonNoStudentLibrarians"
-                  rules={[
-                    { required: true, message: 'This field is required' },
-                  ]}
                 >
                   <FormTextArea placeholder="Please enter the reason here" />
                 </Form.Item>
@@ -86,9 +80,6 @@ const TrainingMentorshipInfo: React.FC = () => {
                 <ClarifyText>What kind?</ClarifyText>
                 <Form.Item
                   name="teacherSupport"
-                  rules={[
-                    { required: true, message: 'This field is required' },
-                  ]}
                 >
                   <FormTextArea placeholder="Please enter your answer here" />
                 </Form.Item>
@@ -112,9 +103,6 @@ const TrainingMentorshipInfo: React.FC = () => {
                 <ClarifyText>Please share examples:</ClarifyText>
                 <Form.Item
                   name="parentSupport"
-                  rules={[
-                    { required: true, message: 'This field is required' },
-                  ]}
                 >
                   <FormTextArea placeholder="Please enter your answer here" />
                 </Form.Item>

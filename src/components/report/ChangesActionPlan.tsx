@@ -10,18 +10,12 @@ const ChangesActionPlan: React.FC = () => {
       <Row>
         <Col flex={24}>
           <FormPiece note="Action Plans">
-            <Form.Item
-              name="actionPlan"
-              rules={[{ required: true, message: 'This field is required' }]}
-            >
+            <Form.Item name="actionPlan">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>
           <FormPiece note="Success Stories?">
-            <Form.Item
-              name="successStories"
-              rules={[{ required: true, message: 'This field is required' }]}
-            >
+            <Form.Item name="successStories">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>

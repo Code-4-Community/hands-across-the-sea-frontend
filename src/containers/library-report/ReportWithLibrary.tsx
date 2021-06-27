@@ -50,10 +50,7 @@ const ReportWithLibrary: React.FC = () => {
       <Row>
         <Col flex={24}>
           <FormPiece note="Is someone assigned to this school's library?">
-            <Form.Item
-              name="assignedPersonRole"
-              rules={[{ required: true, message: 'This field is required' }]}
-            >
+            <Form.Item name="assignedPersonRole">
               <Radio.Group
                 buttonStyle="solid"
                 onChange={handleChangeAssignedLibrary}

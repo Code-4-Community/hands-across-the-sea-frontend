@@ -36,9 +36,6 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?">
             <Form.Item
-              rules={[
-                { required: true, message: 'Please input your username!' },
-              ]}
               name="purpose"
             >
               <Select
@@ -55,10 +52,7 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
               </Select>
             </Form.Item>
             {input === 'other' && (
-              <Form.Item
-                name="other"
-                rules={[{ required: true, message: 'This field is required' }]}
-              >
+              <Form.Item name="other">
                 <FormTextArea
                   placeholder="Please enter why here"
                   autoSize={{ minRows: 4 }}

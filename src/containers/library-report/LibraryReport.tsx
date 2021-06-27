@@ -75,9 +75,6 @@ const LibraryReport = () => {
               <FormPiece note="What is the purpose of today's visit?">
                 <Form.Item
                   name={'visitReason'}
-                  rules={[
-                    { required: true, message: 'This field is required' },
-                  ]}
                 >
                   <Input />
                 </Form.Item>

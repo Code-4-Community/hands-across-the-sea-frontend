@@ -1,5 +1,5 @@
-import React from 'react';
 import { Form, Radio } from 'antd';
+import React from 'react';
 import FormPiece from './FormPiece';
 
 interface FormPieceBooleanProps {
@@ -17,10 +17,7 @@ interface FormPieceBooleanProps {
 const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
   return (
     <FormPiece addPaddingBottom={props.addPaddingBottom} note={props.note}>
-      <Form.Item
-        name={props.name}
-        rules={[{ required: true, message: 'This field is required' }]}
-      >
+      <Form.Item name={props.name}>
         <Radio.Group
           buttonStyle="solid"
           onChange={props.onChange}
