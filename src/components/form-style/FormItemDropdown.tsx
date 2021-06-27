@@ -23,9 +23,7 @@ const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
   return (
     <>
       {clarifyText && <ClarifyText>{clarifyText}</ClarifyText>}
-      <Form.Item
-        name={name}
-      >
+      <Form.Item name={name}>
         <Select placeholder={text} onChange={onChange}>
           {getOptionsFromEnum(optionsEnum)}
         </Select>

@@ -35,9 +35,7 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?">
-            <Form.Item
-              name="purpose"
-            >
+            <Form.Item name="purpose">
               <Select
                 placeholder="Select a reason"
                 value={input}

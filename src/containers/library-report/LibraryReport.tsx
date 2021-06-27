@@ -55,7 +55,9 @@ const LibraryReport = () => {
       dispatch(loadLatestLibraryReport(schoolId));
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
-      message.error('Error submitting report, please try again.');
+      message.error(
+        'Error submitting form, please double check your responses and try again.',
+      );
     }
   };
 
@@ -73,9 +75,7 @@ const LibraryReport = () => {
           <Row>
             <Col flex={24}>
               <FormPiece note="What is the purpose of today's visit?">
-                <Form.Item
-                  name={'visitReason'}
-                >
+                <Form.Item name={'visitReason'}>
                   <Input />
                 </Form.Item>
               </FormPiece>
