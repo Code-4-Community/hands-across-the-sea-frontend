@@ -14,7 +14,7 @@ import { C4CState } from '../../store';
 import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
-import { deleteSchool } from './ducks/thunks';
+import { deleteSchool } from '../schoolDirectory/ducks/thunks';
 
 const { Search } = Input;
 
