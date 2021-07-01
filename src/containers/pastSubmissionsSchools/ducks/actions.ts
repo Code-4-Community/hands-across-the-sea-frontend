@@ -1,7 +1,6 @@
 import { genericAsyncActions } from '../../../utils/asyncRequest';
 import { PastSubmissionsSchoolsResponse } from './types';
 import { Action } from '../../../store';
-import { LibraryReportResponse } from '../../library-report/ducks/types';
 
 export const pastSubmissionsSchools = genericAsyncActions<
   PastSubmissionsSchoolsResponse,

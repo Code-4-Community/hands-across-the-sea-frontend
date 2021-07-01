@@ -44,7 +44,6 @@ const PastSubmissionsReports: React.FC = () => {
     {
       title: 'Last Updated',
       dataIndex: 'updatedAt',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.updatedAt.localeCompare(b.updatedAt),
         multiple: 1,
@@ -53,7 +52,6 @@ const PastSubmissionsReports: React.FC = () => {
     {
       title: 'Library Status',
       dataIndex: 'libraryStatus',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.libraryStatus.localeCompare(b.libraryStatus),
         multiple: 1,
@@ -62,15 +60,12 @@ const PastSubmissionsReports: React.FC = () => {
     {
       title: 'School ID',
       dataIndex: 'schoolId',
-      key: 'id',
     },
     {
       title: 'User ID',
       dataIndex: 'userId',
-      key: 'id',
       sorter: {
-        compare: (a, b) =>
-          a.userId.toString().localeCompare(b.userId.toString()),
+        compare: (a, b) => (a.userId > b.userId ? 1 : -1),
         multiple: 1,
       },
     },
