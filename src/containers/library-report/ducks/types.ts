@@ -16,7 +16,7 @@ export interface LibraryReportReducerState {
   readonly isYesReport?: boolean;
 }
 
-interface LibraryReportShared {
+export interface LibraryReportShared {
   readonly numberOfChildren: null | number;
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
