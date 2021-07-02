@@ -7,6 +7,7 @@ interface FormContentContainerProps {
   // used when the NO flow is selected to
   // prevent further form filling out
   readonly disableLastTwo?: boolean;
+  readonly title?: string;
 }
 
 const { Title } = Typography;
@@ -26,7 +27,9 @@ const FormContentContainer: React.FC<FormContentContainerProps> = (props) => {
     <ContentContainer>
       <Row gutter={[0, 32]}>
         <Col flex={24}>
-          <FormTitle level={2}>Library Monitoring Form</FormTitle>
+          <FormTitle level={2}>
+            {props.title || 'Library Monitoring Form'}
+          </FormTitle>
         </Col>
       </Row>
       <Row>
