@@ -13,9 +13,8 @@ import {
 } from './ducks/thunks';
 import { C4CState } from '../../store';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Row } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
-import FormPiece from '../../components/form-style/FormPiece';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
 import MonitoringInfo from '../../components/report/MonitoringInfo';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
