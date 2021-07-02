@@ -111,6 +111,7 @@ export enum ProtectedApiClientRoutes {
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   REPORT_WITHOUT_LIBRARY = '/api/v1/protected/schools/:school_id/reports/without-library',
   REPORT_WITH_LIBRARY = '/api/v1/protected/schools/:school_id/reports/with-library',
+  LIBRARY_REPORTS = '/api/v1/protected/schools/:school_id/reports',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
 }
