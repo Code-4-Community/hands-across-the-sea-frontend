@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import ReportWithLibrary from './ReportWithLibrary';
 import {
+  ReportWithLibraryFormData,
   ReportWithLibraryRequest,
+  ReportWithoutLibraryFormData,
   ReportWithoutLibraryRequest,
 } from './ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,27 +37,28 @@ const LibraryReport = () => {
   const [purposeOfVisitSelection, setPurposeOfVisitSelection] = useState<
     string | null
   >(null);
-  const [customPurposeOfVisit, setCustomPurposeOfVisit] = useState<
-    string | null
-  >(null);
 
   if (!schoolId) return null;
 
   const handleSubmit = (
-    report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
+    reportData: ReportWithLibraryFormData | ReportWithoutLibraryFormData,
   ) => {
-    if (report.visitReason === 'Other') {
-      report.visitReason = customPurposeOfVisit;
+    if (reportData.visitReason === 'Other') {
+      reportData.visitReason = reportData.otherVisitReason;
     }
+    delete reportData.otherVisitReason;
     if (isYesReport) {
       dispatch(
-        createReportWithLibrary(schoolId, report as ReportWithLibraryRequest),
+        createReportWithLibrary(
+          schoolId,
+          reportData as ReportWithLibraryRequest,
+        ),
       );
     } else {
       dispatch(
         createReportWithoutLibrary(
           schoolId,
-          report as ReportWithoutLibraryRequest,
+          reportData as ReportWithoutLibraryRequest,
         ),
       );
     }
@@ -70,7 +73,6 @@ const LibraryReport = () => {
             <Col flex={24}>
               <PurposeOfVisit
                 setPurposeOfVisitSelection={setPurposeOfVisitSelection}
-                setCustomPurposeOfVisit={setCustomPurposeOfVisit}
                 purposeOfVisit={purposeOfVisitSelection}
               />
             </Col>

@@ -6,7 +6,6 @@ import { FormTextArea } from '../index';
 
 interface PurposeOfVisitProps {
   setPurposeOfVisitSelection: (purposeOfVisit: string) => void;
-  setCustomPurposeOfVisit: (customPurposeOfVisit: string) => void;
   purposeOfVisit: string | null;
 }
 
@@ -25,16 +24,8 @@ const reasons = [
 
 const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
   setPurposeOfVisitSelection,
-  setCustomPurposeOfVisit,
   purposeOfVisit,
 }) => {
-  const handleChange = (event: any) => {
-    setPurposeOfVisitSelection(event.target.value);
-  };
-  const handleCustomChange = (event: any) => {
-    setCustomPurposeOfVisit(event.target.value);
-  };
-
   return (
     <FormContainer title="Reason for Visit">
       <Row>
@@ -43,8 +34,7 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
             <Form.Item name="visitReason">
               <Select
                 placeholder="Select a reason"
-                onChange={handleChange}
-                labelInValue
+                onChange={setPurposeOfVisitSelection}
               >
                 {reasons.map((reason, i) => (
                   <Select.Option value={reason} key={i}>
@@ -54,11 +44,12 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
               </Select>
             </Form.Item>
             {purposeOfVisit === 'Other' && (
-              <FormTextArea
-                placeholder="Please enter why here"
-                onChange={handleCustomChange}
-                autoSize={{ minRows: 4 }}
-              />
+              <Form.Item name={'otherVisitReason'}>
+                <FormTextArea
+                  placeholder="Please enter why here"
+                  autoSize={{ minRows: 4 }}
+                />
+              </Form.Item>
             )}
           </FormPiece>
         </Col>
