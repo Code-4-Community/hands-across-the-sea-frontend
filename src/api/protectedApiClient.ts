@@ -18,6 +18,8 @@ import {
   ReportWithoutLibraryRequest,
 } from '../containers/library-report/ducks/types';
 import { GetUserResponse } from '../containers/settings/ducks/types';
+import { PastSubmissionsSchoolsResponse } from '../containers/pastSubmissionsSchools/ducks/types';
+import { ReportGenericListResponse } from '../containers/pastSubmissionsReports/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -93,6 +95,13 @@ export interface ProtectedApiClient {
   ) => Promise<LibraryReportResponse>;
 
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
+
+  readonly getPastSubmissionSchools: () => Promise<PastSubmissionsSchoolsResponse>;
+
+  readonly getPastSubmissionReports: (
+    schoolId: number,
+    page: number,
+  ) => Promise<ReportGenericListResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -101,8 +110,8 @@ export enum ProtectedApiClientRoutes {
   SCHOOLS = '/api/v1/protected/schools',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
   LIBRARY_REPORTS = '/api/v1/protected/schools/:school_id/reports',
-  REPORT_WITH_LIBRARY = '/api/v1/protected/schools/:school_id/reports',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
+  PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
 }
 
 export type WithCount<T> = T & {
@@ -320,6 +329,31 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
     .catch((err) => err);
 };
 
+const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS)
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const getPastSubmissionReports = (
+  schoolId: number,
+  page = 1,
+): Promise<ReportGenericListResponse> => {
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.LIBRARY_REPORTS.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    {
+      params: {
+        p: page,
+      },
+    },
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
@@ -340,6 +374,8 @@ const Client: ProtectedApiClient = Object.freeze({
   getLatestReport,
   createReportWithLibrary,
   createReportWithoutLibrary,
+  getPastSubmissionSchools,
+  getPastSubmissionReports,
 });
 
 export default Client;

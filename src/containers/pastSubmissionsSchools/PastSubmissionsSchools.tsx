@@ -1,51 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Row, Select } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
-import FormPiece from '../../components/form-style/FormPiece';
-import FormContentContainer from '../../components/form-style/FormContentContainer';
+import { Col, Form, Row, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadSchools } from './ducks/thunks';
-import { SchoolEntry } from './ducks/types';
-import { selectSchoolId } from './ducks/actions';
-import { useHistory } from 'react-router';
-import { Routes } from '../../App';
-import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { C4CState } from '../../store';
+import { getPastSubmissionsSchools } from './ducks/thunks';
+import {
+  PastSubmissionsSchoolsResponse,
+  SchoolSummaryResponse,
+} from './ducks/types';
+import FormContentContainer from '../../components/form-style/FormContentContainer';
+import FormPiece from '../../components/form-style/FormPiece';
 import FormButtons from '../../components/form-style/FormButtons';
+import Loading from '../../components/Loading';
+import { setPastSubmissionsSchoolId } from './ducks/actions';
+import { Routes } from '../../App';
+import { useHistory } from 'react-router';
 
-interface SelectSchoolForm {
-  schoolId: number;
+interface SelectPasSubmissionSchoolForm {
+  pastSubmissionsSchoolId: number;
 }
 
-const SelectSchool: React.FC = () => {
+const PastSubmissionsSchools: React.FC = (props) => {
   const dispatch = useDispatch();
-  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
-  );
   const history = useHistory();
-  const [formValues, setFormValues] = useState({} as any);
+
+  const availableSchools: AsyncRequest<
+    PastSubmissionsSchoolsResponse,
+    any
+  > = useSelector(
+    (state: C4CState) =>
+      state.pastSubmissionSchoolsState.pastSubmissionsSchools,
+  );
 
   useEffect(() => {
-    dispatch(loadSchools());
+    dispatch(getPastSubmissionsSchools());
   }, [dispatch]);
 
-  const submitDisabled = !formValues.schoolId;
-
-  const handleSubmit = (values: SelectSchoolForm) => {
-    dispatch(selectSchoolId(values.schoolId));
-    history.push(Routes.SCHOOL_INFO);
-  };
-
-  const renderSchoolOption = (school: SchoolEntry) => (
+  const renderSchoolOption = (school: SchoolSummaryResponse) => (
     <Select.Option value={school.id}>{school.name}</Select.Option>
   );
 
+  const handleSubmit = (values: SelectPasSubmissionSchoolForm) => {
+    dispatch(setPastSubmissionsSchoolId(values.pastSubmissionsSchoolId));
+    history.push(Routes.PAST_SUBMISSIONS_REPORTS);
+  };
+
+  const [formValues, setFormValues] = useState({} as any);
+  const submitDisabled = !formValues.pastSubmissionsSchoolId;
+
   switch (availableSchools.kind) {
     case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Loading:
-      return <p>Loading schools...</p>;
     case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading schools</p>;
+      return <p>An error occurred loading past submissions</p>;
+    case AsyncRequestKinds.Loading:
+      return <Loading title={'Past Submissions'} />;
     case AsyncRequestKinds.Completed:
       return (
         <FormContentContainer>
@@ -57,8 +66,11 @@ const SelectSchool: React.FC = () => {
             <FormContainer title="Select a School">
               <Row gutter={[0, 0]}>
                 <Col flex={24}>
-                  <FormPiece note="Which school will you be monitoring today?">
-                    <Form.Item name="schoolId" rules={[{ required: true }]}>
+                  <FormPiece note="Which school would you like to see past reports of?">
+                    <Form.Item
+                      name="pastSubmissionsSchoolId"
+                      rules={[{ required: true }]}
+                    >
                       <Select
                         placeholder="Select a school"
                         showSearch
@@ -74,7 +86,7 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(availableSchools.result).map(
+                        {Array.from(availableSchools.result.schools).map(
                           renderSchoolOption,
                         )}
                       </Select>
@@ -97,4 +109,4 @@ const SelectSchool: React.FC = () => {
   }
 };
 
-export default SelectSchool;
+export default PastSubmissionsSchools;

@@ -43,6 +43,16 @@ import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
 import bookLogsReducer, {
   initialBookLogsState,
 } from './containers/bookLogs/ducks/reducers';
+import pastSubmissionsSchoolsReducer, {
+  initialPastSubmissionsSchools,
+} from './containers/pastSubmissionsSchools/ducks/reducers';
+import pastSubmissionsReportsReducer, {
+  initialPastSubmissionsReports,
+} from './containers/pastSubmissionsReports/ducks/reducers';
+
+import { PastSubmissionsSchoolsReducerState } from './containers/pastSubmissionsSchools/ducks/types';
+import { PastSubmissionsSchoolsActions } from './containers/pastSubmissionsSchools/ducks/actions';
+import { PastSubmissionsReportsReducerState } from './containers/pastSubmissionsReports/ducks/types';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -51,6 +61,8 @@ export interface C4CState {
   bookLogsState: BookLogsReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
+  pastSubmissionSchoolsState: PastSubmissionsSchoolsReducerState;
+  pastSubmissionReportsState: PastSubmissionsReportsReducerState;
 }
 
 export interface Action<T, P> {
@@ -64,7 +76,8 @@ export type C4CAction =
   | LibraryReportActions
   | SchoolInformationActions
   | BookLogsActions
-  | SelectSchoolActions;
+  | SelectSchoolActions
+  | PastSubmissionsSchoolsActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
@@ -75,6 +88,8 @@ const reducers = combineReducers<C4CState, C4CAction>({
   libraryReportState: libraryReportReducer,
   bookLogsState: bookLogsReducer,
   selectSchoolState: selectSchoolReducer,
+  pastSubmissionSchoolsState: pastSubmissionsSchoolsReducer,
+  pastSubmissionReportsState: pastSubmissionsReportsReducer,
 });
 
 export const initialStoreState: C4CState = {
@@ -84,6 +99,8 @@ export const initialStoreState: C4CState = {
   libraryReportState: initialLibraryReportState,
   bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
+  pastSubmissionSchoolsState: initialPastSubmissionsSchools,
+  pastSubmissionReportsState: initialPastSubmissionsReports,
 };
 
 export const LOCALSTORAGE_STATE_KEY = 'state';
