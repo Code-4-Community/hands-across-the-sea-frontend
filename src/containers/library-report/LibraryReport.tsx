@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReportWithLibrary from './ReportWithLibrary';
 import {
   ReportWithLibraryRequest,
@@ -21,6 +21,7 @@ import ChangesActionPlan from '../../components/report/ChangesActionPlan';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
+import PurposeOfVisit from '../../components/report/PurposeOfVisit';
 
 const LibraryReport = () => {
   const dispatch = useDispatch();
@@ -31,12 +32,21 @@ const LibraryReport = () => {
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
   const history = useHistory();
+  const [purposeOfVisitSelection, setPurposeOfVisitSelection] = useState<
+    string | null
+  >(null);
+  const [customPurposeOfVisit, setCustomPurposeOfVisit] = useState<
+    string | null
+  >(null);
 
   if (!schoolId) return null;
 
   const handleSubmit = (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
   ) => {
+    if (report.visitReason === 'Other') {
+      report.visitReason = customPurposeOfVisit;
+    }
     if (isYesReport) {
       dispatch(
         createReportWithLibrary(schoolId, report as ReportWithLibraryRequest),
@@ -58,11 +68,11 @@ const LibraryReport = () => {
         <FormContainer title="Reason for Visit">
           <Row>
             <Col flex={24}>
-              <FormPiece note="What is the purpose of today's visit?">
-                <Form.Item name={'visitReason'}>
-                  <Input />
-                </Form.Item>
-              </FormPiece>
+              <PurposeOfVisit
+                setPurposeOfVisitSelection={setPurposeOfVisitSelection}
+                setCustomPurposeOfVisit={setCustomPurposeOfVisit}
+                purposeOfVisit={purposeOfVisitSelection}
+              />
             </Col>
           </Row>
         </FormContainer>

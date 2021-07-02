@@ -20,7 +20,7 @@ interface LibraryReportShared {
   readonly numberOfChildren: null | number;
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
-  readonly visitReason: null | string;
+  visitReason: null | string;
   readonly actionPlans: null | string;
   readonly successStories: null | string;
 }

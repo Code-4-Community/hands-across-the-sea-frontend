@@ -5,29 +5,34 @@ import FormPiece from '../form-style/FormPiece';
 import { FormTextArea } from '../index';
 
 interface PurposeOfVisitProps {
-  input: keyof typeof reasons;
-  onChanged: (input: keyof typeof reasons) => void;
+  setPurposeOfVisitSelection: (purposeOfVisit: string) => void;
+  setCustomPurposeOfVisit: (customPurposeOfVisit: string) => void;
+  purposeOfVisit: string | null;
 }
 
-const reasons = {
-  'read-aloud/read-time': 'Read aloud / Reading time',
-  'award-ceremony-or-handover': 'Award ceremony or handover',
-  'new-school-year-library-set-up': 'New school year library set-up',
-  'special-event/book-giveaway': 'Special event / Book giveaway',
-  'end-of-year-library-clean-up': 'End-of-year library clean-up',
-  'student-librarian-training': 'Apprenticeship training',
-  'principal-check-in': 'Principal check-in',
-  'general-check-in': 'General check-in',
-  'emergency-disaster': 'Emergency / Disaster',
-  other: 'Other',
-};
+const reasons = [
+  'Read aloud / Reading time',
+  'Award ceremony or handover',
+  'New school year library set-up',
+  'Special event / Book giveaway',
+  'End-of-year library clean-up',
+  'Apprenticeship training',
+  'Principal check-in',
+  'General check-in',
+  'Emergency / Disaster',
+  'Other',
+];
 
 const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
-  input,
-  onChanged,
+  setPurposeOfVisitSelection,
+  setCustomPurposeOfVisit,
+  purposeOfVisit,
 }) => {
   const handleChange = (event: any) => {
-    onChanged(event.target.value);
+    setPurposeOfVisitSelection(event.target.value);
+  };
+  const handleCustomChange = (event: any) => {
+    setCustomPurposeOfVisit(event.target.value);
   };
 
   return (
@@ -35,27 +40,25 @@ const PurposeOfVisit: React.FC<PurposeOfVisitProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?">
-            <Form.Item name="purpose">
+            <Form.Item name="visitReason">
               <Select
                 placeholder="Select a reason"
-                value={input}
                 onChange={handleChange}
                 labelInValue
               >
-                {Object.entries(reasons).map(([key, value]) => (
-                  <Select.Option value={key} key={key}>
-                    {value}
+                {reasons.map((reason, i) => (
+                  <Select.Option value={reason} key={i}>
+                    {reason}
                   </Select.Option>
                 ))}
               </Select>
             </Form.Item>
-            {input === 'other' && (
-              <Form.Item name="other">
-                <FormTextArea
-                  placeholder="Please enter why here"
-                  autoSize={{ minRows: 4 }}
-                />
-              </Form.Item>
+            {purposeOfVisit === 'Other' && (
+              <FormTextArea
+                placeholder="Please enter why here"
+                onChange={handleCustomChange}
+                autoSize={{ minRows: 4 }}
+              />
             )}
           </FormPiece>
         </Col>
