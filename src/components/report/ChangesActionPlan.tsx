@@ -9,12 +9,12 @@ const ChangesActionPlan: React.FC = () => {
     <FormContainer title="Changes and Action Plan">
       <Row>
         <Col flex={24}>
-          <FormPiece note="Action Plans">
+          <FormPiece note="Action Plans - Action Items to follow up with at next library visit">
             <Form.Item name="actionPlans">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>
-          <FormPiece note="Success Stories?">
+          <FormPiece note="Success Stories - Testimonials, recent events or other developments from the library!">
             <Form.Item name="successStories">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
