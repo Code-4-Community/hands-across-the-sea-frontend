@@ -109,6 +109,8 @@ export enum ProtectedApiClientRoutes {
   USER = '/api/v1/protected/user',
   SCHOOLS = '/api/v1/protected/schools',
   SCHOOL_CONTACTS = '/api/v1/protected/schools/:school_id/contacts',
+  REPORT_WITHOUT_LIBRARY = '/api/v1/protected/schools/:school_id/reports/without-library',
+  REPORT_WITH_LIBRARY = '/api/v1/protected/schools/:school_id/reports/with-library',
   LIBRARY_REPORTS = '/api/v1/protected/schools/:school_id/reports',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
@@ -236,7 +238,7 @@ const deleteSchoolContact = (
 
 const getLatestReport = (schoolId: number): Promise<LibraryReportResponse> => {
   return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.LIBRARY_REPORTS}/${schoolId.toString()}`,
+    `${ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY}/${schoolId.toString()}`,
   )
     .then((res) => res.data) // TODO
     .catch((err) => err);
@@ -247,14 +249,25 @@ const createReportWithLibrary = (
   report: ReportWithLibraryRequest,
 ): Promise<LibraryReportResponse> => {
   return AppAxiosInstance.post(
-    ProtectedApiClientRoutes.LIBRARY_REPORTS.replace(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
       ':school_id',
       schoolId.toString(),
     ),
     report,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
+};
+
+const createReportWithoutLibrary = (
+  schoolId: number,
+  report: ReportWithoutLibraryRequest,
+): Promise<LibraryReportResponse> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ),
+    report,
+  ).then((res) => res.data);
 };
 
 const createBookLog = (
@@ -308,19 +321,6 @@ const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
   )
     .then((res) => res)
     .catch((err) => err);
-};
-
-const createReportWithoutLibrary = (
-  schoolId: number,
-  report: ReportWithoutLibraryRequest,
-): Promise<LibraryReportResponse> => {
-  return AppAxiosInstance.post(
-    ProtectedApiClientRoutes.LIBRARY_REPORTS.replace(
-      ':school_id',
-      schoolId.toString(),
-    ) + '/without-library',
-    report,
-  );
 };
 
 const getAllSchools = (): Promise<SchoolEntry[]> => {

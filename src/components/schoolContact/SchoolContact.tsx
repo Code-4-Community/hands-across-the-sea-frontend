@@ -13,7 +13,7 @@ interface SchoolContactProps {
   onSubmit: (c: SchoolContactRequest) => void;
   onDelete?: () => void;
   onCancel?: () => void;
-  isFirst?: boolean,
+  isFirst?: boolean;
 }
 
 const SchoolContact: React.FC<SchoolContactProps> = ({
