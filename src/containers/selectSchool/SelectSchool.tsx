@@ -67,7 +67,7 @@ const SelectSchool: React.FC = () => {
       if (Object.keys(userInfo).length === 0) {
         return <p>Loading schools...</p>;
       }
-      let schoolsInCountry = availableSchools.result.filter((school) => school.country === userInfo.country);
+      const schoolsInCountry = availableSchools.result.filter((school) => school.country === userInfo.country);
       return (
         <FormContentContainer>
           <Form
