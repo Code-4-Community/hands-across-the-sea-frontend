@@ -12,6 +12,10 @@ import { Routes } from '../../App';
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import FormButtons from '../../components/form-style/FormButtons';
+import { GetUserResponse } from '../settings/ducks/types';
+import ProtectedApiClient from '../../api/protectedApiClient';
+import { getUserID } from '../../auth/ducks/selectors';
+
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -24,10 +28,23 @@ const SelectSchool: React.FC = () => {
   );
   const history = useHistory();
   const [formValues, setFormValues] = useState({} as any);
+  const [userInfo, setUserInfo] = useState<GetUserResponse>(
+    {} as GetUserResponse,
+  );
+  const userId = useSelector((state: C4CState) => {
+    return getUserID(state.authenticationState.tokens);
+  });
+  
 
   useEffect(() => {
     dispatch(loadSchools());
   }, [dispatch]);
+
+  useEffect(() => {
+    ProtectedApiClient.getUser()
+      .then(setUserInfo)
+      .catch((e) => e);
+  }, [userId]);
 
   const submitDisabled = !formValues.schoolId;
 
@@ -47,6 +64,10 @@ const SelectSchool: React.FC = () => {
     case AsyncRequestKinds.Failed:
       return <p>An error occurred loading schools</p>;
     case AsyncRequestKinds.Completed:
+      if (Object.keys(userInfo).length === 0) {
+        return <p>Loading schools...</p>;
+      }
+      const schoolsInCountry = availableSchools.result.filter((school) => school.country === userInfo.country);
       return (
         <FormContentContainer>
           <Form
@@ -74,7 +95,7 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(availableSchools.result).map(
+                        {Array.from(schoolsInCountry).map(
                           renderSchoolOption,
                         )}
                       </Select>
