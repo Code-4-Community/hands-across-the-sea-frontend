@@ -4,74 +4,84 @@ import { Button, Col, Input, Modal, Row, Table } from 'antd';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../../components';
-import CreateSchool from '../../components/schoolDirectory/CreateSchool';
-import { SchoolRequest } from '../schoolInfo/ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSchoolRequest } from '../schoolInfo/ducks/thunks';
-import { loadSchools } from '../selectSchool/ducks/thunks';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
-import SchoolDirectoryActionMenu, {
-  SchoolDirectoryAction,
-} from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
-import { deleteSchool } from '../schoolDirectory/ducks/thunks';
+import UserDirectoryActionMenu, {
+  UserDirectoryAction,
+} from '../../components/userDirectory/UserDirectoryActionMenu';
+import CreateUser from '../../components/userDirectory/CreateUser';
+import { SignupRequest } from '../../auth/ducks/types';
+import { signup } from '../../auth/ducks/thunks';
+import protectedApiClient from '../../api/protectedApiClient';
+import { GetAllUsersResponse } from './ducks/types';
 
 const { Search } = Input;
 
 const UserDirectory: React.FC = () => {
-  const [createSchool, setCreateSchool] = useState<boolean>(false);
-  const [updateSchoolList, setUpdateSchoolList] = useState<boolean>(false);
+  const [createUser, setCreateUser] = useState<boolean>(false);
+  const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
   const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
     (state: C4CState) => state.selectSchoolState.schools,
   );
+  const [allUsers, setAllUsers] = useState<GetAllUsersResponse[]>();
 
   // need useEffect inside of component because the state "updateSchoolList"
   // needs to be a dependency
   useEffect(() => {
-    dispatch(loadSchools());
-  }, [dispatch, updateSchoolList]);
+    protectedApiClient
+      .getAllUsers()
+      .then(setAllUsers)
+      .catch((e) => e);
+  }, [dispatch, updateUserList]);
 
-  // handles submitting create a school form
-  const handleOnFinishCreateSchool = (schoolInfo: SchoolRequest) => {
-    dispatch(createSchoolRequest(schoolInfo));
-    setCreateSchool(false);
-    setUpdateSchoolList(!updateSchoolList);
+  // handles submitting create a user form
+  const handleOnFinishCreateUser = (userInfo: SignupRequest) => {
+    dispatch(signup(userInfo));
+    setCreateUser(false);
+    setUpdateUserList(!updateUserList);
   };
 
   // handles canceling the create school form
-  const handleOnCancelCreateSchool = () => {
-    setCreateSchool(false);
+  const handleOnCancelCreateUser = () => {
+    setCreateUser(false);
   };
 
   // handles the button click of Create School button
-  const handleOnClickCreateSchool = () => {
-    setCreateSchool(!createSchool);
+  const handleOnClickCreateUser = () => {
+    setCreateUser(!createUser);
   };
 
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = (schoolId: number) => (
-    key: SchoolDirectoryAction,
+  const handleActionButtonOnClick = () => (
+    key: UserDirectoryAction,
   ) => {
     switch (key) {
-      case SchoolDirectoryAction.EDIT:
+      case UserDirectoryAction.EDIT:
         return;
-      case SchoolDirectoryAction.BOOKS:
+      case UserDirectoryAction.DELETE:
         return;
-      case SchoolDirectoryAction.DELETE:
-        dispatch(deleteSchool(schoolId));
-        setUpdateSchoolList(!updateSchoolList);
     }
   };
 
-  const columns: ColumnType<SchoolEntry>[] = [
+  const columns: ColumnType<GetAllUsersResponse>[] = [
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: 'First Name',
+      dataIndex: 'firstName',
       key: 'id',
       sorter: {
-        compare: (a, b) => a.name.localeCompare(b.name),
+        compare: (a, b) => a.firstName.localeCompare(b.firstName),
+        multiple: 1,
+      },
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'id',
+      sorter: {
+        compare: (a, b) => a.lastName.localeCompare(b.lastName),
         multiple: 1,
       },
     },
@@ -85,14 +95,21 @@ const UserDirectory: React.FC = () => {
       },
     },
     {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'id',
+      sorter: {
+        compare: (a, b) => a.email.localeCompare(b.email),
+        multiple: 1,
+      },
+    },
+    {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render(record: SchoolEntry) {
+      render(record: GetAllUsersResponse) {
         return (
-          <SchoolDirectoryActionMenu
-            onAction={handleActionButtonOnClick(record.id)}
-          />
+          <UserDirectoryActionMenu onAction={handleActionButtonOnClick} />
         );
       },
     },
@@ -106,15 +123,10 @@ const UserDirectory: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
-          <Modal
-            visible={createSchool}
-            width={1000}
-            footer={null}
-            destroyOnClose
-          >
-            <CreateSchool
-              onFinish={handleOnFinishCreateSchool}
-              onCancel={handleOnCancelCreateSchool}
+          <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
+            <CreateUser
+              onFinish={handleOnFinishCreateUser}
+              onCancel={handleOnCancelCreateUser}
             />
           </Modal>
           <Row gutter={[0, 32]}>
@@ -127,23 +139,11 @@ const UserDirectory: React.FC = () => {
               <Search onChange={(e) => setSearchText(e.target.value)} />
             </Col>
             <Col flex={6}>
-              <Button onClick={handleOnClickCreateSchool}>Add School</Button>
+              <Button onClick={handleOnClickCreateUser}>Add School</Button>
             </Col>
           </Row>
           <Outer>
-            <Table
-              dataSource={
-                availableSchools.kind === AsyncRequestKinds.Completed
-                  ? availableSchools.result.filter((entry) =>
-                      entry.name
-                        .toLocaleLowerCase()
-                        .startsWith(searchText.toLowerCase()),
-                    )
-                  : undefined
-              }
-              columns={columns}
-              loading={availableSchools.kind === AsyncRequestKinds.Loading}
-            />
+            <Table dataSource={allUsers} columns={columns} />
           </Outer>
         </Container>
       );

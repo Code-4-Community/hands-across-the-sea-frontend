@@ -18,6 +18,7 @@ import {
   ReportWithoutLibraryRequest,
 } from '../containers/library-report/ducks/types';
 import { GetUserResponse } from '../containers/settings/ducks/types';
+import { GetAllUsersResponse } from '../containers/userDirectory/ducks/types';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -40,6 +41,7 @@ export interface ProtectedApiClient {
 
   readonly deleteUser: (request: { password: string }) => Promise<void>;
   readonly getUser: () => Promise<GetUserResponse>;
+  readonly getAllUsers: () => Promise<GetAllUsersResponse[]>;
 
   readonly getSchoolContacts: (
     schoolId: number,
@@ -129,6 +131,12 @@ const deleteUser = (request: { password: string }): Promise<void> => {
 
 const getUser = (): Promise<GetUserResponse> => {
   return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const getAllUsers = (): Promise<GetAllUsersResponse[]> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.USER)
     .then((r) => r.data)
     .catch((e) => e);
 };
@@ -328,6 +336,7 @@ const Client: ProtectedApiClient = Object.freeze({
   updateSchool,
   deleteUser,
   getUser,
+  getAllUsers,
   getSchoolContacts,
   updateSchoolContact,
   createSchoolContact,

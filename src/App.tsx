@@ -29,6 +29,7 @@ import SchoolInformation from './containers/schoolInfo';
 import LibraryReport from './containers/library-report/LibraryReport';
 import SchoolContacts from './containers/schoolContact';
 import FormSubmission from './containers/formSubmission';
+import UserDirectory from './containers/userDirectory';
 
 const { Content } = Layout;
 
@@ -52,6 +53,7 @@ export enum Routes {
   VERIFY_EMAIL = '/verify/:key',
   TODO = '/TODO',
   SCHOOL_DIRECTORY = '/school-directory',
+  USER_DIRECTORY = '/user-directory',
 }
 
 const App: React.FC = () => {
@@ -83,6 +85,11 @@ const App: React.FC = () => {
                   case PrivilegeLevel.STANDARD:
                     return (
                       <Switch>
+                        <Route
+                          path={Routes.USER_DIRECTORY}
+                          exact
+                          component={UserDirectory}
+                        />
                         <Route path={Routes.HOME} exact component={Home} />
                         <Route
                           path={Routes.SCHOOL_DIRECTORY}
