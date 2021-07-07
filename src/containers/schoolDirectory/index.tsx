@@ -15,6 +15,7 @@ import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
 import { deleteSchool } from './ducks/thunks';
+import { Countries } from '../../utils/countries';
 
 const { Search } = Input;
 
@@ -98,19 +99,46 @@ const SchoolDirectory: React.FC = () => {
     },
   ];
 
+  const countryToNormalCase = (country: string): string => {
+    switch (country) {
+      case "ANTIGUA_AND_BARBUDA":
+        return 'Antigua and Barbuda';
+      case "DOMINICA":
+        return 'Dominica';
+      case "GRENADA":
+        return 'Grenada';
+      case "ST_KITTS_AND_NEVIS":
+        return 'St. Kitts and Nevis';
+      case "ST_LUCIA":
+        return 'St. Lucia';
+      case "ST_VINCENT_AND_THE_GRENADINES":
+        return 'St. Vincent and the Grenadines';
+      default:
+        return country;
+    }
+  }
+
   switch (availableSchools.kind) {
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Failed:
       return <p>An error occurred loading schools</p>;
     case AsyncRequestKinds.Loading:
     case AsyncRequestKinds.Completed:
+      // TO DO: ask someone whether or not this is the right approach to this. 
+      if (availableSchools.kind === AsyncRequestKinds.Completed) {
+        availableSchools.result.map((school) => {
+          school.country = countryToNormalCase(school.country);
+          return school;
+        })
+      }
       return (
         <Container>
           <Modal
             visible={createSchool}
             width={1000}
             footer={null}
-            destroyOnClose
+            destroyOnClose={true}
+            onCancel={handleOnCancelCreateSchool}
           >
             <CreateSchool
               onFinish={handleOnFinishCreateSchool}
