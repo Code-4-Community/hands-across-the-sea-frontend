@@ -28,7 +28,7 @@ const UserDirectory: React.FC = () => {
   );
   const [allUsers, setAllUsers] = useState<GetAllUsersResponse[]>();
 
-  // need useEffect inside of component because the state "updateSchoolList"
+  // need useEffect inside of component because the state "updateUserList"
   // needs to be a dependency
   useEffect(() => {
     protectedApiClient

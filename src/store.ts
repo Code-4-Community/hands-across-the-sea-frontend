@@ -43,6 +43,11 @@ import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
 import bookLogsReducer, {
   initialBookLogsState,
 } from './containers/bookLogs/ducks/reducers';
+import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
+import { UserDirectoryActions } from './containers/userDirectory/ducks/actions';
+import userDirectoryReducer, {
+  initialUserDirectoryState,
+} from './containers/userDirectory/ducks/reducers';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -51,6 +56,7 @@ export interface C4CState {
   bookLogsState: BookLogsReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
+  userDirectoryState: UserDirectoryReducerState;
 }
 
 export interface Action<T, P> {
@@ -64,7 +70,8 @@ export type C4CAction =
   | LibraryReportActions
   | SchoolInformationActions
   | BookLogsActions
-  | SelectSchoolActions;
+  | SelectSchoolActions
+  | UserDirectoryActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
@@ -75,6 +82,7 @@ const reducers = combineReducers<C4CState, C4CAction>({
   libraryReportState: libraryReportReducer,
   bookLogsState: bookLogsReducer,
   selectSchoolState: selectSchoolReducer,
+  userDirectoryState: userDirectoryReducer,
 });
 
 export const initialStoreState: C4CState = {
@@ -84,6 +92,7 @@ export const initialStoreState: C4CState = {
   libraryReportState: initialLibraryReportState,
   bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
+  userDirectoryState: initialUserDirectoryState,
 };
 
 export const LOCALSTORAGE_STATE_KEY = 'state';
