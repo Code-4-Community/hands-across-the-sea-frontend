@@ -5,11 +5,10 @@ import { C4CState } from '../../../store';
 import { ProtectedApiClient } from '../../../api/protectedApiClient';
 import { SelectSchoolActions } from './actions';
 
-type normalCaseCountries = typeof Countries[keyof typeof Countries];
 export interface SchoolEntry {
   id: number;
   name: string;
-  country: keyof typeof Countries | normalCaseCountries;
+  country: keyof typeof Countries | typeof Countries[keyof typeof Countries];
 }
 
 

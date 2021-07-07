@@ -15,7 +15,6 @@ import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
 import { deleteSchool } from './ducks/thunks';
-import { Countries } from '../../utils/countries';
 
 const { Search } = Input;
 
@@ -124,7 +123,6 @@ const SchoolDirectory: React.FC = () => {
       return <p>An error occurred loading schools</p>;
     case AsyncRequestKinds.Loading:
     case AsyncRequestKinds.Completed:
-      // TO DO: ask someone whether or not this is the right approach to this. 
       if (availableSchools.kind === AsyncRequestKinds.Completed) {
         availableSchools.result.map((school) => {
           school.country = countryToNormalCase(school.country);
