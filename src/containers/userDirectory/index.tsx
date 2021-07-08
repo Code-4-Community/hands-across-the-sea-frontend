@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, Modal, Row, Table } from 'antd';
-import { SchoolEntry } from '../selectSchool/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,8 +12,8 @@ import UserDirectoryActionMenu, {
 import CreateUser from '../../components/userDirectory/CreateUser';
 import { SignupRequest } from '../../auth/ducks/types';
 import { signup } from '../../auth/ducks/thunks';
-import protectedApiClient from '../../api/protectedApiClient';
-import { GetAllUsersResponse } from './ducks/types';
+import { GetAllUsersResponse, UserDirectoryReducerState } from './ducks/types';
+import { loadAllUsers } from './ducks/thunks';
 
 const { Search } = Input;
 
@@ -23,18 +22,14 @@ const UserDirectory: React.FC = () => {
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
-  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
+  const availableUsers: UserDirectoryReducerState['allUsers'] = useSelector(
+    (state: C4CState) => state.userDirectoryState.allUsers,
   );
-  const [allUsers, setAllUsers] = useState<GetAllUsersResponse[]>();
 
   // need useEffect inside of component because the state "updateUserList"
   // needs to be a dependency
   useEffect(() => {
-    protectedApiClient
-      .getAllUsers()
-      .then(setAllUsers)
-      .catch((e) => e);
+    dispatch(loadAllUsers());
   }, [dispatch, updateUserList]);
 
   // handles submitting create a user form
@@ -55,9 +50,7 @@ const UserDirectory: React.FC = () => {
   };
 
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = () => (
-    key: UserDirectoryAction,
-  ) => {
+  const handleActionButtonOnClick = () => (key: UserDirectoryAction) => {
     switch (key) {
       case UserDirectoryAction.EDIT:
         return;
@@ -108,17 +101,15 @@ const UserDirectory: React.FC = () => {
       dataIndex: '',
       key: 'x',
       render(record: GetAllUsersResponse) {
-        return (
-          <UserDirectoryActionMenu onAction={handleActionButtonOnClick} />
-        );
+        return <UserDirectoryActionMenu onAction={handleActionButtonOnClick} />;
       },
     },
   ];
 
-  switch (availableSchools.kind) {
+  switch (availableUsers.kind) {
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading schools</p>;
+      return <p>An error occurred loading users</p>;
     case AsyncRequestKinds.Loading:
     case AsyncRequestKinds.Completed:
       return (
@@ -131,7 +122,7 @@ const UserDirectory: React.FC = () => {
           </Modal>
           <Row gutter={[0, 32]}>
             <Col flex={24}>
-              <DirectoryTitle level={2}>School Directory</DirectoryTitle>
+              <DirectoryTitle level={2}>User Directory</DirectoryTitle>
             </Col>
           </Row>
           <Row gutter={[48, 32]}>
@@ -139,11 +130,23 @@ const UserDirectory: React.FC = () => {
               <Search onChange={(e) => setSearchText(e.target.value)} />
             </Col>
             <Col flex={6}>
-              <Button onClick={handleOnClickCreateUser}>Add School</Button>
+              <Button onClick={handleOnClickCreateUser}>Add User</Button>
             </Col>
           </Row>
           <Outer>
-            <Table dataSource={allUsers} columns={columns} />
+            <Table
+              dataSource={
+                availableUsers.kind === AsyncRequestKinds.Completed
+                  ? Array.from(availableUsers.result).filter((entry) =>
+                      entry.firstName
+                        .toLocaleLowerCase()
+                        .startsWith(searchText.toLowerCase()),
+                    )
+                  : undefined
+              }
+              columns={columns}
+              loading={availableUsers.kind === AsyncRequestKinds.Loading}
+            />
           </Outer>
         </Container>
       );

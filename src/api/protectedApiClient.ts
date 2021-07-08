@@ -136,7 +136,7 @@ const getUser = (): Promise<GetUserResponse> => {
 };
 
 const getAllUsers = (): Promise<GetAllUsersResponse[]> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.USER)
+  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/`)
     .then((r) => r.data)
     .catch((e) => e);
 };
