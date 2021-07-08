@@ -4,7 +4,7 @@ import { Button, Col, Input, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
@@ -12,7 +12,7 @@ import UserDirectoryActionMenu, {
 import CreateUser from '../../components/userDirectory/CreateUser';
 import { SignupRequest } from '../../auth/ducks/types';
 import { signup } from '../../auth/ducks/thunks';
-import { GetAllUsersResponse, UserDirectoryReducerState } from './ducks/types';
+import { UserDirectoryReducerState, UserResponse } from './ducks/types';
 import { loadAllUsers } from './ducks/thunks';
 
 const { Search } = Input;
@@ -59,7 +59,7 @@ const UserDirectory: React.FC = () => {
     }
   };
 
-  const columns: ColumnType<GetAllUsersResponse>[] = [
+  const columns: ColumnType<UserResponse>[] = [
     {
       title: 'First Name',
       dataIndex: 'firstName',
@@ -100,7 +100,7 @@ const UserDirectory: React.FC = () => {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render(record: GetAllUsersResponse) {
+      render(record: UserResponse) {
         return <UserDirectoryActionMenu onAction={handleActionButtonOnClick} />;
       },
     },
@@ -137,7 +137,7 @@ const UserDirectory: React.FC = () => {
             <Table
               dataSource={
                 availableUsers.kind === AsyncRequestKinds.Completed
-                  ? Array.from(availableUsers.result).filter((entry) =>
+                  ? Array.from(availableUsers.result.users).filter((entry) =>
                       entry.firstName
                         .toLocaleLowerCase()
                         .startsWith(searchText.toLowerCase()),

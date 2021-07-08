@@ -14,10 +14,14 @@ export type UserDirectoryThunkAction<R> = ThunkAction<
 >;
 
 export interface UserDirectoryReducerState {
-  readonly allUsers: AsyncRequest<GetAllUsersResponse[], any>;
+  readonly allUsers: AsyncRequest<GetAllUsersResponse, any>;
 }
 
 export interface GetAllUsersResponse {
+  readonly users: UserResponse[];
+}
+
+export interface UserResponse {
   readonly firstName: string;
   readonly lastName: string;
   readonly email: string;

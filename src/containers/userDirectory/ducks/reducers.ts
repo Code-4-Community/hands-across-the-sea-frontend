@@ -10,12 +10,12 @@ import { allUsers } from './actions';
 import { C4CAction } from '../../../store';
 
 export const initialUserDirectoryState: UserDirectoryReducerState = {
-  allUsers: AsyncRequestNotStarted<GetAllUsersResponse[], any>(),
+  allUsers: AsyncRequestNotStarted<GetAllUsersResponse, any>(),
 };
 
 const allUsersRequestReducer = generateAsyncRequestReducer<
   UserDirectoryReducerState,
-  GetAllUsersResponse[],
+  GetAllUsersResponse,
   void
 >(allUsers.key);
 

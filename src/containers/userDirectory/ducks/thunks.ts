@@ -6,7 +6,7 @@ export const loadAllUsers = (): UserDirectoryThunkAction<void> => {
     dispatch(allUsers.loading());
     return protectedApiClient
       .getAllUsers()
-      .then((response: GetAllUsersResponse[]) => {
+      .then((response: GetAllUsersResponse) => {
         dispatch(allUsers.loaded(response));
       })
       .catch((error) => {

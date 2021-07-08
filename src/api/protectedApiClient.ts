@@ -41,7 +41,7 @@ export interface ProtectedApiClient {
 
   readonly deleteUser: (request: { password: string }) => Promise<void>;
   readonly getUser: () => Promise<GetUserResponse>;
-  readonly getAllUsers: () => Promise<GetAllUsersResponse[]>;
+  readonly getAllUsers: () => Promise<GetAllUsersResponse>;
 
   readonly getSchoolContacts: (
     schoolId: number,
@@ -135,7 +135,7 @@ const getUser = (): Promise<GetUserResponse> => {
     .catch((e) => e);
 };
 
-const getAllUsers = (): Promise<GetAllUsersResponse[]> => {
+const getAllUsers = (): Promise<GetAllUsersResponse> => {
   return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/`)
     .then((r) => r.data)
     .catch((e) => e);
