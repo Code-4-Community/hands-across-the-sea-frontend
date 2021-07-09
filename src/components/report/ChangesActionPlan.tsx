@@ -1,6 +1,6 @@
+import { Col, Form, Row } from 'antd';
 import React from 'react';
 import FormContainer from '../form-style/FormContainer';
-import { Col, Form, Row } from 'antd';
 import FormPiece from '../form-style/FormPiece';
 import { FormTextArea } from '../index';
 
@@ -10,7 +10,7 @@ const ChangesActionPlan: React.FC = () => {
       <Row>
         <Col flex={24}>
           <FormPiece note="Action Plans">
-            <Form.Item name="actionPlans">
+            <Form.Item name="actionPlan">
               <FormTextArea placeholder="Please enter your answer here" />
             </Form.Item>
           </FormPiece>

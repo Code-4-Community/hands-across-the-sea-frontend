@@ -223,7 +223,7 @@ const Home: React.FC = () => {
                 <InContain
                   lastPiece
                   onClick={() => {
-                    history.push(Routes.SETTINGS);
+                    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
                   }}
                 >
                   <Row>

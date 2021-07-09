@@ -12,9 +12,9 @@ export const toTitleCase = (str: string): string => {
 export const getOptionsFromEnum = (e: {
   [s: number]: string;
 }): JSX.Element[] => {
-  return Object.keys(e).map((enumKey: string) => (
-    <Select value={enumKey} key={enumKey}>
-      {toTitleCase(enumKey)}
+  return Object.entries(e).map(([key, value]) => (
+    <Select value={key} key={key}>
+      {value}
     </Select>
   ));
 };

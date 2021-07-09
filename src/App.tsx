@@ -30,6 +30,8 @@ import LibraryReport from './containers/library-report/LibraryReport';
 import SchoolContacts from './containers/schoolContact';
 import FormSubmission from './containers/formSubmission';
 import UserDirectory from './containers/userDirectory';
+import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
+import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
 
 const { Content } = Layout;
 
@@ -51,9 +53,10 @@ export enum Routes {
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   VERIFY_EMAIL = '/verify/:key',
-  TODO = '/TODO',
   SCHOOL_DIRECTORY = '/school-directory',
   USER_DIRECTORY = '/user-directory',
+  PAST_SUBMISSIONS_SCHOOLS = '/past-submissions-schools',
+  PAST_SUBMISSIONS_REPORTS = '/past-submissions-reports',
 }
 
 const App: React.FC = () => {
@@ -82,7 +85,6 @@ const App: React.FC = () => {
               {(() => {
                 switch (privilegeLevel) {
                   case PrivilegeLevel.ADMIN:
-                  case PrivilegeLevel.STANDARD:
                     return (
                       <Switch>
                         <Route
@@ -93,6 +95,11 @@ const App: React.FC = () => {
                         <Route path={Routes.HOME} exact component={Home} />
                         <Route
                           path={Routes.SCHOOL_DIRECTORY}
+                          exact
+                          component={SchoolDirectory}
+                        />
+                        <Route
+                          path={Routes.USER_DIRECTORY}
                           exact
                           component={SchoolDirectory}
                         />
@@ -125,6 +132,70 @@ const App: React.FC = () => {
                           path={Routes.FORM_SUB_CONFIRMATION}
                           exact
                           component={FormSubmission}
+                        />
+                        <Route
+                          path={Routes.PAST_SUBMISSIONS_SCHOOLS}
+                          exact
+                          component={PastSubmissionsSchools}
+                        />
+                        <Route
+                          path={Routes.PAST_SUBMISSIONS_REPORTS}
+                          exact
+                          component={PastSubmissionReports}
+                        />
+                        <Route path={Routes.LOGIN} exact component={Login} />
+                        <Route path={Routes.SIGNUP} exact component={Signup} />
+                        <Route
+                          path={Routes.SETTINGS}
+                          exact
+                          component={Settings}
+                        />
+                        <Route path="*" exact component={NotFound} />
+                      </Switch>
+                    );
+                  case PrivilegeLevel.STANDARD:
+                    return (
+                      <Switch>
+                        <Route path={Routes.HOME} exact component={Home} />
+                        <Route
+                          path={Routes.SELECT_SCHOOL}
+                          exact
+                          component={SelectSchool}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_INFO}
+                          exact
+                          component={YesOrNoLibrary}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_INFO}
+                          exact
+                          component={SchoolInformation}
+                        />
+                        <Route
+                          path={Routes.SCHOOL_CONTACTS}
+                          exact
+                          component={SchoolContacts}
+                        />
+                        <Route
+                          path={Routes.LIBRARY_REPORT}
+                          exact
+                          component={LibraryReport}
+                        />
+                        <Route
+                          path={Routes.FORM_SUB_CONFIRMATION}
+                          exact
+                          component={FormSubmission}
+                        />
+                        <Route
+                          path={Routes.PAST_SUBMISSIONS_SCHOOLS}
+                          exact
+                          component={PastSubmissionsSchools}
+                        />
+                        <Route
+                          path={Routes.PAST_SUBMISSIONS_REPORTS}
+                          exact
+                          component={PastSubmissionReports}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

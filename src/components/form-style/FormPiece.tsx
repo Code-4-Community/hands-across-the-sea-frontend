@@ -1,4 +1,4 @@
-import React, {ComponentProps} from 'react';
+import React, { ComponentProps } from 'react';
 import { Row, Col, Typography } from 'antd';
 import { ClarifyText } from '..';
 import { DeleteOutlined } from '@ant-design/icons';
