@@ -27,34 +27,34 @@ const CreateUser: React.FC<CreateUserProps> = ({ onFinish, onCancel }) => {
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="Create A School">
+            <FormPiece note="Create A User" lastPiece>
               <Row gutter={[24, 24]}>
                 <Col flex={12}>
-                  <Form.Item name="firstName">
+                  <Form.Item name="firstName" rules={[{ required: true, message: 'Required' }]}>
                     <Input placeholder="First Name" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
-                  <Form.Item name="lastName">
+                  <Form.Item name="lastName" rules={[{ required: true, message: 'Required' }]}>
                     <Input placeholder="Last Name" />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[24, 24]}>
                 <Col flex={12}>
-                  <Form.Item name="email">
+                  <Form.Item name="email" rules={[{ required: true, message: 'Required' }]}>
                     <Input placeholder="Email Address" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
-                  <Form.Item name="password">
+                  <Form.Item name="password" rules={[{ required: true, message: 'Required' }]}>
                     <Input.Password placeholder="Password" />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[0, 24]}>
                 <Col flex={24}>
-                  <Form.Item name="country">
+                  <Form.Item name="country" rules={[{ required: true, message: 'Required' }]}>
                     <Select placeholder="School's Country">
                       {Object.keys(Countries).map((key: string) => (
                         <Option key={key} value={key}>

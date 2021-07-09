@@ -26,5 +26,5 @@ export interface UserResponse {
   readonly lastName: string;
   readonly email: string;
   readonly country: keyof typeof Countries;
-  readonly privilege: PrivilegeLevel;
+  readonly privilegeLevel: PrivilegeLevel;
 }

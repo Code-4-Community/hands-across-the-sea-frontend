@@ -18,8 +18,8 @@ interface ActionProps {
 const UserDirectoryActionMenu: React.FC<ActionProps> = ({ onAction }) => {
   const actionOverlay = (
     <Menu onClick={(e) => onAction(e.key as UserDirectoryAction)}>
-      <Menu.Item key={'edit'}>Edit School</Menu.Item>
-      <Menu.Item key={'delete'}>Delete School</Menu.Item>
+      <Menu.Item key={'edit'}>Edit User</Menu.Item>
+      <Menu.Item key={'delete'}>Delete User</Menu.Item>
     </Menu>
   );
 

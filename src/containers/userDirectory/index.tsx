@@ -34,7 +34,15 @@ const UserDirectory: React.FC = () => {
 
   // handles submitting create a user form
   const handleOnFinishCreateUser = (userInfo: SignupRequest) => {
-    dispatch(signup(userInfo));
+    dispatch(
+      signup({
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email: userInfo.email,
+        country: userInfo.country,
+        password: userInfo.password,
+      }),
+    );
     setCreateUser(false);
     setUpdateUserList(!updateUserList);
   };
@@ -93,6 +101,16 @@ const UserDirectory: React.FC = () => {
       key: 'id',
       sorter: {
         compare: (a, b) => a.email.localeCompare(b.email),
+        multiple: 1,
+      },
+    },
+    {
+      title: 'Privilege',
+      dataIndex: 'privilegeLevel',
+      key: 'id',
+      sorter: {
+        compare: (a, b) =>
+          a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
     },
