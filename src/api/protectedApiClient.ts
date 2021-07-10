@@ -10,6 +10,7 @@ import {
 import {
   BookLogRequest,
   BookLogResponse,
+  BookLogPostRequest,
 } from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
@@ -68,8 +69,8 @@ export interface ProtectedApiClient {
   ) => Promise<LibraryReportResponse>;
   readonly createBookLog: (
     schoolId: number,
-    report: BookLogRequest,
-  ) => Promise<BookLogRequest>;
+    report: BookLogPostRequest,
+  ) => Promise<BookLogPostRequest>;
 
   readonly updateBookLog: (
     schoolId: number,
@@ -272,8 +273,8 @@ const createReportWithoutLibrary = (
 
 const createBookLog = (
   schoolId: number,
-  report: BookLogRequest,
-): Promise<BookLogResponse> => {
+  report: BookLogPostRequest,
+): Promise<BookLogPostRequest> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.BOOK_REPORTS.replace(
       ':school_id',
