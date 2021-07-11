@@ -17,15 +17,8 @@ import { Button, Col, Form, Row } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
 import MonitoringInfo from '../../components/report/MonitoringInfo';
-import StudentBookInformation from '../../components/report/StudentBookInformation';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
-import { C4CState } from '../../store';
 import ChangesActionPlan from '../../components/report/ChangesActionPlan';
-import {
-  ReportWithLibraryRequest,
-  ReportWithoutLibraryRequest,
-} from './ducks/types';
-import ReportWithLibrary from './ReportWithLibrary';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
