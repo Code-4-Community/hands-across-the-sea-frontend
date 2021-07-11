@@ -20,7 +20,7 @@ import MonitoringInfo from '../../components/report/MonitoringInfo';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
 import { C4CState } from '../../store';
-import { loadLatestLibraryReport } from './ducks/thunks';
+import ChangesActionPlan from '../../components/report/ChangesActionPlan';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
