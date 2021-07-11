@@ -13,6 +13,8 @@ import { LibraryReportResponse } from '../library-report/ducks/types';
 import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/ducks/types';
 import Loading from '../../components/Loading';
 import { ReportGenericListResponse } from './ducks/types';
+import PastSubmissionActions from './PastSubmissionActions';
+
 const PastSubmissionsReports: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -69,6 +71,11 @@ const PastSubmissionsReports: React.FC = () => {
         multiple: 1,
       },
     },
+    {
+      title: 'Actions',
+      // eslint-disable-next-line react/display-name
+      render: (data) => <PastSubmissionActions report={data} />,
+    },
   ];
 
   const onPageChange = (page: any, pageSize: any) => {
@@ -95,6 +102,7 @@ const PastSubmissionsReports: React.FC = () => {
           <Outer>
             <Table
               dataSource={availableReports.result.reports || []}
+              rowKey={(data) => data.libraryStatus + data.id}
               columns={columns}
               pagination={{
                 current: currentPage,

@@ -1,16 +1,30 @@
 import { Col, Form, InputNumber, RadioChangeEvent, Row } from 'antd';
 import React, { useState } from 'react';
-import FormContainer from '../../components/form-style/FormContainer';
-import FormPieceBoolean from '../form-style/FormPieceBoolean';
-import { ClarifyText, FormTextArea } from '../index';
+import FormContainer from '../../form-style/FormContainer';
+import FormPieceBoolean from '../../form-style/FormPieceBoolean';
+import { ClarifyText, FormTextArea } from '../../index';
+import FormText from '../../form-style/FormText';
+import FormItemDropdown from '../../form-style/FormItemDropdown';
+import { LibraryReportResponse } from '../../../containers/library-report/ducks/types';
 
-const TrainingMentorshipInfo: React.FC = () => {
-  const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>();
-  const [involvedParents, setInvolvedParents] = useState<boolean>();
-  const [
-    teachersSeekingSupport,
-    setTeacherSeekingSupport,
-  ] = useState<boolean>();
+interface TrainingMentorshipInfoProps {
+  editable?: boolean;
+  report?: LibraryReportResponse;
+}
+
+const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
+  editable,
+  report,
+}) => {
+  const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>(
+    !!report?.numberOfChildren,
+  );
+  const [involvedParents, setInvolvedParents] = useState<boolean>(
+    report?.libraryStatus === 'EXISTS' && !!report?.parentSupport,
+  );
+  const [teachersSeekingSupport, setTeacherSeekingSupport] = useState<boolean>(
+    report?.libraryStatus === 'EXISTS' && !!report?.teacherSupport,
+  );
 
   const handleChangeStudentLibrarians = (event: RadioChangeEvent) => {
     setIsStudentLibrary(event.target.value);
@@ -32,12 +46,17 @@ const TrainingMentorshipInfo: React.FC = () => {
             value={isStudentLibrary}
             note={'Is there a student librarian program?'}
             onChange={handleChangeStudentLibrarians}
+            disabled={!editable}
           >
             {isStudentLibrary && (
               <>
                 <ClarifyText>How many student librarians?</ClarifyText>
                 <Form.Item name="numberOfStudentLibrarians">
-                  <InputNumber placeholder="#" min={1} />
+                  {editable ? (
+                    <InputNumber placeholder="#" min={1} />
+                  ) : (
+                    <FormText />
+                  )}
                 </Form.Item>
               </>
             )}
@@ -45,7 +64,11 @@ const TrainingMentorshipInfo: React.FC = () => {
               <>
                 <ClarifyText>Why not?</ClarifyText>
                 <Form.Item name="reasonNoStudentLibrarians">
-                  <FormTextArea placeholder="Please enter the reason here" />
+                  {editable ? (
+                    <FormTextArea placeholder="Please enter the reason here" />
+                  ) : (
+                    <FormText />
+                  )}
                 </Form.Item>
               </>
             )}
@@ -60,6 +83,7 @@ const TrainingMentorshipInfo: React.FC = () => {
             note={
               'Has the library (at least two teacher) had sufficient training with the Library Manual and the Teachers Resource Guide?'
             }
+            disabled={!editable}
           />
         </Col>
       </Row>
@@ -70,12 +94,17 @@ const TrainingMentorshipInfo: React.FC = () => {
             value={teachersSeekingSupport}
             onChange={handleChangeTeacherSupport}
             note={'Are the teachers seeking support?'}
+            disabled={!editable}
           >
             {teachersSeekingSupport && (
               <>
                 <ClarifyText>What kind?</ClarifyText>
                 <Form.Item name="teacherSupport">
-                  <FormTextArea placeholder="Please enter your answer here" />
+                  {editable ? (
+                    <FormTextArea placeholder="Please enter your answer here" />
+                  ) : (
+                    <FormText />
+                  )}
                 </Form.Item>
               </>
             )}
@@ -91,12 +120,17 @@ const TrainingMentorshipInfo: React.FC = () => {
             note={
               'Has the school involved the students parents in the use of the library?'
             }
+            disabled={!editable}
           >
             {involvedParents && (
               <>
                 <ClarifyText>Please share examples:</ClarifyText>
                 <Form.Item name="parentSupport">
-                  <FormTextArea placeholder="Please enter your answer here" />
+                  {editable ? (
+                    <FormTextArea placeholder="Please enter your answer here" />
+                  ) : (
+                    <FormText />
+                  )}
                 </Form.Item>
               </>
             )}

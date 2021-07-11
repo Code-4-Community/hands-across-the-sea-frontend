@@ -94,6 +94,18 @@ export interface ProtectedApiClient {
     report: ReportWithoutLibraryRequest,
   ) => Promise<LibraryReportResponse>;
 
+  readonly editReportWithLibrary: (
+    schoolId: number,
+    reportId: number,
+    report: ReportWithLibraryRequest,
+  ) => Promise<void>;
+
+  readonly editReportWithoutLibrary: (
+    schoolId: number,
+    reportId: number,
+    report: ReportWithoutLibraryRequest,
+  ) => Promise<void>;
+
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
 
   readonly getPastSubmissionSchools: () => Promise<PastSubmissionsSchoolsResponse>;
@@ -326,6 +338,38 @@ const getPastSubmissionReports = (
   ).then((res) => res.data);
 };
 
+const editReportWithLibrary = (
+  schoolId: number,
+  reportId: number,
+  report: ReportWithLibraryRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${reportId}`,
+    report,
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const editReportWithoutLibrary = (
+  schoolId: number,
+  reportId: number,
+  report: ReportWithoutLibraryRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${reportId}`,
+    report,
+  )
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
@@ -346,6 +390,8 @@ const Client: ProtectedApiClient = Object.freeze({
   getLatestReport,
   createReportWithLibrary,
   createReportWithoutLibrary,
+  editReportWithLibrary,
+  editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
 });
