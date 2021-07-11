@@ -8,9 +8,8 @@ import { SelectSchoolActions } from './actions';
 export interface SchoolEntry {
   id: number;
   name: string;
-  country: keyof typeof Countries | typeof Countries[keyof typeof Countries];
+  country: keyof typeof Countries;
 }
-
 
 export interface SelectSchoolReducerState {
   schools: AsyncRequest<SchoolEntry[]>;
