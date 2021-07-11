@@ -24,7 +24,6 @@ import {
 } from '../bookLogs/ducks/thunks';
 import {
   BookLogRequest,
-  BookLogsReducerState,
   BookLogPostRequest,
 } from '../bookLogs/ducks/types';
 import EditBookLog from '../../components/schoolDirectory/EditBookLog';
@@ -63,10 +62,6 @@ const SchoolDirectory: React.FC = () => {
     (state: C4CState) => state.selectSchoolState.schools,
   );
 
-  const currentBookLogs: BookLogsReducerState['bookLogs'] = useSelector(
-    (state: C4CState) => state.bookLogsState.bookLogs,
-  );
-
   // need useEffect inside of component because the state "updateSchoolList"
   // needs to be a dependency
   useEffect(() => {
@@ -90,6 +85,8 @@ const SchoolDirectory: React.FC = () => {
     setCreateSchool(!createSchool);
   };
 
+  // handles saving the book logs - posts all of the newly added book logs to the backend
+  // and also deletes all of the deleted book logs
   const handleOnSaveBookLogs = () => {
     for (var i = 0; i < bookLogsList.length; i++) {
       let logValue: BookLogPostRequest = {
@@ -120,17 +117,33 @@ const SchoolDirectory: React.FC = () => {
 
   // handles adding a new book to the log
   const handleAddBookLog = (bookLog: BookLogRequest) => {
+    if (!!bookLog.date) {
+      bookLog.date = moment(new Date().toString());
+    }
+    // for the newly added booklogs, the id is set to a negative value so that
+    // the component can access them for editing/deleting. since this value will be 
+    // 0 - added, none of the new book log ids will be the same. this is also ignored when posting the 
+    // log to the backend.
     bookLog.id = 0 - added;
     setBookLogsList([bookLog, ...bookLogsList]);
     setAdded(added + 1);
   };
 
+  // handles opening the edit book log popup
   const handleOnEditBookLog = (bookLog: BookLogRequest) => {
     setBookLogs(false);
     setEditedBookLog(bookLog);
     setEditBookLogs(true);
   };
 
+  // handles closing the edit book log popup
+  const handleOnCancelEditBookLogs = () => {
+    setEditBookLogs(false);
+    setEditedBookLog({ id: -1, count: 0, date: '' });
+    setBookLogs(true);
+  };
+
+  // handles deleting a book from the log
   const handleOnDeleteBookLog = (id: number) => {
     if (id > 0) {
       setDeletedLogs([id, ...deletedLogs]);
@@ -140,12 +153,7 @@ const SchoolDirectory: React.FC = () => {
     setBookLogsList(bookLogsList.filter((log) => log.id !== id));
   };
 
-  const handleOnCancelEditBookLogs = () => {
-    setEditBookLogs(false);
-    setEditedBookLog({ id: -1, count: 0, date: '' });
-    setBookLogs(true);
-  };
-
+  // handles saving the updates to a book log
   const handleOnSaveEditBookLogs = (bookLog: BookLogRequest) => {
     if (editedBookLog.id > 0) {
       dispatch(updateBookLog(bookLogsSchool.id, editedBookLog.id, bookLog));

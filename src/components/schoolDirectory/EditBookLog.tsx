@@ -46,7 +46,7 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
             <FormPiece titleLevel={4} note="Editing Book Log">
               <InlineFormContainer>
                 <Form.Item name="count">
-                  <InlineInputNumber placeholder="Book Amount Change" />
+                  <InlineInputNumber required placeholder="Book Amount Change" />
                 </Form.Item>
                 <Form.Item name="date">
                   <InlineDatePicker placeholder="Select Date" />

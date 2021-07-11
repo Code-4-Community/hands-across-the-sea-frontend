@@ -9,6 +9,7 @@ import { ColumnType } from 'antd/lib/table';
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 interface BookLogWithStyling extends BookLogRequest {
   style: string;
@@ -80,9 +81,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
   dataSource,
   added,
 }) => {
-  // const bookLogs: BookLogsReducerState['bookLogs'] = useSelector(
-  //   (state: C4CState) => state.bookLogsState.bookLogs,
-  // );
+  
   const currentBookLogs: AsyncRequest<BookLogRequest[], any> = useSelector(
     (state: C4CState) => state.bookLogsState.bookLogs,
   );
@@ -154,7 +153,8 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
                 }}
               >
                 Delete
-              </Button>|{' '}
+              </Button>
+              |{' '}
               <Button
                 type="link"
                 onClick={() => {
@@ -170,8 +170,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     },
   ];
 
-  
-
   switch (currentBookLogs.kind) {
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Failed:
@@ -179,75 +177,86 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     case AsyncRequestKinds.Loading:
       return <p>Loading book logs</p>;
     case AsyncRequestKinds.Completed:
-      
-      const allBookLogs: BookLogWithStyling[] = dataSource.concat(currentBookLogs.result).map((log, ind) => {
-        const style: string = ind > added - 1 ? '#fff' : '#D4D9E7';
-        const styledLog: BookLogWithStyling = {
-          count: log.count,
-          date: log.date,
-          id: log.id,
-          notes: log.notes,
-          style: style,
-        };
-        return styledLog;
-      });
 
-  return (
-    <div>
-      <Row gutter={[0, 32]}>
-        <Col flex={24}>
-          <DirectoryTitle level={2}>Book Logs for {schoolName}</DirectoryTitle>
-        </Col>
-      </Row>
-      <Form onFinish={onAddBook}>
-        <Row gutter={[0, 24]}>
-          <Col flex={24}>
-            <FormPiece titleLevel={4} note="Enter New Book Log">
-              <InlineFormContainer>
-                <Form.Item name="count">
-                  <InlineInputNumber placeholder="Book Amount Change" />
-                </Form.Item>
-                <Form.Item name="date">
-                  <InlineDatePicker placeholder="Select Date" />
-                </Form.Item>
-              </InlineFormContainer>
-              <Form.Item name="notes">
-                <FormTextArea placeholder="Notes" />
-              </Form.Item>
-              <AddBookButton htmlType={'submit'}>Add</AddBookButton>
-            </FormPiece>
-          </Col>
-        </Row>
-      </Form>
-      <Row gutter={[0, 24]}>
-        <Col flex={24}>
-          <FormPiece titleLevel={4} note="Past Book Logs">
-            <Table dataSource={allBookLogs} columns={columns} />
-          </FormPiece>
-        </Col>
-      </Row>
-      <Footer>
-        <Row gutter={[0, 24]}>
-          <Col flex={24}>
-            <CancelButton
-              onClick={() => {
-                onCancel();
-              }}
-            >
-              Cancel
-            </CancelButton>
-            <SaveButton
-              onClick={() => {
-                onSave();
-              }}
-            >
-              Save
-            </SaveButton>
-          </Col>
-        </Row>
-      </Footer>
-    </div>
-  );
+      // this will set the highlight for the newly added book logs
+      const allBookLogs: BookLogWithStyling[] = dataSource
+        .concat(currentBookLogs.result)
+        .map((log, ind) => {
+          const style: string = ind > added - 1 ? '#fff' : '#E6F7FF';
+          const styledLog: BookLogWithStyling = {
+            count: log.count,
+            date: log.date,
+            id: log.id,
+            notes: log.notes,
+            style: style,
+          };
+          return styledLog;
+        });
+
+      return (
+        <div>
+          <Row gutter={[0, 32]}>
+            <Col flex={24}>
+              <DirectoryTitle level={2}>
+                Book Logs for {schoolName}
+              </DirectoryTitle>
+            </Col>
+          </Row>
+          <Form onFinish={onAddBook}>
+            <Row gutter={[0, 24]}>
+              <Col flex={24}>
+                <FormPiece titleLevel={4} note="Enter New Book Log">
+                  <InlineFormContainer>
+                    <Form.Item name="count">
+                      <InlineInputNumber
+                        required={true}
+                        placeholder="Book Amount Change"
+                      />
+                    </Form.Item>
+                    <Form.Item required name="date">
+                      <InlineDatePicker
+                        placeholder="Select Date"
+                        defaultValue={moment(new Date().toString())}
+                      />
+                    </Form.Item>
+                  </InlineFormContainer>
+                  <Form.Item name="notes">
+                    <FormTextArea placeholder="Notes" />
+                  </Form.Item>
+                  <AddBookButton htmlType={'submit'}>Add</AddBookButton>
+                </FormPiece>
+              </Col>
+            </Row>
+          </Form>
+          <Row gutter={[0, 24]}>
+            <Col flex={24}>
+              <FormPiece titleLevel={4} note="Past Book Logs">
+                <Table dataSource={allBookLogs} columns={columns} />
+              </FormPiece>
+            </Col>
+          </Row>
+          <Footer>
+            <Row gutter={[0, 24]}>
+              <Col flex={24}>
+                <CancelButton
+                  onClick={() => {
+                    onCancel();
+                  }}
+                >
+                  Cancel
+                </CancelButton>
+                <SaveButton
+                  onClick={() => {
+                    onSave();
+                  }}
+                >
+                  Save
+                </SaveButton>
+              </Col>
+            </Row>
+          </Footer>
+        </div>
+      );
   }
 };
 
