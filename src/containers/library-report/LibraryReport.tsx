@@ -17,8 +17,15 @@ import { Button, Col, Form, Row } from 'antd';
 import FormContainer from '../../components/form-style/FormContainer';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
 import MonitoringInfo from '../../components/report/MonitoringInfo';
+import StudentBookInformation from '../../components/report/StudentBookInformation';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
-import ChangesActionPlan from '../../components/report/ChangesActionPlan';
+import { C4CState } from '../../store';
+import { loadLatestLibraryReport } from './ducks/thunks';
+import {
+  ReportWithLibraryRequest,
+  ReportWithoutLibraryRequest,
+} from './ducks/types';
+import ReportWithLibrary from './ReportWithLibrary';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
@@ -37,7 +44,9 @@ const LibraryReport = () => {
     string | null
   >(null);
 
-  if (!schoolId) return null;
+  if (!schoolId) {
+    history.replace(Routes.HOME);
+  }
 
   const handleSubmit = (
     reportData: ReportWithLibraryFormData | ReportWithoutLibraryFormData,
@@ -61,12 +70,18 @@ const LibraryReport = () => {
         ),
       );
     }
-    history.replace(Routes.FORM_SUB_CONFIRMATION);
   };
 
   return (
     <FormContentContainer>
-      <Form onFinish={handleSubmit}>
+      <Form
+        onFinish={handleSubmit}
+        onFinishFailed={() =>
+          message.error(
+            'Error submitting form, please double check your responses and try again.',
+          )
+        }
+      >
         <FormContainer title="Reason for Visit">
           <Row>
             <Col flex={24}>

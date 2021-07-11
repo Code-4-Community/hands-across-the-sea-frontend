@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Col, Form, InputNumber, RadioChangeEvent, Row } from 'antd';
-import { ClarifyText, FormTextArea } from '../index';
+import React, { useState } from 'react';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPieceBoolean from '../form-style/FormPieceBoolean';
+import { ClarifyText, FormTextArea } from '../index';
 
 const TrainingMentorshipInfo: React.FC = () => {
   const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>();
