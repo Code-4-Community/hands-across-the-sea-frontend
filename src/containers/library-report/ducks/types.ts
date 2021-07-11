@@ -50,7 +50,7 @@ export interface ReportWithoutLibraryRequest extends LibraryReportShared {
   readonly wantsLibrary: null | boolean;
   readonly hasSpace: null | boolean;
   readonly currentStatus: null | string;
-  readonly readyTimeline: null | string;
+  readonly readyTimeline: ReadyTimeline;
 }
 
 export interface ReportWithoutLibraryFormData
@@ -80,16 +80,38 @@ export enum AssignedPersonRole {
 }
 
 export enum AssignedPersonTitle {
-  LIBRARIAN = 'LIBRARIAN',
-  SECRETARY = 'SECRETARY',
-  TEACHER = 'TEACHER',
-  APPRENTICE = 'APPRENTICE',
+  LIBRARIAN = 'Librarian',
+  SCHOOL_SECRETARY = 'Secretary',
+  CLASSROOM_TEACHER = 'Teacher',
+  APPRENTICE = 'Apprentice',
   PCV = 'PCV',
-  OTHER = 'OTHER',
+  OTHER = 'Other',
 }
 
 export enum ApprenticeshipProgram {
-  OECS_YES = 'OECS_YES',
+  OECS = 'OECS YES',
   NEP = 'NEP',
-  OHTER = 'OTHER',
+  OTHER = 'Other',
+  NONE = 'No Apprenticeship Program',
+}
+
+export enum Grade {
+  KINDERGARTEN = 'KINDERGARTEN',
+  FIRST_GRADE = 'FIRST_GRADE',
+  SECOND_GRADE = 'SECOND_GRADE',
+  THIRD_GRADE = 'THIRD_GRADE',
+  FOURTH_GRADE = 'FOURTH_GRADE',
+  FIFTH_GRADE = 'FIFTH_GRADE',
+  SIXTH_GRADE = 'SIXTH_GRADE',
+  FORM_ONE = 'FORM_ONE',
+  FORM_TWO = 'FORM_TWO',
+  FORM_THREE = 'FORM_THREE',
+  FORM_FOUR = 'FORM_FOUR',
+  FORM_FIVE = 'FORM_FIVE',
+}
+
+export enum ReadyTimeline {
+  UPCOMING_SCHOOL_YEAR = 'UPCOMING_SCHOOL_YEAR',
+  YEAR_AFTER_NEXT = 'YEAR_AFTER_NEXT',
+  MORE_THAN_TWO_YEARS = 'MORE_THAN_TWO_YEARS',
 }

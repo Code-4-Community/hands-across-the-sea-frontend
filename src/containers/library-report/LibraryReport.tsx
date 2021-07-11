@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
-import ReportWithLibrary from './ReportWithLibrary';
-import {
-  ReportWithLibraryFormData,
-  ReportWithLibraryRequest,
-  ReportWithoutLibraryFormData,
-  ReportWithoutLibraryRequest,
-} from './ducks/types';
+import { Button, Col, Form, Input, message, Row } from 'antd';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createReportWithLibrary,
@@ -14,11 +8,23 @@ import {
 import { C4CState } from '../../store';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import { Button, Col, Form, Row } from 'antd';
+import { useHistory } from 'react-router-dom';
+import protectedApiClient from '../../api/protectedApiClient';
+import { Routes } from '../../App';
 import FormContainer from '../../components/form-style/FormContainer';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
-import MonitoringInfo from '../../components/report/MonitoringInfo';
-import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
+import FormContentContainer from '../../components/form-style/FormContentContainer';
+import FormPiece from '../../components/form-style/FormPiece';
 import ChangesActionPlan from '../../components/report/ChangesActionPlan';
+import MonitoringInfo from '../../components/report/MonitoringInfo';
+import StudentBookInformation from '../../components/report/StudentBookInformation';
+import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
+import { loadLatestLibraryReport } from './ducks/thunks';
+import {
+  ReportWithLibraryRequest,
+  ReportWithoutLibraryRequest,
+} from './ducks/types';
+import ReportWithLibrary from './ReportWithLibrary';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
@@ -37,7 +43,9 @@ const LibraryReport = () => {
     string | null
   >(null);
 
-  if (!schoolId) return null;
+  if (!schoolId) {
+    history.replace(Routes.HOME);
+  }
 
   const handleSubmit = (
     reportData: ReportWithLibraryFormData | ReportWithoutLibraryFormData,
@@ -46,27 +54,40 @@ const LibraryReport = () => {
       reportData.visitReason = reportData.otherVisitReason;
     }
     delete reportData.otherVisitReason;
-    if (isYesReport) {
-      dispatch(
-        createReportWithLibrary(
-          schoolId,
-          reportData as ReportWithLibraryRequest,
-        ),
-      );
-    } else {
-      dispatch(
-        createReportWithoutLibrary(
-          schoolId,
-          reportData as ReportWithoutLibraryRequest,
-        ),
+    if (schoolId === undefined) {
+      throw new Error('School ID is undefined');
+    }
+    try {
+      if (isYesReport) {
+        await protectedApiClient.createReportWithLibrary(
+            schoolId,
+            report as ReportWithLibraryRequest,
+        );
+      } else {
+        await protectedApiClient.createReportWithoutLibrary(
+            schoolId,
+            report as ReportWithoutLibraryRequest,
+        );
+      }
+      dispatch(loadLatestLibraryReport(schoolId));
+      history.replace(Routes.FORM_SUB_CONFIRMATION);
+    } catch (err) {
+      message.error(
+          'Error submitting form, please double check your responses and try again.',
       );
     }
-    history.replace(Routes.FORM_SUB_CONFIRMATION);
   };
 
   return (
     <FormContentContainer>
-      <Form onFinish={handleSubmit}>
+      <Form
+        onFinish={handleSubmit}
+        onFinishFailed={() =>
+          message.error(
+            'Error submitting form, please double check your responses and try again.',
+          )
+        }
+      >
         <FormContainer title="Reason for Visit">
           <Row>
             <Col flex={24}>

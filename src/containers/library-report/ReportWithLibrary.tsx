@@ -1,18 +1,17 @@
+import { Col, Form, Radio, RadioChangeEvent, Row } from 'antd';
+import React, { useState } from 'react';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormItemDropdown from '../../components/form-style/FormItemDropdown';
+import FormPiece from '../../components/form-style/FormPiece';
+import FormPieceBoolean from '../../components/form-style/FormPieceBoolean';
 import {
   ApprenticeshipProgram,
   AssignedPersonRole,
   AssignedPersonTitle,
 } from './ducks/types';
-import React, { useState } from 'react';
-import { Col, Form, Radio, RadioChangeEvent, Row } from 'antd';
-import FormPiece from '../../components/form-style/FormPiece';
-import FormContainer from '../../components/form-style/FormContainer';
-import FormPieceBoolean from '../../components/form-style/FormPieceBoolean';
-import FormItemDropdown from '../../components/form-style/FormItemDropdown';
 
 const ReportWithLibrary: React.FC = () => {
   const [hasAssignedPerson, setHasAssignedPerson] = useState<boolean>();
-  const [hasApprenticeship, setHasApprenticeship] = useState<boolean>();
 
   const handleChangeAssignedLibrary = (event: RadioChangeEvent) => {
     const hasPerson =
@@ -21,11 +20,7 @@ const ReportWithLibrary: React.FC = () => {
     setHasAssignedPerson(hasPerson);
   };
 
-  const handleChangeApprenticeship = (event: RadioChangeEvent) => {
-    setHasApprenticeship(event.target.value);
-  };
-
-  const bottomGutter = !hasApprenticeship ? 0 : 24;
+  const bottomGutter = 24;
 
   return (
     <FormContainer title="Library Information">
@@ -73,7 +68,7 @@ const ReportWithLibrary: React.FC = () => {
             {hasAssignedPerson && (
               <FormItemDropdown
                 clarifyText={
-                  'What is the title of this peron assigned to the library?'
+                  'What is the title of this person assigned to the library?'
                 }
                 optionsEnum={AssignedPersonTitle}
                 name={'assignedPersonTitle'}
@@ -86,33 +81,24 @@ const ReportWithLibrary: React.FC = () => {
 
       <Row gutter={[0, bottomGutter]}>
         <Col flex={24}>
-          <FormPieceBoolean
-            onChange={handleChangeApprenticeship}
-            note={
-              'Does this school have a known apprenticeship program in the library?'
-            }
-          >
-            {hasApprenticeship && (
-              <FormItemDropdown
-                optionsEnum={ApprenticeshipProgram}
-                name={'apprenticeshipProgram'}
-                text={'Select the program'}
-              />
-            )}
-          </FormPieceBoolean>
+          <FormPiece note="Does this school have a known apprenticeship program in the library? If so, select which program:">
+            <FormItemDropdown
+              optionsEnum={ApprenticeshipProgram}
+              name={'apprenticeshipProgram'}
+              text={'Select a program'}
+            />
+          </FormPiece>
         </Col>
       </Row>
 
-      {hasApprenticeship && (
-        <Row gutter={[0, 0]}>
-          <Col flex={24}>
-            <FormPieceBoolean
-              name={'trainsAndMentorsApprentices'}
-              note={'Do you train and mentor the apprentices in the library?'}
-            />
-          </Col>
-        </Row>
-      )}
+      <Row gutter={[0, 0]}>
+        <Col flex={24}>
+          <FormPieceBoolean
+            name={'trainsAndMentorsApprentices'}
+            note={'Do you train and mentor the apprentices in the library?'}
+          />
+        </Col>
+      </Row>
     </FormContainer>
   );
 };
