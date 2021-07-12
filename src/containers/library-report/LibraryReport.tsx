@@ -1,33 +1,25 @@
 import { Button, Col, Form, Input, message, Row } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createReportWithLibrary,
-  createReportWithoutLibrary,
-} from './ducks/thunks';
 import { C4CState } from '../../store';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
-import { Button, Col, Form, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
 import FormContainer from '../../components/form-style/FormContainer';
 import StudentBookInformation from '../../components/report/StudentBookInformation';
-import FormContentContainer from '../../components/form-style/FormContentContainer';
-import FormPiece from '../../components/form-style/FormPiece';
 import ChangesActionPlan from '../../components/report/ChangesActionPlan';
 import MonitoringInfo from '../../components/report/MonitoringInfo';
-import StudentBookInformation from '../../components/report/StudentBookInformation';
 import TrainingMentorshipInfo from '../../components/report/TrainingMentorshipInfo';
 import { loadLatestLibraryReport } from './ducks/thunks';
 import {
+  ReportWithLibraryFormData,
   ReportWithLibraryRequest,
+  ReportWithoutLibraryFormData,
   ReportWithoutLibraryRequest,
 } from './ducks/types';
 import ReportWithLibrary from './ReportWithLibrary';
 import ReportWithoutLibrary from './ReportWithoutLibrary';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../App';
 import PurposeOfVisit from '../../components/report/PurposeOfVisit';
 
 const LibraryReport = () => {
@@ -47,7 +39,7 @@ const LibraryReport = () => {
     history.replace(Routes.HOME);
   }
 
-  const handleSubmit = (
+  const handleSubmit = async (
     reportData: ReportWithLibraryFormData | ReportWithoutLibraryFormData,
   ) => {
     if (reportData.visitReason === 'Other') {
@@ -60,20 +52,20 @@ const LibraryReport = () => {
     try {
       if (isYesReport) {
         await protectedApiClient.createReportWithLibrary(
-            schoolId,
-            report as ReportWithLibraryRequest,
+          schoolId,
+          reportData as ReportWithLibraryRequest,
         );
       } else {
         await protectedApiClient.createReportWithoutLibrary(
-            schoolId,
-            report as ReportWithoutLibraryRequest,
+          schoolId,
+          reportData as ReportWithoutLibraryRequest,
         );
       }
       dispatch(loadLatestLibraryReport(schoolId));
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
       message.error(
-          'Error submitting form, please double check your responses and try again.',
+        'Error submitting form, please double check your responses and try again.',
       );
     }
   };
