@@ -21,6 +21,9 @@ export interface GetAllUsersResponse {
   readonly users: UserResponse[];
 }
 
+// for naming purposes on api typing
+export type UpdateUserRequest = UserResponse;
+
 export interface UserResponse {
   readonly firstName: string;
   readonly lastName: string;

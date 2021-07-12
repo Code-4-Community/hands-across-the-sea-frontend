@@ -11,14 +11,26 @@ import UserDirectoryActionMenu, {
 } from '../../components/userDirectory/UserDirectoryActionMenu';
 import CreateUser from '../../components/userDirectory/CreateUser';
 import { SignupRequest } from '../../auth/ducks/types';
-import { signup } from '../../auth/ducks/thunks';
-import { UserDirectoryReducerState, UserResponse } from './ducks/types';
+import {
+  UpdateUserRequest,
+  UserDirectoryReducerState,
+  UserResponse,
+} from './ducks/types';
 import { loadAllUsers } from './ducks/thunks';
+import authClient from '../../auth/authClient';
+import protectedApiClient from '../../api/protectedApiClient';
+import { notification } from 'antd/es';
 
 const { Search } = Input;
 
 const UserDirectory: React.FC = () => {
   const [createUser, setCreateUser] = useState<boolean>(false);
+  const [updateUser, setUpdateUser] = useState<boolean>(false);
+  /* Will be used when Update User endpoint is fixed
+  const [defaultUser, setDefaultUser] = useState<UserResponse | undefined>(
+    undefined,
+  );
+   */
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
@@ -32,35 +44,61 @@ const UserDirectory: React.FC = () => {
     dispatch(loadAllUsers());
   }, [dispatch, updateUserList]);
 
+  // show error notification if any
+  // should never reach this as we check validity before sending request
+  const errorSignUp = (error: any) => {
+    notification.warning({
+      message: 'Error',
+      description: error.response.data,
+    });
+  };
+
   // handles submitting create a user form
-  const handleOnFinishCreateUser = (userInfo: SignupRequest) => {
-    dispatch(
-      signup({
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        email: userInfo.email,
-        country: userInfo.country,
-        password: userInfo.password,
-      }),
-    );
-    setCreateUser(false);
-    setUpdateUserList(!updateUserList);
+  const handleOnFinishCreateUser = (
+    userInfo: SignupRequest | UpdateUserRequest,
+    update: boolean,
+  ) => {
+    if (update) {
+      protectedApiClient
+        .updateUser(userInfo as UpdateUserRequest, 1)
+        .then((ignore) => {
+          setCreateUser(false);
+          setUpdateUserList(!updateUserList);
+        })
+        .catch(errorSignUp);
+    } else {
+      authClient
+        .signup(userInfo as SignupRequest)
+        .then((ignore) => {
+          setCreateUser(false);
+          setUpdateUserList(!updateUserList);
+        })
+        .catch(errorSignUp);
+    }
   };
 
-  // handles canceling the create school form
+  // handles canceling the create user form
   const handleOnCancelCreateUser = () => {
+    setUpdateUser(false);
     setCreateUser(false);
   };
 
-  // handles the button click of Create School button
+  // handles the button click of Create User button
   const handleOnClickCreateUser = () => {
     setCreateUser(!createUser);
   };
 
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = () => (key: UserDirectoryAction) => {
+  const handleActionButtonOnClick = (record: UserResponse) => (
+    key: UserDirectoryAction,
+  ) => {
     switch (key) {
       case UserDirectoryAction.EDIT:
+        /* Set up for when Update User endpoint is updated
+        setUpdateUser(true);
+        setDefaultUser(record);
+        setCreateUser(true);
+        */
         return;
       case UserDirectoryAction.DELETE:
         return;
@@ -119,7 +157,11 @@ const UserDirectory: React.FC = () => {
       dataIndex: '',
       key: 'x',
       render(record: UserResponse) {
-        return <UserDirectoryActionMenu onAction={handleActionButtonOnClick} />;
+        return (
+          <UserDirectoryActionMenu
+            onAction={handleActionButtonOnClick(record)}
+          />
+        );
       },
     },
   ];
@@ -136,6 +178,7 @@ const UserDirectory: React.FC = () => {
             <CreateUser
               onFinish={handleOnFinishCreateUser}
               onCancel={handleOnCancelCreateUser}
+              update={updateUser}
             />
           </Modal>
           <Row gutter={[0, 32]}>
@@ -155,10 +198,14 @@ const UserDirectory: React.FC = () => {
             <Table
               dataSource={
                 availableUsers.kind === AsyncRequestKinds.Completed
-                  ? Array.from(availableUsers.result.users).filter((entry) =>
-                      entry.firstName
-                        .toLocaleLowerCase()
-                        .startsWith(searchText.toLowerCase()),
+                  ? Array.from(availableUsers.result.users).filter(
+                      (entry) =>
+                        entry.firstName
+                          .toLocaleLowerCase()
+                          .startsWith(searchText.toLowerCase()) ||
+                        entry.lastName
+                          .toLocaleLowerCase()
+                          .startsWith(searchText.toLowerCase()),
                     )
                   : undefined
               }
