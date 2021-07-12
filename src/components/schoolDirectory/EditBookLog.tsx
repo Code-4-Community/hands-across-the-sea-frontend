@@ -12,7 +12,6 @@ import {
   SaveButton,
 } from './BookLogsMenu';
 import { DirectoryTitle } from '../';
-import moment from 'moment';
 
 interface EditBookLogProps {
   readonly onSave: (bookLogRequest: BookLogRequest) => void;
@@ -32,7 +31,6 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
   bookLog,
   schoolName,
 }) => {
-  bookLog.date = moment(bookLog.date);
   return (
     <div>
       <Row gutter={[0, 32]}>

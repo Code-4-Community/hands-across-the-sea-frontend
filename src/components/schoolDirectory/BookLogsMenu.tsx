@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { DirectoryTitle } from '../';
 import { BookLogRequest } from '../../containers/bookLogs/ducks/types';
 import { ColumnType } from 'antd/lib/table';
-import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
 
 interface BookLogWithStyling extends BookLogRequest {
   style: string;
@@ -22,8 +22,9 @@ interface BookLogsMenuProps {
   readonly onDelete: (id: number) => void;
   readonly schoolName: string;
   readonly onAddBook: (bookLogRequest: BookLogRequest) => void;
-  readonly dataSource: BookLogRequest[];
   readonly added: number;
+  readonly addedBookLogs: BookLogRequest[];
+  readonly deletedLogs: number[];
 }
 const Footer = styled.div`
   text-align: center;
@@ -78,13 +79,15 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
   onDelete,
   schoolName,
   onAddBook,
-  dataSource,
   added,
+  addedBookLogs,
+  deletedLogs
 }) => {
   
   const currentBookLogs: AsyncRequest<BookLogRequest[], any> = useSelector(
     (state: C4CState) => state.bookLogsState.bookLogs,
   );
+
   const columns: ColumnType<BookLogWithStyling>[] = [
     {
       title: 'Book Amount',
@@ -177,18 +180,19 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     case AsyncRequestKinds.Loading:
       return <p>Loading book logs</p>;
     case AsyncRequestKinds.Completed:
-
+      const filteredCurrentBookLogs: BookLogRequest[] = currentBookLogs.result
+        .filter((log) => !deletedLogs.includes(log.id));
+        
       // this will set the highlight for the newly added book logs
-      const allBookLogs: BookLogWithStyling[] = dataSource
-        .concat(currentBookLogs.result)
+      const allBookLogs: BookLogWithStyling[] = addedBookLogs
+        .concat(filteredCurrentBookLogs)
         .map((log, ind) => {
-          const style: string = ind > added - 1 ? '#fff' : '#E6F7FF';
           const styledLog: BookLogWithStyling = {
             count: log.count,
             date: log.date,
             id: log.id,
             notes: log.notes,
-            style: style,
+            style: ind > added - 1 ? '#fff' : '#E6F7FF',
           };
           return styledLog;
         });
@@ -231,7 +235,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
           <Row gutter={[0, 24]}>
             <Col flex={24}>
               <FormPiece titleLevel={4} note="Past Book Logs">
-                <Table dataSource={allBookLogs} columns={columns} />
+                <Table dataSource={allBookLogs} columns={columns} pagination={{ pageSize: 7 }} />
               </FormPiece>
             </Col>
           </Row>

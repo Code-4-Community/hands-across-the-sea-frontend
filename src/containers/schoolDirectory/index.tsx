@@ -117,7 +117,7 @@ const SchoolDirectory: React.FC = () => {
 
   // handles adding a new book to the log
   const handleAddBookLog = (bookLog: BookLogRequest) => {
-    if (!!bookLog.date) {
+    if (!bookLog.date) {
       bookLog.date = moment(new Date().toString());
     }
     // for the newly added booklogs, the id is set to a negative value so that
@@ -132,6 +132,7 @@ const SchoolDirectory: React.FC = () => {
   // handles opening the edit book log popup
   const handleOnEditBookLog = (bookLog: BookLogRequest) => {
     setBookLogs(false);
+    bookLog.date = moment(bookLog.date);
     setEditedBookLog(bookLog);
     setEditBookLogs(true);
   };
@@ -147,10 +148,11 @@ const SchoolDirectory: React.FC = () => {
   const handleOnDeleteBookLog = (id: number) => {
     if (id > 0) {
       setDeletedLogs([id, ...deletedLogs]);
+      
     } else {
       setAdded(added - 1);
+      setBookLogsList(bookLogsList.filter((log) => log.id !== id));
     }
-    setBookLogsList(bookLogsList.filter((log) => log.id !== id));
   };
 
   // handles saving the updates to a book log
@@ -158,17 +160,11 @@ const SchoolDirectory: React.FC = () => {
     if (editedBookLog.id > 0) {
       dispatch(updateBookLog(bookLogsSchool.id, editedBookLog.id, bookLog));
     } else {
-      let editedBookLogIndex: number = bookLogsList
-        .map((log) => log.id)
-        .indexOf(editedBookLog.id);
-      let currentBookLogsList = [...bookLogsList];
-      currentBookLogsList[editedBookLogIndex] = {
-        count: bookLog.count,
-        date: bookLog.date,
-        notes: bookLog.notes,
-        id: editedBookLog.id,
-      };
-      setBookLogsList(currentBookLogsList);
+      bookLog.id = editedBookLog.id;
+      let editedBookLogs = bookLogsList.map((log) => {
+        return log.id === editedBookLog.id ? bookLog : log;
+      })
+      setBookLogsList(editedBookLogs);
     }
     setEditBookLogs(false);
     setEditedBookLog({ id: -1, count: 0, date: '' });
@@ -265,8 +261,9 @@ const SchoolDirectory: React.FC = () => {
               onDelete={handleOnDeleteBookLog}
               onCancel={handleOnCancelBookLogs}
               schoolName={bookLogsSchool?.name || ''}
-              dataSource={[...bookLogsList]}
+              addedBookLogs={[...bookLogsList]}
               added={added}
+              deletedLogs={deletedLogs}
             />
           </Modal>
           <Modal
