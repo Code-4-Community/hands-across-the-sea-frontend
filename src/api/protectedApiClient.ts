@@ -132,13 +132,13 @@ const changePassword = (request: {
 
 const deleteUser = (request: { password: string }): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.USER, request).then(
-    (r) => r.data,
+    (res) => res.data,
   );
 };
 
 const getUser = (): Promise<GetUserResponse> => {
   return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`).then(
-    (r) => r.data,
+    (res) => res.data,
   );
 };
 
@@ -157,7 +157,7 @@ const deleteSchool = (schoolId: number): Promise<void> => {
 const getSchool = (schoolId: number): Promise<SchoolResponse> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
-  ).then((r) => r.data);
+  ).then((res) => res.data);
 };
 
 const updateSchool = (
