@@ -16,11 +16,8 @@ export interface BookLogsReducerState {
   readonly bookLogs: AsyncRequest<BookLogResponse[], any>;
 }
 
-export interface BookLogRequest {
-  count: number;
-  date: string | Moment;
+export interface BookLogRequest extends BookLogPostRequest {
   id: number;
-  notes?: string;
 }
 
 export interface BookLogPostRequest {
