@@ -127,43 +127,37 @@ const changePassword = (request: {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.USER, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.USER, request).then(
+    (res) => res.data,
+  );
 };
 
 const getUser = (): Promise<GetUserResponse> => {
-  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`)
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`).then(
+    (res) => res.data,
+  );
 };
 
 const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.SCHOOLS, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.SCHOOLS, request).then(
+    (res) => res.data,
+  );
 };
 
 const deleteSchool = (schoolId: number): Promise<void> => {
   return AppAxiosInstance.delete(
     `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getSchool = (schoolId: number): Promise<SchoolResponse> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
-  )
-    .then((r) => r.data)
-    .catch((e) => e);
+  ).then((res) => res.data);
 };
 
 const updateSchool = (
@@ -173,9 +167,7 @@ const updateSchool = (
   return AppAxiosInstance.put(
     `${ProtectedApiClientRoutes.SCHOOLS}/${schoolId.toString()}`,
     updatedSchool,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getSchoolContacts = (
@@ -186,9 +178,7 @@ const getSchoolContacts = (
       ':school_id',
       schoolId.toString(),
     ),
-  )
-    .then((res) => res.data.schoolContacts)
-    .catch((err) => err);
+  ).then((res) => res.data.schoolContacts);
 };
 
 const updateSchoolContact = (
@@ -202,9 +192,7 @@ const updateSchoolContact = (
       schoolId.toString(),
     )}/${contactId}`,
     updatedSchoolContact,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const createSchoolContact = (
@@ -217,9 +205,7 @@ const createSchoolContact = (
       schoolId.toString(),
     ),
     updatedSchoolContact,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const deleteSchoolContact = (
@@ -231,17 +217,13 @@ const deleteSchoolContact = (
       ':school_id',
       schoolId.toString(),
     )}/${contactId.toString()}`,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getLatestReport = (schoolId: number): Promise<LibraryReportResponse> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY}/${schoolId.toString()}`,
-  )
-    .then((res) => res.data) // TODO
-    .catch((err) => err);
+  ).then((res) => res.data); // TODO
 };
 
 const createReportWithLibrary = (
@@ -280,9 +262,7 @@ const createBookLog = (
       schoolId.toString(),
     ),
     report,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const updateBookLog = (
@@ -296,9 +276,7 @@ const updateBookLog = (
       schoolId.toString(),
     ) + `/${bookLogId}`,
     report,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getBookLogs = (schoolId: number): Promise<BookLogResponse[]> => {
@@ -307,9 +285,7 @@ const getBookLogs = (schoolId: number): Promise<BookLogResponse[]> => {
       ':school_id',
       schoolId.toString(),
     ),
-  )
-    .then((res) => res.data.bookLogs)
-    .catch((err) => err);
+  ).then((res) => res.data.bookLogs);
 };
 
 const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
@@ -318,21 +294,19 @@ const deleteBookLog = (schoolId: number, bookLogId: number): Promise<void> => {
       ':school_id',
       schoolId.toString(),
     ) + `/${bookLogId}`,
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getAllSchools = (): Promise<SchoolEntry[]> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS)
-    .then((res) => res.data.schools)
-    .catch((err) => err);
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.SCHOOLS).then(
+    (res) => res.data.schools,
+  );
 };
 
 const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
+  ).then((res) => res.data);
 };
 
 const getPastSubmissionReports = (
@@ -349,9 +323,7 @@ const getPastSubmissionReports = (
         p: page,
       },
     },
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const Client: ProtectedApiClient = Object.freeze({

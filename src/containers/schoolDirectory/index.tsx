@@ -85,10 +85,8 @@ const SchoolDirectory: React.FC = () => {
         multiple: 1,
       },
       render(country: keyof typeof Countries) {
-        return (
-          <>{Countries[country]}</>
-        )
-      }
+        return <>{Countries[country]}</>;
+      },
     },
     {
       title: 'Action',
@@ -156,5 +154,5 @@ const SchoolDirectory: React.FC = () => {
       );
   }
 };
- 
+
 export default SchoolDirectory;
