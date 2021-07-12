@@ -57,21 +57,20 @@ describe('helpers ', () => {
 
   describe('getOptionsFromEnum', () => {
     it('convert enum to Options JSX', () => {
-      enum testEnum {
+      enum TestEnum {
         FIRST_KEY = 'One',
         SECOND_KEY = 'Two',
       }
 
       const optionsList = [
         <Select value={'FIRST_KEY'} key={'FIRST_KEY'}>
-          First Key
+          One
         </Select>,
         <Select value={'SECOND_KEY'} key={'SECOND_KEY'}>
-          Second Key
+          Two
         </Select>,
       ];
-
-      expect(getOptionsFromEnum(testEnum)).toEqual(optionsList);
+      expect(getOptionsFromEnum(TestEnum)).toEqual(optionsList);
     });
   });
 });

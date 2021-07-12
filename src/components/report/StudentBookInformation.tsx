@@ -1,8 +1,10 @@
+import { Checkbox, Col, Form, InputNumber, Row } from 'antd';
 import React from 'react';
-import { Col, Form, InputNumber, Row, Checkbox } from 'antd';
+import styled from 'styled-components';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
-import styled from 'styled-components';
+import { Grade } from '../../containers/library-report/ducks/types';
+import { toTitleCase } from '../../utils/helpers';
 
 const InputNumberNoArrows = styled(InputNumber)`
   .ant-input-number-handler-wrap {
@@ -11,19 +13,10 @@ const InputNumberNoArrows = styled(InputNumber)`
 `;
 
 const StudentBookInformation: React.FC = () => {
-  const gradeOptions = [
-    '1st Grade',
-    '2nd Grade',
-    '3rd Grade',
-    '4th Grade',
-    '5th Grade',
-    '6th Grade',
-    '7th Grade',
-    '9th Grade',
-    '10th Grade',
-    '11th Grade',
-    '12th Grade',
-  ];
+  const gradeOptions = Object.entries(Grade).map(([key, value]) => ({
+    label: toTitleCase(key.replace('_', ' ')),
+    value,
+  }));
 
   return (
     <FormContainer title="Student and Book Information">

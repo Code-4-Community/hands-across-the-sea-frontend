@@ -1,5 +1,5 @@
-import React from 'react';
 import { Form, Radio } from 'antd';
+import React from 'react';
 import FormPiece from './FormPiece';
 
 interface FormPieceBooleanProps {
