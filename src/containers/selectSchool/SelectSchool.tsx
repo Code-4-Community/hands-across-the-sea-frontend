@@ -16,7 +16,6 @@ import { GetUserResponse } from '../settings/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { getUserID } from '../../auth/ducks/selectors';
 
-
 interface SelectSchoolForm {
   schoolId: number;
 }
@@ -34,7 +33,6 @@ const SelectSchool: React.FC = () => {
   const userId = useSelector((state: C4CState) => {
     return getUserID(state.authenticationState.tokens);
   });
-  
 
   useEffect(() => {
     dispatch(loadSchools());
@@ -67,7 +65,9 @@ const SelectSchool: React.FC = () => {
       if (Object.keys(userInfo).length === 0) {
         return <p>Loading schools...</p>;
       }
-      const schoolsInCountry = availableSchools.result.filter((school) => school.country === userInfo.country);
+      const schoolsInCountry = availableSchools.result.filter(
+        (school) => school.country === userInfo.country,
+      );
       return (
         <FormContentContainer>
           <Form
@@ -95,9 +95,7 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(schoolsInCountry).map(
-                          renderSchoolOption,
-                        )}
+                        {Array.from(schoolsInCountry).map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>
