@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { C4CState } from '../../../store';
-import { AsyncRequest } from '../../../utils/asyncRequest';
+import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { LibraryReportActions } from './actions';
+import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export type LibraryReportThunkAction<R> = ThunkAction<
   R,
@@ -20,8 +20,8 @@ export interface LibraryReportShared {
   readonly numberOfChildren: null | number;
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
-  readonly visitReason: null | string;
-  readonly actionPlan: null | string;
+  visitReason: null | string;
+  readonly actionPlans: null | string;
   readonly successStories: null | string;
 }
 
@@ -41,12 +41,21 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly parentSupport: null | string;
 }
 
+export interface ReportWithLibraryFormData extends ReportWithLibraryRequest {
+  otherVisitReason: null | string;
+}
+
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
   readonly reasonWhyNot: null | string;
   readonly wantsLibrary: null | boolean;
   readonly hasSpace: null | boolean;
   readonly currentStatus: null | string;
   readonly readyTimeline: ReadyTimeline;
+}
+
+export interface ReportWithoutLibraryFormData
+  extends ReportWithoutLibraryRequest {
+  otherVisitReason: null | string;
 }
 
 export type LibraryReportResponse = {
