@@ -14,7 +14,6 @@ export const Outer = styled.div`
 `;
 
 export const Container = styled(ContentContainer)`
-  min-width: 960px;
   max-width: 960px;
 `;
 
