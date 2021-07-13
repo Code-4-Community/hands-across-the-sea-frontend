@@ -23,10 +23,7 @@ import {
   getBookLogs,
   updateBookLog,
 } from '../bookLogs/ducks/thunks';
-import {
-  BookLogRequest,
-  BookLogPostRequest,
-} from '../bookLogs/ducks/types';
+import { BookLogRequest, BookLogPostRequest } from '../bookLogs/ducks/types';
 import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import moment from 'moment';
 
@@ -91,16 +88,16 @@ const SchoolDirectory: React.FC = () => {
   // handles saving the book logs - posts all of the newly added book logs to the backend
   // and also deletes all of the deleted book logs
   const handleOnSaveBookLogs = () => {
-    for (var i = 0; i < bookLogsList.length; i++) {
-      let logValue: BookLogPostRequest = {
-        count: bookLogsList[i].count,
-        date: moment(bookLogsList[i].date),
-        notes: bookLogsList[i].notes,
+    for (const bookLog of bookLogsList) {
+      const logValue: BookLogPostRequest = {
+        count: bookLog.count,
+        date: moment(bookLog.date),
+        notes: bookLog.notes,
       };
       dispatch(createBookLog(bookLogsSchool.id, logValue));
     }
-    for (var j = 0; j < deletedLogs.length; j++) {
-      dispatch(deleteBookLog(bookLogsSchool.id, deletedLogs[j]));
+    for (const deletedLog of deletedLogs) {
+      dispatch(deleteBookLog(bookLogsSchool.id, deletedLog));
     }
     setBookLogs(false);
     setBookLogsSchool({ id: -1, name: '' });
@@ -124,8 +121,8 @@ const SchoolDirectory: React.FC = () => {
       bookLog.date = moment(new Date().toString());
     }
     // for the newly added booklogs, the id is set to a negative value so that
-    // the component can access them for editing/deleting. since this value will be 
-    // 0 - added, none of the new book log ids will be the same. this is also ignored when posting the 
+    // the component can access them for editing/deleting. since this value will be
+    // 0 - added, none of the new book log ids will be the same. this is also ignored when posting the
     // log to the backend.
     bookLog.id = 0 - added;
     setBookLogsList([bookLog, ...bookLogsList]);
@@ -151,7 +148,6 @@ const SchoolDirectory: React.FC = () => {
   const handleOnDeleteBookLog = (id: number) => {
     if (id > 0) {
       setDeletedLogs([id, ...deletedLogs]);
-      
     } else {
       setAdded(added - 1);
       setBookLogsList(bookLogsList.filter((log) => log.id !== id));
@@ -164,9 +160,9 @@ const SchoolDirectory: React.FC = () => {
       dispatch(updateBookLog(bookLogsSchool.id, editedBookLog.id, bookLog));
     } else {
       bookLog.id = editedBookLog.id;
-      let editedBookLogs = bookLogsList.map((log) => {
+      const editedBookLogs = bookLogsList.map((log) => {
         return log.id === editedBookLog.id ? bookLog : log;
-      })
+      });
       setBookLogsList(editedBookLogs);
     }
     setEditBookLogs(false);

@@ -26,7 +26,6 @@ export interface BookLogPostRequest {
   notes?: string;
 }
 
-
 export interface BookLogResponse extends BookLogRequest {
   id: number;
 }

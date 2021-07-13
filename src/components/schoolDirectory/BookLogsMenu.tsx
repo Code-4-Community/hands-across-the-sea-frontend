@@ -81,9 +81,8 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
   onAddBook,
   added,
   addedBookLogs,
-  deletedLogs
+  deletedLogs,
 }) => {
-  
   const currentBookLogs: AsyncRequest<BookLogRequest[], any> = useSelector(
     (state: C4CState) => state.bookLogsState.bookLogs,
   );
@@ -180,9 +179,10 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     case AsyncRequestKinds.Loading:
       return <p>Loading book logs</p>;
     case AsyncRequestKinds.Completed:
-      const filteredCurrentBookLogs: BookLogRequest[] = currentBookLogs.result
-        .filter((log) => !deletedLogs.includes(log.id));
-        
+      const filteredCurrentBookLogs: BookLogRequest[] = currentBookLogs.result.filter(
+        (log) => !deletedLogs.includes(log.id),
+      );
+
       // this will set the highlight for the newly added book logs
       const allBookLogs: BookLogWithStyling[] = addedBookLogs
         .concat(filteredCurrentBookLogs)
@@ -235,7 +235,11 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
           <Row gutter={[0, 24]}>
             <Col flex={24}>
               <FormPiece titleLevel={4} note="Past Book Logs">
-                <Table dataSource={allBookLogs} columns={columns} pagination={{ pageSize: 7 }} />
+                <Table
+                  dataSource={allBookLogs}
+                  columns={columns}
+                  pagination={{ pageSize: 7 }}
+                />
               </FormPiece>
             </Col>
           </Row>

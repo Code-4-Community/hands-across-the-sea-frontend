@@ -44,7 +44,10 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
             <FormPiece titleLevel={4} note="Editing Book Log">
               <InlineFormContainer>
                 <Form.Item name="count">
-                  <InlineInputNumber required placeholder="Book Amount Change" />
+                  <InlineInputNumber
+                    required
+                    placeholder="Book Amount Change"
+                  />
                 </Form.Item>
                 <Form.Item name="date">
                   <InlineDatePicker placeholder="Select Date" />
@@ -57,21 +60,20 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
           </Col>
         </Row>
         <Footer>
-        <Row gutter={[0, 24]}>
-          <Col flex={24}>
-            <CancelButton
-              onClick={() => {
-                onCancel();
-              }}
-            >
-              Cancel
-            </CancelButton>
-            <SaveButton htmlType={'submit'}>Save</SaveButton>
-          </Col>
-        </Row>
-      </Footer>
+          <Row gutter={[0, 24]}>
+            <Col flex={24}>
+              <CancelButton
+                onClick={() => {
+                  onCancel();
+                }}
+              >
+                Cancel
+              </CancelButton>
+              <SaveButton htmlType={'submit'}>Save</SaveButton>
+            </Col>
+          </Row>
+        </Footer>
       </Form>
-      
     </div>
   );
 };

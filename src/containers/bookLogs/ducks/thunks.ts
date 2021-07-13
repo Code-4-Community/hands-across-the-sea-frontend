@@ -1,4 +1,9 @@
-import { BookLogRequest, BookLogResponse, BookLogsThunkAction, BookLogPostRequest } from './types';
+import {
+  BookLogRequest,
+  BookLogResponse,
+  BookLogsThunkAction,
+  BookLogPostRequest,
+} from './types';
 import { loadBookLogs } from './actions';
 
 export const getBookLogs = (schoolId: number): BookLogsThunkAction<void> => {
