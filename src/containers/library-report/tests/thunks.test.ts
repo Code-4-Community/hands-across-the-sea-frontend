@@ -40,7 +40,7 @@ describe('Report With Library Thunks', () => {
         teacherSupport: null,
         parentSupport: null,
         visitReason: null,
-        actionPlan: null,
+        actionPlans: null,
         successStories: null,
       };
 

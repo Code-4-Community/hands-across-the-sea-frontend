@@ -15,6 +15,7 @@ import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
 import { deleteSchool } from './ducks/thunks';
+import { Countries } from '../../utils/countries';
 
 const { Search } = Input;
 
@@ -83,6 +84,9 @@ const SchoolDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
+      render(country: keyof typeof Countries) {
+        return <>{Countries[country]}</>;
+      },
     },
     {
       title: 'Action',
@@ -110,7 +114,8 @@ const SchoolDirectory: React.FC = () => {
             visible={createSchool}
             width={1000}
             footer={null}
-            destroyOnClose
+            destroyOnClose={true}
+            onCancel={handleOnCancelCreateSchool}
           >
             <CreateSchool
               onFinish={handleOnFinishCreateSchool}
