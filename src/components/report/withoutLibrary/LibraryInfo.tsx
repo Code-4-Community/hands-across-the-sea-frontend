@@ -18,7 +18,7 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Why isn't there a library?">
-            <Form.Item name="reasonWhyNot" required>
+            <Form.Item name="reason" required>
               {editable ? (
                 <FormTextArea placeholder="Please enter your answer here" />
               ) : (

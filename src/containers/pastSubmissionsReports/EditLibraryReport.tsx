@@ -14,7 +14,7 @@ import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
 
-const EditLibraryReportForm: React.FC = () => {
+const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
   const report = useSelector(
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
@@ -22,6 +22,8 @@ const EditLibraryReportForm: React.FC = () => {
   const history = useHistory();
   const isYesReport = report && report.libraryStatus === 'EXISTS';
   const [editMode, setEditMode] = useState(false);
+
+  console.log(report);
 
   useEffect(() => {
     if (!report) {
@@ -92,4 +94,4 @@ const EditLibraryReportForm: React.FC = () => {
   );
 };
 
-export default EditLibraryReportForm;
+export default EditLibraryReport;

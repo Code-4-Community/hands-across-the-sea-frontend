@@ -1,8 +1,6 @@
-import { Button, Col, Form, Input, message, Row } from 'antd';
-import React from 'react';
-import FormContainer from '../form-style/FormContainer';
+import { Form, message } from 'antd';
+import React, { useState } from 'react';
 import FormContentContainer from '../form-style/FormContentContainer';
-import FormPiece from '../form-style/FormPiece';
 import ChangesActionPlan from './common/ChangesActionPlan';
 import StudentBookInformation from './common/StudentBookInformation';
 import {
@@ -10,6 +8,7 @@ import {
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withoutLibrary/LibraryInfo';
+import VisitReason from './common/VisitReason';
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
@@ -21,33 +20,37 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
   values,
   editable,
   onSubmit,
+  children,
 }) => {
+  const [visitReason, setVisitReason] = useState(values?.visitReason || null);
+
+  const handleSubmit = (submittedValues: ReportWithoutLibraryRequest) => {
+    onSubmit({
+      ...submittedValues,
+      visitReason,
+    });
+  };
+
   return (
     <FormContentContainer>
       <Form
         initialValues={values}
-        onFinish={onSubmit}
+        onFinish={handleSubmit}
         onFinishFailed={() =>
           message.error(
             'Error submitting form, please double check your responses and try again.',
           )
         }
       >
-        <FormContainer title="Reason for Visit">
-          <Row>
-            <Col flex={24}>
-              <FormPiece note="What is the purpose of today's visit?">
-                <Form.Item name={'visitReason'}>
-                  <Input />
-                </Form.Item>
-              </FormPiece>
-            </Col>
-          </Row>
-        </FormContainer>
+        <VisitReason
+          setVisitReason={setVisitReason}
+          visitReason={visitReason}
+          editable={editable}
+        />
         <StudentBookInformation editable={editable} />
         <LibraryInfo editable={editable} />
         <ChangesActionPlan editable={editable} />
-        <Button htmlType="submit">Submit</Button>
+        {children}
       </Form>
     </FormContentContainer>
   );

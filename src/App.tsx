@@ -30,7 +30,7 @@ import SchoolContacts from './containers/schoolContact';
 import FormSubmission from './containers/formSubmission';
 import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
 import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
-import EditLibraryReportForm from './containers/pastSubmissionsReports/EditLibraryReportForm';
+import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
 import NewLibraryReport from './containers/library-report/NewLibraryReport';
 
 const { Content } = Layout;
@@ -142,7 +142,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.EDIT_LIBRARY_REPORT}
                           exact
-                          component={EditLibraryReportForm}
+                          component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
@@ -201,7 +201,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.EDIT_LIBRARY_REPORT}
                           exact
-                          component={EditLibraryReportForm}
+                          component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />

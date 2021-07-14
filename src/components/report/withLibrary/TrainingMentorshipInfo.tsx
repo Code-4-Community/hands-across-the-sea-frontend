@@ -16,8 +16,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
   editable,
   report,
 }) => {
+  const numStudentLibrarians =
+    report?.libraryStatus === 'EXISTS' && report?.numberOfStudentLibrarians;
   const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>(
-    !!report?.numberOfChildren,
+    !!numStudentLibrarians,
   );
   const [involvedParents, setInvolvedParents] = useState<boolean>(
     report?.libraryStatus === 'EXISTS' && !!report?.parentSupport,
