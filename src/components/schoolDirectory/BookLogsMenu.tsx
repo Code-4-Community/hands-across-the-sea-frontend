@@ -91,7 +91,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     {
       title: 'Book Amount',
       dataIndex: 'count',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.count - b.count,
         multiple: 1,
@@ -108,7 +107,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     {
       title: 'Date',
       dataIndex: 'date',
-      key: 'id',
       sorter: {
         compare: (a, b) =>
           new Date(a.date.toString()).getTime() -
@@ -127,7 +125,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     {
       title: 'Notes',
       dataIndex: 'notes',
-      key: 'id',
       render(text, log) {
         return {
           props: {
@@ -140,7 +137,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     {
       title: 'Action',
       dataIndex: '',
-      key: 'x',
       render(_, log: BookLogWithStyling, ind: number) {
         return {
           props: {
