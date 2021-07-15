@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import { SchoolInformationReducerState, SchoolRequest } from './ducks/types';
+import {
+  SchoolInformationReducerState,
+  SchoolRequest,
+  SchoolResponse,
+} from './ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSchoolRequest, updatedSchoolRequest } from './ducks/thunks';
 import { C4CState } from '../../store';
@@ -27,11 +31,12 @@ const SchoolInformation: React.FC = () => {
     }
   }, [schoolId, dispatch, history]);
 
-  const handleFinish = (
+  const handleFinish = (schoolInfo: SchoolResponse) => (
     schoolRequest: SchoolRequest,
     editMade: boolean,
   ): void => {
     if (editMade && schoolId) {
+      schoolRequest.hidden = schoolInfo.hidden;
       dispatch(updatedSchoolRequest(schoolId, schoolRequest));
     }
     history.push('/school-contacts');
@@ -46,7 +51,7 @@ const SchoolInformation: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <SchoolInformationForm
-          onFinish={handleFinish}
+          onFinish={handleFinish(schoolInformation.result)}
           defaultSchoolInformation={schoolInformation.result}
         />
       );
