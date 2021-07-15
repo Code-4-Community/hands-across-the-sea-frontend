@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Outer } from '../../components/form-style/FormContainer';
-import { Button, Col, Input, Modal, Row, Table } from 'antd';
+import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,6 @@ import {
 import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
-import { notification } from 'antd/es';
 
 const { Search } = Input;
 
@@ -47,7 +46,7 @@ const UserDirectory: React.FC = () => {
   // show error notification if any
   // should never reach this as we check validity before sending request
   const errorSignUp = (error: any) => {
-    notification.warning({
+    message.warning({
       message: 'Error',
       description: error.response.data,
     });

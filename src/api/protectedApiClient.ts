@@ -156,7 +156,6 @@ const updateUser = (
     request,
   )
     .then((res) => res.data)
-    .catch((e) => e);
 };
 
 const getUser = (): Promise<GetUserResponse> => {
