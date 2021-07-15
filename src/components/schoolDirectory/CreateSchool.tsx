@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { FormTextArea } from '../';
 import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
-import { SchoolRequest } from '../../containers/schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../../containers/schoolInfo/ducks/types';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
@@ -11,8 +11,10 @@ import { LibraryStatus } from '../../utils/libraryStatus';
 const { Option } = Select;
 
 interface CreateSchoolProps {
-  readonly onFinish: (schoolInfoRequest: SchoolRequest) => void;
+  readonly onFinish: (schoolInfoRequest: SchoolRequest, id: number) => void;
   readonly onCancel: () => void;
+  readonly update: boolean;
+  readonly defaultSchool?: SchoolResponse | undefined;
 }
 
 const Footer = styled.div`
@@ -23,29 +25,29 @@ const SubmitButton = styled(Button)`
   width: 200px;
 `;
 
-const CreateSchool: React.FC<CreateSchoolProps> = ({ onFinish, onCancel }) => {
+const CreateSchool: React.FC<CreateSchoolProps> = ({ onFinish, onCancel, update, defaultSchool }) => {
   return (
-    <Form onFinish={onFinish}>
+    <Form onFinish={(school: SchoolRequest) => { onFinish(school, defaultSchool?.id || -1) }} initialValues={update ? defaultSchool : {}}>
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="Create A School">
-              <Form.Item name="name">
-                <Input placeholder="School Name" />
+            <FormPiece note={update ? "Edit " + defaultSchool?.name : "Create A School"}>
+              <Form.Item name="name" rules={[{ required: true, message: 'Required' }]}>
+                <Input placeholder="School Name"/>
               </Form.Item>
-              <Form.Item name="address">
-                <Input placeholder="Street Address" />
+              <Form.Item name="address" rules={[{ required: true, message: 'Required' }]}>
+                <Input placeholder="Street Address"/>
               </Form.Item>
-              <Form.Item name="area">
-                <Input placeholder="Town or District" />
+              <Form.Item name="area" rules={[{ required: true, message: 'Required' }]}>
+                <Input placeholder="Town or District"/>
               </Form.Item>
-              <Form.Item name="email">
-                <Input placeholder="Email Address" />
+              <Form.Item name="email" rules={[{ required: true, message: 'Required' }]}>
+                <Input placeholder="Email Address"/>
               </Form.Item>
-              <Form.Item name="phone">
-                <Input placeholder="Phone Number" />
+              <Form.Item name="phone" rules={[{ required: true, message: 'Required' }]}>
+                <Input placeholder="Phone Number"/>
               </Form.Item>
-              <Form.Item name="country">
+              <Form.Item name="country" rules={[{ required: true, message: 'Required' }]}>
                 <Select placeholder="School's Country">
                   {Object.keys(Countries).map((key: string) => (
                     <Option key={key} value={key}>
@@ -54,7 +56,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({ onFinish, onCancel }) => {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name="libraryStatus">
+              <Form.Item name="libraryStatus" rules={[{ required: true, message: 'Required' }]}>
                 <Select placeholder="Library Status">
                   {Object.keys(LibraryStatus).map((key: string) => (
                     <Option key={key} value={key}>
@@ -63,7 +65,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({ onFinish, onCancel }) => {
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item name="hidden">
+              <Form.Item name="hidden" rules={[{ required: true, message: 'Required' }]}>
                 <Select placeholder="Hidden?">
                   <Option value="true">True</Option>
                   <Option value="false">False</Option>
@@ -77,7 +79,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({ onFinish, onCancel }) => {
               </Form.Item>
             </FormPiece>
           </Col>
-        </Row>
+        </Row> 
       </FormContainer>
       <Footer>
         <Row gutter={[0, 24]}>
