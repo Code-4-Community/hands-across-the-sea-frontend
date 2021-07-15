@@ -154,8 +154,7 @@ const updateUser = (
   return AppAxiosInstance.put(
     `${ProtectedApiClientRoutes.USER}/${userId}`,
     request,
-  )
-    .then((res) => res.data)
+  ).then((res) => res.data);
 };
 
 const getUser = (): Promise<GetUserResponse> => {
