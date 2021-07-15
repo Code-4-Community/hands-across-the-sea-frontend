@@ -28,7 +28,7 @@ export interface SchoolRequest {
   readonly email: string;
   readonly area: string;
   readonly notes: string;
-  readonly hidden: boolean;
+  hidden: boolean;
   readonly libraryStatus: string;
 }
 
