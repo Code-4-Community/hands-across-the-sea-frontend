@@ -43,6 +43,11 @@ import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
 import bookLogsReducer, {
   initialBookLogsState,
 } from './containers/bookLogs/ducks/reducers';
+import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
+import { UserDirectoryActions } from './containers/userDirectory/ducks/actions';
+import userDirectoryReducer, {
+  initialUserDirectoryState,
+} from './containers/userDirectory/ducks/reducers';
 import pastSubmissionsSchoolsReducer, {
   initialPastSubmissionsSchools,
 } from './containers/pastSubmissionsSchools/ducks/reducers';
@@ -61,6 +66,7 @@ export interface C4CState {
   bookLogsState: BookLogsReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
+  userDirectoryState: UserDirectoryReducerState;
   pastSubmissionSchoolsState: PastSubmissionsSchoolsReducerState;
   pastSubmissionReportsState: PastSubmissionsReportsReducerState;
 }
@@ -77,6 +83,7 @@ export type C4CAction =
   | SchoolInformationActions
   | BookLogsActions
   | SelectSchoolActions
+  | UserDirectoryActions
   | PastSubmissionsSchoolsActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
@@ -88,6 +95,7 @@ const reducers = combineReducers<C4CState, C4CAction>({
   libraryReportState: libraryReportReducer,
   bookLogsState: bookLogsReducer,
   selectSchoolState: selectSchoolReducer,
+  userDirectoryState: userDirectoryReducer,
   pastSubmissionSchoolsState: pastSubmissionsSchoolsReducer,
   pastSubmissionReportsState: pastSubmissionsReportsReducer,
 });
@@ -99,6 +107,7 @@ export const initialStoreState: C4CState = {
   libraryReportState: initialLibraryReportState,
   bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
+  userDirectoryState: initialUserDirectoryState,
   pastSubmissionSchoolsState: initialPastSubmissionsSchools,
   pastSubmissionReportsState: initialPastSubmissionsReports,
 };

@@ -185,7 +185,7 @@ const Home: React.FC = () => {
               <Col span={12}>
                 <InContain
                   onClick={() => {
-                    history.push(Routes.SETTINGS);
+                    history.push(Routes.USER_DIRECTORY);
                   }}
                 >
                   <Row>
