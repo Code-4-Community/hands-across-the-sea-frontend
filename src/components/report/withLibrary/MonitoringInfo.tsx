@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Row } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
 import FormPieceBoolean from '../../form-style/FormPieceBoolean';
-import FormItemDropdown from '../../form-style/FormItemDropdown';
 
 interface MonitoringInfoProps {
   editable?: boolean;

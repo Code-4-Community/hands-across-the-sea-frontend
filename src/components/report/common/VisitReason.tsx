@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FormPiece from '../../form-style/FormPiece';
-import { FormTextArea } from '../../index';
-import { Col, Form, Input, Row, Select } from 'antd';
+import { Col, Input, Row, Select } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
 
 interface VisitReasonProps {

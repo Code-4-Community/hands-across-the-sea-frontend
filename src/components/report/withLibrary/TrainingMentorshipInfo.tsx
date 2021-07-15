@@ -4,7 +4,6 @@ import FormContainer from '../../form-style/FormContainer';
 import FormPieceBoolean from '../../form-style/FormPieceBoolean';
 import { ClarifyText, FormTextArea } from '../../index';
 import FormText from '../../form-style/FormText';
-import FormItemDropdown from '../../form-style/FormItemDropdown';
 import { LibraryReportResponse } from '../../../containers/library-report/ducks/types';
 
 interface TrainingMentorshipInfoProps {
