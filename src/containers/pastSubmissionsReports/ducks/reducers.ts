@@ -10,7 +10,7 @@ import {
   PastSubmissionsReportsReducerState,
   ReportGenericListResponse,
 } from './types';
-import { pastSubmissionsReports } from './actions';
+import { pastSubmissionsReports, SET_ACTIVE_REPORT } from './actions';
 
 export const initialPastSubmissionsReports: PastSubmissionsReportsReducerState = {
   pastSubmissionsReports: AsyncRequestNotStarted<ReportGenericListResponse>(),
@@ -36,6 +36,11 @@ const reducers = (
           state.pastSubmissionsReports,
           action,
         ),
+      };
+    case SET_ACTIVE_REPORT:
+      return {
+        ...state,
+        activeReport: action.payload,
       };
     default:
       return state;

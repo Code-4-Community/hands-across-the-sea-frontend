@@ -1,16 +1,20 @@
 import { Col, Form, Radio, RadioChangeEvent, Row } from 'antd';
 import React, { useState } from 'react';
-import FormContainer from '../../components/form-style/FormContainer';
-import FormItemDropdown from '../../components/form-style/FormItemDropdown';
-import FormPiece from '../../components/form-style/FormPiece';
-import FormPieceBoolean from '../../components/form-style/FormPieceBoolean';
+import FormContainer from '../../form-style/FormContainer';
+import FormItemDropdown from '../../form-style/FormItemDropdown';
+import FormPiece from '../../form-style/FormPiece';
+import FormPieceBoolean from '../../form-style/FormPieceBoolean';
 import {
   ApprenticeshipProgram,
   AssignedPersonRole,
   AssignedPersonTitle,
-} from './ducks/types';
+} from '../../../containers/library-report/ducks/types';
 
-const ReportWithLibrary: React.FC = () => {
+interface ReportWithLibraryProps {
+  editable?: boolean;
+}
+
+const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
   const [hasAssignedPerson, setHasAssignedPerson] = useState<boolean>();
 
   const handleChangeAssignedLibrary = (event: RadioChangeEvent) => {
@@ -32,6 +36,7 @@ const ReportWithLibrary: React.FC = () => {
             textTrue={'Shared space'}
             textFalse={'Only library'}
             note={'Is the library only a library, or shared space?'}
+            disabled={!editable}
           />
         </Col>
         <Col span={12}>
@@ -43,6 +48,7 @@ const ReportWithLibrary: React.FC = () => {
               'Does the library have inviting places for ' +
               'children and teacher to sit and read?'
             }
+            disabled={!editable}
           />
         </Col>
       </Row>
@@ -54,6 +60,7 @@ const ReportWithLibrary: React.FC = () => {
               <Radio.Group
                 buttonStyle="solid"
                 onChange={handleChangeAssignedLibrary}
+                disabled={!editable}
               >
                 <Radio.Button value={AssignedPersonRole.FULL_TIME}>
                   Yes, full time
@@ -73,6 +80,7 @@ const ReportWithLibrary: React.FC = () => {
                 optionsEnum={AssignedPersonTitle}
                 name={'assignedPersonTitle'}
                 text={'Select the title'}
+                disabled={!editable}
               />
             )}
           </FormPiece>
@@ -86,6 +94,7 @@ const ReportWithLibrary: React.FC = () => {
               optionsEnum={ApprenticeshipProgram}
               name={'apprenticeshipProgram'}
               text={'Select a program'}
+              disabled={!editable}
             />
           </FormPiece>
         </Col>
@@ -96,6 +105,7 @@ const ReportWithLibrary: React.FC = () => {
           <FormPieceBoolean
             name={'trainsAndMentorsApprentices'}
             note={'Do you train and mentor the apprentices in the library?'}
+            disabled={!editable}
           />
         </Col>
       </Row>
@@ -103,4 +113,4 @@ const ReportWithLibrary: React.FC = () => {
   );
 };
 
-export default ReportWithLibrary;
+export default LibraryInfo;

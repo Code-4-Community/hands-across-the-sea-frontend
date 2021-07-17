@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, Modal, Row, Table } from 'antd';
-import { SchoolEntry } from '../selectSchool/ducks/types';
 import { ColumnType } from 'antd/lib/table';
-import { DirectoryTitle } from '../../components';
-import CreateSchool from '../../components/schoolDirectory/CreateSchool';
-import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
-import { SchoolRequest } from '../schoolInfo/ducks/types';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSchoolRequest } from '../schoolInfo/ducks/thunks';
-import { loadSchools } from '../selectSchool/ducks/thunks';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
+import { DirectoryTitle } from '../../components';
+import { Container, Outer } from '../../components/form-style/FormContainer';
+import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
+import CreateSchool from '../../components/schoolDirectory/CreateSchool';
+import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
-import { deleteSchool } from './ducks/thunks';
-
+import { C4CState } from '../../store';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { Countries } from '../../utils/countries';
 import {
   createBookLog,
   deleteBookLog,
   getBookLogs,
   updateBookLog,
 } from '../bookLogs/ducks/thunks';
-import { BookLogRequest, BookLogPostRequest } from '../bookLogs/ducks/types';
-import EditBookLog from '../../components/schoolDirectory/EditBookLog';
-import moment from 'moment';
-
-import { Countries } from '../../utils/countries';
+import { BookLogPostRequest, BookLogRequest } from '../bookLogs/ducks/types';
+import { createSchoolRequest } from '../schoolInfo/ducks/thunks';
+import { SchoolRequest } from '../schoolInfo/ducks/types';
+import { loadSchools } from '../selectSchool/ducks/thunks';
+import { SchoolEntry } from '../selectSchool/ducks/types';
+import { deleteSchool } from './ducks/thunks';
 
 const { Search } = Input;
 
@@ -179,12 +177,10 @@ const SchoolDirectory: React.FC = () => {
         return;
       case SchoolDirectoryAction.BOOKS:
         dispatch(getBookLogs(schoolId));
-
-        const school: BookLogsSchoolInfo = {
+        setBookLogsSchool({
           id: schoolId,
           name: schoolName,
-        };
-        setBookLogsSchool(school);
+        });
         setBookLogs(!bookLogs);
 
         return;

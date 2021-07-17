@@ -41,21 +41,12 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly parentSupport: null | string;
 }
 
-export interface ReportWithLibraryFormData extends ReportWithLibraryRequest {
-  otherVisitReason: null | string;
-}
-
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
-  readonly reasonWhyNot: null | string;
+  readonly reason: null | string;
   readonly wantsLibrary: null | boolean;
   readonly hasSpace: null | boolean;
   readonly currentStatus: null | string;
   readonly readyTimeline: ReadyTimeline;
-}
-
-export interface ReportWithoutLibraryFormData
-  extends ReportWithoutLibraryRequest {
-  otherVisitReason: null | string;
 }
 
 export type LibraryReportResponse = {

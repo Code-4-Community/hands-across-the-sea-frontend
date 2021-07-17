@@ -14,6 +14,7 @@ export type PastSubmissionsReportsThunkAction<R> = ThunkAction<
 
 export interface PastSubmissionsReportsReducerState {
   readonly pastSubmissionsReports: AsyncRequest<ReportGenericListResponse>;
+  readonly activeReport?: LibraryReportResponse;
 }
 
 export interface ReportGenericListResponse {

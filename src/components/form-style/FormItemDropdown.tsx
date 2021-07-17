@@ -10,6 +10,7 @@ interface FormPieceDropdownProps {
   readonly clarifyText?: string;
   readonly onChange?: (event: any) => void;
   readonly required?: boolean;
+  readonly disabled?: boolean;
 }
 
 const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
@@ -19,12 +20,13 @@ const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
   optionsEnum,
   onChange,
   required,
+  disabled,
 }) => {
   return (
     <>
       {clarifyText && <ClarifyText>{clarifyText}</ClarifyText>}
       <Form.Item name={name}>
-        <Select placeholder={text} onChange={onChange}>
+        <Select placeholder={text} onChange={onChange} disabled={disabled}>
           {getOptionsFromEnum(optionsEnum)}
         </Select>
       </Form.Item>
