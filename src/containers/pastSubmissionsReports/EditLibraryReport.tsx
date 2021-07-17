@@ -29,7 +29,7 @@ const EditLibraryReport: React.FC = () => {
     if (!report) {
       history.replace(Routes.PAST_SUBMISSIONS_REPORTS);
     }
-  }, [report]);
+  }, [report, history]);
 
   if (!report) return null;
 
