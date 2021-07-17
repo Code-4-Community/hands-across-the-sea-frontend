@@ -20,7 +20,7 @@ const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
   optionsEnum,
   onChange,
   required,
-  disabled
+  disabled,
 }) => {
   return (
     <>

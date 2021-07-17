@@ -23,8 +23,6 @@ const EditLibraryReport: React.FC = () => {
   const isYesReport = report && report.libraryStatus === 'EXISTS';
   const [editMode, setEditMode] = useState(false);
 
-  console.log(report);
-
   useEffect(() => {
     if (!report) {
       history.replace(Routes.PAST_SUBMISSIONS_REPORTS);

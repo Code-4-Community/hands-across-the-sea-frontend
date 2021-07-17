@@ -350,9 +350,7 @@ const editReportWithLibrary = (
       schoolId.toString(),
     ) + `/${reportId}`,
     report,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const editReportWithoutLibrary = (
@@ -366,9 +364,7 @@ const editReportWithoutLibrary = (
       schoolId.toString(),
     ) + `/${reportId}`,
     report,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const Client: ProtectedApiClient = Object.freeze({

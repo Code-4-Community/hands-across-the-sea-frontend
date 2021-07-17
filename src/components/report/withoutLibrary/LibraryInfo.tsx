@@ -10,9 +10,7 @@ interface ReportWithoutLibraryProps {
   editable?: boolean;
 }
 
-const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({
-  editable,
-}) => {
+const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
   return (
     <FormContainer title="Library Information">
       <Row gutter={[0, 24]}>

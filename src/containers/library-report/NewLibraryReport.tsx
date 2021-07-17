@@ -31,7 +31,6 @@ const NewLibraryReport = () => {
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
   ) => {
-    console.log(report);
     if (schoolId === undefined) {
       throw new Error('School ID is undefined');
     }

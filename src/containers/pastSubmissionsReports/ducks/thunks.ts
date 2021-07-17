@@ -10,7 +10,6 @@ export const getPastSubmissionsReports = (
     return protectedApiClient
       .getPastSubmissionReports(schoolId, page)
       .then((response) => {
-        console.log(response);
         dispatch(pastSubmissionsReports.loaded(response));
       })
       .catch((error) => {
