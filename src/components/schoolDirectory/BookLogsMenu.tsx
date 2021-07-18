@@ -242,16 +242,8 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
           <Footer>
             <Row gutter={[0, 24]}>
               <Col flex={24}>
-                <CancelButton
-                  onClick={onCancel}
-                >
-                  Cancel
-                </CancelButton>
-                <SaveButton
-                  onClick={onSave}
-                >
-                  Save
-                </SaveButton>
+                <CancelButton onClick={onCancel}>Cancel</CancelButton>
+                <SaveButton onClick={onSave}>Save</SaveButton>
               </Col>
             </Row>
           </Footer>

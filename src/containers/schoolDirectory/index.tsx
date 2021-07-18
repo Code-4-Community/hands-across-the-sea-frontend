@@ -8,7 +8,10 @@ import CreateSchool from '../../components/schoolDirectory/CreateSchool';
 import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSchoolRequest, updatedSchoolRequest } from '../schoolInfo/ducks/thunks';
+import {
+  createSchoolRequest,
+  updatedSchoolRequest,
+} from '../schoolInfo/ducks/thunks';
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
@@ -59,7 +62,9 @@ const SchoolDirectory: React.FC = () => {
   });
 
   const [updateSchool, setUpdateSchool] = useState<boolean>(false);
-  const [updatedSchool, setUpdatedSchool] = useState<SchoolResponse | undefined>(undefined);
+  const [updatedSchool, setUpdatedSchool] = useState<
+    SchoolResponse | undefined
+  >(undefined);
 
   const dispatch = useDispatch();
   const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
@@ -73,13 +78,15 @@ const SchoolDirectory: React.FC = () => {
   }, [dispatch, updateSchoolList]);
 
   // handles submitting create a school form
-  const handleOnFinishCreateSchool = (schoolInfo: SchoolRequest, schoolId: number) => {
+  const handleOnFinishCreateSchool = (
+    schoolInfo: SchoolRequest,
+    schoolId: number,
+  ) => {
     if (updateSchool) {
       dispatch(updatedSchoolRequest(schoolId, schoolInfo));
       setUpdateSchool(false);
       setUpdatedSchool(undefined);
-    }
-    else {
+    } else {
       dispatch(createSchoolRequest(schoolInfo));
       setCreateSchool(false);
       setUpdateSchoolList(!updateSchoolList);
@@ -186,7 +193,7 @@ const SchoolDirectory: React.FC = () => {
 
   const errorLoadingSchool = (error: any) => {
     message.error(error.response.data);
-  }
+  };
 
   // handles determining what action to do when an action is executed
   const handleActionButtonOnClick = (school: SchoolEntry) => (
@@ -196,8 +203,8 @@ const SchoolDirectory: React.FC = () => {
       case SchoolDirectoryAction.EDIT:
         protectedApiClient
           .getSchool(school.id)
-          .then((school: SchoolResponse) => {
-            setUpdatedSchool(school);
+          .then((schoolResponse: SchoolResponse) => {
+            setUpdatedSchool(schoolResponse);
             setUpdateSchool(true);
           })
           .catch(errorLoadingSchool);
