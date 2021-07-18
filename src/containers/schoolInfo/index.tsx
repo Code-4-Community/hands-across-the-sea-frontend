@@ -5,13 +5,15 @@ import {
   SchoolResponse,
 } from './ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSchoolRequest, updatedSchoolRequest } from './ducks/thunks';
+import { getSchoolRequest } from './ducks/thunks';
 import { C4CState } from '../../store';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
 import SchoolInformationForm from './SchoolInformationForm';
+import protectedApiClient from '../../api/protectedApiClient';
+import { message } from 'antd';
 
 const SchoolInformation: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,13 +33,17 @@ const SchoolInformation: React.FC = () => {
     }
   }, [schoolId, dispatch, history]);
 
-  const handleFinish = (schoolInfo: SchoolResponse) => (
+  const handleFinish = (schoolInfo: SchoolResponse) => async (
     schoolRequest: SchoolRequest,
     editMade: boolean,
-  ): void => {
-    if (editMade && schoolId) {
-      schoolRequest.hidden = schoolInfo.hidden;
-      dispatch(updatedSchoolRequest(schoolId, schoolRequest));
+  ): Promise<void> => {
+    try {
+      if (editMade && schoolId) {
+        schoolRequest.hidden = schoolInfo.hidden;
+        await protectedApiClient.updateSchool(schoolId, schoolRequest);
+      }
+    } catch (error) {
+      message.warning(error);
     }
     history.push('/school-contacts');
   };
