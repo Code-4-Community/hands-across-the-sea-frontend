@@ -137,7 +137,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     {
       title: 'Action',
       dataIndex: '',
-      render(_, log: BookLogWithStyling, ind: number) {
+      render(_, log: BookLogWithStyling) {
         return {
           props: {
             style: { background: log.style },
@@ -175,23 +175,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     case AsyncRequestKinds.Loading:
       return <p>Loading book logs</p>;
     case AsyncRequestKinds.Completed:
-      const filteredCurrentBookLogs: BookLogRequest[] = currentBookLogs.result.filter(
-        (log) => !deletedLogs.includes(log.id),
-      );
-
       // this will set the highlight for the newly added book logs
-      const allBookLogs: BookLogWithStyling[] = addedBookLogs
-        .concat(filteredCurrentBookLogs)
-        .map((log, ind) => {
-          const styledLog: BookLogWithStyling = {
-            count: log.count,
-            date: log.date,
-            id: log.id,
-            notes: log.notes,
-            style: ind > added - 1 ? '#fff' : '#E6F7FF',
-          };
-          return styledLog;
-        });
 
       return (
         <div>
@@ -232,7 +216,22 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
             <Col flex={24}>
               <FormPiece titleLevel={4} note="Past Book Logs">
                 <Table
-                  dataSource={allBookLogs}
+                  dataSource={addedBookLogs
+                    .concat(
+                      currentBookLogs.result.filter(
+                        (log) => !deletedLogs.includes(log.id),
+                      ),
+                    )
+                    .map((log, ind) => {
+                      const styledLog: BookLogWithStyling = {
+                        count: log.count,
+                        date: log.date,
+                        id: log.id,
+                        notes: log.notes,
+                        style: ind > added - 1 ? '#fff' : '#E6F7FF',
+                      };
+                      return styledLog;
+                    })}
                   columns={columns}
                   pagination={{ pageSize: 7 }}
                 />

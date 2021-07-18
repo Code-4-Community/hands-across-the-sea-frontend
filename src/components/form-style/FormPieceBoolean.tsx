@@ -12,6 +12,7 @@ interface FormPieceBooleanProps {
   readonly textFalse?: string;
   readonly value?: any;
   readonly onChange?: (event: any) => void;
+  readonly disabled?: boolean;
 }
 
 const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
@@ -23,6 +24,7 @@ const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
           onChange={props.onChange}
           value={props.value}
           style={{ userSelect: 'none' }}
+          disabled={props.disabled}
         >
           <Radio.Button value={true}>{props.textTrue || 'Yes'}</Radio.Button>
           <Radio.Button value={false}>{props.textFalse || 'No'}</Radio.Button>

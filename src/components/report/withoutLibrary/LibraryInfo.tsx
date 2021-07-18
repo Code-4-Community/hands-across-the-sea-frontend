@@ -1,18 +1,27 @@
 import React from 'react';
 import { Radio, Form, Row, Col, Checkbox } from 'antd';
-import FormPiece from '../../components/form-style/FormPiece';
-import { FormTextArea } from '../../components';
-import FormContainer from '../../components/form-style/FormContainer';
-import { ReadyTimeline } from './ducks/types';
+import FormPiece from '../../form-style/FormPiece';
+import { FormTextArea } from '../../index';
+import FormContainer from '../../form-style/FormContainer';
+import { ReadyTimeline } from '../../../containers/library-report/ducks/types';
+import FormText from '../../form-style/FormText';
 
-const ReportWithoutLibrary: React.FC = () => {
+interface ReportWithoutLibraryProps {
+  editable?: boolean;
+}
+
+const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
   return (
     <FormContainer title="Library Information">
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Why isn't there a library?">
-            <Form.Item name="reasonWhyNot" required>
-              <FormTextArea placeholder="Please enter your answer here" />
+            <Form.Item name="reason" required>
+              {editable ? (
+                <FormTextArea placeholder="Please enter your answer here" />
+              ) : (
+                <FormText />
+              )}
             </Form.Item>
           </FormPiece>
         </Col>
@@ -22,7 +31,7 @@ const ReportWithoutLibrary: React.FC = () => {
         <Col flex={24}>
           <FormPiece note="Is this school working towards a library / do they want a library?">
             <Form.Item name="wantsLibrary">
-              <Radio.Group buttonStyle="solid">
+              <Radio.Group buttonStyle="solid" disabled={!editable}>
                 <Radio.Button value={true}>Yes</Radio.Button>
                 <Radio.Button value={false}>No</Radio.Button>
               </Radio.Group>
@@ -39,7 +48,7 @@ const ReportWithoutLibrary: React.FC = () => {
               note="Does this school have a designated space for a library?"
             >
               <Form.Item name="hasSpace">
-                <Radio.Group buttonStyle="solid">
+                <Radio.Group buttonStyle="solid" disabled={!editable}>
                   <Radio.Button value={true}>Yes</Radio.Button>
                   <Radio.Button value={false}>No</Radio.Button>
                 </Radio.Group>
@@ -52,7 +61,7 @@ const ReportWithoutLibrary: React.FC = () => {
         <Col flex={24}>
           <FormPiece note="Where are they in the process? (Check all that apply)">
             <Form.Item name="currentStatus">
-              <Checkbox.Group style={{ width: '100%' }}>
+              <Checkbox.Group style={{ width: '100%' }} disabled={!editable}>
                 <Row>
                   <Col span={8}>
                     <Checkbox value="found-a-space">Found a space</Checkbox>
@@ -93,7 +102,7 @@ const ReportWithoutLibrary: React.FC = () => {
         <Col flex={24}>
           <FormPiece note="When would they be ready?">
             <Form.Item name="readyTimeline">
-              <Radio.Group buttonStyle="solid">
+              <Radio.Group buttonStyle="solid" disabled={!editable}>
                 <Radio.Button value={ReadyTimeline.UPCOMING_SCHOOL_YEAR}>
                   Upcoming School Year
                 </Radio.Button>
@@ -112,4 +121,4 @@ const ReportWithoutLibrary: React.FC = () => {
   );
 };
 
-export default ReportWithoutLibrary;
+export default LibraryInfo;

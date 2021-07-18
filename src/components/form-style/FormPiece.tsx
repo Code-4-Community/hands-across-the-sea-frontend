@@ -47,6 +47,12 @@ const BigClarify = styled(Title)`
   margin: auto;
 `;
 
+const Piece = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  margin: 0px 0px 0px 0px;
+`;
+
 const FormPiece: React.FC<FormPieceProps> = (props) => {
   const padTop =
     props.addPaddingTop !== undefined
@@ -66,16 +72,15 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
       : '32px';
   const bottomMargin = props.lastPiece !== undefined ? '0px' : '24px';
 
-  const Piece = styled.div`
-    padding: ${padTop} ${padRight} ${padBottom} ${padLeft};
-    background-color: white;
-    border-radius: 5px;
-    margin: 0px 0px ${bottomMargin} 0px;
-  `;
-
   if (props.additionalPiece) {
     return (
-      <Piece onClick={props.onClick}>
+      <Piece
+        style={{
+          padding: `${padTop} ${padRight} ${padBottom} ${padLeft}`,
+          marginBottom: bottomMargin,
+        }}
+        onClick={props.onClick}
+      >
         <Row>
           <Col span={12}>
             {props.titleLevel ? (
@@ -95,7 +100,13 @@ const FormPiece: React.FC<FormPieceProps> = (props) => {
     );
   } else {
     return (
-      <Piece onClick={props.onClick}>
+      <Piece
+        style={{
+          padding: `${padTop} ${padRight} ${padBottom} ${padLeft}`,
+          marginBottom: bottomMargin,
+        }}
+        onClick={props.onClick}
+      >
         {props.titleLevel ? (
           <BigClarify level={props.titleLevel}>{props.note}</BigClarify>
         ) : (

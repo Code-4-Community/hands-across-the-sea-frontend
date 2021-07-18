@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
-import { SchoolEntry } from '../selectSchool/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import { DirectoryTitle } from '../../components';
-import CreateSchool from '../../components/schoolDirectory/CreateSchool';
 import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
-import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createSchoolRequest,
@@ -15,11 +12,12 @@ import {
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
+import CreateSchool from '../../components/schoolDirectory/CreateSchool';
+import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
-import { deleteSchool } from './ducks/thunks';
-
+import { Countries } from '../../utils/countries';
 import {
   createBookLog,
   deleteBookLog,
@@ -27,11 +25,12 @@ import {
   updateBookLog,
 } from '../bookLogs/ducks/thunks';
 import { BookLogRequest, BookLogPostRequest } from '../bookLogs/ducks/types';
-import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import moment from 'moment';
 
-import { Countries } from '../../utils/countries';
 import protectedApiClient from '../../api/protectedApiClient';
+import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
+import { SchoolEntry } from '../selectSchool/ducks/types';
+import { deleteSchool } from './ducks/thunks';
 
 const { Search } = Input;
 
@@ -212,11 +211,10 @@ const SchoolDirectory: React.FC = () => {
       case SchoolDirectoryAction.BOOKS:
         dispatch(getBookLogs(school.id));
 
-        const schoolInfo: BookLogsSchoolInfo = {
+        setBookLogsSchool({
           id: school.id,
           name: school.name,
-        };
-        setBookLogsSchool(schoolInfo);
+        });
         setBookLogs(!bookLogs);
 
         return;
