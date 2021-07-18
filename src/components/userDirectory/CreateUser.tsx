@@ -152,13 +152,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
       <Footer>
         <Row gutter={[0, 24]}>
           <Col flex={12}>
-            <SubmitButton
-              onClick={() => {
-                onCancel();
-              }}
-            >
-              Cancel
-            </SubmitButton>
+            <SubmitButton onClick={onCancel}>Cancel</SubmitButton>
           </Col>
           <Col flex={12}>
             <SubmitButton htmlType={'submit'}>Confirm</SubmitButton>

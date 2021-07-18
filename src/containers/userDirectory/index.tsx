@@ -25,11 +25,9 @@ const { Search } = Input;
 const UserDirectory: React.FC = () => {
   const [createUser, setCreateUser] = useState<boolean>(false);
   const [updateUser, setUpdateUser] = useState<boolean>(false);
-  /* Will be used when Update User endpoint is fixed
   const [defaultUser, setDefaultUser] = useState<UserResponse | undefined>(
     undefined,
   );
-   */
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
@@ -58,8 +56,9 @@ const UserDirectory: React.FC = () => {
     update: boolean,
   ) => {
     if (update) {
+      const updatedInfo = userInfo as UpdateUserRequest;
       protectedApiClient
-        .updateUser(userInfo as UpdateUserRequest, 1)
+        .updateUser(updatedInfo, updatedInfo.id)
         .then((ignore) => {
           setCreateUser(false);
           setUpdateUserList(!updateUserList);
@@ -93,11 +92,9 @@ const UserDirectory: React.FC = () => {
   ) => {
     switch (key) {
       case UserDirectoryAction.EDIT:
-        /* Set up for when Update User endpoint is updated
         setUpdateUser(true);
         setDefaultUser(record);
         setCreateUser(true);
-        */
         return;
       case UserDirectoryAction.DELETE:
         return;
@@ -178,6 +175,7 @@ const UserDirectory: React.FC = () => {
               onFinish={handleOnFinishCreateUser}
               onCancel={handleOnCancelCreateUser}
               update={updateUser}
+              defaultUser={updateUser ? defaultUser : undefined}
             />
           </Modal>
           <Row gutter={[0, 32]}>
