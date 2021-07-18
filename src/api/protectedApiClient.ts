@@ -10,6 +10,7 @@ import {
 import {
   BookLogRequest,
   BookLogResponse,
+  BookLogPostRequest,
 } from '../containers/bookLogs/ducks/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
@@ -70,8 +71,8 @@ export interface ProtectedApiClient {
   ) => Promise<LibraryReportResponse>;
   readonly createBookLog: (
     schoolId: number,
-    report: BookLogRequest,
-  ) => Promise<BookLogRequest>;
+    report: BookLogPostRequest,
+  ) => Promise<BookLogPostRequest>;
 
   readonly updateBookLog: (
     schoolId: number,
@@ -95,6 +96,18 @@ export interface ProtectedApiClient {
     schoolId: number,
     report: ReportWithoutLibraryRequest,
   ) => Promise<LibraryReportResponse>;
+
+  readonly editReportWithLibrary: (
+    schoolId: number,
+    reportId: number,
+    report: ReportWithLibraryRequest,
+  ) => Promise<void>;
+
+  readonly editReportWithoutLibrary: (
+    schoolId: number,
+    reportId: number,
+    report: ReportWithoutLibraryRequest,
+  ) => Promise<void>;
 
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
 
@@ -261,8 +274,8 @@ const createReportWithoutLibrary = (
 
 const createBookLog = (
   schoolId: number,
-  report: BookLogRequest,
-): Promise<BookLogResponse> => {
+  report: BookLogPostRequest,
+): Promise<BookLogPostRequest> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.BOOK_REPORTS.replace(
       ':school_id',
@@ -333,6 +346,34 @@ const getPastSubmissionReports = (
   ).then((res) => res.data);
 };
 
+const editReportWithLibrary = (
+  schoolId: number,
+  reportId: number,
+  report: ReportWithLibraryRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    ProtectedApiClientRoutes.REPORT_WITH_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${reportId}`,
+    report,
+  ).then((res) => res.data);
+};
+
+const editReportWithoutLibrary = (
+  schoolId: number,
+  reportId: number,
+  report: ReportWithoutLibraryRequest,
+): Promise<void> => {
+  return AppAxiosInstance.put(
+    ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY.replace(
+      ':school_id',
+      schoolId.toString(),
+    ) + `/${reportId}`,
+    report,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
@@ -354,6 +395,8 @@ const Client: ProtectedApiClient = Object.freeze({
   getLatestReport,
   createReportWithLibrary,
   createReportWithoutLibrary,
+  editReportWithLibrary,
+  editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
 });

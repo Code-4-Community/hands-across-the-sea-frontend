@@ -58,6 +58,7 @@ import pastSubmissionsReportsReducer, {
 import { PastSubmissionsSchoolsReducerState } from './containers/pastSubmissionsSchools/ducks/types';
 import { PastSubmissionsSchoolsActions } from './containers/pastSubmissionsSchools/ducks/actions';
 import { PastSubmissionsReportsReducerState } from './containers/pastSubmissionsReports/ducks/types';
+import { PastSubmissionsReportsActions } from './containers/pastSubmissionsReports/ducks/actions';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -84,7 +85,7 @@ export type C4CAction =
   | BookLogsActions
   | SelectSchoolActions
   | UserDirectoryActions
-  | PastSubmissionsSchoolsActions;
+  | PastSubmissionsReportsActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 

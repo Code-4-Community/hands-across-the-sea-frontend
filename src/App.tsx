@@ -26,12 +26,13 @@ import YesOrNoLibrary from './containers/library-report/YesOrNoLibrary';
 import SelectSchool from './containers/selectSchool/SelectSchool';
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
-import LibraryReport from './containers/library-report/LibraryReport';
 import SchoolContacts from './containers/schoolContact';
 import FormSubmission from './containers/formSubmission';
 import UserDirectory from './containers/userDirectory';
 import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
 import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
+import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
+import NewLibraryReport from './containers/library-report/NewLibraryReport';
 
 const { Content } = Layout;
 
@@ -57,6 +58,7 @@ export enum Routes {
   USER_DIRECTORY = '/user-directory',
   PAST_SUBMISSIONS_SCHOOLS = '/past-submissions-schools',
   PAST_SUBMISSIONS_REPORTS = '/past-submissions-reports',
+  EDIT_LIBRARY_REPORT = '/edit-library-report',
 }
 
 const App: React.FC = () => {
@@ -126,7 +128,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.LIBRARY_REPORT}
                           exact
-                          component={LibraryReport}
+                          component={NewLibraryReport}
                         />
                         <Route
                           path={Routes.FORM_SUB_CONFIRMATION}
@@ -142,6 +144,11 @@ const App: React.FC = () => {
                           path={Routes.PAST_SUBMISSIONS_REPORTS}
                           exact
                           component={PastSubmissionReports}
+                        />
+                        <Route
+                          path={Routes.EDIT_LIBRARY_REPORT}
+                          exact
+                          component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
@@ -180,7 +187,7 @@ const App: React.FC = () => {
                         <Route
                           path={Routes.LIBRARY_REPORT}
                           exact
-                          component={LibraryReport}
+                          component={NewLibraryReport}
                         />
                         <Route
                           path={Routes.FORM_SUB_CONFIRMATION}
@@ -196,6 +203,11 @@ const App: React.FC = () => {
                           path={Routes.PAST_SUBMISSIONS_REPORTS}
                           exact
                           component={PastSubmissionReports}
+                        />
+                        <Route
+                          path={Routes.EDIT_LIBRARY_REPORT}
+                          exact
+                          component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route path={Routes.SIGNUP} exact component={Signup} />
