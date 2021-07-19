@@ -23,10 +23,6 @@ const reasons = [
   'Other',
 ];
 
-const PurposeSelect = styled(Select)`
-  width: 300px;
-`;
-
 const VisitReason: React.FC<VisitReasonProps> = ({
   setVisitReason,
   visitReason,
@@ -57,7 +53,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               defaultValue={otherSelected ? 'Other' : visitReason || undefined}
             >
               {reasons.map((reason, i) => (
-                <Select.Option className="grant" value={reason} key={i}>
+                <Select.Option value={reason} key={i}>
                   {reason}
                 </Select.Option>
               ))}

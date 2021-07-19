@@ -80,7 +80,7 @@ export type Timetable = {
   formThree?: object;
   formFour?: object;
   formFive?: object;
-}
+};
 
 export enum AssignedPersonRole {
   FULL_TIME = 'FULL_TIME',
