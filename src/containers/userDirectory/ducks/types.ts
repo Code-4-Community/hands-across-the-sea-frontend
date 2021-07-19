@@ -31,4 +31,5 @@ export interface UserResponse {
   readonly email: string;
   readonly country: keyof typeof Countries;
   readonly privilegeLevel: PrivilegeLevel;
+  readonly disabled: boolean;
 }

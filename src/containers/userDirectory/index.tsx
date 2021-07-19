@@ -19,8 +19,13 @@ import {
 import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
+import styled from 'styled-components';
 
 const { Search } = Input;
+
+const DisabledContainer = styled.div`
+  color: red;
+`;
 
 const UserDirectory: React.FC = () => {
   const [createUser, setCreateUser] = useState<boolean>(false);
@@ -32,6 +37,7 @@ const UserDirectory: React.FC = () => {
     email: '',
     privilegeLevel: PrivilegeLevel.NONE,
     country: 'DOMINICA',
+    disabled: true,
   });
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
@@ -123,6 +129,13 @@ const UserDirectory: React.FC = () => {
     }
   };
 
+  const renderDisabled = (value: any, record: UserResponse, index: number) => {
+    if (record.disabled) {
+      return <DisabledContainer>{value}</DisabledContainer>;
+    }
+    return <p>{value}</p>;
+  };
+
   const columns: ColumnType<UserResponse>[] = [
     {
       title: 'First Name',
@@ -132,6 +145,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.firstName.localeCompare(b.firstName),
         multiple: 1,
       },
+      render: renderDisabled,
     },
     {
       title: 'Last Name',
@@ -141,6 +155,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.lastName.localeCompare(b.lastName),
         multiple: 1,
       },
+      render: renderDisabled,
     },
     {
       title: 'Country',
@@ -150,6 +165,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
+      render: renderDisabled,
     },
     {
       title: 'Email',
@@ -159,6 +175,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.email.localeCompare(b.email),
         multiple: 1,
       },
+      render: renderDisabled,
     },
     {
       title: 'Privilege',
@@ -169,6 +186,7 @@ const UserDirectory: React.FC = () => {
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
+      render: renderDisabled,
     },
     {
       title: 'Action',
