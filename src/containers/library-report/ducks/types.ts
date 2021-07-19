@@ -68,18 +68,18 @@ export type LibraryReportResponse = {
 export type Timetable = {
   year: number;
   month: number;
-  kindergarten?: Object;
-  firstGrade?: Object;
-  secondGrade?: Object;
-  thirdGrade?: Object;
-  fourthGrade?: Object;
-  fifthGrade?: Object;
-  sixthGrade?: Object;
-  formOne?: Object;
-  formTwo?: Object;
-  formThree?: Object;
-  formFour?: Object;
-  formFive?: Object;
+  kindergarten?: object;
+  firstGrade?: object;
+  secondGrade?: object;
+  thirdGrade?: object;
+  fourthGrade?: object;
+  fifthGrade?: object;
+  sixthGrade?: object;
+  formOne?: object;
+  formTwo?: object;
+  formThree?: object;
+  formFour?: object;
+  formFive?: object;
 }
 
 export enum AssignedPersonRole {

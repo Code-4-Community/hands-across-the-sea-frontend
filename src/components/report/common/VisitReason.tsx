@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import FormPiece from '../../form-style/FormPiece';
 import { Col, Input, Row, Select } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
+import styled from 'styled-components';
 
 interface VisitReasonProps {
   setVisitReason: (purposeOfVisit: string) => void;
@@ -21,6 +22,10 @@ const reasons = [
   'Emergency / Disaster',
   'Other',
 ];
+
+const PurposeSelect = styled(Select)`
+  width: 300px;
+`;
 
 const VisitReason: React.FC<VisitReasonProps> = ({
   setVisitReason,
@@ -52,7 +57,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               defaultValue={otherSelected ? 'Other' : visitReason || undefined}
             >
               {reasons.map((reason, i) => (
-                <Select.Option value={reason} key={i}>
+                <Select.Option className="grant" value={reason} key={i}>
                   {reason}
                 </Select.Option>
               ))}
