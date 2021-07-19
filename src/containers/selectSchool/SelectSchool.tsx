@@ -41,7 +41,7 @@ const SelectSchool: React.FC = () => {
   useEffect(() => {
     ProtectedApiClient.getUser()
       .then(setUserInfo)
-      .catch((e) => e);
+      .catch((err) => err);
   }, [userId]);
 
   const submitDisabled = !formValues.schoolId;

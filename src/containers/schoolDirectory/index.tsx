@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { DirectoryTitle } from '../../components';
-import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createSchoolRequest,
-  updatedSchoolRequest,
-} from '../schoolInfo/ducks/thunks';
-import { loadSchools } from '../selectSchool/ducks/thunks';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
+import protectedApiClient from '../../api/protectedApiClient';
+import { DirectoryTitle } from '../../components';
+import { Container, Outer } from '../../components/form-style/FormContainer';
+import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
 import CreateSchool from '../../components/schoolDirectory/CreateSchool';
 import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
+import { C4CState } from '../../store';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Countries } from '../../utils/countries';
 import {
   createBookLog,
@@ -24,11 +21,9 @@ import {
   getBookLogs,
   updateBookLog,
 } from '../bookLogs/ducks/thunks';
-import { BookLogRequest, BookLogPostRequest } from '../bookLogs/ducks/types';
-import moment from 'moment';
-
-import protectedApiClient from '../../api/protectedApiClient';
+import { BookLogPostRequest, BookLogRequest } from '../bookLogs/ducks/types';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
+import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import { deleteSchool } from './ducks/thunks';
 
@@ -77,20 +72,24 @@ const SchoolDirectory: React.FC = () => {
   }, [dispatch, updateSchoolList]);
 
   // handles submitting create a school form
-  const handleOnFinishCreateSchool = (
+  const handleOnFinishCreateSchool = async (
     schoolInfo: SchoolRequest,
     schoolId: number,
   ) => {
-    if (updateSchool) {
-      dispatch(updatedSchoolRequest(schoolId, schoolInfo));
-      setUpdateSchool(false);
-      setUpdatedSchool(undefined);
-    } else {
-      dispatch(createSchoolRequest(schoolInfo));
-      setCreateSchool(false);
-      setUpdateSchoolList(!updateSchoolList);
+    try {
+      if (updateSchool) {
+        await protectedApiClient.updateSchool(schoolId, schoolInfo);
+        setUpdateSchool(false);
+        setUpdatedSchool(undefined);
+      } else {
+        await protectedApiClient.createSchool(schoolInfo);
+        setCreateSchool(false);
+        setUpdateSchoolList(!updateSchoolList);
+      }
+      dispatch(loadSchools());
+    } catch (err) {
+      message.error(`An error occured, please try again: ${err.message}`);
     }
-    dispatch(loadSchools());
   };
 
   // handles canceling the create school form
