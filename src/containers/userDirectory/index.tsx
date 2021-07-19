@@ -48,8 +48,8 @@ const UserDirectory: React.FC = () => {
 
   // show error notification if any
   // should never reach this as we check validity before sending request
-  const errorSignUp = (error: any) => {
-    message.warning('Error in submitting. Try again');
+  const errorMessage = (error: string) => {
+    message.warning(error);
   };
 
   // handles submitting create a user form
@@ -65,7 +65,7 @@ const UserDirectory: React.FC = () => {
           setUpdateUser(false);
           setUpdateUserList(!updateUserList);
         })
-        .catch(errorSignUp);
+        .catch(() => errorMessage('Updating user failed. Try again.'));
     } else {
       authClient
         .signup(userInfo as SignupRequest)
@@ -73,7 +73,7 @@ const UserDirectory: React.FC = () => {
           setCreateUser(false);
           setUpdateUserList(!updateUserList);
         })
-        .catch(errorSignUp);
+        .catch(() => errorMessage('Signup request failed. Try again.'));
     }
   };
 
@@ -98,7 +98,27 @@ const UserDirectory: React.FC = () => {
         setDefaultUser(record);
         setCreateUser(true);
         return;
-      case UserDirectoryAction.DELETE:
+      case UserDirectoryAction.ENABLE:
+        protectedApiClient
+          .enableUser(record.id)
+          .then(() => setUpdateUserList(!updateUserList))
+          .catch(() =>
+            errorMessage(
+              'You are not authenticated or the user does not exist.',
+            ),
+          );
+        return;
+      case UserDirectoryAction.DISABLE:
+        protectedApiClient
+          .disableUser(record.id)
+          .then(() => setUpdateUserList(!updateUserList))
+          .catch(() =>
+            errorMessage(
+              'You are not authenticated or the user does not exist.',
+            ),
+          );
+        return;
+      default:
         return;
     }
   };

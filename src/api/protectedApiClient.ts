@@ -50,6 +50,8 @@ export interface ProtectedApiClient {
     userId: number,
   ) => Promise<void>;
   readonly getUser: () => Promise<GetUserResponse>;
+  readonly disableUser: (userId: number) => Promise<void>;
+  readonly enableUser: (userId: number) => Promise<void>;
   readonly getAllUsers: () => Promise<GetAllUsersResponse>;
 
   readonly getSchoolContacts: (
@@ -161,6 +163,18 @@ const getUser = (): Promise<GetUserResponse> => {
   return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/data`)
     .then((r) => r.data)
     .catch((e) => e);
+};
+
+const disableUser = (userId: number): Promise<void> => {
+  return AppAxiosInstance.post(
+    `${ProtectedApiClientRoutes.USER}/disable/${userId}`,
+  ).then((res) => res.data);
+};
+
+const enableUser = (userId: number): Promise<void> => {
+  return AppAxiosInstance.post(
+    `${ProtectedApiClientRoutes.USER}/enable/${userId}`,
+  ).then((res) => res.data);
 };
 
 const getAllUsers = (): Promise<GetAllUsersResponse> => {
@@ -388,6 +402,8 @@ const Client: ProtectedApiClient = Object.freeze({
   deleteUser,
   updateUser,
   getUser,
+  disableUser,
+  enableUser,
   getAllUsers,
   getSchoolContacts,
   updateSchoolContact,
