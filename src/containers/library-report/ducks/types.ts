@@ -65,21 +65,23 @@ export type LibraryReportResponse = {
     } & ReportWithoutLibraryRequest)
 );
 
+type TimetableGrade = { [key: string]: number }
+
 export type Timetable = {
   year: number;
   month: number;
-  kindergarten?: { [key: string]: number };
-  firstGrade?: object;
-  secondGrade?: object;
-  thirdGrade?: object;
-  fourthGrade?: object;
-  fifthGrade?: object;
-  sixthGrade?: object;
-  formOne?: object;
-  formTwo?: object;
-  formThree?: object;
-  formFour?: object;
-  formFive?: object;
+  kindergarten?: TimetableGrade;
+  firstGrade?: TimetableGrade;
+  secondGrade?: TimetableGrade;
+  thirdGrade?: TimetableGrade;
+  fourthGrade?: TimetableGrade;
+  fifthGrade?: TimetableGrade;
+  sixthGrade?: TimetableGrade;
+  formOne?: TimetableGrade;
+  formTwo?: TimetableGrade;
+  formThree?: TimetableGrade;
+  formFour?: TimetableGrade;
+  formFive?: TimetableGrade;
 };
 
 export enum AssignedPersonRole {
