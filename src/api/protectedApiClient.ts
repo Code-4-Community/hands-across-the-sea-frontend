@@ -158,8 +158,9 @@ const getUser = (): Promise<GetUserResponse> => {
 };
 
 const getAllUsers = (): Promise<GetAllUsersResponse> => {
-  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/`)
-    .then((r) => r.data)
+  return AppAxiosInstance.get(`${ProtectedApiClientRoutes.USER}/`).then(
+    (res) => res.data,
+  );
 };
 
 const createSchool = (request: SchoolRequest): Promise<SchoolResponse> => {

@@ -85,6 +85,7 @@ export type C4CAction =
   | BookLogsActions
   | SelectSchoolActions
   | UserDirectoryActions
+  | PastSubmissionsSchoolsActions
   | PastSubmissionsReportsActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
