@@ -68,7 +68,7 @@ export type LibraryReportResponse = {
 export type Timetable = {
   year: number;
   month: number;
-  kindergarten?: object;
+  kindergarten?: { [key: string]: number };
   firstGrade?: object;
   secondGrade?: object;
   thirdGrade?: object;
