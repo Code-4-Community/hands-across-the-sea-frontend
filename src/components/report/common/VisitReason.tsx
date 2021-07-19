@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import FormPiece from '../../form-style/FormPiece';
 import { Col, Input, Row, Select } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
-import styled from 'styled-components';
 
 interface VisitReasonProps {
   setVisitReason: (purposeOfVisit: string) => void;
@@ -51,6 +50,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               onChange={onSelected}
               disabled={!editable}
               defaultValue={otherSelected ? 'Other' : visitReason || undefined}
+              style={{width: '300px'}}
             >
               {reasons.map((reason, i) => (
                 <Select.Option value={reason} key={i}>
