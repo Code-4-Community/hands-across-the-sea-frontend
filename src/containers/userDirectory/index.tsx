@@ -10,7 +10,7 @@ import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
 import CreateUser from '../../components/userDirectory/CreateUser';
-import { SignupRequest } from '../../auth/ducks/types';
+import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
 import {
   UpdateUserRequest,
   UserDirectoryReducerState,
@@ -25,9 +25,14 @@ const { Search } = Input;
 const UserDirectory: React.FC = () => {
   const [createUser, setCreateUser] = useState<boolean>(false);
   const [updateUser, setUpdateUser] = useState<boolean>(false);
-  const [defaultUser, setDefaultUser] = useState<UserResponse | undefined>(
-    undefined,
-  );
+  const [defaultUser, setDefaultUser] = useState<UserResponse>({
+    id: -1,
+    firstName: '',
+    lastName: '',
+    email: '',
+    privilegeLevel: PrivilegeLevel.NONE,
+    country: 'DOMINICA',
+  });
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const dispatch = useDispatch();
@@ -44,10 +49,7 @@ const UserDirectory: React.FC = () => {
   // show error notification if any
   // should never reach this as we check validity before sending request
   const errorSignUp = (error: any) => {
-    message.warning({
-      message: 'Error',
-      description: error.response.data,
-    });
+    message.warning('Error in submitting. Try again');
   };
 
   // handles submitting create a user form
@@ -56,11 +58,11 @@ const UserDirectory: React.FC = () => {
     update: boolean,
   ) => {
     if (update) {
-      const updatedInfo = userInfo as UpdateUserRequest;
       protectedApiClient
-        .updateUser(updatedInfo, updatedInfo.id)
+        .updateUser(userInfo as UpdateUserRequest, defaultUser.id)
         .then((ignore) => {
           setCreateUser(false);
+          setUpdateUser(false);
           setUpdateUserList(!updateUserList);
         })
         .catch(errorSignUp);
