@@ -31,6 +31,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
       numberOfStudentLibrarians: 0,
       parentSupport: '',
       teacherSupport: '',
+      timetable: null,
       ...submittedValues,
       visitReason,
     });

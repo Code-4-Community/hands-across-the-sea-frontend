@@ -39,6 +39,7 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
+  readonly timetable: null | Timetable;
 }
 
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
@@ -63,6 +64,23 @@ export type LibraryReportResponse = {
       readonly libraryStatus: 'DOES_NOT_EXIST';
     } & ReportWithoutLibraryRequest)
 );
+
+export type Timetable = {
+  year: number;
+  month: number;
+  kindergarten?: Object;
+  firstGrade?: Object;
+  secondGrade?: Object;
+  thirdGrade?: Object;
+  fourthGrade?: Object;
+  fifthGrade?: Object;
+  sixthGrade?: Object;
+  formOne?: Object;
+  formTwo?: Object;
+  formThree?: Object;
+  formFour?: Object;
+  formFive?: Object;
+}
 
 export enum AssignedPersonRole {
   FULL_TIME = 'FULL_TIME',
