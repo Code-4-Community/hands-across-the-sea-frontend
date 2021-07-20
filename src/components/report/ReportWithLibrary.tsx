@@ -8,6 +8,7 @@ import TrainingMentorshipInfo from './withLibrary/TrainingMentorshipInfo';
 import {
   LibraryReportResponse,
   ReportWithLibraryRequest,
+  Timetable,
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withLibrary/LibraryInfo';
 import VisitReason from './common/VisitReason';
@@ -25,13 +26,14 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   children,
 }) => {
   const [visitReason, setVisitReason] = useState(values?.visitReason || null);
+  const [timeTable, setTimeTable] = useState<Timetable | null>(null);
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
     onSubmit({
       numberOfStudentLibrarians: 0,
       parentSupport: '',
       teacherSupport: '',
-      timetable: null,
+      timetable: timeTable,
       ...submittedValues,
       visitReason,
     });
@@ -55,7 +57,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
         />
         <StudentBookInformation editable={editable} />
         <LibraryInfo editable={editable} />
-        <MonitoringInfo editable={editable} />
+        <MonitoringInfo editable={editable} setTimeTable={setTimeTable} />
         <TrainingMentorshipInfo editable={editable} report={values} />
         <ChangesActionPlan editable={editable} />
         {children}

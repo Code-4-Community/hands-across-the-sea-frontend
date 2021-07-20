@@ -18,3 +18,7 @@ export const getOptionsFromEnum = (e: {
     </Select>
   ));
 };
+
+export function daysInMonth(month: number, year: number): number {
+  return new Date(year, month, 0).getDate();
+}
