@@ -1,8 +1,9 @@
-import { Button, Col, Input, Modal, Row, Table } from 'antd';
+import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import protectedApiClient from '../../api/protectedApiClient';
 import { DirectoryTitle } from '../../components';
 import { Container, Outer } from '../../components/form-style/FormContainer';
 import BookLogsMenu from '../../components/schoolDirectory/BookLogsMenu';
@@ -21,8 +22,7 @@ import {
   updateBookLog,
 } from '../bookLogs/ducks/thunks';
 import { BookLogPostRequest, BookLogRequest } from '../bookLogs/ducks/types';
-import { createSchoolRequest } from '../schoolInfo/ducks/thunks';
-import { SchoolRequest } from '../schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import { deleteSchool } from './ducks/thunks';
@@ -55,6 +55,11 @@ const SchoolDirectory: React.FC = () => {
     id: -1,
   });
 
+  const [updateSchool, setUpdateSchool] = useState<boolean>(false);
+  const [updatedSchool, setUpdatedSchool] = useState<
+    SchoolResponse | undefined
+  >(undefined);
+
   const dispatch = useDispatch();
   const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
     (state: C4CState) => state.selectSchoolState.schools,
@@ -67,15 +72,31 @@ const SchoolDirectory: React.FC = () => {
   }, [dispatch, updateSchoolList]);
 
   // handles submitting create a school form
-  const handleOnFinishCreateSchool = (schoolInfo: SchoolRequest) => {
-    dispatch(createSchoolRequest(schoolInfo));
-    setCreateSchool(false);
-    setUpdateSchoolList(!updateSchoolList);
+  const handleOnFinishCreateSchool = async (
+    schoolInfo: SchoolRequest,
+    schoolId: number,
+  ) => {
+    try {
+      if (updateSchool) {
+        await protectedApiClient.updateSchool(schoolId, schoolInfo);
+        setUpdateSchool(false);
+        setUpdatedSchool(undefined);
+      } else {
+        await protectedApiClient.createSchool(schoolInfo);
+        setCreateSchool(false);
+        setUpdateSchoolList(!updateSchoolList);
+      }
+      dispatch(loadSchools());
+    } catch (err) {
+      message.error(`An error occured, please try again: ${err.message}`);
+    }
   };
 
   // handles canceling the create school form
   const handleOnCancelCreateSchool = () => {
     setCreateSchool(false);
+    setUpdateSchool(false);
+    setUpdatedSchool(undefined);
   };
 
   // handles the button click of Create School button
@@ -168,24 +189,36 @@ const SchoolDirectory: React.FC = () => {
     setBookLogs(true);
   };
 
+  const errorLoadingSchool = (error: any) => {
+    message.error(error.response.data);
+  };
+
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = (schoolId: number, schoolName: string) => (
+  const handleActionButtonOnClick = (school: SchoolEntry) => (
     key: SchoolDirectoryAction,
   ) => {
     switch (key) {
       case SchoolDirectoryAction.EDIT:
+        protectedApiClient
+          .getSchool(school.id)
+          .then((schoolResponse: SchoolResponse) => {
+            setUpdatedSchool(schoolResponse);
+            setUpdateSchool(true);
+          })
+          .catch(errorLoadingSchool);
         return;
       case SchoolDirectoryAction.BOOKS:
-        dispatch(getBookLogs(schoolId));
+        dispatch(getBookLogs(school.id));
+
         setBookLogsSchool({
-          id: schoolId,
-          name: schoolName,
+          id: school.id,
+          name: school.name,
         });
         setBookLogs(!bookLogs);
 
         return;
       case SchoolDirectoryAction.DELETE:
-        dispatch(deleteSchool(schoolId));
+        dispatch(deleteSchool(school.id));
         setUpdateSchoolList(!updateSchoolList);
     }
   };
@@ -219,7 +252,7 @@ const SchoolDirectory: React.FC = () => {
       render(record: SchoolEntry) {
         return (
           <SchoolDirectoryActionMenu
-            onAction={handleActionButtonOnClick(record.id, record.name)}
+            onAction={handleActionButtonOnClick(record)}
           />
         );
       },
@@ -232,10 +265,13 @@ const SchoolDirectory: React.FC = () => {
       return <p>An error occurred loading schools</p>;
     case AsyncRequestKinds.Loading:
     case AsyncRequestKinds.Completed:
+      if (availableSchools.kind === AsyncRequestKinds.Completed) {
+        availableSchools.result.sort((s1, s2) => s1.id - s2.id);
+      }
       return (
         <Container>
           <Modal
-            visible={createSchool}
+            visible={createSchool || updateSchool}
             width={1000}
             footer={null}
             destroyOnClose={true}
@@ -244,6 +280,8 @@ const SchoolDirectory: React.FC = () => {
             <CreateSchool
               onFinish={handleOnFinishCreateSchool}
               onCancel={handleOnCancelCreateSchool}
+              update={updateSchool}
+              defaultSchool={updatedSchool}
             />
           </Modal>
           <Modal
