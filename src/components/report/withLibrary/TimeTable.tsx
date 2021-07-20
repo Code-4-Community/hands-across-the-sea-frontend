@@ -39,9 +39,7 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
     day: number,
     students: number,
   ) => {
-    const newTimeTable: Timetable = JSON.parse(
-      JSON.stringify(timeTable || { year, month }),
-    ) as Timetable;
+    const newTimeTable = timeTable || ({} as Timetable);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     newTimeTable[grade] = (timeTable && timeTable[grade]) || {};
