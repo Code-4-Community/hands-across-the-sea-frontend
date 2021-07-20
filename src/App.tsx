@@ -8,7 +8,6 @@ import {
 import { Helmet } from 'react-helmet';
 
 import Home from './containers/home';
-import Signup from './containers/signup';
 import Login from './containers/login';
 import ForgotPassword from './containers/forgotPasswordRequest';
 import ForgotPasswordReset from './containers/forgotPasswordReset';
@@ -101,11 +100,6 @@ const App: React.FC = () => {
                           component={SchoolDirectory}
                         />
                         <Route
-                          path={Routes.USER_DIRECTORY}
-                          exact
-                          component={SchoolDirectory}
-                        />
-                        <Route
                           path={Routes.SELECT_SCHOOL}
                           exact
                           component={SelectSchool}
@@ -151,7 +145,6 @@ const App: React.FC = () => {
                           component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
-                        <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route
                           path={Routes.SETTINGS}
                           exact
@@ -210,7 +203,6 @@ const App: React.FC = () => {
                           component={EditLibraryReport}
                         />
                         <Route path={Routes.LOGIN} exact component={Login} />
-                        <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route
                           path={Routes.SETTINGS}
                           exact
@@ -222,7 +214,6 @@ const App: React.FC = () => {
                   case PrivilegeLevel.NONE:
                     return (
                       <Switch>
-                        <Route path={Routes.SIGNUP} exact component={Signup} />
                         <Route path={Routes.LOGIN} exact component={Login} />
                         <Route
                           path={Routes.FORGOT_PASSWORD_REQUEST}

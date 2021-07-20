@@ -1,5 +1,5 @@
 import { DatePicker, InputNumber, Table } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   Timetable,
@@ -25,6 +25,11 @@ interface TimeTableDataType {
 const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
+  const [days, setDays] = useState<number>(daysInMonth(year, month));
+
+  useEffect(() => {
+    setDays(daysInMonth(year, month));
+  }, [year, month]);
 
   const onChangeDate = (dateMoment: Moment | null) => {
     if (!dateMoment) {
@@ -34,8 +39,6 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
     setYear(dateMoment.year());
     setMonth(dateMoment.month() + 1);
   };
-
-  const days = daysInMonth(year, month);
 
   const columns = [
     {

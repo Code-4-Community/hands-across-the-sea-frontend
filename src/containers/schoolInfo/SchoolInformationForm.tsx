@@ -27,7 +27,7 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   const history = useHistory();
 
   const goPrev = () => {
-    history.goBack();
+    history.push('/select-school');
   };
 
   return (
