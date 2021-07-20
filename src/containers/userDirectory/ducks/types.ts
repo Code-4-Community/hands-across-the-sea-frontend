@@ -21,10 +21,15 @@ export interface GetAllUsersResponse {
   readonly users: UserResponse[];
 }
 
+// for naming purposes on api typing
+export type UpdateUserRequest = UserResponse;
+
 export interface UserResponse {
+  readonly id: number;
   readonly firstName: string;
   readonly lastName: string;
   readonly email: string;
   readonly country: keyof typeof Countries;
   readonly privilegeLevel: PrivilegeLevel;
+  readonly disabled: boolean;
 }

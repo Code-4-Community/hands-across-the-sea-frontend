@@ -65,6 +65,9 @@ const SelectSchool: React.FC = () => {
       if (Object.keys(userInfo).length === 0) {
         return <p>Loading schools...</p>;
       }
+      const schoolsInCountry = availableSchools.result.filter(
+        (school) => school.country === userInfo.country,
+      );
       return (
         <FormContentContainer>
           <Form
@@ -92,11 +95,7 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(
-                          availableSchools.result.filter(
-                            (school) => school.country === userInfo.country,
-                          ),
-                        ).map(renderSchoolOption)}
+                        {Array.from(schoolsInCountry).map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>

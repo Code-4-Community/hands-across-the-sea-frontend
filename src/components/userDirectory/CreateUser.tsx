@@ -4,13 +4,16 @@ import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
-import { SignupRequest } from '../../auth/ducks/types';
+import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
+import { UserResponse } from '../../containers/userDirectory/ducks/types';
 
 const { Option } = Select;
 
 interface CreateUserProps {
-  readonly onFinish: (userInfoRequest: SignupRequest) => void;
+  readonly onFinish: (userInfoRequest: SignupRequest, update: boolean) => void;
   readonly onCancel: () => void;
+  readonly update: boolean;
+  readonly defaultUser?: UserResponse;
 }
 
 const Footer = styled.div`
@@ -21,9 +24,19 @@ const SubmitButton = styled(Button)`
   width: 200px;
 `;
 
-const CreateUser: React.FC<CreateUserProps> = ({ onFinish, onCancel }) => {
+const CreateUser: React.FC<CreateUserProps> = ({
+  onFinish,
+  onCancel,
+  update,
+  defaultUser,
+}) => {
   return (
-    <Form onFinish={onFinish}>
+    <Form
+      onFinish={(formObject: SignupRequest) => {
+        onFinish(formObject, update);
+      }}
+      initialValues={defaultUser}
+    >
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
@@ -32,37 +45,54 @@ const CreateUser: React.FC<CreateUserProps> = ({ onFinish, onCancel }) => {
                 <Col flex={12}>
                   <Form.Item
                     name="firstName"
-                    rules={[{ required: true, message: 'Required' }]}
+                    rules={[{ required: true, message: 'Cannot be blank!' }]}
                   >
-                    <Input placeholder="First Name" />
+                    <Input required placeholder="First Name" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
                   <Form.Item
                     name="lastName"
-                    rules={[{ required: true, message: 'Required' }]}
+                    rules={[{ required: true, message: 'Cannot be blank!' }]}
                   >
-                    <Input placeholder="Last Name" />
+                    <Input required placeholder="Last Name" />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[24, 24]}>
-                <Col flex={12}>
+                <Col flex={update ? 24 : 12}>
                   <Form.Item
                     name="email"
-                    rules={[{ required: true, message: 'Required' }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must be a valid email!',
+                        pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
+                      },
+                    ]}
                   >
-                    <Input placeholder="Email Address" />
+                    <Input required placeholder="Email Address" />
                   </Form.Item>
                 </Col>
-                <Col flex={12}>
-                  <Form.Item
-                    name="password"
-                    rules={[{ required: true, message: 'Required' }]}
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-                </Col>
+                {!update && (
+                  <Col flex={12}>
+                    <Form.Item
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            'Password must contain 8-20 characters and at least 1 capital letter, number and symbol.',
+                          pattern: RegExp(
+                            '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()])(?=\\S+$).{8,20}$',
+                          ),
+                        },
+                      ]}
+                    >
+                      <Input.Password placeholder="Password" />
+                    </Form.Item>
+                  </Col>
+                )}
               </Row>
               <Row gutter={[0, 24]}>
                 <Col flex={24}>
@@ -80,6 +110,24 @@ const CreateUser: React.FC<CreateUserProps> = ({ onFinish, onCancel }) => {
                   </Form.Item>
                 </Col>
               </Row>
+              {update && (
+                <Row gutter={[0, 24]}>
+                  <Col flex={24}>
+                    <Form.Item
+                      name="privilegeLevel"
+                      rules={[{ required: true, message: 'Required' }]}
+                    >
+                      <Select placeholder="User's Privilege">
+                        {Object.keys(UserPrivilegeLevel).map((key: string) => (
+                          <Option key={key} value={key}>
+                            {key}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              )}
             </FormPiece>
           </Col>
         </Row>
@@ -87,13 +135,7 @@ const CreateUser: React.FC<CreateUserProps> = ({ onFinish, onCancel }) => {
       <Footer>
         <Row gutter={[0, 24]}>
           <Col flex={12}>
-            <SubmitButton
-              onClick={() => {
-                onCancel();
-              }}
-            >
-              Cancel
-            </SubmitButton>
+            <SubmitButton onClick={onCancel}>Cancel</SubmitButton>
           </Col>
           <Col flex={12}>
             <SubmitButton htmlType={'submit'}>Confirm</SubmitButton>
