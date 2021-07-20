@@ -28,6 +28,7 @@ import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
 import SchoolContacts from './containers/schoolContact';
 import FormSubmission from './containers/formSubmission';
+import UserDirectory from './containers/userDirectory';
 import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
 import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
 import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
@@ -88,6 +89,11 @@ const App: React.FC = () => {
                   case PrivilegeLevel.ADMIN:
                     return (
                       <Switch>
+                        <Route
+                          path={Routes.USER_DIRECTORY}
+                          exact
+                          component={UserDirectory}
+                        />
                         <Route path={Routes.HOME} exact component={Home} />
                         <Route
                           path={Routes.SCHOOL_DIRECTORY}
