@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { LibraryReportActions } from './actions';
+import { C4CState } from '../../../store';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import { LibraryReportActions } from './actions';
 
 export type LibraryReportThunkAction<R> = ThunkAction<
   R,
@@ -65,9 +65,23 @@ export type LibraryReportResponse = {
     } & ReportWithoutLibraryRequest)
 );
 
-type TimetableGrade = { [key: string]: number }
+type TimetableGrade = { [key: string]: number };
 
-export type Timetable = {
+export const TIMETABLE_COLUMNS: string[] = [
+  'kindergarten',
+  'firstGrade',
+  'secondGrade',
+  'thirdGrade',
+  'fourthGrade',
+  'sixthGrade',
+  'formOne',
+  'formTwo',
+  'formThree',
+  'formFour',
+  'formFive',
+]
+
+export interface Timetable {
   year: number;
   month: number;
   kindergarten?: TimetableGrade;
@@ -82,7 +96,7 @@ export type Timetable = {
   formThree?: TimetableGrade;
   formFour?: TimetableGrade;
   formFive?: TimetableGrade;
-};
+}
 
 export enum AssignedPersonRole {
   FULL_TIME = 'FULL_TIME',
