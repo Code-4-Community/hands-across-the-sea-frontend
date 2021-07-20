@@ -140,7 +140,6 @@ const UserDirectory: React.FC = () => {
     {
       title: 'First Name',
       dataIndex: 'firstName',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.firstName.localeCompare(b.firstName),
         multiple: 1,
@@ -150,7 +149,6 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Last Name',
       dataIndex: 'lastName',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.lastName.localeCompare(b.lastName),
         multiple: 1,
@@ -160,7 +158,6 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Country',
       dataIndex: 'country',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
@@ -170,7 +167,6 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'id',
       sorter: {
         compare: (a, b) => a.email.localeCompare(b.email),
         multiple: 1,
@@ -180,7 +176,6 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Privilege',
       dataIndex: 'privilegeLevel',
-      key: 'id',
       sorter: {
         compare: (a, b) =>
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
@@ -191,7 +186,8 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Action',
       dataIndex: '',
-      key: 'x',
+      // need key because no dataindex
+      key: 'action',
       render(record: UserResponse) {
         return (
           <UserDirectoryActionMenu
