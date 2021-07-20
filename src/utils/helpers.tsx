@@ -19,6 +19,6 @@ export const getOptionsFromEnum = (e: {
   ));
 };
 
-export function daysInMonth(month: number, year: number): number {
+export function daysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }

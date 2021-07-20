@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { Timetable } from '../../../containers/library-report/ducks/types';
 import FormContainer from '../../form-style/FormContainer';
 import FormPieceBoolean from '../../form-style/FormPieceBoolean';
@@ -9,15 +9,17 @@ interface MonitoringInfoProps {
   editable?: boolean;
   setTimeTable: (tt: Timetable) => void;
   timeTable: Timetable | null;
+  showTimeTable: boolean;
+  setShowTimeTable: (value: boolean) => void;
 }
 
 const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
   editable,
   setTimeTable,
   timeTable,
+  setShowTimeTable,
+  showTimeTable,
 }) => {
-  const [showTimeTable, setShowTimeTable] = useState<boolean>(false);
-
   return (
     <FormContainer title="Monitoring Information">
       <Row gutter={[24, 0]}>

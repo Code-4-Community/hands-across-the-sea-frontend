@@ -27,13 +27,14 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
 }) => {
   const [visitReason, setVisitReason] = useState(values?.visitReason || null);
   const [timeTable, setTimeTable] = useState<Timetable | null>(null);
+  const [showTimeTable, setShowTimeTable] = useState<boolean>(false);
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
     onSubmit({
       numberOfStudentLibrarians: 0,
       parentSupport: '',
       teacherSupport: '',
-      timetable: timeTable,
+      timetable: showTimeTable ? timeTable : null,
       ...submittedValues,
       visitReason,
     });
@@ -59,6 +60,8 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
         <LibraryInfo editable={editable} />
         <MonitoringInfo
           editable={editable}
+          showTimeTable={showTimeTable}
+          setShowTimeTable={setShowTimeTable}
           timeTable={timeTable}
           setTimeTable={setTimeTable}
         />
