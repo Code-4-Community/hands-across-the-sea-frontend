@@ -50,6 +50,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               onChange={onSelected}
               disabled={!editable}
               defaultValue={otherSelected ? 'Other' : visitReason || undefined}
+              style={{width: '300px'}}
             >
               {reasons.map((reason, i) => (
                 <Select.Option value={reason} key={i}>
