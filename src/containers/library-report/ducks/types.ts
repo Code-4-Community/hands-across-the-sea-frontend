@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { C4CState } from '../../../store';
-import { AsyncRequest } from '../../../utils/asyncRequest';
+import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { LibraryReportActions } from './actions';
+import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export type LibraryReportThunkAction<R> = ThunkAction<
   R,
@@ -20,8 +20,8 @@ export interface LibraryReportShared {
   readonly numberOfChildren: null | number;
   readonly numberOfBooks: null | number;
   readonly mostRecentShipmentYear: null | number;
-  readonly visitReason: null | string;
-  readonly actionPlan: null | string;
+  visitReason: null | string;
+  readonly actionPlans: null | string;
   readonly successStories: null | string;
 }
 
@@ -39,10 +39,11 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
+  readonly timetable: null | Timetable;
 }
 
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
-  readonly reasonWhyNot: null | string;
+  readonly reason: null | string;
   readonly wantsLibrary: null | boolean;
   readonly hasSpace: null | boolean;
   readonly currentStatus: null | string;
@@ -63,6 +64,25 @@ export type LibraryReportResponse = {
       readonly libraryStatus: 'DOES_NOT_EXIST';
     } & ReportWithoutLibraryRequest)
 );
+
+type TimetableGrade = { [key: string]: number }
+
+export type Timetable = {
+  year: number;
+  month: number;
+  kindergarten?: TimetableGrade;
+  firstGrade?: TimetableGrade;
+  secondGrade?: TimetableGrade;
+  thirdGrade?: TimetableGrade;
+  fourthGrade?: TimetableGrade;
+  fifthGrade?: TimetableGrade;
+  sixthGrade?: TimetableGrade;
+  formOne?: TimetableGrade;
+  formTwo?: TimetableGrade;
+  formThree?: TimetableGrade;
+  formFour?: TimetableGrade;
+  formFive?: TimetableGrade;
+};
 
 export enum AssignedPersonRole {
   FULL_TIME = 'FULL_TIME',

@@ -30,6 +30,7 @@ const exampleBookLogRequest: BookLogRequest = {
   count: 300,
   date: '2019-09-07T15:50:00.000Z',
   notes: '',
+  id: 1,
 };
 
 describe('Book Logs Thunks', () => {
