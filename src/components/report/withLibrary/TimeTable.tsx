@@ -1,11 +1,13 @@
-import { InputNumber, Table } from 'antd';
-import React from 'react';
+import { DatePicker, InputNumber, Table } from 'antd';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   Timetable,
   TIMETABLE_COLUMNS,
 } from '../../../containers/library-report/ducks/types';
 import { daysInMonth } from '../../../utils/helpers';
+import moment from 'moment';
+
 interface TimeTableProps {
   setTimeTable: (tt: Timetable) => void;
   timeTable: Timetable | null;
@@ -21,9 +23,20 @@ interface TimeTableDataType {
 }
 
 const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
-  const year = 2021;
-  const month = 1;
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
+
+  const onChangeDate = (moment) => {
+    if (!moment) {
+      return;
+    }
+
+    setYear(moment.year());
+    setMonth(moment.month() + 1);
+  };
+
   const days = daysInMonth(year, month);
+
   const columns = [
     {
       title: 'Grade',
@@ -104,14 +117,22 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
   }));
 
   return (
-    <Table
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 1300 }}
-      pagination={false}
-    />
+    <>
+      <DatePicker
+        defaultValue={moment(new Date())}
+        onChange={onChangeDate}
+        picker="month"
+        size="large"
+      />
+      <Table
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        columns={columns}
+        dataSource={data}
+        scroll={{ x: 1300 }}
+        pagination={false}
+      />
+    </>
   );
 };
 
