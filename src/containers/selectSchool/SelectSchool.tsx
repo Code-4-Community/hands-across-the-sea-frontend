@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
 import { Col, Form, Row, Select } from 'antd';
-import FormContainer from '../../components/form-style/FormContainer';
-import FormPiece from '../../components/form-style/FormPiece';
-import FormContentContainer from '../../components/form-style/FormContentContainer';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadSchools } from './ducks/thunks';
-import { SchoolEntry } from './ducks/types';
-import { selectSchoolId } from './ducks/actions';
 import { useHistory } from 'react-router';
+import ProtectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
+import { getUserID } from '../../auth/ducks/selectors';
+import FormButtons from '../../components/form-style/FormButtons';
+import FormContainer from '../../components/form-style/FormContainer';
+import FormContentContainer from '../../components/form-style/FormContentContainer';
+import FormPiece from '../../components/form-style/FormPiece';
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import FormButtons from '../../components/form-style/FormButtons';
 import { GetUserResponse } from '../settings/ducks/types';
-import ProtectedApiClient from '../../api/protectedApiClient';
-import { getUserID } from '../../auth/ducks/selectors';
+import { selectSchoolId } from './ducks/actions';
+import { loadSchools } from './ducks/thunks';
+import { SchoolEntry } from './ducks/types';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -65,9 +65,7 @@ const SelectSchool: React.FC = () => {
       if (Object.keys(userInfo).length === 0) {
         return <p>Loading schools...</p>;
       }
-      const schoolsInCountry = availableSchools.result.filter(
-        (school) => school.country === userInfo.country,
-      );
+
       return (
         <FormContentContainer>
           <Form
@@ -95,7 +93,11 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(schoolsInCountry).map(renderSchoolOption)}
+                        {Array.from(
+                          availableSchools.result.filter(
+                            (school) => school.country === userInfo.country,
+                          ),
+                        ).map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>
