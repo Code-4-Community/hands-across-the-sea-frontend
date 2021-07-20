@@ -7,7 +7,7 @@ import TimeTable from './TimeTable';
 
 interface MonitoringInfoProps {
   editable?: boolean;
-  setTimeTable: (tt: Timetable) => void;
+  setTimeTable: React.Dispatch<React.SetStateAction<Timetable | null>>;
   timeTable: Timetable | null;
 }
 

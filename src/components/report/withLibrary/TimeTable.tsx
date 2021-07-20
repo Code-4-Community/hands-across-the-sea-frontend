@@ -7,7 +7,7 @@ import {
 } from '../../../containers/library-report/ducks/types';
 import { daysInMonth } from '../../../utils/helpers';
 interface TimeTableProps {
-  setTimeTable: (tt: Timetable) => void;
+  setTimeTable: React.Dispatch<React.SetStateAction<Timetable | null>>;
   timeTable: Timetable | null;
 }
 
@@ -52,7 +52,7 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
     newTimeTable.year = year;
     newTimeTable.month = month;
     console.log(`GRADE: ${grade}, DAY: ${day}, STUDENTS: ${students}`);
-    setTimeTable(newTimeTable);
+    setTimeTable(() => newTimeTable);
   };
 
   for (let i = 0; i < days; i++) {
@@ -72,8 +72,7 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
           // @ts-ignore
           <SmallInputNumber
             placeholder={0}
-            defualtValue={0}
-            value={
+            defaultValue={
               timeTable &&
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
@@ -82,6 +81,15 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
               // @ts-ignore
               timeTable[record.grade][i]
             }
+            // value={
+            //   timeTable &&
+            //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //   // @ts-ignore
+            //   timeTable[record.grade] &&
+            //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //   // @ts-ignore
+            //   timeTable[record.grade][i]
+            // }
             min={0}
             onChange={(students: number) =>
               handleTimeTableOnChange(record.grade, i, students)
