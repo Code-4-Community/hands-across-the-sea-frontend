@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
-import { C4CState } from '../../store';
+import FormButtons from '../../components/form-style/FormButtons';
+import ReportWithLibrary from '../../components/report/ReportWithLibrary';
+import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
 import { loadLatestLibraryReport } from '../../containers/library-report/ducks/thunks';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
-import ReportWithLibrary from '../../components/report/ReportWithLibrary';
-import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import FormButtons from '../../components/form-style/FormButtons';
+import { C4CState } from '../../store';
 
 const NewLibraryReport = () => {
   const dispatch = useDispatch();
@@ -49,9 +49,8 @@ const NewLibraryReport = () => {
       dispatch(loadLatestLibraryReport(schoolId));
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
-      message.error(
-        'Error submitting form, please double check your responses and try again.',
-      );
+      // TODO: show a better error message
+      message.error(`Error submitting form: ${err.message}`);
     }
   };
 

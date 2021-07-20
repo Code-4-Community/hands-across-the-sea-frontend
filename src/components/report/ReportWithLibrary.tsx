@@ -19,8 +19,6 @@ interface ReportWithLibraryProps {
   onSubmit: (values: ReportWithLibraryRequest) => void;
 }
 
-
-
 const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   values,
   editable,
@@ -28,7 +26,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   children,
 }) => {
   const [visitReason, setVisitReason] = useState(values?.visitReason || null);
-  const [timeTable, setTimeTable] = useState<Timetable|null>(null);
+  const [timeTable, setTimeTable] = useState<Timetable | null>(null);
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
     onSubmit({

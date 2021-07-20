@@ -79,7 +79,7 @@ export const TIMETABLE_COLUMNS: string[] = [
   'formThree',
   'formFour',
   'formFive',
-]
+];
 
 export interface Timetable {
   year: number;

@@ -6,7 +6,7 @@ import {
   TIMETABLE_COLUMNS,
 } from '../../../containers/library-report/ducks/types';
 import { daysInMonth } from '../../../utils/helpers';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 interface TimeTableProps {
   setTimeTable: (tt: Timetable) => void;
@@ -26,13 +26,13 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
 
-  const onChangeDate = (moment) => {
-    if (!moment) {
+  const onChangeDate = (dateMoment: Moment | null) => {
+    if (!dateMoment) {
       return;
     }
 
-    setYear(moment.year());
-    setMonth(moment.month() + 1);
+    setYear(dateMoment.year());
+    setMonth(dateMoment.month() + 1);
   };
 
   const days = daysInMonth(year, month);
@@ -61,8 +61,6 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
     newTimeTable[grade][day] = students;
     newTimeTable.year = year;
     newTimeTable.month = month;
-    console.log(`GRADE: ${grade}, DAY: ${day}, STUDENTS: ${students}`);
-    console.dir(newTimeTable);
     setTimeTable(newTimeTable);
   };
 
@@ -113,7 +111,7 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
 
   const data: TimeTableDataType[] = TIMETABLE_COLUMNS.map((grade) => ({
     key: grade,
-    grade: grade,
+    grade,
   }));
 
   return (
