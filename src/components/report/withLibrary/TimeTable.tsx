@@ -7,7 +7,7 @@ import {
 } from '../../../containers/library-report/ducks/types';
 import { daysInMonth } from '../../../utils/helpers';
 interface TimeTableProps {
-  setTimeTable: React.Dispatch<React.SetStateAction<Timetable | null>>;
+  setTimeTable: (tt: Timetable) => void;
   timeTable: Timetable | null;
 }
 
@@ -39,20 +39,20 @@ const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
     day: number,
     students: number,
   ) => {
-    const newTimeTable: Timetable = Object.assign(
-      timeTable || { year, month },
-      {},
-    );
+    const newTimeTable: Timetable = JSON.parse(
+      JSON.stringify(timeTable || { year, month }),
+    ) as Timetable;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    newTimeTable[grade] = {};
+    newTimeTable[grade] = (timeTable && timeTable[grade]) || {};
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     newTimeTable[grade][day] = students;
     newTimeTable.year = year;
     newTimeTable.month = month;
     console.log(`GRADE: ${grade}, DAY: ${day}, STUDENTS: ${students}`);
-    setTimeTable(() => newTimeTable);
+    console.dir(newTimeTable);
+    setTimeTable(newTimeTable);
   };
 
   for (let i = 0; i < days; i++) {

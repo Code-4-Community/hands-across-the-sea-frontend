@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
 import { Col, Row } from 'antd';
+import React, { useState } from 'react';
+import { Timetable } from '../../../containers/library-report/ducks/types';
 import FormContainer from '../../form-style/FormContainer';
 import FormPieceBoolean from '../../form-style/FormPieceBoolean';
-import { Timetable } from '../../../containers/library-report/ducks/types';
 import TimeTable from './TimeTable';
 
 interface MonitoringInfoProps {
   editable?: boolean;
-  setTimeTable: React.Dispatch<React.SetStateAction<Timetable | null>>;
+  setTimeTable: (tt: Timetable) => void;
   timeTable: Timetable | null;
 }
 
