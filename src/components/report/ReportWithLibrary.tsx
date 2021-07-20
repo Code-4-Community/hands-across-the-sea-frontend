@@ -57,7 +57,11 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
         />
         <StudentBookInformation editable={editable} />
         <LibraryInfo editable={editable} />
-        <MonitoringInfo editable={editable} setTimeTable={setTimeTable} />
+        <MonitoringInfo
+          editable={editable}
+          timeTable={timeTable}
+          setTimeTable={setTimeTable}
+        />
         <TrainingMentorshipInfo editable={editable} report={values} />
         <ChangesActionPlan editable={editable} />
         {children}

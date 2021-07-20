@@ -8,47 +8,99 @@ import {
 import { daysInMonth } from '../../../utils/helpers';
 interface TimeTableProps {
   setTimeTable: (tt: Timetable) => void;
+  timeTable: Timetable | null;
 }
-
-const TimeTableWrapper = styled.div`
-  overflow-x: auto; //allows the div to scroll horizontally only when the div overflows.
-  overflow-y: hidden; //does not allow for the div to scroll vertically
-`;
 
 const SmallInputNumber = styled(InputNumber)`
   width: 4rem;
 `;
 
-const year = 2021;
-const month = 1;
-const days = daysInMonth(year, month);
-const columns = [
-  {
-    title: 'Grade',
-    width: 150,
-    dataIndex: 'grade',
-    key: 'grade',
-    fixed: 'left',
-  },
-];
-
-for (let i = 0; i < days; i++) {
-  columns.push({
-    title: `${month}/${i+1}`,
-    key: `day-${i}`,
-    width: 100,
-    render: () => <SmallInputNumber placeholder={0} defualtValue={0} min={0} />,
-  });
+interface TimeTableDataType {
+  key: string;
+  grade: string;
 }
 
-const data = TIMETABLE_COLUMNS.map((grade) => ({
-  key: grade,
-  grade: grade,
-}));
+const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable, timeTable }) => {
+  const year = 2021;
+  const month = 1;
+  const days = daysInMonth(year, month);
+  const columns = [
+    {
+      title: 'Grade',
+      width: 150,
+      dataIndex: 'grade',
+      key: 'grade',
+      fixed: 'left',
+    },
+  ];
 
-const TimeTable: React.FC<TimeTableProps> = ({ setTimeTable }) => {
+  const handleTimeTableOnChange = (
+    grade: string,
+    day: number,
+    students: number,
+  ) => {
+    const newTimeTable: Timetable = Object.assign(
+      timeTable || { year, month },
+      {},
+    );
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    newTimeTable[grade] = {};
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    newTimeTable[grade][day] = students;
+    newTimeTable.year = year;
+    newTimeTable.month = month;
+    console.log(`GRADE: ${grade}, DAY: ${day}, STUDENTS: ${students}`);
+    setTimeTable(newTimeTable);
+  };
+
+  for (let i = 0; i < days; i++) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    columns.push({
+      dataIndex: '',
+      fixed: '',
+      title: `${month}/${i + 1}`,
+      key: `day-${i}`,
+      width: 100,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      render(record: TimeTableDataType) {
+        return (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          <SmallInputNumber
+            placeholder={0}
+            defualtValue={0}
+            value={
+              timeTable &&
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              timeTable[record.grade] &&
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              timeTable[record.grade][i]
+            }
+            min={0}
+            onChange={(students: number) =>
+              handleTimeTableOnChange(record.grade, i, students)
+            }
+          />
+        );
+      },
+    });
+  }
+
+  const data: TimeTableDataType[] = TIMETABLE_COLUMNS.map((grade) => ({
+    key: grade,
+    grade: grade,
+  }));
+
   return (
     <Table
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       columns={columns}
       dataSource={data}
       scroll={{ x: 1300 }}

@@ -8,11 +8,13 @@ import TimeTable from './TimeTable';
 interface MonitoringInfoProps {
   editable?: boolean;
   setTimeTable: (tt: Timetable) => void;
+  timeTable: Timetable | null;
 }
 
 const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
   editable,
   setTimeTable,
+  timeTable,
 }) => {
   const [showTimeTable, setShowTimeTable] = useState<boolean>(false);
 
@@ -38,7 +40,7 @@ const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
       {showTimeTable && (
         <Row gutter={[0, 24]}>
           <Col span={24}>
-            <TimeTable setTimeTable={setTimeTable} />
+            <TimeTable timeTable={timeTable} setTimeTable={setTimeTable} />
           </Col>
         </Row>
       )}
