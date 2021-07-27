@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -27,6 +27,13 @@ const NewLibraryReport = () => {
   if (!schoolId) {
     history.replace(Routes.HOME);
   }
+
+  useEffect(() => {
+    if (schoolId !== undefined) {
+      dispatch(loadLatestLibraryReport(schoolId));
+    }
+  }, [schoolId, dispatch])
+
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -59,11 +66,12 @@ const NewLibraryReport = () => {
       <FormButtons.Button text="Submit" type="primary" isSubmit={true} />
     </FormButtons>
   );
-
+  
   const props = {
     editable: true,
     onSubmit: handleSubmit,
     children: buttons,
+    isNew: true
   };
 
   return isYesReport ? (

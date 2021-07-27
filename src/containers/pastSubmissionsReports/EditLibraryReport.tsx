@@ -83,6 +83,7 @@ const EditLibraryReport: React.FC = () => {
     editable: editMode,
     children: buttons,
     onSubmit: handleSubmit,
+    isNew: false
   };
 
   return isYesReport ? (
