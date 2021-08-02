@@ -18,12 +18,12 @@ describe('School selection thunks', () => {
         {
           id: 1,
           name: 'Northeastern University',
-          country: 'unitedStates',
+          country: 'UNITED_STATES',
         },
         {
           id: 2,
           name: 'Boston University',
-          country: 'dominica',
+          country: 'DOMINICA',
         },
       ];
       mockGetAllSchools.mockResolvedValue(mockSchoolResponse);

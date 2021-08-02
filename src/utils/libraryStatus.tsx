@@ -1,5 +1,5 @@
 export const LibraryStatus = {
-  unknown: 'Unknown',
-  exists: 'Exists',
-  doesNotExist: 'Does Not Exist',
+  UNKNOWN: 'Unknown',
+  EXISTS: 'Exists',
+  DOES_NOT_EXIST: 'Does Not Exist',
 };

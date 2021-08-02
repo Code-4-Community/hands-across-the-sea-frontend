@@ -1,9 +1,9 @@
 export const Countries = {
-  unitedStates: 'United States',
-  antiguaAndBarbuda: 'Antigua and Barbuda',
-  dominica: 'Dominica',
-  grenada: 'Grenada',
-  stKittsAndNevis: 'St. Kitts and Nevis',
-  stLucia: 'St. Lucia',
-  stVincentAndTheGrenadines: 'St. Vincent and the Grenadines',
+  UNITED_STATES: 'United States',
+  ANTIGUA_AND_BARBUDA: 'Antigua and Barbuda',
+  DOMINICA: 'Dominica',
+  GRENADA: 'Grenada',
+  ST_KITTS_AND_NEVIS: 'St. Kitts and Nevis',
+  ST_LUCIA: 'St. Lucia',
+  ST_VINCENT_AND_THE_GRENADINES: 'St. Vincent and the Grenadines',
 };

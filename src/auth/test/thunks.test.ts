@@ -107,7 +107,7 @@ describe('User Authentication Thunks', () => {
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jack@jackblanc.com',
-        country: Countries.stKittsAndNevis,
+        country: Countries.ST_KITTS_AND_NEVIS,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
@@ -139,7 +139,7 @@ describe('User Authentication Thunks', () => {
         password: 'password',
         firstName: 'Jack',
         lastName: 'Blanc',
-        country: Countries.stLucia,
+        country: Countries.ST_LUCIA,
       })(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
