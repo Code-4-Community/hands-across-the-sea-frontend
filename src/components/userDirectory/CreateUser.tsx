@@ -101,7 +101,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     rules={[{ required: true, message: 'Required' }]}
                   >
                     <Select placeholder="School's Country">
-                      {Object.keys(Countries).map((key: string) => (
+                      {Object.values(Countries).map((key: string) => (
                         <Option key={key} value={key}>
                           {key}
                         </Option>

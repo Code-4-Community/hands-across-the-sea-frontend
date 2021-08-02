@@ -82,7 +82,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 rules={[{ required: true, message: 'Required' }]}
               >
                 <Select placeholder="School's Country">
-                  {Object.keys(Countries).map((key: string) => (
+                  {Object.values(Countries).map((key: string) => (
                     <Option key={key} value={key}>
                       {key}
                     </Option>
@@ -94,7 +94,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 rules={[{ required: true, message: 'Required' }]}
               >
                 <Select placeholder="Library Status">
-                  {Object.keys(LibraryStatus).map((key: string) => (
+                  {Object.values(LibraryStatus).map((key: string) => (
                     <Option key={key} value={key}>
                       {key}
                     </Option>
