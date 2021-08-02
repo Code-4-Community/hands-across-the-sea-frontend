@@ -42,7 +42,7 @@ describe('Authentication Client Tests', () => {
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jblanc222@gmail.com',
-        country: Countries.DOMINICA,
+        country: Countries.dominica,
       });
 
       expect(result).toEqual(response);

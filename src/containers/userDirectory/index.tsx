@@ -36,7 +36,7 @@ const UserDirectory: React.FC = () => {
     lastName: '',
     email: '',
     privilegeLevel: PrivilegeLevel.NONE,
-    country: 'DOMINICA',
+    country: 'dominica',
     disabled: true,
   });
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
