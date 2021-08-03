@@ -13,11 +13,13 @@ import VisitReason from './common/VisitReason';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
+import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
   editable: boolean;
   onSubmit: (values: ReportWithoutLibraryRequest) => void;
+  bookLogInfo: BookLogResponse[];
   isNew: boolean;
 }
 
@@ -25,6 +27,7 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
   values,
   editable,
   onSubmit,
+  bookLogInfo,
   children,
   isNew
 }) => {
@@ -45,9 +48,6 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
       state.libraryReportState.latestReport,
   );
 
-  // useEffect(() => {
-  //   form.setFieldsValue(initialValues)
-  //  }, [form, initialValues]);
   switch (latestReport.kind) {
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Failed:
@@ -58,7 +58,7 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
       return (
         <FormContentContainer>
       <Form
-        initialValues={isNew ? nullifyWithoutLibraryReport(latestReport.result) : values}
+        initialValues={isNew ? nullifyWithoutLibraryReport(latestReport.result, bookLogInfo) : values}
         onFinish={handleSubmit}
         onFinishFailed={() =>
           message.error(
@@ -81,15 +81,16 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
  }
 };
 
-const nullifyWithoutLibraryReport = (report: LibraryReportResponse | undefined): ReportWithoutLibraryRequest  | undefined => {
+const nullifyWithoutLibraryReport = (report: LibraryReportResponse | undefined, bookLogs: BookLogResponse[]): ReportWithoutLibraryRequest  | undefined => {
   if (report === undefined) {
     return undefined;
   }
+  bookLogs.sort((a, b) => parseInt(b.date.toString().split(' ')[5]) - parseInt(a.date.toString().split(' ')[5]));
   const reportRequest: ReportWithoutLibraryRequest = {
     numberOfChildren: report.numberOfChildren,
     gradesAttended: report.gradesAttended,
-    numberOfBooks: null, 
-    mostRecentShipmentYear: null, 
+    numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0), 
+    mostRecentShipmentYear: parseInt(bookLogs[0].date.toString().split(' ')[5]), 
     visitReason: null, 
     actionPlans: null, 
     successStories: null, 

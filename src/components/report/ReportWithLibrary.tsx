@@ -1,6 +1,7 @@
 import { Form, message } from 'antd';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
 import {
   LibraryReportResponse,
   ReportWithLibraryRequest,
@@ -20,6 +21,7 @@ interface ReportWithLibraryProps {
   values?: LibraryReportResponse;
   editable: boolean;
   onSubmit: (values: ReportWithLibraryRequest) => void;
+  bookLogInfo: BookLogResponse[];
   isNew: boolean;
 }
 
@@ -27,6 +29,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   values,
   editable,
   onSubmit,
+  bookLogInfo,
   children,
   isNew
 }) => {
@@ -55,15 +58,17 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
    
    switch (latestReport.kind) {
       case AsyncRequestKinds.NotStarted:
-      case AsyncRequestKinds.Failed:
-        return <p>An error occurred loading last report</p>;
       case AsyncRequestKinds.Loading:
         return <p>Loading school data</p>;
+      
+      case AsyncRequestKinds.Failed:
       case AsyncRequestKinds.Completed:
+        const reportRequest = isNew && latestReport.kind === AsyncRequestKinds.Completed 
+          ? nullifyWithLibraryReport(latestReport.result, bookLogInfo) : values;
         return (
           <FormContentContainer>
             <Form
-              initialValues={isNew ? nullifyWithLibraryReport(latestReport.result) : values}
+              initialValues={reportRequest}
               onFinish={handleSubmit}
               onFinishFailed={() =>
                 message.error(
@@ -94,15 +99,16 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
    }
 };
 
-const nullifyWithLibraryReport = (report: LibraryReportResponse | undefined): ReportWithLibraryRequest  | undefined => {
+const nullifyWithLibraryReport = (report: LibraryReportResponse | undefined, bookLogs: BookLogResponse[]): ReportWithLibraryRequest  | undefined => {
   if (report === undefined) {
     return undefined;
   }
+  bookLogs.sort((a, b) => parseInt(b.date.toString().split(' ')[5]) - parseInt(a.date.toString().split(' ')[5]));
   const reportRequest: ReportWithLibraryRequest = {
     numberOfChildren: report.numberOfChildren,
     gradesAttended: report.gradesAttended,
-    numberOfBooks: null, 
-    mostRecentShipmentYear: null, 
+    numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0), 
+    mostRecentShipmentYear: parseInt(bookLogs[0].date.toString().split(' ')[5]), 
     visitReason: null, 
     actionPlans: null, 
     successStories: null, 

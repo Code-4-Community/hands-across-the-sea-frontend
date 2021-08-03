@@ -13,6 +13,9 @@ import {
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { getBookLogs } from '../bookLogs/ducks/thunks';
+import { BookLogResponse } from '../bookLogs/ducks/types';
 
 const NewLibraryReport = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,13 @@ const NewLibraryReport = () => {
   );
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+  const bookLogs: AsyncRequest<
+    BookLogResponse[],
+    any
+  > = useSelector(
+    (state: C4CState) =>
+      state.bookLogsState.bookLogs,
   );
   const history = useHistory();
 
@@ -31,9 +41,9 @@ const NewLibraryReport = () => {
   useEffect(() => {
     if (schoolId !== undefined) {
       dispatch(loadLatestLibraryReport(schoolId));
+      dispatch(getBookLogs(schoolId));
     }
   }, [schoolId, dispatch])
-
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -66,19 +76,27 @@ const NewLibraryReport = () => {
       <FormButtons.Button text="Submit" type="primary" isSubmit={true} />
     </FormButtons>
   );
-  
-  const props = {
-    editable: true,
-    onSubmit: handleSubmit,
-    children: buttons,
-    isNew: true
-  };
 
-  return isYesReport ? (
-    <ReportWithLibrary {...props} />
-  ) : (
-    <ReportWithoutLibrary {...props} />
-  );
+  switch (bookLogs.kind) {
+    case AsyncRequestKinds.NotStarted:
+    case AsyncRequestKinds.Failed:
+      return <p>An error occurred loading school info</p>;
+    case AsyncRequestKinds.Loading:
+      return <p>Loading school data</p>;
+    case AsyncRequestKinds.Completed:
+      const props = {
+        editable: true,
+        onSubmit: handleSubmit,
+        children: buttons,
+        bookLogInfo: bookLogs.result,
+        isNew: true
+      };
+      return isYesReport ? (
+        <ReportWithLibrary {...props} />
+      ) : (
+        <ReportWithoutLibrary {...props} />
+      );
+  }
 };
 
 export default NewLibraryReport;
