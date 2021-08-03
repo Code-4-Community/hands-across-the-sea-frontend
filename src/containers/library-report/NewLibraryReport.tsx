@@ -25,12 +25,8 @@ const NewLibraryReport = () => {
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  const bookLogs: AsyncRequest<
-    BookLogResponse[],
-    any
-  > = useSelector(
-    (state: C4CState) =>
-      state.bookLogsState.bookLogs,
+  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
+    (state: C4CState) => state.bookLogsState.bookLogs,
   );
   const history = useHistory();
 
@@ -43,7 +39,7 @@ const NewLibraryReport = () => {
       dispatch(loadLatestLibraryReport(schoolId));
       dispatch(getBookLogs(schoolId));
     }
-  }, [schoolId, dispatch])
+  }, [schoolId, dispatch]);
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -89,7 +85,7 @@ const NewLibraryReport = () => {
         onSubmit: handleSubmit,
         children: buttons,
         bookLogInfo: bookLogs.result,
-        isNew: true
+        isNew: true,
       };
       return isYesReport ? (
         <ReportWithLibrary {...props} />

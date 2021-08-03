@@ -20,7 +20,6 @@ interface StudentBookInformationProps {
 const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
   editable,
 }) => {
-
   const gradeOptions = Object.entries(Grade).map(([key, value]) => ({
     label: toTitleCase(key.replace('_', ' ')),
     value,
@@ -33,7 +32,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
           <FormPiece note="How Many Children attended?">
             <Form.Item name="numberOfChildren">
               {editable ? (
-                <InputNumberNoArrows placeholder="#" min={0}/>
+                <InputNumberNoArrows placeholder="#" min={0} />
               ) : (
                 <FormText />
               )}
@@ -56,7 +55,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
         <Col span={12}>
           <FormPiece note="What grades attended?">
             <Form.Item name="gradesAttended">
-              <Checkbox.Group disabled={!editable} options={gradeOptions}/>
+              <Checkbox.Group disabled={!editable} options={gradeOptions} />
             </Form.Item>
           </FormPiece>
         </Col>

@@ -22,12 +22,8 @@ const EditLibraryReport: React.FC = () => {
   const report = useSelector(
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
   );
-  const bookLogs: AsyncRequest<
-    BookLogResponse[],
-    any
-  > = useSelector(
-    (state: C4CState) =>
-      state.bookLogsState.bookLogs,
+  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
+    (state: C4CState) => state.bookLogsState.bookLogs,
   );
   const history = useHistory();
   const isYesReport = report && report.libraryStatus === 'EXISTS';
@@ -107,7 +103,7 @@ const EditLibraryReport: React.FC = () => {
         children: buttons,
         bookLogInfo: bookLogs.result,
         values: report,
-        isNew: true
+        isNew: true,
       };
       return isYesReport ? (
         <ReportWithLibrary {...props} />

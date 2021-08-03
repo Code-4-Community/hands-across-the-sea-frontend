@@ -22,6 +22,7 @@ describe('Report With Library Thunks', () => {
         updatedAt: '',
         userId: 3,
         schoolId: 1,
+        gradesAttended: [],
         libraryStatus: 'EXISTS',
         numberOfChildren: null,
         numberOfBooks: null,

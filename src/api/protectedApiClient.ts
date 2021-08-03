@@ -278,14 +278,16 @@ const deleteSchoolContact = (
   ).then((res) => res.data);
 };
 
-const getLatestReportWithLibrary = (schoolId: number): Promise<LibraryReportResponse> => {
+const getLatestReportWithLibrary = (
+  schoolId: number,
+): Promise<LibraryReportResponse> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.SINGLE_LIBRARY_REPORT.replace(
       ':school_id',
       schoolId.toString(),
-    )}`
-  ).then((res) => res.data)
-}
+    )}`,
+  ).then((res) => res.data);
+};
 
 const getLatestReport = (schoolId: number): Promise<LibraryReportResponse> => {
   return AppAxiosInstance.get(
@@ -449,7 +451,7 @@ const Client: ProtectedApiClient = Object.freeze({
   editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
-  getLatestReportWithLibrary
+  getLatestReportWithLibrary,
 });
 
 export default Client;
