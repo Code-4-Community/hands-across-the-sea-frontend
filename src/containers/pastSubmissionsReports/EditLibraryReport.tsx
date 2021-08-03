@@ -103,7 +103,7 @@ const EditLibraryReport: React.FC = () => {
         children: buttons,
         bookLogInfo: bookLogs.result,
         values: report,
-        isNew: true,
+        isNew: false,
       };
       return isYesReport ? (
         <ReportWithLibrary {...props} />

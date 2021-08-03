@@ -61,7 +61,8 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
       const reportRequest =
         isNew && latestReport.kind === AsyncRequestKinds.Completed
           ? nullifyWithLibraryReport(latestReport.result, bookLogInfo)
-          : nullifyWithLibraryReport(undefined, bookLogInfo);
+          : (isNew ? nullifyWithLibraryReport(undefined, bookLogInfo) : values);
+
       return (
         <FormContentContainer>
           <Form
@@ -112,7 +113,7 @@ const nullifyWithLibraryReport = (
     mostRecentShipmentYear: !!bookLogs.length ? parseInt(
       bookLogs.filter(log => log.count > 0)[0].date.toString().split(' ')[5],
       10,
-    ) : new Date().getFullYear(),
+    ) : null,
     visitReason: null,
     actionPlans: null,
     successStories: null,
