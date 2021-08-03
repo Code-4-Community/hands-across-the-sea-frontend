@@ -136,6 +136,13 @@ const UserDirectory: React.FC = () => {
     return <p>{value}</p>;
   };
 
+  const convertEnumToRegularText = (input: string) => {
+    return input
+      .replaceAll('_', ' ')
+      .toLowerCase()
+      .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
+  };
+
   const columns: ColumnType<UserResponse>[] = [
     {
       title: 'First Name',
@@ -162,7 +169,9 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
-      render: renderDisabled,
+      render(input: string) {
+        return convertEnumToRegularText(input);
+      },
     },
     {
       title: 'Email',
@@ -181,7 +190,9 @@ const UserDirectory: React.FC = () => {
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
-      render: renderDisabled,
+      render(input: string) {
+        return convertEnumToRegularText(input);
+      },
     },
     {
       title: 'Action',
