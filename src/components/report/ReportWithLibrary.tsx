@@ -56,13 +56,12 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Loading:
       return <p>Loading school data</p>;
-
     case AsyncRequestKinds.Failed:
     case AsyncRequestKinds.Completed:
       const reportRequest =
         isNew && latestReport.kind === AsyncRequestKinds.Completed
           ? nullifyWithLibraryReport(latestReport.result, bookLogInfo)
-          : values;
+          : nullifyWithLibraryReport(undefined, bookLogInfo);
       return (
         <FormContentContainer>
           <Form
@@ -101,22 +100,19 @@ const nullifyWithLibraryReport = (
   report: LibraryReportResponse | undefined,
   bookLogs: BookLogResponse[],
 ): ReportWithLibraryRequest | undefined => {
-  if (report === undefined) {
-    return undefined;
-  }
   bookLogs.sort(
     (a, b) =>
       parseInt(b.date.toString().split(' ')[5], 10) -
       parseInt(a.date.toString().split(' ')[5], 10),
   );
   const reportRequest: ReportWithLibraryRequest = {
-    numberOfChildren: report.numberOfChildren,
-    gradesAttended: report.gradesAttended,
-    numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0),
-    mostRecentShipmentYear: parseInt(
-      bookLogs[0].date.toString().split(' ')[5],
+    numberOfChildren: !!report ? report.numberOfChildren : null,
+    gradesAttended: !!report ? report.gradesAttended : [],
+    numberOfBooks: !!bookLogs.length ? bookLogs.reduce((a, b) => a + b.count, 0) : 0,
+    mostRecentShipmentYear: !!bookLogs.length ? parseInt(
+      bookLogs.filter(log => log.count > 0)[0].date.toString().split(' ')[5],
       10,
-    ),
+    ) : new Date().getFullYear(),
     visitReason: null,
     actionPlans: null,
     successStories: null,
