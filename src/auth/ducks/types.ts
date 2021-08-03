@@ -51,14 +51,16 @@ export interface RefreshTokenResponse {
 }
 
 export enum PrivilegeLevel {
-  NONE = 'none',
-  STANDARD = 'standard',
-  ADMIN = 'admin',
+  NONE = 'NONE',
+  ADMIN = 'ADMIN',
+  OFFICER = 'OFFICER',
+  VOLUNTEER = 'VOLUNTEER',
 }
 
 export enum UserPrivilegeLevel {
-  STANDARD = 'standard',
-  ADMIN = 'admin',
+  ADMIN = 'ADMIN',
+  OFFICER = 'OFFICER',
+  VOLUNTEER = 'VOLUNTEER',
 }
 
 export const NO_USER_ID = -1;
