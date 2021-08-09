@@ -16,6 +16,7 @@ import Loading from '../../components/Loading';
 import { setPastSubmissionsSchoolId } from './ducks/actions';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router';
+import { SchoolEntry } from '../selectSchool/ducks/types';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;
@@ -25,12 +26,15 @@ const PastSubmissionsSchools: React.FC = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const availableSchools: AsyncRequest<
-    PastSubmissionsSchoolsResponse,
-    any
-  > = useSelector(
-    (state: C4CState) =>
-      state.pastSubmissionSchoolsState.pastSubmissionsSchools,
+  // const availableSchools: AsyncRequest<
+  //   PastSubmissionsSchoolsResponse,
+  //   any
+  // > = useSelector(
+  //   (state: C4CState) =>
+  //     state.pastSubmissionSchoolsState.pastSubmissionsSchools,
+  // );
+  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
+    (state: C4CState) => state.selectSchoolState.schools,
   );
 
   useEffect(() => {
@@ -86,7 +90,7 @@ const PastSubmissionsSchools: React.FC = (props) => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(availableSchools.result.schools).map(
+                        {Array.from(availableSchools.result).map(
                           renderSchoolOption,
                         )}
                       </Select>
