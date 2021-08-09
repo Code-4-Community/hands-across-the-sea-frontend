@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import { getPastSubmissionsSchools } from './ducks/thunks';
-import {
-  PastSubmissionsSchoolsResponse,
-  SchoolSummaryResponse,
-} from './ducks/types';
+import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import FormButtons from '../../components/form-style/FormButtons';

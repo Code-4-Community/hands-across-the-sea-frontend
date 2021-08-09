@@ -8,8 +8,7 @@ import {
   PoweroffOutlined,
   UserOutlined,
   DatabaseOutlined,
-  TeamOutlined,
-  BulbOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
