@@ -62,7 +62,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
           <Input placeholder="Email" disabled={!editMode} />
         </Form.Item>
         <Form.Item name="type">
-          <Select disabled={!editMode}>
+          <Select disabled={!editMode} placeholder="Role">
             {Object.entries(ContactType).map(([key, value]) => {
               return (
                 <Select.Option key={key} value={key}>

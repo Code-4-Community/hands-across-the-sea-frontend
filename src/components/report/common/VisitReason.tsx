@@ -59,11 +59,15 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               ))}
             </Select>
             {otherSelected && (
-              <Input
-                disabled={!editable}
-                value={visitReason || ''}
-                onChange={(e) => setVisitReason(e.target.value)}
-              />
+              <div>
+                <br />
+                <Input
+                  disabled={!editable}
+                  value={visitReason || ''}
+                  placeholder="Briefly explain..."
+                  onChange={(e) => setVisitReason(e.target.value)}
+                />
+              </div>
             )}
           </FormPiece>
         </Col>
