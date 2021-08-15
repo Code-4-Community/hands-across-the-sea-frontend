@@ -45,14 +45,15 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
         <Col flex={24}>
           <FormPieceBoolean
             value={isStudentLibrary}
-            note={'Is there a student librarian program?'}
+            note={'Is there a student librarian program?*'}
             onChange={handleChangeStudentLibrarians}
             disabled={!editable}
+            required={true}
           >
             {isStudentLibrary && (
               <>
-                <ClarifyText>How many student librarians?</ClarifyText>
-                <Form.Item name="numberOfStudentLibrarians">
+                <ClarifyText>How many student librarians?*</ClarifyText>
+                <Form.Item name="numberOfStudentLibrarians" rules={[{ required: isStudentLibrary, message: 'Required' }]}>
                   {editable ? (
                     <InputNumber placeholder="#" min={1} />
                   ) : (
@@ -63,10 +64,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             )}
             {isStudentLibrary === false && (
               <>
-                <ClarifyText>Why not?</ClarifyText>
-                <Form.Item name="reasonNoStudentLibrarians">
+                <ClarifyText>Why not?*</ClarifyText>
+                <Form.Item name="reasonNoStudentLibrarians" rules={[{ required: !isStudentLibrary, message: 'Required' }]}>
                   {editable ? (
-                    <FormTextArea placeholder="Please enter the reason here" />
+                    <FormTextArea placeholder="Please enter the reason here*" />
                   ) : (
                     <FormText />
                   )}
@@ -82,9 +83,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
           <FormPieceBoolean
             name={'hasSufficientTraining'}
             note={
-              'Has the library (at least two teacher) had sufficient training with the Library Manual and the Teachers Resource Guide?'
+              'Has the library (at least two teacher) had sufficient training with the Library Manual and the Teachers Resource Guide?*'
             }
             disabled={!editable}
+            required={true}
           />
         </Col>
       </Row>
@@ -94,15 +96,16 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
           <FormPieceBoolean
             value={teachersSeekingSupport}
             onChange={handleChangeTeacherSupport}
-            note={'Are the teachers seeking support?'}
+            note={'Are the teachers seeking support?*'}
             disabled={!editable}
+            required={true}
           >
             {teachersSeekingSupport && (
               <>
                 <ClarifyText>What kind?</ClarifyText>
-                <Form.Item name="teacherSupport">
+                <Form.Item name="teacherSupport" rules={[{ required: teachersSeekingSupport, message: 'Required' }]}>
                   {editable ? (
-                    <FormTextArea placeholder="Please enter your answer here" />
+                    <FormTextArea placeholder="Please enter your answer here*" />
                   ) : (
                     <FormText />
                   )}
@@ -119,14 +122,15 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             value={involvedParents}
             onChange={handleChangeInvolvedParents}
             note={
-              'Has the school involved the students parents in the use of the library?'
+              'Has the school involved the students parents in the use of the library?*'
             }
             disabled={!editable}
+            required={true}
           >
             {involvedParents && (
               <>
-                <ClarifyText>Please share examples:</ClarifyText>
-                <Form.Item name="parentSupport">
+                <ClarifyText>Please share examples:*</ClarifyText>
+                <Form.Item name="parentSupport" rules={[{ required: involvedParents, message: 'Required' }]}>
                   {editable ? (
                     <FormTextArea placeholder="Please enter your answer here" />
                   ) : (

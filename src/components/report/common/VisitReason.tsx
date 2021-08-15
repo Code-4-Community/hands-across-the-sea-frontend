@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormPiece from '../../form-style/FormPiece';
-import { Col, Input, Row, Select } from 'antd';
+import { Col, Input, Row, Select, Form } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
 
 interface VisitReasonProps {
@@ -45,8 +45,16 @@ const VisitReason: React.FC<VisitReasonProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?" lastPiece>
+          <Form.Item
+                name="visitReason"
+                rules={[{ required: true, message: 'Required' }]}
+              >
+          {/* <Form.Item
+                name="name"
+                rules={[{ required: true, message: 'Required' }]}
+              > */}
             <Select
-              placeholder="Select a reason"
+              placeholder="Select a reason*"
               onChange={onSelected}
               disabled={!editable}
               defaultValue={otherSelected ? 'Other' : visitReason || undefined}
@@ -65,6 +73,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
                 onChange={(e) => setVisitReason(e.target.value)}
               />
             )}
+            </Form.Item>
           </FormPiece>
         </Col>
       </Row>
