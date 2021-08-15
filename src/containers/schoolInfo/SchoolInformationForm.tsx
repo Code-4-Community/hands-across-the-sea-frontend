@@ -39,19 +39,19 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
         <Row gutter={[0, 24]}>
           <Col flex={24}>
             <FormPiece note="Name">
-              <Form.Item name="name" rules={[{ required: true, message: 'Required' }]}>
-                <Input disabled={!editMode} placeholder="School Name*" />
+              <Form.Item name="name">
+                <Input disabled={!editMode} placeholder="School Name" />
               </Form.Item>
             </FormPiece>
             <FormPiece note="Address">
-              <Form.Item name="address" rules={[{ required: true, message: 'Required' }]}>
-                <Input disabled={!editMode} placeholder="Street Address*" />
+              <Form.Item name="address">
+                <Input disabled={!editMode} placeholder="Street Address" />
               </Form.Item>
-              <Form.Item name="area" rules={[{ required: true, message: 'Required' }]}>
-                <Input disabled={!editMode} placeholder="Town or District*" />
+              <Form.Item name="area">
+                <Input disabled={!editMode} placeholder="Town or District" />
               </Form.Item>
-              <Form.Item name="country" rules={[{ required: true, message: 'Required' }]}>
-                <Select disabled={!editMode} placeholder="School's Country*">
+              <Form.Item name="country">
+                <Select disabled={!editMode} placeholder="School's Country">
                   {Object.entries(Countries).map(([key, value]) => (
                     <Option key={key} value={key}>
                       {value}
@@ -61,19 +61,14 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
               </Form.Item>
             </FormPiece>
             <FormPiece note="Contact Information">
-              <Form.Item name="email" rules={[
-                      {
-                        required: true,
-                        message: 'Required',
-                        pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
-                      }]}>
-                <Input disabled={!editMode} placeholder="Email Address*" />
+              <Form.Item name="email">
+                <Input disabled={!editMode} placeholder="Email Address" />
               </Form.Item>
-              <Form.Item name="phone" rules={[{ required: true, message: 'Required' }]}>
-                <Input disabled={!editMode} placeholder="Phone Number*" />
+              <Form.Item name="phone">
+                <Input disabled={!editMode} placeholder="Phone Number" />
               </Form.Item>
-              <Form.Item name="libraryStatus" rules={[{ required: true, message: 'Required' }]}> 
-                <Select disabled={!editMode} placeholder="Library Status*">
+              <Form.Item name="libraryStatus"> 
+                <Select disabled={!editMode} placeholder="Library Status">
                   {Object.entries(LibraryStatus).map(([key, value]) => (
                     <Option key={key} value={key}>
                       {value}

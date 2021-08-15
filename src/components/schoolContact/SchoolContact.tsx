@@ -61,7 +61,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
         <Form.Item name="email" rules={[
                       {
                         required: true,
-                        message: 'Required',
+                        message: 'Must be a valid email',
                         pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
                       }]}>
           <Input placeholder="Email*" disabled={!editMode} />
