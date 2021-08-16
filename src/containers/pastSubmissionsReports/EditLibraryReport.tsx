@@ -13,9 +13,9 @@ import { setActiveReport } from './ducks/actions';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { BookLogResponse } from '../bookLogs/ducks/types';
 import { getBookLogs } from '../bookLogs/ducks/thunks';
+import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -90,27 +90,13 @@ const EditLibraryReport: React.FC = () => {
     </FormButtons>
   );
 
-  switch (bookLogs.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading school info</p>;
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school data</p>;
-    case AsyncRequestKinds.Completed:
-      const props = {
-        editable: true,
-        onSubmit: handleSubmit,
-        children: buttons,
-        bookLogInfo: bookLogs.result,
-        values: report,
-        isNew: false,
-      };
-      return isYesReport ? (
-        <ReportWithLibrary {...props} />
-      ) : (
-        <ReportWithoutLibrary {...props} />
-      );
-  }
+  return (<>
+    { (asyncRequestIsNotStarted(bookLogs) || asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p> }
+    { asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+    { asyncRequestIsComplete(bookLogs) && (isYesReport 
+      ? <ReportWithLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> 
+      : <ReportWithoutLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> )}
+  </>);
 };
 
 export default EditLibraryReport;

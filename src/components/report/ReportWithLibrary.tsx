@@ -8,7 +8,14 @@ import {
   Timetable,
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+  asyncRequestIsLoading,
+  asyncRequestIsNotStarted
+} from '../../utils/asyncRequest';
+import { initializeNewReportForm } from '../../utils/reportForm';
 import FormContentContainer from '../form-style/FormContentContainer';
 import ChangesActionPlan from './common/ChangesActionPlan';
 import StudentBookInformation from './common/StudentBookInformation';
@@ -52,21 +59,22 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
     });
   };
 
-  switch (latestReport.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school data</p>;
-    case AsyncRequestKinds.Failed:
-    case AsyncRequestKinds.Completed:
-      const reportRequest =
-        isNew && latestReport.kind === AsyncRequestKinds.Completed
-          ? nullifyWithLibraryReport(latestReport.result, bookLogInfo)
-          : (isNew ? nullifyWithLibraryReport(undefined, bookLogInfo) : values);
-
-      return (
+  return (
+    <>
+      {(asyncRequestIsNotStarted(latestReport) || asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p>}
+      {asyncRequestIsFailed(latestReport) && <p>Failed to load report</p>}
+      {asyncRequestIsComplete(latestReport) && (
         <FormContentContainer>
           <Form
-            initialValues={reportRequest}
+            initialValues={
+              isNew
+                ? (initializeNewReportForm(
+                    latestReport.result,
+                    bookLogInfo,
+                    true,
+                  ) as ReportWithLibraryRequest)
+                : values
+            }
             onFinish={handleSubmit}
             onFinishFailed={() =>
               message.error(
@@ -93,46 +101,9 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
             {children}
           </Form>
         </FormContentContainer>
-      );
-  }
-};
-
-const nullifyWithLibraryReport = (
-  report: LibraryReportResponse | undefined,
-  bookLogs: BookLogResponse[],
-): ReportWithLibraryRequest | undefined => {
-  bookLogs.sort(
-    (a, b) =>
-      parseInt(b.date.toString().split(' ')[5], 10) -
-      parseInt(a.date.toString().split(' ')[5], 10),
+      )}
+    </>
   );
-  const reportRequest: ReportWithLibraryRequest = {
-    numberOfChildren: !!report ? report.numberOfChildren : null,
-    gradesAttended: !!report ? report.gradesAttended : [],
-    numberOfBooks: !!bookLogs.length ? bookLogs.reduce((a, b) => a + b.count, 0) : 0,
-    mostRecentShipmentYear: !!bookLogs.length ? parseInt(
-      bookLogs.filter(log => log.count > 0)[0].date.toString().split(' ')[5],
-      10,
-    ) : null,
-    visitReason: null,
-    actionPlans: null,
-    successStories: null,
-    isSharedSpace: null,
-    hasInvitingSpace: null,
-    assignedPersonRole: null,
-    assignedPersonTitle: null,
-    apprenticeshipProgram: null,
-    trainsAndMentorsApprentices: null,
-    hasCheckInTimetables: null,
-    hasBookCheckoutSystem: null,
-    numberOfStudentLibrarians: null,
-    reasonNoStudentLibrarians: null,
-    hasSufficientTraining: null,
-    teacherSupport: null,
-    parentSupport: null,
-    timetable: null,
-  };
-  return reportRequest;
 };
 
 export default ReportWithLibrary;

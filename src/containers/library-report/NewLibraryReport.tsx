@@ -13,11 +13,13 @@ import {
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
 import { getBookLogs } from '../bookLogs/ducks/thunks';
 import { BookLogResponse } from '../bookLogs/ducks/types';
 
 const NewLibraryReport = () => {
+
+  
   const dispatch = useDispatch();
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
@@ -25,6 +27,14 @@ const NewLibraryReport = () => {
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
+
+  useEffect(() => {
+    if (schoolId !== undefined) {
+      dispatch(loadLatestLibraryReport(schoolId));
+      dispatch(getBookLogs(schoolId));
+    }
+  }, [schoolId, dispatch]);
+
   const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
     (state: C4CState) => state.bookLogsState.bookLogs,
   );
@@ -33,13 +43,6 @@ const NewLibraryReport = () => {
   if (!schoolId) {
     history.replace(Routes.HOME);
   }
-
-  useEffect(() => {
-    if (schoolId !== undefined) {
-      dispatch(loadLatestLibraryReport(schoolId));
-      dispatch(getBookLogs(schoolId));
-    }
-  }, [schoolId, dispatch]);
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -73,26 +76,14 @@ const NewLibraryReport = () => {
     </FormButtons>
   );
 
-  switch (bookLogs.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading school info</p>;
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school data</p>;
-    case AsyncRequestKinds.Completed:
-      const props = {
-        editable: true,
-        onSubmit: handleSubmit,
-        children: buttons,
-        bookLogInfo: bookLogs.result,
-        isNew: true,
-      };
-      return isYesReport ? (
-        <ReportWithLibrary {...props} />
-      ) : (
-        <ReportWithoutLibrary {...props} />
-      );
-  }
+  return (<>
+    { (asyncRequestIsNotStarted(bookLogs) || asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p> }
+    { asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+    { asyncRequestIsComplete(bookLogs) && (isYesReport 
+      ? <ReportWithLibrary isNew={true} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} /> 
+      : <ReportWithoutLibrary isNew={true} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} /> )}
+  </>)
+
 };
 
 export default NewLibraryReport;

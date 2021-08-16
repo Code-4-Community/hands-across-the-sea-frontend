@@ -5,15 +5,15 @@ import ChangesActionPlan from './common/ChangesActionPlan';
 import StudentBookInformation from './common/StudentBookInformation';
 import {
   LibraryReportResponse,
-  ReadyTimeline,
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withoutLibrary/LibraryInfo';
 import VisitReason from './common/VisitReason';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
+import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
+import { initializeNewReportForm } from '../../utils/reportForm';
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
@@ -44,19 +44,14 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
     (state: C4CState) => state.libraryReportState.latestReport,
   );
 
-  switch (latestReport.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading last report</p>;
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school data</p>;
-    case AsyncRequestKinds.Completed:
-      return (
-        <FormContentContainer>
+  return (<>
+    { (asyncRequestIsNotStarted(latestReport) || asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p> }
+    { asyncRequestIsFailed(latestReport) && <p>Failed to load report</p>}
+    { asyncRequestIsComplete(latestReport) && <FormContentContainer>
           <Form
             initialValues={
               isNew
-                ? nullifyWithoutLibraryReport(latestReport.result, bookLogInfo)
+                ? initializeNewReportForm(latestReport.result, bookLogInfo, false) as ReportWithoutLibraryRequest
                 : values
             }
             onFinish={handleSubmit}
@@ -76,41 +71,8 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
             <ChangesActionPlan editable={editable} />
             {children}
           </Form>
-        </FormContentContainer>
-      );
-  }
-};
-
-const nullifyWithoutLibraryReport = (
-  report: LibraryReportResponse | undefined,
-  bookLogs: BookLogResponse[],
-): ReportWithoutLibraryRequest | undefined => {
-  if (report === undefined) {
-    return undefined;
-  }
-  bookLogs.sort(
-    (a, b) =>
-      parseInt(b.date.toString().split(' ')[5], 10) -
-      parseInt(a.date.toString().split(' ')[5], 10),
-  );
-  const reportRequest: ReportWithoutLibraryRequest = {
-    numberOfChildren: report.numberOfChildren,
-    gradesAttended: report.gradesAttended,
-    numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0),
-    mostRecentShipmentYear: parseInt(
-      bookLogs[0].date.toString().split(' ')[5],
-      10,
-    ),
-    visitReason: null,
-    actionPlans: null,
-    successStories: null,
-    reason: null,
-    wantsLibrary: null,
-    hasSpace: null,
-    currentStatus: null,
-    readyTimeline: ReadyTimeline.UPCOMING_SCHOOL_YEAR,
-  };
-  return reportRequest;
+        </FormContentContainer>  }
+  </>);
 };
 
 export default ReportWithoutLibrary;
