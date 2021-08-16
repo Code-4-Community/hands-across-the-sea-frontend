@@ -9,3 +9,8 @@ export interface GetUserResponse {
   readonly privilegeLevel: PrivilegeLevel;
   readonly disabled: boolean;
 }
+
+export interface ChangePasswordRequest {
+  readonly currentPassword: string;
+  readonly newPassword: string;
+}

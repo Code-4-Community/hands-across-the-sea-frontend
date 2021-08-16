@@ -18,7 +18,10 @@ import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
 } from '../containers/library-report/ducks/types';
-import { GetUserResponse } from '../containers/settings/ducks/types';
+import {
+  ChangePasswordRequest,
+  GetUserResponse,
+} from '../containers/settings/ducks/types';
 import {
   GetAllUsersResponse,
   UpdateUserRequest,
@@ -31,10 +34,7 @@ export interface ApiExtraArgs {
 }
 
 export interface ProtectedApiClient {
-  readonly changePassword: (request: {
-    currentPassword: string;
-    newPassword: string;
-  }) => Promise<void>;
+  readonly changePassword: (request: ChangePasswordRequest) => Promise<void>;
 
   readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
   readonly getSchool: (schoolId: number) => Promise<SchoolResponse>;
@@ -372,11 +372,12 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
   );
 };
 
-const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
-  return AppAxiosInstance.get(
-    ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
-  ).then((res) => res.data);
-};
+const getPastSubmissionSchools =
+  (): Promise<PastSubmissionsSchoolsResponse> => {
+    return AppAxiosInstance.get(
+      ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
+    ).then((res) => res.data);
+  };
 
 const getPastSubmissionReports = (
   schoolId: number,
