@@ -46,12 +46,15 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
 
   return (<>
     { (asyncRequestIsNotStarted(latestReport) || asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p> }
-    { asyncRequestIsFailed(latestReport) && <p>Failed to load report</p>}
-    { asyncRequestIsComplete(latestReport) && <FormContentContainer>
+    { asyncRequestIsFailed(latestReport) && !isNew && <p>Failed to load report</p>}
+    { (asyncRequestIsComplete(latestReport) || asyncRequestIsFailed(latestReport)) && <FormContentContainer>
           <Form
             initialValues={
-              isNew
-                ? initializeNewReportForm(latestReport.result, bookLogInfo, false) as ReportWithoutLibraryRequest
+              isNew ? (initializeNewReportForm(
+                    asyncRequestIsComplete(latestReport) ? latestReport.result : values,
+                    bookLogInfo,
+                    true,
+                  ) as ReportWithoutLibraryRequest)
                 : values
             }
             onFinish={handleSubmit}

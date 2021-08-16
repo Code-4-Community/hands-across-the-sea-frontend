@@ -62,14 +62,13 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   return (
     <>
       {(asyncRequestIsNotStarted(latestReport) || asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(latestReport) && <p>Failed to load report</p>}
-      {asyncRequestIsComplete(latestReport) && (
+      { asyncRequestIsFailed(latestReport) && !isNew && <p>Failed to load report</p>}
+      {(asyncRequestIsComplete(latestReport) || asyncRequestIsFailed(latestReport)) && (
         <FormContentContainer>
           <Form
             initialValues={
-              isNew
-                ? (initializeNewReportForm(
-                    latestReport.result,
+              isNew ? (initializeNewReportForm(
+                    asyncRequestIsComplete(latestReport) ? latestReport.result : values,
                     bookLogInfo,
                     true,
                   ) as ReportWithLibraryRequest)
