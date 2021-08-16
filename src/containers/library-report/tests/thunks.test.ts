@@ -50,7 +50,7 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ApiExtraArgs = {
         protectedApiClient: {
           ...protectedApiClient,
-          getLatestReport: mockGetReportWithLibrary,
+          getLatestReportWithLibrary: mockGetReportWithLibrary,
         },
       };
 
@@ -78,7 +78,7 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
-          getLatestReport: mockGetReportWithLibrary,
+          getLatestReportWithLibrary: mockGetReportWithLibrary,
         },
       });
 
