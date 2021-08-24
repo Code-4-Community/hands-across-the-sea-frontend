@@ -127,7 +127,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       <Select placeholder="User's Privilege">
                         {Object.keys(UserPrivilegeLevel).map((key: string) => (
                           <Option key={key} value={key}>
-                            {key}
+                            {convertEnumToRegularText(key)}
                           </Option>
                         ))}
                       </Select>
