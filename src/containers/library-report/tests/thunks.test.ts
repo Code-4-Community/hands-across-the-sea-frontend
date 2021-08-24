@@ -35,7 +35,7 @@ describe('Report With Library Thunks', () => {
         hasCheckInTimetables: null,
         hasBookCheckoutSystem: null,
         numberOfStudentLibrarians: null,
-        numberOfStudentLibrariansTrainingNewStudentLibrarians: null,
+        numberOfStudentLibrariansTrainers: null,
         reasonNoStudentLibrarians: null,
         hasSufficientTraining: null,
         teacherSupport: null,

@@ -66,7 +66,7 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
                   How many returning student librarians are helping train new
                   student librarians?
                 </ClarifyText>
-                <Form.Item name="numberOfStudentLibrariansTrainingNewStudentLibrarians">
+                <Form.Item name="numberOfStudentLibrariansTrainers">
                   {editable ? (
                     <InputNumber placeholder="#" min={1} />
                   ) : (
