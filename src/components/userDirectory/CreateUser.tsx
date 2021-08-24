@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/ducks/types';
-
-const { Option } = Select;
+import { getOptionsFromEnum } from '../../utils/helpers';
 
 interface CreateUserProps {
   readonly onFinish: (userInfoRequest: SignupRequest, update: boolean) => void;
@@ -18,7 +17,7 @@ interface CreateUserProps {
 
 const Footer = styled.div`
   text-align: center;
-  margin: 24px 0px 0px 0px;
+  margin: 24px 0 0 0;
 `;
 const SubmitButton = styled(Button)`
   width: 200px;
@@ -40,7 +39,10 @@ const CreateUser: React.FC<CreateUserProps> = ({
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="Create A User" lastPiece>
+            <FormPiece
+              note={update ? 'Update a User' : 'Create a User'}
+              lastPiece
+            >
               <Row gutter={[24, 24]}>
                 <Col flex={12}>
                   <Form.Item
@@ -101,33 +103,23 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     rules={[{ required: true, message: 'Required' }]}
                   >
                     <Select placeholder="School's Country">
-                      {Object.keys(Countries).map((key: string) => (
-                        <Option key={key} value={key}>
-                          {key}
-                        </Option>
-                      ))}
+                      {getOptionsFromEnum(Countries)}
                     </Select>
                   </Form.Item>
                 </Col>
               </Row>
-              {update && (
-                <Row gutter={[0, 24]}>
-                  <Col flex={24}>
-                    <Form.Item
-                      name="privilegeLevel"
-                      rules={[{ required: true, message: 'Required' }]}
-                    >
-                      <Select placeholder="User's Privilege">
-                        {Object.keys(UserPrivilegeLevel).map((key: string) => (
-                          <Option key={key} value={key}>
-                            {key}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              )}
+              <Row gutter={[0, 24]}>
+                <Col flex={24}>
+                  <Form.Item
+                    name="privilegeLevel"
+                    rules={[{ required: true, message: 'Required' }]}
+                  >
+                    <Select placeholder="User's Privilege">
+                      {getOptionsFromEnum(UserPrivilegeLevel)}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
             </FormPiece>
           </Col>
         </Row>
