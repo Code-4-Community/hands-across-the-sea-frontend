@@ -10,6 +10,7 @@ import { C4CState } from '../../store';
 import { getUserID } from '../../auth/ducks/selectors';
 import { Routes } from '../../App';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Countries } from '../../utils/countries';
 
 const Settings: React.FC = () => {
   const userId = useSelector((state: C4CState) => {
@@ -26,7 +27,12 @@ const Settings: React.FC = () => {
   }, [userId]);
 
   const onFinishChangePassword = (values: any) => {
-    ProtectedApiClient.changePassword(values)
+    const { newPassword, currentPassword } = values;
+
+    ProtectedApiClient.changePassword({
+      newPassword,
+      currentPassword,
+    })
       .then((res) => res)
       .catch((e) => e);
   };
@@ -51,7 +57,10 @@ const Settings: React.FC = () => {
                 {userInfo.lastName}
               </Descriptions.Item>
               <Descriptions.Item label="Country">
-                {userInfo.country}
+                {Countries[userInfo.country]}
+              </Descriptions.Item>
+              <Descriptions.Item label="Privilege Level">
+                {userInfo.privilegeLevel}
               </Descriptions.Item>
             </Descriptions>
           </FormPiece>
@@ -93,7 +102,7 @@ const Settings: React.FC = () => {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
+                      if (!value || getFieldValue('newPassword') === value) {
                         return Promise.resolve();
                       }
                       return Promise.reject(

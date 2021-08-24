@@ -18,7 +18,7 @@ interface CreateUserProps {
 
 const Footer = styled.div`
   text-align: center;
-  margin: 24px 0px 0px 0px;
+  margin: 24px 0 0 0;
 `;
 const SubmitButton = styled(Button)`
   width: 200px;
@@ -47,7 +47,10 @@ const CreateUser: React.FC<CreateUserProps> = ({
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="Create A User" lastPiece>
+            <FormPiece
+              note={update ? 'Update a User' : 'Create a User'}
+              lastPiece
+            >
               <Row gutter={[24, 24]}>
                 <Col flex={12}>
                   <Form.Item
