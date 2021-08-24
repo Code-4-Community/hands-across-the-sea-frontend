@@ -59,7 +59,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
               ))}
             </Select>
             {otherSelected && (
-              <div>
+              <>
                 <br />
                 <Input
                   disabled={!editable}
@@ -67,7 +67,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
                   placeholder="Briefly explain..."
                   onChange={(e) => setVisitReason(e.target.value)}
                 />
-              </div>
+              </>
             )}
           </FormPiece>
         </Col>
