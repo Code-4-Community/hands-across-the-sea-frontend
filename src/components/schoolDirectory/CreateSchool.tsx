@@ -28,6 +28,13 @@ const SubmitButton = styled(Button)`
   width: 200px;
 `;
 
+const convertEnumToRegularText = (input: string) => {
+  return input
+    .replaceAll('_', ' ')
+    .toLowerCase()
+    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
+};
+
 const CreateSchool: React.FC<CreateSchoolProps> = ({
   onFinish,
   onCancel,
@@ -82,9 +89,9 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 rules={[{ required: true, message: 'Required' }]}
               >
                 <Select placeholder="School's Country">
-                  {Object.values(Countries).map((key: string) => (
+                  {Object.keys(Countries).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>
@@ -94,9 +101,9 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 rules={[{ required: true, message: 'Required' }]}
               >
                 <Select placeholder="Library Status">
-                  {Object.values(LibraryStatus).map((key: string) => (
+                  {Object.keys(LibraryStatus).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>
