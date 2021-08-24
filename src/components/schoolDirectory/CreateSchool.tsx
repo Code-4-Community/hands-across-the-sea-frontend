@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
+import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;
 
@@ -27,13 +28,6 @@ const Footer = styled.div`
 const SubmitButton = styled(Button)`
   width: 200px;
 `;
-
-const convertEnumToRegularText = (input: string) => {
-  return input
-    .replaceAll('_', ' ')
-    .toLowerCase()
-    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
-};
 
 const CreateSchool: React.FC<CreateSchoolProps> = ({
   onFinish,
