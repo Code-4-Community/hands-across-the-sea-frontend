@@ -4,7 +4,6 @@ import { Col, Form, Row, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
-import { getPastSubmissionsSchools } from './ducks/thunks';
 import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
@@ -14,6 +13,7 @@ import { setPastSubmissionsSchoolId } from './ducks/actions';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router';
 import { SchoolEntry } from '../selectSchool/ducks/types';
+import { loadSchools } from '../selectSchool/ducks/thunks';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;
@@ -23,19 +23,12 @@ const PastSubmissionsSchools: React.FC = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // const availableSchools: AsyncRequest<
-  //   PastSubmissionsSchoolsResponse,
-  //   any
-  // > = useSelector(
-  //   (state: C4CState) =>
-  //     state.pastSubmissionSchoolsState.pastSubmissionsSchools,
-  // );
   const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
     (state: C4CState) => state.selectSchoolState.schools,
   );
 
   useEffect(() => {
-    dispatch(getPastSubmissionsSchools());
+    dispatch(loadSchools());
   }, [dispatch]);
 
   const renderSchoolOption = (school: SchoolSummaryResponse) => (
