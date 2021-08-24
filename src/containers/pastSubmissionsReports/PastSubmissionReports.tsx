@@ -85,6 +85,14 @@ const PastSubmissionsReports: React.FC = () => {
     }
   };
 
+  const convertToAtlanticTime = (localeString: string) => {
+    return (
+      new Date(localeString).toLocaleString('en-US', {
+        timeZone: 'America/Argentina/Cordoba',
+      }) + ' AST'
+    );
+  };
+
   switch (availableReports.kind) {
     case AsyncRequestKinds.NotStarted:
     case AsyncRequestKinds.Failed:
@@ -101,7 +109,15 @@ const PastSubmissionsReports: React.FC = () => {
           </Row>
           <Outer>
             <Table
-              dataSource={availableReports.result.reports || []}
+              dataSource={(availableReports.result.reports || []).map(
+                (report) => {
+                  return {
+                    ...report,
+                    updatedAt: convertToAtlanticTime(report.updatedAt),
+                    createdAt: convertToAtlanticTime(report.createdAt),
+                  };
+                },
+              )}
               rowKey={(data) => data.libraryStatus + data.id}
               columns={columns}
               pagination={{
