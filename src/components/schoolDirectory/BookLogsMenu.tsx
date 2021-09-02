@@ -41,7 +41,6 @@ interface BookLogsMenuProps {
 const TotalBooksDisplay = styled(Title)`
   text-align: left;
   margin-left: 45px;
-  border: 2px solid #294186;
   padding: 12px;
 `;
 
@@ -119,12 +118,6 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
         };
         return styledLog;
       });
-  };
-
-  const calculateTotalBooks = (data: BookLogWithStyling[]) => {
-    let total = 0;
-    data.map((elem) => (total += elem.count));
-    return total;
   };
 
   const columns: ColumnType<BookLogWithStyling>[] = [
@@ -265,9 +258,12 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
           </Row>
           <Row>
             <Col span={12}>
-              <TotalBooksDisplay level={3}>
+              <TotalBooksDisplay level={4}>
                 Total Books:{' '}
-                {calculateTotalBooks(createDataSource(currentBookLogs.result))}
+                {createDataSource(currentBookLogs.result).reduce(
+                  (sum, elem) => sum + elem.count,
+                  0,
+                )}
               </TotalBooksDisplay>
             </Col>
           </Row>
