@@ -67,7 +67,7 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
               <Form.Item name="phone">
                 <Input disabled={!editMode} placeholder="Phone Number" />
               </Form.Item>
-              <Form.Item name="libraryStatus">
+              <Form.Item name="libraryStatus"> 
                 <Select disabled={!editMode} placeholder="Library Status">
                   {Object.entries(LibraryStatus).map(([key, value]) => (
                     <Option key={key} value={key}>
