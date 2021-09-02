@@ -51,8 +51,22 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
           >
             {isStudentLibrary && (
               <>
-                <ClarifyText>How many student librarians?</ClarifyText>
+                <ClarifyText>
+                  How many returning student librarians are being trained this
+                  year?
+                </ClarifyText>
                 <Form.Item name="numberOfStudentLibrarians">
+                  {editable ? (
+                    <InputNumber placeholder="#" min={1} />
+                  ) : (
+                    <FormText />
+                  )}
+                </Form.Item>
+                <ClarifyText>
+                  How many returning student librarians are helping train new
+                  student librarians?
+                </ClarifyText>
+                <Form.Item name="numberOfStudentLibrariansTrainers">
                   {editable ? (
                     <InputNumber placeholder="#" min={1} />
                   ) : (
