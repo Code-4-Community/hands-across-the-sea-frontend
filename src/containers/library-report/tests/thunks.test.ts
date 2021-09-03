@@ -44,6 +44,8 @@ describe('Report With Library Thunks', () => {
         actionPlans: null,
         successStories: null,
         timetable: null,
+        userName: '',
+        schoolName: '',
       };
 
       mockGetReportWithLibrary.mockResolvedValue(mockReportResponse);
