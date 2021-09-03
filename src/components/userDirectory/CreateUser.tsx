@@ -49,17 +49,17 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 <Col flex={12}>
                   <Form.Item
                     name="firstName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="First Name" />
+                    <Input placeholder="First Name*" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
                   <Form.Item
                     name="lastName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="Last Name" />
+                    <Input placeholder="Last Name*" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -75,7 +75,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       },
                     ]}
                   >
-                    <Input required placeholder="Email Address" />
+                    <Input placeholder="Email Address*" />
                   </Form.Item>
                 </Col>
                 {!update && (
@@ -93,7 +93,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                         },
                       ]}
                     >
-                      <Input.Password placeholder="Password" />
+                      <Input.Password placeholder="Password*" />
                     </Form.Item>
                   </Col>
                 )}
