@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
+import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;
 
@@ -89,7 +90,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 <Select placeholder="School's Country*">
                   {Object.keys(Countries).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>
@@ -101,7 +102,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 <Select placeholder="Library Status*">
                   {Object.keys(LibraryStatus).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>

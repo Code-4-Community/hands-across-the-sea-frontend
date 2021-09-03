@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/ducks/types';
-import { getOptionsFromEnum } from '../../utils/helpers';
+import { convertEnumToRegularText } from '../../utils/helpers';
+
+const { Option } = Select;
 
 interface CreateUserProps {
   readonly onFinish: (userInfoRequest: SignupRequest, update: boolean) => void;
@@ -102,24 +104,34 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     name="country"
                     rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Select placeholder="School's Country*">
-                      {getOptionsFromEnum(Countries)}
+                    <Select placeholder="School's Country">
+                      {Object.keys(Countries).map((key: string) => (
+                        <Option key={key} value={key}>
+                          {convertEnumToRegularText(key)}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[0, 24]}>
-                <Col flex={24}>
-                  <Form.Item
-                    name="privilegeLevel"
-                    rules={[{ required: true, message: 'Required' }]}
-                  >
-                    <Select placeholder="User's Privilege*">
-                      {getOptionsFromEnum(UserPrivilegeLevel)}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
+              {update && (
+                <Row gutter={[0, 24]}>
+                  <Col flex={24}>
+                    <Form.Item
+                      name="privilegeLevel"
+                      rules={[{ required: true, message: 'Required' }]}
+                    >
+                      <Select placeholder="User's Privilege">
+                        {Object.keys(UserPrivilegeLevel).map((key: string) => (
+                          <Option key={key} value={key}>
+                            {convertEnumToRegularText(key)}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              )}
             </FormPiece>
           </Col>
         </Row>
