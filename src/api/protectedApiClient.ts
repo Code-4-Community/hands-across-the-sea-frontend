@@ -355,12 +355,11 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
   );
 };
 
-const getPastSubmissionSchools =
-  (): Promise<PastSubmissionsSchoolsResponse> => {
-    return AppAxiosInstance.get(
-      ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
-    ).then((res) => res.data);
-  };
+const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
+  ).then((res) => res.data);
+};
 
 const getPastSubmissionReports = (
   schoolId: number,
