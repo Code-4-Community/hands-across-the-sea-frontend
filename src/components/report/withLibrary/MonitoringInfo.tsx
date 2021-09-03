@@ -47,21 +47,23 @@ const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
         <Col span={12}>
           <FormPieceBoolean
             name={'hasCheckInTimetables'}
-            note={'Does this library keep classroom check-in timetables?'}
+            note={'Does this library keep classroom check-in timetables?*'}
             disabled={!editable}
             onChange={(event: any) =>
               setShowCheckInTimeTable(event.target.value)
             }
+            required={true}
           />
         </Col>
         <Col span={12}>
           <FormPieceBoolean
             name={'hasBookCheckoutSystem'}
-            note={'Does the library have a system for book checkouts?'}
+            note={'Does the library have a system for book checkouts?*'}
             disabled={!editable}
             onChange={(event: any) =>
               setShowCheckOutTimeTable(event.target.value)
             }
+            required={true}
           />
         </Col>
       </Row>

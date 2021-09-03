@@ -35,6 +35,7 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasCheckInTimetables: null | boolean;
   readonly hasBookCheckoutSystem: null | boolean;
   readonly numberOfStudentLibrarians: null | number;
+  readonly numberOfStudentLibrariansTrainers: null | number;
   readonly reasonNoStudentLibrarians: null | string;
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
@@ -57,6 +58,8 @@ export type LibraryReportResponse = {
   readonly updatedAt: string;
   readonly schoolId: number;
   readonly userId: number;
+  readonly userName: string;
+  readonly schoolName: string;
 } & (
   | ({
       readonly libraryStatus: 'EXISTS';

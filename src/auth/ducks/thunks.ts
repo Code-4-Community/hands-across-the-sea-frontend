@@ -45,7 +45,7 @@ export const signup = (
   };
 };
 
-export const logout = (): UserAuthenticationThunkAction<void> => {
+export const logout = (goToLogin: () => void): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
     localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
 
@@ -58,12 +58,14 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
         .logout(refreshToken)
         .then(() => {
           dispatch(logoutUser.loaded());
+          goToLogin();
         })
         .catch(() => {
           dispatch(logoutUser.failed());
         });
     } else {
       dispatch(logoutUser.loaded());
+      goToLogin();
       return Promise.resolve();
     }
   };

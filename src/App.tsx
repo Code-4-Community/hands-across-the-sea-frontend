@@ -153,7 +153,7 @@ const App: React.FC = () => {
                         <Route path="*" exact component={NotFound} />
                       </Switch>
                     );
-                  case PrivilegeLevel.STANDARD:
+                  case PrivilegeLevel.VOLUNTEER || PrivilegeLevel.OFFICER:
                     return (
                       <Switch>
                         <Route path={Routes.HOME} exact component={Home} />
@@ -234,6 +234,12 @@ const App: React.FC = () => {
                           <Redirect to={Routes.LOGIN} />
                         </Route>
                       </Switch>
+                    );
+                  default:
+                    return (
+                      <div>
+                        Error: Unknown Privilege Level: {privilegeLevel}
+                      </div>
                     );
                 }
               })()}

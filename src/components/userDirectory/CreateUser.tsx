@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/ducks/types';
+import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;
 
@@ -18,7 +19,7 @@ interface CreateUserProps {
 
 const Footer = styled.div`
   text-align: center;
-  margin: 24px 0px 0px 0px;
+  margin: 24px 0 0 0;
 `;
 const SubmitButton = styled(Button)`
   width: 200px;
@@ -40,22 +41,25 @@ const CreateUser: React.FC<CreateUserProps> = ({
       <FormContainer title="">
         <Row gutter={[0, 24]}>
           <Col flex={24}>
-            <FormPiece note="Create A User" lastPiece>
+            <FormPiece
+              note={update ? 'Update a User' : 'Create a User'}
+              lastPiece
+            >
               <Row gutter={[24, 24]}>
                 <Col flex={12}>
                   <Form.Item
                     name="firstName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="First Name" />
+                    <Input placeholder="First Name*" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
                   <Form.Item
                     name="lastName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="Last Name" />
+                    <Input placeholder="Last Name*" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -71,7 +75,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       },
                     ]}
                   >
-                    <Input required placeholder="Email Address" />
+                    <Input placeholder="Email Address*" />
                   </Form.Item>
                 </Col>
                 {!update && (
@@ -89,7 +93,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                         },
                       ]}
                     >
-                      <Input.Password placeholder="Password" />
+                      <Input.Password placeholder="Password*" />
                     </Form.Item>
                   </Col>
                 )}
@@ -103,7 +107,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     <Select placeholder="School's Country">
                       {Object.keys(Countries).map((key: string) => (
                         <Option key={key} value={key}>
-                          {key}
+                          {convertEnumToRegularText(key)}
                         </Option>
                       ))}
                     </Select>
@@ -120,7 +124,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       <Select placeholder="User's Privilege">
                         {Object.keys(UserPrivilegeLevel).map((key: string) => (
                           <Option key={key} value={key}>
-                            {key}
+                            {convertEnumToRegularText(key)}
                           </Option>
                         ))}
                       </Select>

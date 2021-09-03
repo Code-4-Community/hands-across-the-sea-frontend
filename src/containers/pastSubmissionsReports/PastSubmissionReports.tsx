@@ -60,14 +60,14 @@ const PastSubmissionsReports: React.FC = () => {
       },
     },
     {
-      title: 'School ID',
-      dataIndex: 'schoolId',
+      title: 'School Name',
+      dataIndex: 'schoolName',
     },
     {
-      title: 'User ID',
-      dataIndex: 'userId',
+      title: 'User Name',
+      dataIndex: 'userName',
       sorter: {
-        compare: (a, b) => (a.userId > b.userId ? 1 : -1),
+        compare: (a, b) => a.userName.localeCompare(b.userName),
         multiple: 1,
       },
     },
@@ -83,6 +83,14 @@ const PastSubmissionsReports: React.FC = () => {
       dispatch(getPastSubmissionsReports(schoolId, page));
       setCurrentPage(page);
     }
+  };
+
+  const convertToAtlanticTime = (localeString: string) => {
+    return (
+      new Date(localeString).toLocaleString('en-US', {
+        timeZone: 'America/Argentina/Cordoba',
+      }) + ' AST'
+    );
   };
 
   switch (availableReports.kind) {
@@ -101,7 +109,15 @@ const PastSubmissionsReports: React.FC = () => {
           </Row>
           <Outer>
             <Table
-              dataSource={availableReports.result.reports || []}
+              dataSource={(availableReports.result.reports || []).map(
+                (report) => {
+                  return {
+                    ...report,
+                    updatedAt: convertToAtlanticTime(report.updatedAt),
+                    createdAt: convertToAtlanticTime(report.createdAt),
+                  };
+                },
+              )}
               rowKey={(data) => data.libraryStatus + data.id}
               columns={columns}
               pagination={{

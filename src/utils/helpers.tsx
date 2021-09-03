@@ -19,6 +19,13 @@ export const getOptionsFromEnum = (e: {
   ));
 };
 
+export const convertEnumToRegularText = (input: string) => {
+  return input
+    .replaceAll('_', ' ')
+    .toLowerCase()
+    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
+};
+
 export function daysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }

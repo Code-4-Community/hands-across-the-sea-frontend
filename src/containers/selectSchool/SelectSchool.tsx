@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
-import { getUserID } from '../../auth/ducks/selectors';
+import { getPrivilegeLevel, getUserID } from '../../auth/ducks/selectors';
+import { PrivilegeLevel } from '../../auth/ducks/types';
 import FormButtons from '../../components/form-style/FormButtons';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
@@ -32,6 +33,10 @@ const SelectSchool: React.FC = () => {
   );
   const userId = useSelector((state: C4CState) => {
     return getUserID(state.authenticationState.tokens);
+  });
+
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
   });
 
   useEffect(() => {
@@ -95,7 +100,9 @@ const SelectSchool: React.FC = () => {
                       >
                         {Array.from(
                           availableSchools.result.filter(
-                            (school) => school.country === userInfo.country,
+                            (school) =>
+                              privilegeLevel === PrivilegeLevel.ADMIN ||
+                              school.country === userInfo.country,
                           ),
                         ).map(renderSchoolOption)}
                       </Select>
