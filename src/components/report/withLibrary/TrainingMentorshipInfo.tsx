@@ -17,14 +17,20 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
 }) => {
   const numStudentLibrarians =
     report?.libraryStatus === 'EXISTS' && report?.numberOfStudentLibrarians;
-  const [isStudentLibrary, setIsStudentLibrary] = useState<boolean>(
-    !!numStudentLibrarians,
+  const [isStudentLibrary, setIsStudentLibrary] = useState<boolean | undefined>(
+    report ? !!numStudentLibrarians : undefined,
   );
-  const [involvedParents, setInvolvedParents] = useState<boolean>(
-    report?.libraryStatus === 'EXISTS' && !!report?.parentSupport,
+  const [involvedParents, setInvolvedParents] = useState<boolean | undefined>(
+    report
+      ? report?.libraryStatus === 'EXISTS' && !!report?.parentSupport
+      : undefined,
   );
-  const [teachersSeekingSupport, setTeacherSeekingSupport] = useState<boolean>(
-    report?.libraryStatus === 'EXISTS' && !!report?.teacherSupport,
+  const [teachersSeekingSupport, setTeacherSeekingSupport] = useState<
+    boolean | undefined
+  >(
+    report
+      ? report?.libraryStatus === 'EXISTS' && !!report?.teacherSupport
+      : undefined,
   );
 
   const handleChangeStudentLibrarians = (event: RadioChangeEvent) => {
