@@ -26,8 +26,18 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   children,
 }) => {
   const [visitReason, setVisitReason] = useState(values?.visitReason || null);
-  const [timeTable, setTimeTable] = useState<Timetable | null>(null);
-  const [showTimeTable, setShowTimeTable] = useState<boolean>(false);
+  const [checkInTimeTable, setCheckInTimeTable] = useState<Timetable | null>(
+    null,
+  );
+  const [showCheckInTimeTable, setShowCheckInTimeTable] = useState<boolean>(
+    false,
+  );
+  const [checkOutTimeTable, setCheckOutTimeTable] = useState<Timetable | null>(
+    null,
+  );
+  const [showCheckOutTimeTable, setShowCheckOutTimeTable] = useState<boolean>(
+    false,
+  );
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
     onSubmit({
@@ -35,7 +45,8 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
       numberOfStudentLibrariansTrainers: 0,
       parentSupport: '',
       teacherSupport: '',
-      timetable: showTimeTable ? timeTable : null,
+      checkInTimetable: showCheckInTimeTable ? checkInTimeTable : null,
+      checkOutTimetable: showCheckOutTimeTable ? checkOutTimeTable : null,
       ...submittedValues,
       visitReason,
     });
@@ -61,10 +72,14 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
         <LibraryInfo editable={editable} />
         <MonitoringInfo
           editable={editable}
-          showTimeTable={showTimeTable}
-          setShowTimeTable={setShowTimeTable}
-          timeTable={timeTable}
-          setTimeTable={setTimeTable}
+          showCheckInTimeTable={showCheckInTimeTable}
+          setShowCheckInTimeTable={setShowCheckInTimeTable}
+          checkInTimeTable={checkInTimeTable}
+          setCheckInTimeTable={setCheckInTimeTable}
+          showCheckOutTimeTable={showCheckOutTimeTable}
+          setShowCheckOutTimeTable={setShowCheckOutTimeTable}
+          checkOutTimeTable={checkOutTimeTable}
+          setCheckOutTimeTable={setCheckOutTimeTable}
         />
         <TrainingMentorshipInfo editable={editable} report={values} />
         <ChangesActionPlan editable={editable} />

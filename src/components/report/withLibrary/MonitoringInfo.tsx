@@ -7,28 +7,51 @@ import TimeTable from './TimeTable';
 
 interface MonitoringInfoProps {
   editable?: boolean;
-  setTimeTable: (tt: Timetable) => void;
-  timeTable: Timetable | null;
-  showTimeTable: boolean;
-  setShowTimeTable: (value: boolean) => void;
+
+  setCheckInTimeTable: (tt: Timetable) => void;
+  checkInTimeTable: Timetable | null;
+  showCheckInTimeTable: boolean;
+  setShowCheckInTimeTable: (value: boolean) => void;
+
+  setCheckOutTimeTable: (tt: Timetable) => void;
+  checkOutTimeTable: Timetable | null;
+  showCheckOutTimeTable: boolean;
+  setShowCheckOutTimeTable: (value: boolean) => void;
 }
 
 const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
   editable,
-  setTimeTable,
-  timeTable,
-  setShowTimeTable,
-  showTimeTable,
+  setCheckInTimeTable,
+  checkInTimeTable,
+  setShowCheckInTimeTable,
+  showCheckInTimeTable,
+  setCheckOutTimeTable,
+  checkOutTimeTable,
+  setShowCheckOutTimeTable,
+  showCheckOutTimeTable,
 }) => {
   return (
     <FormContainer title="Monitoring Information">
+      {showCheckInTimeTable && (
+        <Row gutter={[0, 24]}>
+          <Col span={24}>
+            <TimeTable
+              name="Classroom Check-In Table"
+              timeTable={checkInTimeTable}
+              setTimeTable={setCheckInTimeTable}
+            />
+          </Col>
+        </Row>
+      )}
       <Row gutter={[24, 0]}>
         <Col span={12}>
           <FormPieceBoolean
             name={'hasCheckInTimetables'}
             note={'Does this library keep classroom check-in timetables?*'}
             disabled={!editable}
-            onChange={(event: any) => setShowTimeTable(event.target.value)}
+            onChange={(event: any) =>
+              setShowCheckInTimeTable(event.target.value)
+            }
             required={true}
           />
         </Col>
@@ -37,14 +60,21 @@ const MonitoringInfo: React.FC<MonitoringInfoProps> = ({
             name={'hasBookCheckoutSystem'}
             note={'Does the library have a system for book checkouts?*'}
             disabled={!editable}
+            onChange={(event: any) =>
+              setShowCheckOutTimeTable(event.target.value)
+            }
             required={true}
           />
         </Col>
       </Row>
-      {showTimeTable && (
+      {showCheckOutTimeTable && (
         <Row gutter={[0, 24]}>
           <Col span={24}>
-            <TimeTable timeTable={timeTable} setTimeTable={setTimeTable} />
+            <TimeTable
+              name="Book Check-Out Table"
+              timeTable={checkOutTimeTable}
+              setTimeTable={setCheckOutTimeTable}
+            />
           </Col>
         </Row>
       )}

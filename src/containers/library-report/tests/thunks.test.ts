@@ -43,7 +43,8 @@ describe('Report With Library Thunks', () => {
         visitReason: null,
         actionPlans: null,
         successStories: null,
-        timetable: null,
+        checkInTimetable: null,
+        checkOutTimetable: null,
         userName: '',
         schoolName: '',
       };

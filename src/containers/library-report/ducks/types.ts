@@ -40,7 +40,8 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
-  readonly timetable: null | Timetable;
+  readonly checkInTimetable: null | Timetable;
+  readonly checkOutTimetable: null | Timetable;
 }
 
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
