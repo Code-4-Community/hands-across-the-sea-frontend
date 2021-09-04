@@ -236,7 +236,11 @@ const App: React.FC = () => {
                       </Switch>
                     );
                   default:
-                    return <div>Error: Unknown Privilege Level: {privilegeLevel}</div>;
+                    return (
+                      <div>
+                        Error: Unknown Privilege Level: {privilegeLevel}
+                      </div>
+                    );
                 }
               })()}
             </AppInnerContainer>

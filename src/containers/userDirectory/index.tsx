@@ -20,7 +20,7 @@ import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
 import styled from 'styled-components';
-
+import { convertEnumToRegularText } from '../../utils/helpers';
 const { Search } = Input;
 
 const DisabledContainer = styled.div`
@@ -95,38 +95,39 @@ const UserDirectory: React.FC = () => {
   };
 
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick =
-    (record: UserResponse) => (key: UserDirectoryAction) => {
-      switch (key) {
-        case UserDirectoryAction.EDIT:
-          setUpdateUser(true);
-          setDefaultUser(record);
-          setCreateUser(true);
-          return;
-        case UserDirectoryAction.ENABLE:
-          protectedApiClient
-            .enableUser(record.id)
-            .then(() => setUpdateUserList(!updateUserList))
-            .catch(() =>
-              errorMessage(
-                'You are not authenticated or the user does not exist.',
-              ),
-            );
-          return;
-        case UserDirectoryAction.DISABLE:
-          protectedApiClient
-            .disableUser(record.id)
-            .then(() => setUpdateUserList(!updateUserList))
-            .catch(() =>
-              errorMessage(
-                'You are not authenticated or the user does not exist.',
-              ),
-            );
-          return;
-        default:
-          return;
-      }
-    };
+  const handleActionButtonOnClick = (record: UserResponse) => (
+    key: UserDirectoryAction,
+  ) => {
+    switch (key) {
+      case UserDirectoryAction.EDIT:
+        setUpdateUser(true);
+        setDefaultUser(record);
+        setCreateUser(true);
+        return;
+      case UserDirectoryAction.ENABLE:
+        protectedApiClient
+          .enableUser(record.id)
+          .then(() => setUpdateUserList(!updateUserList))
+          .catch(() =>
+            errorMessage(
+              'You are not authenticated or the user does not exist.',
+            ),
+          );
+        return;
+      case UserDirectoryAction.DISABLE:
+        protectedApiClient
+          .disableUser(record.id)
+          .then(() => setUpdateUserList(!updateUserList))
+          .catch(() =>
+            errorMessage(
+              'You are not authenticated or the user does not exist.',
+            ),
+          );
+        return;
+      default:
+        return;
+    }
+  };
 
   const renderDisabled = (value: any, record: UserResponse, index: number) => {
     if (record.disabled) {
@@ -161,7 +162,9 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
-      render: renderDisabled,
+      render(input: string) {
+        return convertEnumToRegularText(input);
+      },
     },
     {
       title: 'Email',
@@ -180,7 +183,9 @@ const UserDirectory: React.FC = () => {
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
-      render: renderDisabled,
+      render(input: string) {
+        return convertEnumToRegularText(input);
+      },
     },
     {
       title: 'Action',

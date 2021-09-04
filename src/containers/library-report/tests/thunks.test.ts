@@ -36,6 +36,7 @@ describe('Report With Library Thunks', () => {
         hasCheckInTimetables: null,
         hasBookCheckoutSystem: null,
         numberOfStudentLibrarians: null,
+        numberOfStudentLibrariansTrainers: null,
         reasonNoStudentLibrarians: null,
         hasSufficientTraining: null,
         teacherSupport: null,
@@ -43,7 +44,10 @@ describe('Report With Library Thunks', () => {
         visitReason: null,
         actionPlans: null,
         successStories: null,
-        timetable: null,
+        checkInTimetable: null,
+        checkOutTimetable: null,
+        userName: '',
+        schoolName: '',
       };
 
       mockGetReportWithLibrary.mockResolvedValue(mockReportResponse);

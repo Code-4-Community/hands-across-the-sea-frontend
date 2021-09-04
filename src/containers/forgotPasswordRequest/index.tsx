@@ -1,10 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Col, Form, Input, Row } from 'antd';
 import authClient from '../../auth/authClient';
 import { ForgotPasswordRequest } from '../../auth/ducks/types';
-
-const { Title } = Typography;
+import BlockContainer from '../../components/login-signup/BlockContainer';
 
 const ForgotPassword: React.FC = () => {
   const onFinish = (values: ForgotPasswordRequest) => {
@@ -24,21 +23,36 @@ const ForgotPassword: React.FC = () => {
         <meta name="description" content="Description goes here." />
       </Helmet>
       <div className="content-container">
-        <Title>Forgot Password</Title>
-        <Form name="basic" onFinish={onFinish}>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+        <BlockContainer title="Forgot Password">
+          <Form name="basic" onFinish={onFinish}>
+            <Row gutter={[0, 24]}>
+              <Col span={24}>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input a valid email.',
+                      pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" block>
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </BlockContainer>
       </div>
     </>
   );
