@@ -78,6 +78,11 @@ export interface ProtectedApiClient {
   readonly getLatestReport: (
     schoolId: number,
   ) => Promise<LibraryReportResponse>;
+
+  readonly getLatestReportWithLibrary: (
+    schoolId: number,
+  ) => Promise<LibraryReportResponse>;
+
   readonly createBookLog: (
     schoolId: number,
     report: BookLogPostRequest,
@@ -136,6 +141,7 @@ export enum ProtectedApiClientRoutes {
   REPORT_WITHOUT_LIBRARY = '/api/v1/protected/schools/:school_id/reports/without-library',
   REPORT_WITH_LIBRARY = '/api/v1/protected/schools/:school_id/reports/with-library',
   LIBRARY_REPORTS = '/api/v1/protected/schools/:school_id/reports',
+  SINGLE_LIBRARY_REPORT = '/api/v1/protected/schools/:school_id/report',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
 }
@@ -269,6 +275,17 @@ const deleteSchoolContact = (
       ':school_id',
       schoolId.toString(),
     )}/${contactId.toString()}`,
+  ).then((res) => res.data);
+};
+
+const getLatestReportWithLibrary = (
+  schoolId: number,
+): Promise<LibraryReportResponse> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.SINGLE_LIBRARY_REPORT.replace(
+      ':school_id',
+      schoolId.toString(),
+    )}`,
   ).then((res) => res.data);
 };
 
@@ -434,6 +451,7 @@ const Client: ProtectedApiClient = Object.freeze({
   editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
+  getLatestReportWithLibrary,
 });
 
 export default Client;

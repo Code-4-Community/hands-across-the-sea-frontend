@@ -43,7 +43,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
           <FormPiece note="How Many Books?">
             <Form.Item name="numberOfBooks">
               {editable ? (
-                <InputNumberNoArrows placeholder="#" min={0} />
+                <InputNumberNoArrows placeholder="#" min={0} disabled />
               ) : (
                 <FormText />
               )}
@@ -63,7 +63,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
           <FormPiece note="Most recent shipment year?">
             <Form.Item name="mostRecentShipmentYear">
               {editable ? (
-                <InputNumberNoArrows placeholder="#" min={0} />
+                <InputNumberNoArrows placeholder="#" min={0} disabled />
               ) : (
                 <FormText />
               )}

@@ -7,7 +7,7 @@ export const loadLatestLibraryReport = (
   return (dispatch, _getState, { protectedApiClient }) => {
     dispatch(latestLibraryReport.loading());
     return protectedApiClient
-      .getLatestReport(schoolId)
+      .getLatestReportWithLibrary(schoolId)
       .then((response: LibraryReportResponse) => {
         dispatch(latestLibraryReport.loaded(response));
       })

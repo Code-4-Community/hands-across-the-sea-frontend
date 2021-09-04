@@ -23,6 +23,7 @@ export interface LibraryReportShared {
   visitReason: null | string;
   readonly actionPlans: null | string;
   readonly successStories: null | string;
+  readonly gradesAttended: string[];
 }
 
 export interface ReportWithLibraryRequest extends LibraryReportShared {

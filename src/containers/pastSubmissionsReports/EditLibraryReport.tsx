@@ -13,21 +13,33 @@ import { setActiveReport } from './ducks/actions';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
+import { BookLogResponse } from '../bookLogs/ducks/types';
+import { getBookLogs } from '../bookLogs/ducks/thunks';
+import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
   const report = useSelector(
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
   );
+  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
+    (state: C4CState) => state.bookLogsState.bookLogs,
+  );
   const history = useHistory();
   const isYesReport = report && report.libraryStatus === 'EXISTS';
   const [editMode, setEditMode] = useState(false);
+  const schoolId = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
 
   useEffect(() => {
     if (!report) {
       history.replace(Routes.PAST_SUBMISSIONS_REPORTS);
     }
-  }, [report, history]);
+    if (schoolId !== undefined) {
+      dispatch(getBookLogs(schoolId));
+    }
+  }, [report, history, schoolId, dispatch]);
 
   if (!report) return null;
 
@@ -78,18 +90,13 @@ const EditLibraryReport: React.FC = () => {
     </FormButtons>
   );
 
-  const props = {
-    values: report,
-    editable: editMode,
-    children: buttons,
-    onSubmit: handleSubmit,
-  };
-
-  return isYesReport ? (
-    <ReportWithLibrary {...props} />
-  ) : (
-    <ReportWithoutLibrary {...props} />
-  );
+  return (<>
+    { (asyncRequestIsNotStarted(bookLogs) || asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p> }
+    { asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+    { asyncRequestIsComplete(bookLogs) && (isYesReport 
+      ? <ReportWithLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> 
+      : <ReportWithoutLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> )}
+  </>);
 };
 
 export default EditLibraryReport;

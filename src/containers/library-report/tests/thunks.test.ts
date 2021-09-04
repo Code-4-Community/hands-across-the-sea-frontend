@@ -22,6 +22,7 @@ describe('Report With Library Thunks', () => {
         updatedAt: '',
         userId: 3,
         schoolId: 1,
+        gradesAttended: [],
         libraryStatus: 'EXISTS',
         numberOfChildren: null,
         numberOfBooks: null,
@@ -53,7 +54,7 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ApiExtraArgs = {
         protectedApiClient: {
           ...protectedApiClient,
-          getLatestReport: mockGetReportWithLibrary,
+          getLatestReportWithLibrary: mockGetReportWithLibrary,
         },
       };
 
@@ -81,7 +82,7 @@ describe('Report With Library Thunks', () => {
       const mockExtraArgs: ThunkExtraArgs = generateExtraArgs({
         protectedApiClient: {
           ...protectedApiClient,
-          getLatestReport: mockGetReportWithLibrary,
+          getLatestReportWithLibrary: mockGetReportWithLibrary,
         },
       });
 
