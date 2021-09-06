@@ -44,7 +44,9 @@ export const initializeNewReportForm = (
       hasSufficientTraining: null,
       teacherSupport: null,
       parentSupport: null,
-      timetable: null,
+      checkOutTimetable: null,
+      checkInTimetable: null,
+      numberOfStudentLibrariansTrainers: null,
     };
     return reportRequest;
   } else {

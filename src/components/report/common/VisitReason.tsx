@@ -45,14 +45,7 @@ const VisitReason: React.FC<VisitReasonProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?" lastPiece>
-            <Form.Item
-              name="visitReason"
-              rules={[{ required: true, message: 'Required' }]}
-            >
-              {/* <Form.Item
-                name="name"
-                rules={[{ required: true, message: 'Required' }]}
-              > */}
+            <Form.Item name="visitReason">
               <Select
                 placeholder="Select a reason*"
                 onChange={onSelected}
