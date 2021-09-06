@@ -69,11 +69,6 @@ const Home: React.FC = () => {
     return getPrivilegeLevel(state.authenticationState.tokens);
   });
 
-  const goToLoginPage: () => void = () => {
-    history.replace(Routes.LOGIN);
-    history.go(0);
-  };
-
   return (
     <>
       <Helmet>
@@ -260,7 +255,9 @@ const Home: React.FC = () => {
               <InContain
                 lastPiece
                 onClick={() => {
-                  dispatch(logout(goToLoginPage));
+                  dispatch(logout());
+                  history.replace(Routes.LOGIN);
+                  history.go(0);
                 }}
               >
                 <Row>
