@@ -8,7 +8,7 @@ import {
   PoweroffOutlined,
   UserOutlined,
   DatabaseOutlined,
-  TeamOutlined
+  TeamOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
   const goToLoginPage: () => void = () => {
     history.replace(Routes.LOGIN);
     history.go(0);
-  }
+  };
 
   return (
     <>

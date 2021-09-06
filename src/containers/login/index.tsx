@@ -55,7 +55,10 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     <>
       <Helmet>
         <title>Login</title>
-        <meta name="Login" content="Login to your account to start filling out reports." />
+        <meta
+          name="Login"
+          content="Login to your account to start filling out reports."
+        />
       </Helmet>
       <BlockContainer title="Login">
         <Form name="login" onFinish={onFinish}>

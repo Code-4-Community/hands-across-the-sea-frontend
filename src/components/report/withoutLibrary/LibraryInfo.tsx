@@ -16,7 +16,10 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Why isn't there a library?*">
-            <Form.Item name="reason" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="reason"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               {editable ? (
                 <FormTextArea placeholder="Please enter your answer here" />
               ) : (
@@ -30,7 +33,10 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Is this school working towards a library / do they want a library?*">
-            <Form.Item name="wantsLibrary" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="wantsLibrary"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Radio.Group buttonStyle="solid" disabled={!editable}>
                 <Radio.Button value={true}>Yes</Radio.Button>
                 <Radio.Button value={false}>No</Radio.Button>
@@ -47,7 +53,10 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
               addPaddingBottom={21}
               note="Does this school have a designated space for a library?*"
             >
-              <Form.Item name="hasSpace" rules={[{ required: true, message: 'Required' }]}>
+              <Form.Item
+                name="hasSpace"
+                rules={[{ required: true, message: 'Required' }]}
+              >
                 <Radio.Group buttonStyle="solid" disabled={!editable}>
                   <Radio.Button value={true}>Yes</Radio.Button>
                   <Radio.Button value={false}>No</Radio.Button>
@@ -60,7 +69,10 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
       <Row gutter={[0, 24]}>
         <Col flex={24}>
           <FormPiece note="Where are they in the process? (Check all that apply)*">
-            <Form.Item name="currentStatus" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="currentStatus"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Checkbox.Group style={{ width: '100%' }} disabled={!editable}>
                 <Row>
                   <Col span={8}>
@@ -101,7 +113,10 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
       <Row gutter={[0, 0]}>
         <Col flex={24}>
           <FormPiece note="When would they be ready?*">
-            <Form.Item name="readyTimeline" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="readyTimeline"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Radio.Group buttonStyle="solid" disabled={!editable}>
                 <Radio.Button value={ReadyTimeline.UPCOMING_SCHOOL_YEAR}>
                   Upcoming School Year

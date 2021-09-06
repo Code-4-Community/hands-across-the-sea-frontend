@@ -58,7 +58,10 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
       <Row>
         <Col flex={24}>
           <FormPiece note="Is someone assigned to this school's library?*">
-            <Form.Item name="assignedPersonRole" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="assignedPersonRole"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Radio.Group
                 buttonStyle="solid"
                 onChange={handleChangeAssignedLibrary}

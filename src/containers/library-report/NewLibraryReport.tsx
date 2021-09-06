@@ -13,13 +13,17 @@ import {
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
-import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+  asyncRequestIsLoading,
+  asyncRequestIsNotStarted,
+} from '../../utils/asyncRequest';
 import { getBookLogs } from '../bookLogs/ducks/thunks';
 import { BookLogResponse } from '../bookLogs/ducks/types';
 
 const NewLibraryReport = () => {
-
-  
   const dispatch = useDispatch();
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
@@ -76,14 +80,31 @@ const NewLibraryReport = () => {
     </FormButtons>
   );
 
-  return (<>
-    { (asyncRequestIsNotStarted(bookLogs) || asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p> }
-    { asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
-    { asyncRequestIsComplete(bookLogs) && (isYesReport 
-      ? <ReportWithLibrary isNew={true} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} /> 
-      : <ReportWithoutLibrary isNew={true} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} /> )}
-  </>)
-
+  return (
+    <>
+      {(asyncRequestIsNotStarted(bookLogs) ||
+        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
+      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+      {asyncRequestIsComplete(bookLogs) &&
+        (isYesReport ? (
+          <ReportWithLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ) : (
+          <ReportWithoutLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ))}
+    </>
+  );
 };
 
 export default NewLibraryReport;

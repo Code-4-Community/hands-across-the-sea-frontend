@@ -29,8 +29,11 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
     <FormContainer title="Student and Book Information">
       <Row gutter={[24, 24]}>
         <Col span={12}>
-          <FormPiece note="How Many Children attended?*" >
-            <Form.Item name="numberOfChildren" rules={[{ required: true, message: 'Required' }]}>
+          <FormPiece note="How Many Children attended?*">
+            <Form.Item
+              name="numberOfChildren"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               {editable ? (
                 <InputNumberNoArrows placeholder="#" min={0} />
               ) : (
@@ -54,7 +57,10 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
       <Row gutter={[24, 0]}>
         <Col span={12}>
           <FormPiece note="What grades attended?*">
-            <Form.Item name="gradesAttended" rules={[{ required: true, message: 'Required' }]}>
+            <Form.Item
+              name="gradesAttended"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Checkbox.Group disabled={!editable} options={gradeOptions} />
             </Form.Item>
           </FormPiece>

@@ -15,7 +15,13 @@ import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
 import { BookLogResponse } from '../bookLogs/ducks/types';
 import { getBookLogs } from '../bookLogs/ducks/thunks';
-import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+  asyncRequestIsLoading,
+  asyncRequestIsNotStarted,
+} from '../../utils/asyncRequest';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -90,13 +96,33 @@ const EditLibraryReport: React.FC = () => {
     </FormButtons>
   );
 
-  return (<>
-    { (asyncRequestIsNotStarted(bookLogs) || asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p> }
-    { asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
-    { asyncRequestIsComplete(bookLogs) && (isYesReport 
-      ? <ReportWithLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> 
-      : <ReportWithoutLibrary isNew={false} children={buttons} bookLogInfo={bookLogs.result} editable={true} onSubmit={handleSubmit} values={report} /> )}
-  </>);
+  return (
+    <>
+      {(asyncRequestIsNotStarted(bookLogs) ||
+        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
+      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+      {asyncRequestIsComplete(bookLogs) &&
+        (isYesReport ? (
+          <ReportWithLibrary
+            isNew={false}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+            values={report}
+          />
+        ) : (
+          <ReportWithoutLibrary
+            isNew={false}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+            values={report}
+          />
+        ))}
+    </>
+  );
 };
 
 export default EditLibraryReport;

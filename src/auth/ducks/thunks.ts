@@ -45,7 +45,9 @@ export const signup = (
   };
 };
 
-export const logout = (goToLogin: () => void): UserAuthenticationThunkAction<void> => {
+export const logout = (
+  goToLogin: () => void,
+): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
     localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
 

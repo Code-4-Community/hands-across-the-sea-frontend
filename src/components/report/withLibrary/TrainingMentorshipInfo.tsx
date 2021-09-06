@@ -59,7 +59,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             {isStudentLibrary && (
               <>
                 <ClarifyText>How many student librarians?*</ClarifyText>
-                <Form.Item name="numberOfStudentLibrarians" rules={[{ required: isStudentLibrary, message: 'Required' }]}>
+                <Form.Item
+                  name="numberOfStudentLibrarians"
+                  rules={[{ required: isStudentLibrary, message: 'Required' }]}
+                >
                   {editable ? (
                     <InputNumber placeholder="#" min={1} />
                   ) : (
@@ -82,7 +85,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             {isStudentLibrary === false && (
               <>
                 <ClarifyText>Why not?*</ClarifyText>
-                <Form.Item name="reasonNoStudentLibrarians" rules={[{ required: !isStudentLibrary, message: 'Required' }]}>
+                <Form.Item
+                  name="reasonNoStudentLibrarians"
+                  rules={[{ required: !isStudentLibrary, message: 'Required' }]}
+                >
                   {editable ? (
                     <FormTextArea placeholder="Please enter the reason here*" />
                   ) : (
@@ -120,7 +126,12 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             {teachersSeekingSupport && (
               <>
                 <ClarifyText>What kind?</ClarifyText>
-                <Form.Item name="teacherSupport" rules={[{ required: teachersSeekingSupport, message: 'Required' }]}>
+                <Form.Item
+                  name="teacherSupport"
+                  rules={[
+                    { required: teachersSeekingSupport, message: 'Required' },
+                  ]}
+                >
                   {editable ? (
                     <FormTextArea placeholder="Please enter your answer here*" />
                   ) : (
@@ -147,7 +158,10 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             {involvedParents && (
               <>
                 <ClarifyText>Please share examples:*</ClarifyText>
-                <Form.Item name="parentSupport" rules={[{ required: involvedParents, message: 'Required' }]}>
+                <Form.Item
+                  name="parentSupport"
+                  rules={[{ required: involvedParents, message: 'Required' }]}
+                >
                   {editable ? (
                     <FormTextArea placeholder="Please enter your answer here" />
                   ) : (

@@ -73,7 +73,8 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                     required: true,
                     message: 'Required',
                     pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
-                  }]}
+                  },
+                ]}
               >
                 <Input placeholder="Email Address*" />
               </Form.Item>

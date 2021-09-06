@@ -45,38 +45,40 @@ const VisitReason: React.FC<VisitReasonProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?" lastPiece>
-          <Form.Item
-                name="visitReason"
-                rules={[{ required: true, message: 'Required' }]}
-              >
-          {/* <Form.Item
+            <Form.Item
+              name="visitReason"
+              rules={[{ required: true, message: 'Required' }]}
+            >
+              {/* <Form.Item
                 name="name"
                 rules={[{ required: true, message: 'Required' }]}
               > */}
-            <Select
-              placeholder="Select a reason*"
-              onChange={onSelected}
-              disabled={!editable}
-              defaultValue={otherSelected ? 'Other' : visitReason || undefined}
-              style={{ width: '300px' }}
-            >
-              {reasons.map((reason, i) => (
-                <Select.Option value={reason} key={i}>
-                  {reason}
-                </Select.Option>
-              ))}
-            </Select>
-            {otherSelected && (
-              <>
-                <br />
-                <Input
-                  disabled={!editable}
-                  value={visitReason || ''}
-                  placeholder="Briefly explain..."
-                  onChange={(e) => setVisitReason(e.target.value)}
-                />
-              </>
-            )}
+              <Select
+                placeholder="Select a reason*"
+                onChange={onSelected}
+                disabled={!editable}
+                defaultValue={
+                  otherSelected ? 'Other' : visitReason || undefined
+                }
+                style={{ width: '300px' }}
+              >
+                {reasons.map((reason, i) => (
+                  <Select.Option value={reason} key={i}>
+                    {reason}
+                  </Select.Option>
+                ))}
+              </Select>
+              {otherSelected && (
+                <>
+                  <br />
+                  <Input
+                    disabled={!editable}
+                    value={visitReason || ''}
+                    placeholder="Briefly explain..."
+                    onChange={(e) => setVisitReason(e.target.value)}
+                  />
+                </>
+              )}
             </Form.Item>
           </FormPiece>
         </Col>

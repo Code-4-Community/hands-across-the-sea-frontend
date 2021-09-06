@@ -7,7 +7,7 @@ import {
 } from '../containers/library-report/ducks/types';
 
 export const initializeNewReportForm = (
-  report:  LibraryReportShared | undefined,
+  report: LibraryReportShared | undefined,
   bookLogs: BookLogResponse[],
   hasLibrary: boolean,
 ): ReportWithLibraryRequest | ReportWithoutLibraryRequest | undefined => {
@@ -20,10 +20,10 @@ export const initializeNewReportForm = (
     numberOfChildren: report === undefined ? null : report.numberOfChildren,
     gradesAttended: report === undefined ? [] : report.gradesAttended,
     numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0),
-    mostRecentShipmentYear: bookLogs.length > 0 ? parseInt(
-      bookLogs[0].date.toString().split(' ')[5],
-      10,
-    ) : null,
+    mostRecentShipmentYear:
+      bookLogs.length > 0
+        ? parseInt(bookLogs[0].date.toString().split(' ')[5], 10)
+        : null,
   };
   if (hasLibrary) {
     const reportRequest: ReportWithLibraryRequest = {

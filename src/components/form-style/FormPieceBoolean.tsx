@@ -19,7 +19,10 @@ interface FormPieceBooleanProps {
 const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
   return (
     <FormPiece addPaddingBottom={props.addPaddingBottom} note={props.note}>
-      <Form.Item name={props.name} rules={[{ required: props.required, message: 'Required' }]}>
+      <Form.Item
+        name={props.name}
+        rules={[{ required: props.required, message: 'Required' }]}
+      >
         <Radio.Group
           buttonStyle="solid"
           onChange={props.onChange}

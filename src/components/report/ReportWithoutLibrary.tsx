@@ -9,7 +9,13 @@ import {
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withoutLibrary/LibraryInfo';
 import VisitReason from './common/VisitReason';
-import { AsyncRequest, asyncRequestIsComplete, asyncRequestIsFailed, asyncRequestIsLoading, asyncRequestIsNotStarted } from '../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+  asyncRequestIsLoading,
+  asyncRequestIsNotStarted,
+} from '../../utils/asyncRequest';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
@@ -44,14 +50,23 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
     (state: C4CState) => state.libraryReportState.latestReport,
   );
 
-  return (<>
-    { (asyncRequestIsNotStarted(latestReport) || asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p> }
-    { asyncRequestIsFailed(latestReport) && !isNew && <p>Failed to load report</p>}
-    { (asyncRequestIsComplete(latestReport) || asyncRequestIsFailed(latestReport)) && <FormContentContainer>
+  return (
+    <>
+      {(asyncRequestIsNotStarted(latestReport) ||
+        asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p>}
+      {asyncRequestIsFailed(latestReport) && !isNew && (
+        <p>Failed to load report</p>
+      )}
+      {(asyncRequestIsComplete(latestReport) ||
+        asyncRequestIsFailed(latestReport)) && (
+        <FormContentContainer>
           <Form
             initialValues={
-              isNew ? (initializeNewReportForm(
-                    asyncRequestIsComplete(latestReport) ? latestReport.result : values,
+              isNew
+                ? (initializeNewReportForm(
+                    asyncRequestIsComplete(latestReport)
+                      ? latestReport.result
+                      : values,
                     bookLogInfo,
                     true,
                   ) as ReportWithoutLibraryRequest)
@@ -74,8 +89,10 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
             <ChangesActionPlan editable={editable} />
             {children}
           </Form>
-        </FormContentContainer>  }
-  </>);
+        </FormContentContainer>
+      )}
+    </>
+  );
 };
 
 export default ReportWithoutLibrary;
