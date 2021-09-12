@@ -292,10 +292,8 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 lastPiece
-                onClick={() => {
-                  dispatch(logout());
-                  history.replace(Routes.LOGIN);
-                  history.go(0);
+                onClick={async () => {
+                  dispatch(logout(history));
                 }}
               >
                 <Row>
