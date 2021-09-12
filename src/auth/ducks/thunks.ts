@@ -60,20 +60,21 @@ export const logout = (
         .logout(refreshToken)
         .then(() => {
           dispatch(logoutUser.loaded());
-          localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
-          history.replace(Routes.LOGIN);
-          history.go(0);
+          clearLocalStorageAndRedirect(history);
         })
         .catch(() => {
           dispatch(logoutUser.failed());
         });
     } else {
       dispatch(logoutUser.loaded());
-      localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
-      history.replace(Routes.LOGIN);
-      history.go(0);
-
+      clearLocalStorageAndRedirect(history);
       return Promise.resolve();
     }
   };
+};
+
+const clearLocalStorageAndRedirect = (history: History): void => {
+  localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+  history.replace(Routes.LOGIN);
+  history.go(0);
 };
