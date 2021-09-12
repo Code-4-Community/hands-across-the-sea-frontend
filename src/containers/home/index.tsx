@@ -292,7 +292,7 @@ const Home: React.FC = () => {
             <Col span={12}>
               <InContain
                 lastPiece
-                onClick={async () => {
+                onClick={() => {
                   dispatch(logout(history));
                 }}
               >
