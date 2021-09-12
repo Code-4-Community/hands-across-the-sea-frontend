@@ -51,8 +51,6 @@ export const logout = (
   history: History<unknown>,
 ): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
-    localStorage.setItem('hats-is-logging-out', 'true');
-
     const state: C4CState = getState();
 
     if (asyncRequestIsComplete(state.authenticationState.tokens)) {
