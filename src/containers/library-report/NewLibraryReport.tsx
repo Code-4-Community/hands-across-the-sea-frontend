@@ -1,13 +1,13 @@
 import { message } from 'antd';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import { loadLatestLibraryReport } from '../../containers/library-report/ducks/thunks';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
@@ -15,7 +15,6 @@ import {
 import { C4CState } from '../../store';
 
 const NewLibraryReport = () => {
-  const dispatch = useDispatch();
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
   );
@@ -26,7 +25,10 @@ const NewLibraryReport = () => {
 
   if (!schoolId) {
     history.replace(Routes.HOME);
+    return <></>;
   }
+
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,
@@ -46,7 +48,7 @@ const NewLibraryReport = () => {
           report as ReportWithoutLibraryRequest,
         );
       }
-      dispatch(loadLatestLibraryReport(schoolId));
+      queryClient.invalidateQueries('latestLibraryReport');
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
       // TODO: show a better error message

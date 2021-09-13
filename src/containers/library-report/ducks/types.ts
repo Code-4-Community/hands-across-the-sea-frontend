@@ -12,7 +12,6 @@ export type LibraryReportThunkAction<R> = ThunkAction<
 >;
 
 export interface LibraryReportReducerState {
-  readonly latestReport: AsyncRequest<LibraryReportResponse, any>;
   readonly isYesReport?: boolean;
 }
 
