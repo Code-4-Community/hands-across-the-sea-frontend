@@ -6,7 +6,7 @@ import {
 import {
   SchoolContactRequest,
   SchoolContactResponse,
-} from '../containers/schoolContact/ducks/types';
+} from '../containers/schoolContact/types';
 import {
   BookLogRequest,
   BookLogResponse,

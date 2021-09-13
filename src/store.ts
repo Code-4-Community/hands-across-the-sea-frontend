@@ -1,9 +1,5 @@
-import {
-  UserAuthenticationExtraArgs,
-  UserAuthenticationReducerState,
-} from './auth/ducks/types';
-import { UserAuthenticationActions } from './auth/ducks/actions';
-import authClient from './auth/authClient';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import throttle from 'lodash/throttle';
 import {
   applyMiddleware,
   combineReducers,
@@ -11,54 +7,50 @@ import {
   createStore,
   Store,
 } from 'redux';
-import userReducer, { initialUserState } from './auth/ducks/reducers';
-import selectSchoolReducer, {
-  initialSelectSchoolState,
-} from './containers/selectSchool/ducks/reducers';
-import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import throttle from 'lodash/throttle';
-import AppAxiosInstance from './auth/axios';
-import { asyncRequestIsComplete } from './utils/asyncRequest';
 import protectedApiClient, { ApiExtraArgs } from './api/protectedApiClient';
-import { SchoolInformationReducerState } from './containers/schoolInfo/ducks/types';
+import authClient from './auth/authClient';
+import AppAxiosInstance from './auth/axios';
+import { UserAuthenticationActions } from './auth/ducks/actions';
+import userReducer, { initialUserState } from './auth/ducks/reducers';
+import {
+  UserAuthenticationExtraArgs,
+  UserAuthenticationReducerState,
+} from './auth/ducks/types';
+import { LibraryReportActions } from './containers/library-report/ducks/actions';
+import libraryReportReducer, {
+  initialLibraryReportState,
+} from './containers/library-report/ducks/reducers';
+import { LibraryReportReducerState } from './containers/library-report/ducks/types';
+import { PastSubmissionsReportsActions } from './containers/pastSubmissionsReports/ducks/actions';
+import pastSubmissionsReportsReducer, {
+  initialPastSubmissionsReports,
+} from './containers/pastSubmissionsReports/ducks/reducers';
+import { PastSubmissionsReportsReducerState } from './containers/pastSubmissionsReports/ducks/types';
+import { PastSubmissionsSchoolsActions } from './containers/pastSubmissionsSchools/ducks/actions';
+import pastSubmissionsSchoolsReducer, {
+  initialPastSubmissionsSchools,
+} from './containers/pastSubmissionsSchools/ducks/reducers';
+import { PastSubmissionsSchoolsReducerState } from './containers/pastSubmissionsSchools/ducks/types';
 import { SchoolInformationActions } from './containers/schoolInfo/ducks/actions';
 import schoolInformationReducer, {
   initialSchoolInfoState,
 } from './containers/schoolInfo/ducks/reducers';
-import { SchoolContactsActions } from './containers/schoolContact/ducks/actions';
-import { SchoolContactsReducerState } from './containers/schoolContact/ducks/types';
-import schoolContactsReducer, {
-  initialSchoolContactsState,
-} from './containers/schoolContact/ducks/reducers';
-import { LibraryReportReducerState } from './containers/library-report/ducks/types';
-import libraryReportReducer, {
-  initialLibraryReportState,
-} from './containers/library-report/ducks/reducers';
-import { LibraryReportActions } from './containers/library-report/ducks/actions';
+import { SchoolInformationReducerState } from './containers/schoolInfo/ducks/types';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
+import selectSchoolReducer, {
+  initialSelectSchoolState,
+} from './containers/selectSchool/ducks/reducers';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
-import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
 import { UserDirectoryActions } from './containers/userDirectory/ducks/actions';
 import userDirectoryReducer, {
   initialUserDirectoryState,
 } from './containers/userDirectory/ducks/reducers';
-import pastSubmissionsSchoolsReducer, {
-  initialPastSubmissionsSchools,
-} from './containers/pastSubmissionsSchools/ducks/reducers';
-import pastSubmissionsReportsReducer, {
-  initialPastSubmissionsReports,
-} from './containers/pastSubmissionsReports/ducks/reducers';
-
-import { PastSubmissionsSchoolsReducerState } from './containers/pastSubmissionsSchools/ducks/types';
-import { PastSubmissionsSchoolsActions } from './containers/pastSubmissionsSchools/ducks/actions';
-import { PastSubmissionsReportsReducerState } from './containers/pastSubmissionsReports/ducks/types';
-import { PastSubmissionsReportsActions } from './containers/pastSubmissionsReports/ducks/actions';
-
+import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
+import { asyncRequestIsComplete } from './utils/asyncRequest';
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   schoolInformationState: SchoolInformationReducerState;
-  schoolContactsState: SchoolContactsReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
   userDirectoryState: UserDirectoryReducerState;
@@ -73,7 +65,6 @@ export interface Action<T, P> {
 
 export type C4CAction =
   | UserAuthenticationActions
-  | SchoolContactsActions
   | LibraryReportActions
   | SchoolInformationActions
   | SelectSchoolActions
@@ -86,7 +77,6 @@ export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   schoolInformationState: schoolInformationReducer,
-  schoolContactsState: schoolContactsReducer,
   libraryReportState: libraryReportReducer,
   selectSchoolState: selectSchoolReducer,
   userDirectoryState: userDirectoryReducer,
@@ -97,7 +87,6 @@ const reducers = combineReducers<C4CState, C4CAction>({
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   schoolInformationState: initialSchoolInfoState,
-  schoolContactsState: initialSchoolContactsState,
   libraryReportState: initialLibraryReportState,
   selectSchoolState: initialSelectSchoolState,
   userDirectoryState: initialUserDirectoryState,

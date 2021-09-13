@@ -1,57 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import {
-  createSchoolContact,
-  deleteSchoolContact,
-  loadSchoolContacts,
-  updateSchoolContact,
-} from './ducks/thunks';
-import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'antd';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import protectedApiClient from '../../api/protectedApiClient';
+import { Routes } from '../../App';
+import FormButtons from '../../components/form-style/FormButtons';
+import FormContainer from '../../components/form-style/FormContainer';
+import SchoolContact from '../../components/schoolContact/SchoolContact';
 import { C4CState } from '../../store';
+import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
 import {
   ContactType,
   SchoolContactRequest,
   SchoolContactResponse,
-  SchoolContactsReducerState,
-} from './ducks/types';
-import SchoolContact from '../../components/schoolContact/SchoolContact';
-import { Col, Row } from 'antd';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import FormContainer from '../../components/form-style/FormContainer';
-import { useHistory } from 'react-router-dom';
-import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
-import FormButtons from '../../components/form-style/FormButtons';
+} from './types';
 
 const SchoolContacts: React.FC = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  const schoolContacts: SchoolContactsReducerState['schoolContacts'] = useSelector(
-    (state: C4CState) => state.schoolContactsState.schoolContacts,
-  );
+  if (!schoolId) {
+    history.replace(Routes.HOME);
+    return <></>;
+  }
+
   const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (schoolId) {
-      dispatch(loadSchoolContacts(schoolId));
-    }
-  }, [schoolId, dispatch]);
+  const { isLoading, error, data } = useQuery(
+    ['schoolContacts', schoolId],
+    () => protectedApiClient.getSchoolContacts(schoolId),
+  );
 
-  const deleteContact = (contactId: number) => {
-    if (schoolId) {
-      dispatch(deleteSchoolContact(schoolId, contactId));
-    }
+  const deleteContact = async (contactId: number) => {
+    await protectedApiClient.deleteSchoolContact(schoolId, contactId);
   };
 
   const renderExistingSchoolContact = (
     contact: SchoolContactResponse,
     isFirst?: boolean,
   ): JSX.Element => {
-    const submitCallback = (c: SchoolContactRequest): void => {
-      if (schoolId) {
-        dispatch(updateSchoolContact(schoolId, contact.id, c));
-      }
+    const submitCallback = async (c: SchoolContactRequest): Promise<void> => {
+      await protectedApiClient.updateSchoolContact(schoolId, contact.id, c);
     };
     return (
       <SchoolContact
@@ -65,11 +56,9 @@ const SchoolContacts: React.FC = () => {
   };
 
   const renderAddSchoolContact = (): JSX.Element => {
-    const submitCallback = (c: SchoolContactRequest): void => {
-      if (schoolId) {
-        dispatch(createSchoolContact(schoolId, c));
-        setShowAddContact(false);
-      }
+    const submitCallback = async (c: SchoolContactRequest): Promise<void> => {
+      await protectedApiClient.createSchoolContact(schoolId, c);
+      setShowAddContact(false);
     };
     return (
       <SchoolContact
@@ -79,20 +68,16 @@ const SchoolContacts: React.FC = () => {
       />
     );
   };
-
-  switch (schoolContacts.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school contacts...</p>;
-    case AsyncRequestKinds.Failed:
-      return <p>Failed to load contacts</p>;
-    case AsyncRequestKinds.Completed:
-      return (
+  return (
+    <>
+      {isLoading && <p>Loading school contacts...</p>}
+      {error && <p>Failed to load contacts</p>}
+      {data && (
         <>
           <FormContainer title="School Contacts">
             <Row gutter={[0, 24]}>
               <Col flex={24}>
-                {Array.from(schoolContacts.result).map((c, index) => {
+                {data.map((c, index) => {
                   return renderExistingSchoolContact(c, index === 0);
                 })}
               </Col>
@@ -119,8 +104,9 @@ const SchoolContacts: React.FC = () => {
             />
           </FormButtons>
         </>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default SchoolContacts;
