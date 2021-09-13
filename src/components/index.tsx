@@ -26,7 +26,7 @@ export const ClarifyText = styled(Paragraph)`
 
 export const DirectoryTitle = styled(Title)`
   text-align: center;
-  margin: 24px; 0px; 24px; 0px;
+  margin: 24px 0px 24px 0px;
 `;
 
 export const ContentContainer = styled.div`

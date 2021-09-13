@@ -3,7 +3,7 @@ import { Col, Form, Row } from 'antd';
 import { FormTextArea } from '../';
 import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
-import { BookLogRequest } from '../../containers/bookLogs/ducks/types';
+import { BookLogRequest } from '../../containers/bookLogs/types';
 import {
   InlineFormContainer,
   InlineInputNumber,

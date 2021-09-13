@@ -1,21 +1,24 @@
-import React from 'react';
-import { Button, Col, Form, Row, InputNumber, DatePicker, Table } from 'antd';
-import { FormTextArea } from '../';
-import FormPiece from '../form-style/FormPiece';
-import styled from 'styled-components';
-import { DirectoryTitle } from '../';
-import { BookLogRequest } from '../../containers/bookLogs/ducks/types';
+import { Button, Col, DatePicker, Form, InputNumber, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
-import { C4CState } from '../../store';
+import React from 'react';
+import { useQuery } from 'react-query';
+import styled from 'styled-components';
+import { DirectoryTitle, FormTextArea } from '../';
+import protectedApiClient from '../../api/protectedApiClient';
+import bookLogs from '../../containers/bookLogs';
+import {
+  BookLogRequest,
+  BookLogResponse,
+} from '../../containers/bookLogs/types';
+import FormPiece from '../form-style/FormPiece';
 
 interface BookLogWithStyling extends BookLogRequest {
   style: string;
 }
 
 interface BookLogsMenuProps {
+  readonly schoolId: number;
   readonly onSave: () => void;
   readonly onCancel: () => void;
   readonly onEdit: (bookLog: BookLogRequest) => void;
@@ -73,6 +76,7 @@ export const SaveButton = styled(SubmitButton)`
 `;
 
 const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
+  schoolId,
   onSave,
   onCancel,
   onEdit,
@@ -83,8 +87,9 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
   addedBookLogs,
   deletedLogs,
 }) => {
-  const currentBookLogs: AsyncRequest<BookLogRequest[], any> = useSelector(
-    (state: C4CState) => state.bookLogsState.bookLogs,
+  const { isLoading, error, data } = useQuery<BookLogResponse[], Error>(
+    ['bookLogs', schoolId],
+    () => protectedApiClient.getBookLogs(schoolId),
   );
 
   const columns: ColumnType<BookLogWithStyling>[] = [
@@ -168,16 +173,11 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     },
   ];
 
-  switch (currentBookLogs.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading schools</p>;
-    case AsyncRequestKinds.Loading:
-      return <p>Loading book logs</p>;
-    case AsyncRequestKinds.Completed:
-      // this will set the highlight for the newly added book logs
-
-      return (
+  return (
+    <>
+      {isLoading && <p>Loading book logs...</p>}
+      {error && <p>Error loading book logs</p>}
+      {data && (
         <div>
           <Row gutter={[0, 32]}>
             <Col flex={24}>
@@ -217,11 +217,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
               <FormPiece titleLevel={4} note="Past Book Logs">
                 <Table
                   dataSource={addedBookLogs
-                    .concat(
-                      currentBookLogs.result.filter(
-                        (log) => !deletedLogs.includes(log.id),
-                      ),
-                    )
+                    .concat(data.filter((log) => !deletedLogs.includes(log.id)))
                     .map((log, ind) => {
                       const styledLog: BookLogWithStyling = {
                         count: log.count,
@@ -247,8 +243,9 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
             </Row>
           </Footer>
         </div>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default BookLogsMenu;

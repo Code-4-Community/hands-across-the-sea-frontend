@@ -11,7 +11,7 @@ import {
   BookLogRequest,
   BookLogResponse,
   BookLogPostRequest,
-} from '../containers/bookLogs/ducks/types';
+} from '../containers/bookLogs/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
   LibraryReportResponse,
@@ -355,12 +355,11 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
   );
 };
 
-const getPastSubmissionSchools =
-  (): Promise<PastSubmissionsSchoolsResponse> => {
-    return AppAxiosInstance.get(
-      ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
-    ).then((res) => res.data);
-  };
+const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
+  ).then((res) => res.data);
+};
 
 const getPastSubmissionReports = (
   schoolId: number,

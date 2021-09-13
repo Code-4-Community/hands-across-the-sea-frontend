@@ -38,11 +38,6 @@ import libraryReportReducer, {
 import { LibraryReportActions } from './containers/library-report/ducks/actions';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
-import { BookLogsActions } from './containers/bookLogs/ducks/actions';
-import { BookLogsReducerState } from './containers/bookLogs/ducks/types';
-import bookLogsReducer, {
-  initialBookLogsState,
-} from './containers/bookLogs/ducks/reducers';
 import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
 import { UserDirectoryActions } from './containers/userDirectory/ducks/actions';
 import userDirectoryReducer, {
@@ -64,7 +59,6 @@ export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   schoolInformationState: SchoolInformationReducerState;
   schoolContactsState: SchoolContactsReducerState;
-  bookLogsState: BookLogsReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
   userDirectoryState: UserDirectoryReducerState;
@@ -82,7 +76,6 @@ export type C4CAction =
   | SchoolContactsActions
   | LibraryReportActions
   | SchoolInformationActions
-  | BookLogsActions
   | SelectSchoolActions
   | UserDirectoryActions
   | PastSubmissionsSchoolsActions
@@ -95,7 +88,6 @@ const reducers = combineReducers<C4CState, C4CAction>({
   schoolInformationState: schoolInformationReducer,
   schoolContactsState: schoolContactsReducer,
   libraryReportState: libraryReportReducer,
-  bookLogsState: bookLogsReducer,
   selectSchoolState: selectSchoolReducer,
   userDirectoryState: userDirectoryReducer,
   pastSubmissionSchoolsState: pastSubmissionsSchoolsReducer,
@@ -107,7 +99,6 @@ export const initialStoreState: C4CState = {
   schoolInformationState: initialSchoolInfoState,
   schoolContactsState: initialSchoolContactsState,
   libraryReportState: initialLibraryReportState,
-  bookLogsState: initialBookLogsState,
   selectSchoolState: initialSelectSchoolState,
   userDirectoryState: initialUserDirectoryState,
   pastSubmissionSchoolsState: initialPastSubmissionsSchools,

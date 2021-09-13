@@ -2,6 +2,7 @@ import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import protectedApiClient from '../../api/protectedApiClient';
 import { DirectoryTitle } from '../../components';
@@ -15,13 +16,7 @@ import SchoolDirectoryActionMenu, {
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Countries } from '../../utils/countries';
-import {
-  createBookLog,
-  deleteBookLog,
-  getBookLogs,
-  updateBookLog,
-} from '../bookLogs/ducks/thunks';
-import { BookLogPostRequest, BookLogRequest } from '../bookLogs/ducks/types';
+import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
@@ -70,7 +65,7 @@ const SchoolDirectory: React.FC = () => {
   useEffect(() => {
     dispatch(loadSchools());
   }, [dispatch, updateSchoolList]);
-
+  const queryClient = useQueryClient();
   // handles submitting create a school form
   const handleOnFinishCreateSchool = async (
     schoolInfo: SchoolRequest,
@@ -88,7 +83,7 @@ const SchoolDirectory: React.FC = () => {
       }
       dispatch(loadSchools());
     } catch (err) {
-      message.error(`An error occured, please try again: ${err.message}`);
+      message.error(`An error occurred, please try again: ${err.message}`);
     }
   };
 
@@ -106,18 +101,28 @@ const SchoolDirectory: React.FC = () => {
 
   // handles saving the book logs - posts all of the newly added book logs to the backend
   // and also deletes all of the deleted book logs
-  const handleOnSaveBookLogs = () => {
-    for (const bookLog of bookLogsList) {
-      const logValue: BookLogPostRequest = {
-        count: bookLog.count,
-        date: moment(bookLog.date),
-        notes: bookLog.notes,
-      };
-      dispatch(createBookLog(bookLogsSchool.id, logValue));
-    }
-    for (const deletedLog of deletedLogs) {
-      dispatch(deleteBookLog(bookLogsSchool.id, deletedLog));
-    }
+  const handleOnSaveBookLogs = async () => {
+    await Promise.all(
+      bookLogsList.map(async (bookLog) => {
+        const logValue: BookLogPostRequest = {
+          count: bookLog.count,
+          date: moment(bookLog.date),
+          notes: bookLog.notes,
+        };
+        return await protectedApiClient.createBookLog(
+          bookLogsSchool.id,
+          logValue,
+        );
+      }),
+    );
+
+    await Promise.all(
+      deletedLogs.map(async (logId) => {
+        await protectedApiClient.deleteBookLog(bookLogsSchool.id, logId);
+      }),
+    );
+    queryClient.invalidateQueries(['bookLogs', bookLogsSchool.id]);
+
     setBookLogs(false);
     setBookLogsSchool({ id: -1, name: '' });
     setBookLogsList([]);
@@ -174,9 +179,13 @@ const SchoolDirectory: React.FC = () => {
   };
 
   // handles saving the updates to a book log
-  const handleOnSaveEditBookLogs = (bookLog: BookLogRequest) => {
+  const handleOnSaveEditBookLogs = async (bookLog: BookLogRequest) => {
     if (editedBookLog.id > 0) {
-      dispatch(updateBookLog(bookLogsSchool.id, editedBookLog.id, bookLog));
+      await protectedApiClient.updateBookLog(
+        bookLogsSchool.id,
+        editedBookLog.id,
+        bookLog,
+      );
     } else {
       bookLog.id = editedBookLog.id;
       const editedBookLogs = bookLogsList.map((log) => {
@@ -190,7 +199,7 @@ const SchoolDirectory: React.FC = () => {
   };
 
   const errorLoadingSchool = (error: any) => {
-    message.error(error.response.data);
+    message.error(error.response.data); // Note from Ryan: This line is dangerous and should be removed
   };
 
   // handles determining what action to do when an action is executed
@@ -208,7 +217,7 @@ const SchoolDirectory: React.FC = () => {
           .catch(errorLoadingSchool);
         return;
       case SchoolDirectoryAction.BOOKS:
-        dispatch(getBookLogs(school.id));
+        queryClient.invalidateQueries(['bookLogs', school.id]);
 
         setBookLogsSchool({
           id: school.id,
@@ -292,6 +301,7 @@ const SchoolDirectory: React.FC = () => {
             onCancel={handleOnCancelBookLogs}
           >
             <BookLogsMenu
+              schoolId={bookLogsSchool.id}
               onAddBook={handleAddBookLog}
               onSave={handleOnSaveBookLogs}
               onEdit={handleOnEditBookLog}
