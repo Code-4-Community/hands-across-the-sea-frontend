@@ -1,9 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { PastSubmissionsReportsActions } from './actions';
-import { AsyncRequest } from '../../../utils/asyncRequest';
+import { C4CState } from '../../../store';
 import { LibraryReportResponse } from '../../library-report/ducks/types';
+import { PastSubmissionsReportsActions } from './actions';
 
 export type PastSubmissionsReportsThunkAction<R> = ThunkAction<
   R,
@@ -13,7 +12,6 @@ export type PastSubmissionsReportsThunkAction<R> = ThunkAction<
 >;
 
 export interface PastSubmissionsReportsReducerState {
-  readonly pastSubmissionsReports: AsyncRequest<ReportGenericListResponse>;
   readonly activeReport?: LibraryReportResponse;
 }
 

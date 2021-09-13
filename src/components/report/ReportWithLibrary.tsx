@@ -31,11 +31,11 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
     onSubmit({
+      ...submittedValues,
       numberOfStudentLibrarians: 0,
       parentSupport: '',
       teacherSupport: '',
       timetable: showTimeTable ? timeTable : null,
-      ...submittedValues,
       visitReason,
     });
   };
