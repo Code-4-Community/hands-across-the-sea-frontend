@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Col, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { DirectoryTitle } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
-import { getPastSubmissionsReports } from './ducks/thunks';
 import { useHistory } from 'react-router-dom';
+import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
+import { DirectoryTitle } from '../../components';
+import { Container, Outer } from '../../components/form-style/FormContainer';
+import Loading from '../../components/Loading';
+import { C4CState } from '../../store';
+import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { LibraryReportResponse } from '../library-report/ducks/types';
 import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/ducks/types';
-import Loading from '../../components/Loading';
 import { ReportGenericListResponse } from './ducks/types';
 import PastSubmissionActions from './PastSubmissionActions';
 
@@ -24,6 +25,13 @@ const PastSubmissionsReports: React.FC = () => {
   const schoolId: PastSubmissionsSchoolsReducerState['pastSubmissionSelectedSchoolId'] = useSelector(
     (state: C4CState) =>
       state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
+  );
+
+    
+
+  const { isLoading, error, data } = useQuery(
+    ['pastSubmissionsReports', schoolId, currentPage],
+    () => protectedApiClient.getPastSubmissionReports(schoolId, currentPage),
   );
 
   useEffect(() => {

@@ -14,7 +14,7 @@ import {
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
 
-const NewLibraryReport = () => {
+const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
   );
