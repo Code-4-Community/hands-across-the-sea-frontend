@@ -32,11 +32,6 @@ import pastSubmissionsSchoolsReducer, {
   initialPastSubmissionsSchools,
 } from './containers/pastSubmissionsSchools/ducks/reducers';
 import { PastSubmissionsSchoolsReducerState } from './containers/pastSubmissionsSchools/ducks/types';
-import { SchoolInformationActions } from './containers/schoolInfo/ducks/actions';
-import schoolInformationReducer, {
-  initialSchoolInfoState,
-} from './containers/schoolInfo/ducks/reducers';
-import { SchoolInformationReducerState } from './containers/schoolInfo/ducks/types';
 import { SelectSchoolActions } from './containers/selectSchool/ducks/actions';
 import selectSchoolReducer, {
   initialSelectSchoolState,
@@ -50,7 +45,6 @@ import { UserDirectoryReducerState } from './containers/userDirectory/ducks/type
 import { asyncRequestIsComplete } from './utils/asyncRequest';
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
-  schoolInformationState: SchoolInformationReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
   userDirectoryState: UserDirectoryReducerState;
@@ -66,7 +60,6 @@ export interface Action<T, P> {
 export type C4CAction =
   | UserAuthenticationActions
   | LibraryReportActions
-  | SchoolInformationActions
   | SelectSchoolActions
   | UserDirectoryActions
   | PastSubmissionsSchoolsActions
@@ -76,7 +69,6 @@ export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
-  schoolInformationState: schoolInformationReducer,
   libraryReportState: libraryReportReducer,
   selectSchoolState: selectSchoolReducer,
   userDirectoryState: userDirectoryReducer,
@@ -86,7 +78,6 @@ const reducers = combineReducers<C4CState, C4CAction>({
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
-  schoolInformationState: initialSchoolInfoState,
   libraryReportState: initialLibraryReportState,
   selectSchoolState: initialSelectSchoolState,
   userDirectoryState: initialUserDirectoryState,

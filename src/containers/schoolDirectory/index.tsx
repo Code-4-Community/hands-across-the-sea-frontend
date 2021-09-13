@@ -15,7 +15,7 @@ import SchoolDirectoryActionMenu, {
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
 import { Countries } from '../../utils/countries';
 import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
-import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../schoolInfo/types';
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 

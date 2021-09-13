@@ -1,8 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
-import {
-  SchoolRequest,
-  SchoolResponse,
-} from '../containers/schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../containers/schoolInfo/types';
 import {
   SchoolContactRequest,
   SchoolContactResponse,

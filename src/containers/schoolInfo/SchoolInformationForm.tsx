@@ -3,7 +3,7 @@ import { Col, Form, Input, Row, Select } from 'antd';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormPiece from '../../components/form-style/FormPiece';
-import { SchoolRequest, SchoolResponse } from './ducks/types';
+import { SchoolRequest, SchoolResponse } from './types';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
 import FormButtons from '../../components/form-style/FormButtons';
