@@ -12,7 +12,6 @@ export interface SchoolEntry {
 }
 
 export interface SelectSchoolReducerState {
-  schools: AsyncRequest<SchoolEntry[]>;
   selectedSchoolId?: number;
 }
 

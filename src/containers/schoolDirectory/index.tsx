@@ -16,7 +16,6 @@ import SchoolDirectoryActionMenu, {
 import { Countries } from '../../utils/countries';
 import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/types';
-import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 
 const { Search } = Input;
@@ -74,7 +73,7 @@ const SchoolDirectory: React.FC = () => {
         setCreateSchool(false);
         setUpdateSchoolList(!updateSchoolList);
       }
-      dispatch(loadSchools());
+      queryClient.invalidateQueries('schools');
     } catch (err) {
       message.error(`An error occurred, please try again: ${err.message}`);
     }
