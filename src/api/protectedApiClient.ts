@@ -22,7 +22,7 @@ import {
 import {
   GetAllUsersResponse,
   UpdateUserRequest,
-} from '../containers/userDirectory/ducks/types';
+} from '../containers/userDirectory/types';
 import { PastSubmissionsSchoolsResponse } from '../containers/pastSubmissionsSchools/ducks/types';
 import { ReportGenericListResponse } from '../containers/pastSubmissionsReports/ducks/types';
 

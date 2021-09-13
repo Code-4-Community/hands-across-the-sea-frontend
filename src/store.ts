@@ -37,17 +37,11 @@ import selectSchoolReducer, {
   initialSelectSchoolState,
 } from './containers/selectSchool/ducks/reducers';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
-import { UserDirectoryActions } from './containers/userDirectory/ducks/actions';
-import userDirectoryReducer, {
-  initialUserDirectoryState,
-} from './containers/userDirectory/ducks/reducers';
-import { UserDirectoryReducerState } from './containers/userDirectory/ducks/types';
 import { asyncRequestIsComplete } from './utils/asyncRequest';
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   selectSchoolState: SelectSchoolReducerState;
   libraryReportState: LibraryReportReducerState;
-  userDirectoryState: UserDirectoryReducerState;
   pastSubmissionSchoolsState: PastSubmissionsSchoolsReducerState;
   pastSubmissionReportsState: PastSubmissionsReportsReducerState;
 }
@@ -61,7 +55,6 @@ export type C4CAction =
   | UserAuthenticationActions
   | LibraryReportActions
   | SelectSchoolActions
-  | UserDirectoryActions
   | PastSubmissionsSchoolsActions
   | PastSubmissionsReportsActions;
 
@@ -71,7 +64,6 @@ const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   libraryReportState: libraryReportReducer,
   selectSchoolState: selectSchoolReducer,
-  userDirectoryState: userDirectoryReducer,
   pastSubmissionSchoolsState: pastSubmissionsSchoolsReducer,
   pastSubmissionReportsState: pastSubmissionsReportsReducer,
 });
@@ -80,7 +72,6 @@ export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   libraryReportState: initialLibraryReportState,
   selectSchoolState: initialSelectSchoolState,
-  userDirectoryState: initialUserDirectoryState,
   pastSubmissionSchoolsState: initialPastSubmissionsSchools,
   pastSubmissionReportsState: initialPastSubmissionsReports,
 };

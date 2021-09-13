@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import styled from 'styled-components';
+import protectedApiClient from '../../api/protectedApiClient';
+import authClient from '../../auth/authClient';
+import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
 import { DirectoryTitle } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
+import { Container, Outer } from '../../components/form-style/FormContainer';
+import CreateUser from '../../components/userDirectory/CreateUser';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
-import CreateUser from '../../components/userDirectory/CreateUser';
-import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
+import { C4CState } from '../../store';
 import {
   UpdateUserRequest,
   UserDirectoryReducerState,
   UserResponse,
-} from './ducks/types';
-import { loadAllUsers } from './ducks/thunks';
-import authClient from '../../auth/authClient';
-import protectedApiClient from '../../api/protectedApiClient';
-import styled from 'styled-components';
+} from './types';
 
 const { Search } = Input;
 
@@ -41,21 +39,16 @@ const UserDirectory: React.FC = () => {
   });
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const dispatch = useDispatch();
-  const availableUsers: UserDirectoryReducerState['allUsers'] = useSelector(
-    (state: C4CState) => state.userDirectoryState.allUsers,
-  );
 
-  // need useEffect inside of component because the state "updateUserList"
-  // needs to be a dependency
-  useEffect(() => {
-    dispatch(loadAllUsers());
-  }, [dispatch, updateUserList]);
+  const { isLoading, error, data } = useQuery(
+    'users',
+    protectedApiClient.getAllUsers,
+  );
 
   // show error notification if any
   // should never reach this as we check validity before sending request
-  const errorMessage = (error: string) => {
-    message.warning(error);
+  const errorMessage = (msg: string) => {
+    message.warning(msg);
   };
 
   // handles submitting create a user form
@@ -66,7 +59,7 @@ const UserDirectory: React.FC = () => {
     if (update) {
       protectedApiClient
         .updateUser(userInfo as UpdateUserRequest, defaultUser.id)
-        .then((ignore) => {
+        .then(() => {
           setCreateUser(false);
           setUpdateUser(false);
           setUpdateUserList(!updateUserList);
@@ -75,7 +68,7 @@ const UserDirectory: React.FC = () => {
     } else {
       authClient
         .signup(userInfo as SignupRequest)
-        .then((ignore) => {
+        .then(() => {
           setCreateUser(false);
           setUpdateUserList(!updateUserList);
         })
@@ -198,13 +191,10 @@ const UserDirectory: React.FC = () => {
     },
   ];
 
-  switch (availableUsers.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading users</p>;
-    case AsyncRequestKinds.Loading:
-    case AsyncRequestKinds.Completed:
-      return (
+  return (
+    <>
+      {error && <p>An error occurred loading users</p>}
+      {!error && (
         <Container>
           <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
             <CreateUser
@@ -230,25 +220,25 @@ const UserDirectory: React.FC = () => {
           <Outer>
             <Table
               dataSource={
-                availableUsers.kind === AsyncRequestKinds.Completed
-                  ? Array.from(availableUsers.result.users).filter(
-                      (entry) =>
-                        entry.firstName
-                          .toLocaleLowerCase()
-                          .startsWith(searchText.toLowerCase()) ||
-                        entry.lastName
-                          .toLocaleLowerCase()
-                          .startsWith(searchText.toLowerCase()),
-                    )
-                  : undefined
+                data &&
+                data.users.filter(
+                  (entry) =>
+                    entry.firstName
+                      .toLocaleLowerCase()
+                      .startsWith(searchText.toLowerCase()) ||
+                    entry.lastName
+                      .toLocaleLowerCase()
+                      .startsWith(searchText.toLowerCase()),
+                )
               }
               columns={columns}
-              loading={availableUsers.kind === AsyncRequestKinds.Loading}
+              loading={isLoading}
             />
           </Outer>
         </Container>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default UserDirectory;
