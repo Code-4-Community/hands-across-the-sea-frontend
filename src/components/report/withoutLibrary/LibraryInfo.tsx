@@ -48,7 +48,6 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
 
       <Row gutter={[0, 24]}>
         <Col flex={24}>
-          <Row gutter={[24, 0]}>
             <FormPiece
               addPaddingBottom={21}
               note="Does this school have a designated space for a library?*"
@@ -63,7 +62,6 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
                 </Radio.Group>
               </Form.Item>
             </FormPiece>
-          </Row>
         </Col>
       </Row>
       <Row gutter={[0, 24]}>
