@@ -1,9 +1,7 @@
 import { message } from 'antd';
 import React from 'react';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
@@ -13,17 +11,8 @@ import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
-} from '../../containers/library-report/ducks/types';
+} from './ducks/types';
 import { C4CState } from '../../store';
-import {
-  AsyncRequest,
-  asyncRequestIsComplete,
-  asyncRequestIsFailed,
-  asyncRequestIsLoading,
-  asyncRequestIsNotStarted,
-} from '../../utils/asyncRequest';
-import { getBookLogs } from '../bookLogs/ducks/thunks';
-import { BookLogResponse } from '../bookLogs/ducks/types';
 
 const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
@@ -32,17 +21,14 @@ const NewLibraryReport: React.FC = () => {
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-
-  useEffect(() => {
-    if (schoolId !== undefined) {
-      dispatch(loadLatestLibraryReport(schoolId));
-      dispatch(getBookLogs(schoolId));
-    }
-  }, [schoolId, dispatch]);
-
-  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
-    (state: C4CState) => state.bookLogsState.bookLogs,
+  const { isLoading, error, data } = useQuery(
+    'bookLogs',
+    () => protectedApiClient.getBookLogs(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
+
   const history = useHistory();
   const queryClient = useQueryClient();
 
@@ -85,15 +71,14 @@ const NewLibraryReport: React.FC = () => {
 
   return (
     <>
-      {(asyncRequestIsNotStarted(bookLogs) ||
-        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
-      {asyncRequestIsComplete(bookLogs) &&
+      {isLoading && <p>Loading school data...</p>}
+      {error && <p>Failed to load report data</p>}
+      {data &&
         (isYesReport ? (
           <ReportWithLibrary
             isNew={true}
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={true}
             onSubmit={handleSubmit}
           />
@@ -101,7 +86,7 @@ const NewLibraryReport: React.FC = () => {
           <ReportWithoutLibrary
             isNew={true}
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={true}
             onSubmit={handleSubmit}
           />

@@ -76,10 +76,6 @@ export interface ProtectedApiClient {
     schoolId: number,
   ) => Promise<LibraryReportResponse>;
 
-  readonly getLatestReportWithLibrary: (
-    schoolId: number,
-  ) => Promise<LibraryReportResponse>;
-
   readonly createBookLog: (
     schoolId: number,
     report: BookLogPostRequest,
@@ -286,12 +282,6 @@ const getLatestReportWithLibrary = (
   ).then((res) => res.data);
 };
 
-const getLatestReport = (schoolId: number): Promise<LibraryReportResponse> => {
-  return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY}/${schoolId.toString()}`,
-  ).then((res) => res.data); // TODO
-};
-
 const createReportWithLibrary = (
   schoolId: number,
   report: ReportWithLibraryRequest,
@@ -441,14 +431,13 @@ const Client: ProtectedApiClient = Object.freeze({
   getBookLogs,
   deleteBookLog,
   getAllSchools,
-  getLatestReport,
   createReportWithLibrary,
   createReportWithoutLibrary,
   editReportWithLibrary,
   editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
-  getLatestReportWithLibrary,
+  getLatestReport: getLatestReportWithLibrary,
 });
 
 export default Client;

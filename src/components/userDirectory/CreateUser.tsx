@@ -6,8 +6,6 @@ import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/types';
-import { getOptionsFromEnum } from '../../utils/helpers';
-import { UserResponse } from '../../containers/userDirectory/ducks/types';
 import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;

@@ -7,18 +7,10 @@ import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
 import FormButtons from '../../components/form-style/FormButtons';
 import FormContainer from '../../components/form-style/FormContainer';
-import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
 import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import { setPastSubmissionsSchoolId } from './ducks/actions';
-import { SchoolSummaryResponse } from './ducks/types';
-import { Routes } from '../../App';
-import { useHistory } from 'react-router';
-import { SchoolEntry } from '../selectSchool/ducks/types';
-import { loadSchools } from '../selectSchool/ducks/thunks';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;

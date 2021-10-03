@@ -1,21 +1,14 @@
-import { Form, message } from 'antd';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
+import {Form, message} from 'antd';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {BookLogResponse} from '../../containers/bookLogs/types';
 import {
   LibraryReportResponse,
   ReportWithLibraryRequest,
   Timetable,
 } from '../../containers/library-report/ducks/types';
-import { C4CState } from '../../store';
-import {
-  AsyncRequest,
-  asyncRequestIsComplete,
-  asyncRequestIsFailed,
-  asyncRequestIsLoading,
-  asyncRequestIsNotStarted,
-} from '../../utils/asyncRequest';
-import { initializeNewReportForm } from '../../utils/reportForm';
+import {C4CState} from '../../store';
+import {initializeNewReportForm} from '../../utils/reportForm';
 import FormContentContainer from '../form-style/FormContentContainer';
 import ChangesActionPlan from './common/ChangesActionPlan';
 import StudentBookInformation from './common/StudentBookInformation';
@@ -23,6 +16,8 @@ import VisitReason from './common/VisitReason';
 import LibraryInfo from './withLibrary/LibraryInfo';
 import MonitoringInfo from './withLibrary/MonitoringInfo';
 import TrainingMentorshipInfo from './withLibrary/TrainingMentorshipInfo';
+import {useQuery} from 'react-query';
+import protectedApiClient from '../../api/protectedApiClient';
 
 interface ReportWithLibraryProps {
   values?: LibraryReportResponse;
@@ -54,8 +49,16 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
     false,
   );
 
-  const latestReport: AsyncRequest<LibraryReportResponse, any> = useSelector(
-    (state: C4CState) => state.libraryReportState.latestReport,
+  const schoolId: number | undefined = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+
+  const { isLoading, error, data } = useQuery(
+    'latestReport',
+    () => protectedApiClient.getLatestReport(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
 
   const handleSubmit = (submittedValues: ReportWithLibraryRequest) => {
@@ -66,28 +69,22 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
       teacherSupport: '',
       checkInTimetable: showCheckInTimeTable ? checkInTimeTable : null,
       checkOutTimetable: showCheckOutTimeTable ? checkOutTimeTable : null,
-      ...submittedValues, 
+      ...submittedValues,
       visitReason,
     });
   };
 
   return (
     <>
-      {(asyncRequestIsNotStarted(latestReport) ||
-        asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(latestReport) && !isNew && (
-        <p>Failed to load report</p>
-      )}
-      {(asyncRequestIsComplete(latestReport) ||
-        asyncRequestIsFailed(latestReport)) && (
+      {isLoading && <p>Loading school data...</p>}
+      {error && !isNew && <p>Failed to load report</p>}
+      {(data || error) && (
         <FormContentContainer>
           <Form
             initialValues={
               isNew
                 ? (initializeNewReportForm(
-                    asyncRequestIsComplete(latestReport)
-                      ? latestReport.result
-                      : values,
+                    data ?? values,
                     bookLogInfo,
                     true,
                   ) as ReportWithLibraryRequest)

@@ -12,23 +12,9 @@ import CreateUser from '../../components/userDirectory/CreateUser';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
-<<<<<<< HEAD
 import { UpdateUserRequest, UserResponse } from './types';
-
-=======
-import CreateUser from '../../components/userDirectory/CreateUser';
-import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
-import {
-  UpdateUserRequest,
-  UserDirectoryReducerState,
-  UserResponse,
-} from './ducks/types';
-import { loadAllUsers } from './ducks/thunks';
-import authClient from '../../auth/authClient';
-import protectedApiClient from '../../api/protectedApiClient';
-import styled from 'styled-components';
 import { convertEnumToRegularText } from '../../utils/helpers';
->>>>>>> 41b81cdf840073cbc830c667cfdaac1893c6b27b
+
 const { Search } = Input;
 
 const DisabledContainer = styled.div`

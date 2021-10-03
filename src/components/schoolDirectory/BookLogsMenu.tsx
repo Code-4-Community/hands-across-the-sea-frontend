@@ -1,32 +1,25 @@
-import { Button, Col, DatePicker, Form, InputNumber, Row, Table } from 'antd';
-import React from 'react';
 import {
   Button,
   Col,
-  Form,
-  Row,
-  InputNumber,
   DatePicker,
+  Form,
+  InputNumber,
+  Row,
   Table,
   Typography,
 } from 'antd';
-import { FormTextArea } from '../';
+import React from 'react';
+import { DirectoryTitle, FormTextArea } from '../';
 import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
-import { DirectoryTitle } from '../';
-import { BookLogRequest } from '../../containers/bookLogs/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
-import React from 'react';
 import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import { DirectoryTitle, FormTextArea } from '../';
 import protectedApiClient from '../../api/protectedApiClient';
 import {
   BookLogRequest,
   BookLogResponse,
 } from '../../containers/bookLogs/types';
-import FormPiece from '../form-style/FormPiece';
 
 const { Title } = Typography;
 
@@ -255,7 +248,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
             <Col flex={24}>
               <FormPiece titleLevel={4} note="Past Book Logs">
                 <Table
-                  dataSource={createDataSource(currentBookLogs.result)}
+                  dataSource={createDataSource(data)}
                   columns={columns}
                   pagination={{ pageSize: 7 }}
                 />
@@ -266,7 +259,7 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
             <Col span={12}>
               <TotalBooksDisplay level={4}>
                 Total Books:{' '}
-                {createDataSource(currentBookLogs.result).reduce(
+                {createDataSource(data).reduce(
                   (sum, elem) => sum + elem.count,
                   0,
                 )}
