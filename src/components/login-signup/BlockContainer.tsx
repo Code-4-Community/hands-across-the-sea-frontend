@@ -14,15 +14,19 @@ const Container = styled(ContentContainer)`
   max-width: 448px;
 `;
 
-const LoginContainer: React.FC = (props) => {
+interface BlockContainer {
+  readonly title: string;
+}
+
+const BlockContainer: React.FC<BlockContainer> = ({ title, children }) => {
   return (
     <Container>
-      <LoginTitle level={2}>Log In</LoginTitle>
+      <LoginTitle level={2}>{title}</LoginTitle>
       <Outer>
-        <Inner>{props.children}</Inner>
+        <Inner>{children}</Inner>
       </Outer>
     </Container>
   );
 };
 
-export default LoginContainer;
+export default BlockContainer;

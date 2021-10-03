@@ -2,6 +2,8 @@ import { message } from 'antd';
 import React from 'react';
 import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
@@ -13,6 +15,15 @@ import {
   ReportWithoutLibraryRequest,
 } from '../../containers/library-report/ducks/types';
 import { C4CState } from '../../store';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+  asyncRequestIsLoading,
+  asyncRequestIsNotStarted,
+} from '../../utils/asyncRequest';
+import { getBookLogs } from '../bookLogs/ducks/thunks';
+import { BookLogResponse } from '../bookLogs/ducks/types';
 
 const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
@@ -20,6 +31,17 @@ const NewLibraryReport: React.FC = () => {
   );
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+
+  useEffect(() => {
+    if (schoolId !== undefined) {
+      dispatch(loadLatestLibraryReport(schoolId));
+      dispatch(getBookLogs(schoolId));
+    }
+  }, [schoolId, dispatch]);
+
+  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
+    (state: C4CState) => state.bookLogsState.bookLogs,
   );
   const history = useHistory();
   const queryClient = useQueryClient();
@@ -61,16 +83,30 @@ const NewLibraryReport: React.FC = () => {
     </FormButtons>
   );
 
-  const props = {
-    editable: true,
-    onSubmit: handleSubmit,
-    children: buttons,
-  };
-
-  return isYesReport ? (
-    <ReportWithLibrary {...props} />
-  ) : (
-    <ReportWithoutLibrary {...props} />
+  return (
+    <>
+      {(asyncRequestIsNotStarted(bookLogs) ||
+        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
+      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
+      {asyncRequestIsComplete(bookLogs) &&
+        (isYesReport ? (
+          <ReportWithLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ) : (
+          <ReportWithoutLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={bookLogs.result}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ))}
+    </>
   );
 };
 

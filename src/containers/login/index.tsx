@@ -6,7 +6,7 @@ import { login } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
-import LoginContainer from '../../components/login-signup/LoginContainer';
+import BlockContainer from '../../components/login-signup/BlockContainer';
 import styled from 'styled-components';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { Routes } from '../../App';
@@ -55,9 +55,12 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     <>
       <Helmet>
         <title>Login</title>
-        <meta name="description" content="Description goes here." />
+        <meta
+          name="Login"
+          content="Login to your account to start filling out reports."
+        />
       </Helmet>
-      <LoginContainer>
+      <BlockContainer title="Login">
         <Form name="login" onFinish={onFinish}>
           <Row>
             <Col span={24}>
@@ -110,14 +113,17 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           <Row>
             <Col span={24}>
               <Center>
-                <Link to="/not-found" component={Typography.Link}>
+                <Link
+                  to={Routes.FORGOT_PASSWORD_REQUEST}
+                  component={Typography.Link}
+                >
                   <SubText>Trouble logging in?</SubText>
                 </Link>
               </Center>
             </Col>
           </Row>
         </Form>
-      </LoginContainer>
+      </BlockContainer>
     </>
   );
 };

@@ -1,4 +1,20 @@
 import { Button, Col, DatePicker, Form, InputNumber, Row, Table } from 'antd';
+import React from 'react';
+import {
+  Button,
+  Col,
+  Form,
+  Row,
+  InputNumber,
+  DatePicker,
+  Table,
+  Typography,
+} from 'antd';
+import { FormTextArea } from '../';
+import FormPiece from '../form-style/FormPiece';
+import styled from 'styled-components';
+import { DirectoryTitle } from '../';
+import { BookLogRequest } from '../../containers/bookLogs/ducks/types';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import React from 'react';
@@ -11,6 +27,8 @@ import {
   BookLogResponse,
 } from '../../containers/bookLogs/types';
 import FormPiece from '../form-style/FormPiece';
+
+const { Title } = Typography;
 
 interface BookLogWithStyling extends BookLogRequest {
   style: string;
@@ -28,6 +46,13 @@ interface BookLogsMenuProps {
   readonly addedBookLogs: BookLogRequest[];
   readonly deletedLogs: number[];
 }
+
+const TotalBooksDisplay = styled(Title)`
+  text-align: left;
+  margin-left: 45px;
+  padding: 12px;
+`;
+
 const Footer = styled.div`
   text-align: center;
   margin: 24px 0px 0px 0px;
@@ -90,6 +115,21 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
     ['bookLogs', schoolId],
     () => protectedApiClient.getBookLogs(schoolId),
   );
+
+  const createDataSource = (results: BookLogRequest[]) => {
+    return addedBookLogs
+      .concat(results.filter((log) => !deletedLogs.includes(log.id)))
+      .map((log, ind) => {
+        const styledLog: BookLogWithStyling = {
+          count: log.count,
+          date: log.date,
+          id: log.id,
+          notes: log.notes,
+          style: ind > added - 1 ? '#fff' : '#E6F7FF',
+        };
+        return styledLog;
+      });
+  };
 
   const columns: ColumnType<BookLogWithStyling>[] = [
     {
@@ -215,22 +255,22 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
             <Col flex={24}>
               <FormPiece titleLevel={4} note="Past Book Logs">
                 <Table
-                  dataSource={addedBookLogs
-                    .concat(data.filter((log) => !deletedLogs.includes(log.id)))
-                    .map((log, ind) => {
-                      const styledLog: BookLogWithStyling = {
-                        count: log.count,
-                        date: log.date,
-                        id: log.id,
-                        notes: log.notes,
-                        style: ind > added - 1 ? '#fff' : '#E6F7FF',
-                      };
-                      return styledLog;
-                    })}
+                  dataSource={createDataSource(currentBookLogs.result)}
                   columns={columns}
                   pagination={{ pageSize: 7 }}
                 />
               </FormPiece>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <TotalBooksDisplay level={4}>
+                Total Books:{' '}
+                {createDataSource(currentBookLogs.result).reduce(
+                  (sum, elem) => sum + elem.count,
+                  0,
+                )}
+              </TotalBooksDisplay>
             </Col>
           </Row>
           <Footer>

@@ -9,7 +9,6 @@ import {
   UserOutlined,
   DatabaseOutlined,
   TeamOutlined,
-  BulbOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
@@ -218,77 +217,40 @@ const Home: React.FC = () => {
             </Row>
           )}
           <Row gutter={[32, 0]} wrap>
-            {privilegeLevel === PrivilegeLevel.ADMIN ? (
-              <Col span={12}>
-                <InContain
-                  lastPiece
-                  onClick={() => {
-                    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <BulbOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Data Insights
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
-            ) : (
-              <Col span={12}>
-                <InContain
-                  lastPiece
-                  onClick={() => {
-                    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <FolderOpenOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Form History
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
-            )}
+            <Col span={12}>
+              <InContain
+                lastPiece
+                onClick={() => {
+                  history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
+                }}
+              >
+                <Row>
+                  <Col span={8}>
+                    <FolderOpenOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
+                  </Col>
+                  <Col span={16}>
+                    <Row>
+                      <Col>
+                        <ButtonDescription level={3}>
+                          Form History
+                        </ButtonDescription>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Paragraph>View past forms</Paragraph>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </InContain>
+            </Col>
             <Col span={12}>
               <InContain
                 lastPiece

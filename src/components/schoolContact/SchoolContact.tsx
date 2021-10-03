@@ -46,23 +46,47 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
     >
       {!isFirst && <br />}
       <FormPiece>
-        <Form.Item name="firstName">
-          <Input placeholder="First Name" disabled={!editMode} />
+        <Form.Item
+          name="firstName"
+          rules={[{ required: true, message: 'Required' }]}
+        >
+          <Input placeholder="First Name*" disabled={!editMode} />
         </Form.Item>
-        <Form.Item name="lastName">
-          <Input placeholder="Last Name" disabled={!editMode} />
+        <Form.Item
+          name="lastName"
+          rules={[{ required: true, message: 'Required' }]}
+        >
+          <Input placeholder="Last Name*" disabled={!editMode} />
         </Form.Item>
-        <Form.Item name="address">
-          <Input placeholder="Address" disabled={!editMode} />
+        <Form.Item
+          name="address"
+          rules={[{ required: true, message: 'Required' }]}
+        >
+          <Input placeholder="Address*" disabled={!editMode} />
         </Form.Item>
-        <Form.Item name="phone">
-          <Input placeholder="Phone Number" disabled={!editMode} />
+        <Form.Item
+          name="phone"
+          rules={[{ required: true, message: 'Required' }]}
+        >
+          <Input placeholder="Phone Number*" disabled={!editMode} />
         </Form.Item>
-        <Form.Item name="email">
-          <Input placeholder="Email" disabled={!editMode} />
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: 'Must be a valid email',
+              pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
+            },
+          ]}
+        >
+          <Input placeholder="Email*" disabled={!editMode} />
         </Form.Item>
-        <Form.Item name="type">
-          <Select disabled={!editMode}>
+        <Form.Item
+          name="type"
+          rules={[{ required: true, message: 'Required' }]}
+        >
+          <Select disabled={!editMode} placeholder="Role*">
             {Object.entries(ContactType).map(([key, value]) => {
               return (
                 <Select.Option key={key} value={key}>

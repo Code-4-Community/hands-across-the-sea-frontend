@@ -8,7 +8,8 @@ import {
   default as ProtectedApiClient,
 } from '../../api/protectedApiClient';
 import { Routes } from '../../App';
-import { getUserID } from '../../auth/ducks/selectors';
+import { getPrivilegeLevel, getUserID } from '../../auth/ducks/selectors';
+import { PrivilegeLevel } from '../../auth/ducks/types';
 import FormButtons from '../../components/form-style/FormButtons';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
@@ -36,6 +37,10 @@ const SelectSchool: React.FC = () => {
   );
   const userId = useSelector((state: C4CState) => {
     return getUserID(state.authenticationState.tokens);
+  });
+
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
   });
 
   useEffect(() => {
@@ -88,11 +93,21 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
+<<<<<<< HEAD
                         {data
                           .filter(
                             (school) => school.country === userInfo.country,
                           )
                           .map(renderSchoolOption)}
+=======
+                        {Array.from(
+                          availableSchools.result.filter(
+                            (school) =>
+                              privilegeLevel === PrivilegeLevel.ADMIN ||
+                              school.country === userInfo.country,
+                          ),
+                        ).map(renderSchoolOption)}
+>>>>>>> 41b81cdf840073cbc830c667cfdaac1893c6b27b
                       </Select>
                     </Form.Item>
                   </FormPiece>

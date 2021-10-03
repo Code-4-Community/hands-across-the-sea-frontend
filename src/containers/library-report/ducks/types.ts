@@ -21,6 +21,7 @@ export interface LibraryReportShared {
   visitReason: null | string;
   readonly actionPlans: null | string;
   readonly successStories: null | string;
+  readonly gradesAttended: string[];
 }
 
 export interface ReportWithLibraryRequest extends LibraryReportShared {
@@ -33,11 +34,13 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasCheckInTimetables: null | boolean;
   readonly hasBookCheckoutSystem: null | boolean;
   readonly numberOfStudentLibrarians: null | number;
+  readonly numberOfStudentLibrariansTrainers: null | number;
   readonly reasonNoStudentLibrarians: null | string;
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
-  readonly timetable: null | Timetable;
+  readonly checkInTimetable: null | Timetable;
+  readonly checkOutTimetable: null | Timetable;
 }
 
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
@@ -54,6 +57,8 @@ export type LibraryReportResponse = {
   readonly updatedAt: string;
   readonly schoolId: number;
   readonly userId: number;
+  readonly userName: string;
+  readonly schoolName: string;
 } & (
   | ({
       readonly libraryStatus: 'EXISTS';

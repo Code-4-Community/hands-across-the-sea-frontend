@@ -35,8 +35,9 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
             name={'isSharedSpace'}
             textTrue={'Shared space'}
             textFalse={'Only library'}
-            note={'Is the library only a library, or shared space?'}
+            note={'Is the library only a library, or shared space?*'}
             disabled={!editable}
+            required={true}
           />
         </Col>
         <Col span={12}>
@@ -46,17 +47,21 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
             textFalse={'No'}
             note={
               'Does the library have inviting places for ' +
-              'children and teacher to sit and read?'
+              'children and teacher to sit and read? *'
             }
             disabled={!editable}
+            required={true}
           />
         </Col>
       </Row>
 
       <Row>
         <Col flex={24}>
-          <FormPiece note="Is someone assigned to this school's library?">
-            <Form.Item name="assignedPersonRole">
+          <FormPiece note="Is someone assigned to this school's library?*">
+            <Form.Item
+              name="assignedPersonRole"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Radio.Group
                 buttonStyle="solid"
                 onChange={handleChangeAssignedLibrary}
@@ -75,12 +80,13 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
             {hasAssignedPerson && (
               <FormItemDropdown
                 clarifyText={
-                  'What is the title of this person assigned to the library?'
+                  'What is the title of this person assigned to the library? *'
                 }
                 optionsEnum={AssignedPersonTitle}
                 name={'assignedPersonTitle'}
                 text={'Select the title'}
                 disabled={!editable}
+                required={true}
               />
             )}
           </FormPiece>
@@ -89,12 +95,13 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
 
       <Row gutter={[0, bottomGutter]}>
         <Col flex={24}>
-          <FormPiece note="Does this school have a known apprenticeship program in the library? If so, select which program:">
+          <FormPiece note="Does this school have a known apprenticeship program in the library? If so, select which program: *">
             <FormItemDropdown
               optionsEnum={ApprenticeshipProgram}
               name={'apprenticeshipProgram'}
               text={'Select a program'}
               disabled={!editable}
+              required={true}
             />
           </FormPiece>
         </Col>
@@ -104,8 +111,9 @@ const LibraryInfo: React.FC<ReportWithLibraryProps> = ({ editable }) => {
         <Col flex={24}>
           <FormPieceBoolean
             name={'trainsAndMentorsApprentices'}
-            note={'Do you train and mentor the apprentices in the library?'}
+            note={'Do you train and mentor the apprentices in the library?*'}
             disabled={!editable}
+            required={true}
           />
         </Col>
       </Row>
