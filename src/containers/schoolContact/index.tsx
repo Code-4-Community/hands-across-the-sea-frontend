@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -18,6 +18,7 @@ import {
 
 const SchoolContacts: React.FC = () => {
   const history = useHistory();
+  const queryClient = useQueryClient();
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
@@ -46,6 +47,7 @@ const SchoolContacts: React.FC = () => {
   ): JSX.Element => {
     const submitCallback = async (c: SchoolContactRequest): Promise<void> => {
       await protectedApiClient.updateSchoolContact(schoolId, contact.id, c);
+      await queryClient.invalidateQueries('schoolContacts');
     };
     return (
       <SchoolContact
@@ -80,7 +82,7 @@ const SchoolContacts: React.FC = () => {
           <FormContainer title="School Contacts">
             <Row gutter={[0, 24]}>
               <Col flex={24}>
-                {data.map((c, index) => {
+                {data.sort().map((c, index) => {
                   return renderExistingSchoolContact(c, index === 0);
                 })}
               </Col>
