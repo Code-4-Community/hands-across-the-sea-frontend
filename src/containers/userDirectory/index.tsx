@@ -12,12 +12,7 @@ import CreateUser from '../../components/userDirectory/CreateUser';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
-import { C4CState } from '../../store';
-import {
-  UpdateUserRequest,
-  UserDirectoryReducerState,
-  UserResponse,
-} from './types';
+import { UpdateUserRequest, UserResponse } from './types';
 
 const { Search } = Input;
 

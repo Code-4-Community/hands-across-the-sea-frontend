@@ -1,7 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { C4CState } from '../../../store';
-import { AsyncRequest } from '../../../utils/asyncRequest';
 import { LibraryReportActions } from './actions';
 
 export type LibraryReportThunkAction<R> = ThunkAction<

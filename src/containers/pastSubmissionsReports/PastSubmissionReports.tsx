@@ -21,16 +21,18 @@ const PastSubmissionsReports: React.FC = () => {
     (state: C4CState) =>
       state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
   );
+  const { isLoading, error, data } = useQuery(
+    ['pastSubmissionsReports', schoolId, currentPage],
+    () => protectedApiClient.getPastSubmissionReports(schoolId as number, currentPage),
+    {
+      enabled: schoolId !== undefined,
+    },
+  );
 
-  if (!schoolId) {
+  if (schoolId === undefined) {
     history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
     return <></>;
   }
-
-  const { isLoading, error, data } = useQuery(
-    ['pastSubmissionsReports', schoolId, currentPage],
-    () => protectedApiClient.getPastSubmissionReports(schoolId, currentPage),
-  );
 
   const columns: ColumnType<LibraryReportResponse>[] = [
     {

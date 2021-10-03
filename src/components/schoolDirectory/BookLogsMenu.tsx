@@ -6,7 +6,6 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { DirectoryTitle, FormTextArea } from '../';
 import protectedApiClient from '../../api/protectedApiClient';
-import bookLogs from '../../containers/bookLogs';
 import {
   BookLogRequest,
   BookLogResponse,

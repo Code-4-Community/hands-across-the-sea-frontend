@@ -1,8 +1,4 @@
-import { LibraryReportReducerState, LibraryReportResponse } from './types';
-import {
-  AsyncRequestNotStarted,
-  generateAsyncRequestReducer,
-} from '../../../utils/asyncRequest';
+import { LibraryReportReducerState } from './types';
 import { C4CAction } from '../../../store';
 import { SET_IS_YES_REPORT } from './actions';
 

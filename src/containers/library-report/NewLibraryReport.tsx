@@ -22,13 +22,12 @@ const NewLibraryReport: React.FC = () => {
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
   const history = useHistory();
+  const queryClient = useQueryClient();
 
-  if (!schoolId) {
+  if (schoolId === undefined) {
     history.replace(Routes.HOME);
     return <></>;
   }
-
-  const queryClient = useQueryClient();
 
   const handleSubmit = async (
     report: ReportWithLibraryRequest | ReportWithoutLibraryRequest,

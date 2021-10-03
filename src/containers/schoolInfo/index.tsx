@@ -15,14 +15,17 @@ const SchoolInformation: React.FC = () => {
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  if (!schoolId) {
+  const { isLoading, error, data } = useQuery(
+    'schoolInformation',
+    () => protectedApiClient.getSchool(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
+  );
+  if (schoolId === undefined) {
     history.push(Routes.SELECT_SCHOOL);
     return <></>;
   }
-
-  const { isLoading, error, data } = useQuery('schoolInformation', () =>
-    protectedApiClient.getSchool(schoolId),
-  );
 
   const handleFinish = (schoolInfo: SchoolResponse) => async (
     schoolRequest: SchoolRequest,

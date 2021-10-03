@@ -21,17 +21,20 @@ const SchoolContacts: React.FC = () => {
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  if (!schoolId) {
-    history.replace(Routes.HOME);
-    return <></>;
-  }
-
   const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
   const { isLoading, error, data } = useQuery(
     ['schoolContacts', schoolId],
-    () => protectedApiClient.getSchoolContacts(schoolId),
+    () => protectedApiClient.getSchoolContacts(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
+
+  if (schoolId === undefined) {
+    history.replace(Routes.HOME);
+    return <></>;
+  }
 
   const deleteContact = async (contactId: number) => {
     await protectedApiClient.deleteSchoolContact(schoolId, contactId);

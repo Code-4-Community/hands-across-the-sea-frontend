@@ -3,7 +3,6 @@ import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { useDispatch } from 'react-redux';
 import protectedApiClient from '../../api/protectedApiClient';
 import { DirectoryTitle } from '../../components';
 import { Container, Outer } from '../../components/form-style/FormContainer';
@@ -51,7 +50,6 @@ const SchoolDirectory: React.FC = () => {
     SchoolResponse | undefined
   >(undefined);
 
-  const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery(
     'schools',

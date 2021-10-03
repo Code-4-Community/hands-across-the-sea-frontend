@@ -1,10 +1,6 @@
 import { C4CAction } from '../../../store';
-import { AsyncRequestNotStarted } from '../../../utils/asyncRequest';
 import { SET_PAST_SUBMISSIONS_SCHOOL_ID } from './actions';
-import {
-  PastSubmissionsSchoolsReducerState,
-  PastSubmissionsSchoolsResponse,
-} from './types';
+import { PastSubmissionsSchoolsReducerState } from './types';
 
 export const initialPastSubmissionsSchools: PastSubmissionsSchoolsReducerState = {};
 
