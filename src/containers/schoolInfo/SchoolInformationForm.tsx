@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Form, Input, Row, Select } from 'antd';
 import { FormTextArea } from '../../components';
 import FormContainer from '../../components/form-style/FormContainer';
@@ -25,6 +25,11 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!defaultSchoolInformation);
   const history = useHistory();
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    form.setFieldsValue(defaultSchoolInformation);
+  }, [form, defaultSchoolInformation]);
 
   const goPrev = () => {
     history.push('/select-school');
@@ -33,7 +38,7 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
   return (
     <Form
       onFinish={(form: SchoolRequest) => onFinish(form, editMode)}
-      initialValues={defaultSchoolInformation}
+      form={form}
     >
       <FormContainer title="School Information">
         <Row gutter={[0, 24]}>
@@ -95,6 +100,7 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
             text="Cancel"
             onClick={() => {
               setEditMode(false);
+              form.setFieldsValue(defaultSchoolInformation);
             }}
           />
         ) : (
