@@ -107,7 +107,7 @@ const EditLibraryReport: React.FC = () => {
             isNew={false}
             children={buttons}
             bookLogInfo={bookLogs.result}
-            editable={true}
+            editable={editMode}
             onSubmit={handleSubmit}
             values={report}
           />
@@ -116,7 +116,7 @@ const EditLibraryReport: React.FC = () => {
             isNew={false}
             children={buttons}
             bookLogInfo={bookLogs.result}
-            editable={true}
+            editable={editMode}
             onSubmit={handleSubmit}
             values={report}
           />
