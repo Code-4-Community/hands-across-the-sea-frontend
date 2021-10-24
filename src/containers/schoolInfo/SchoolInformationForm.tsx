@@ -37,7 +37,7 @@ const SchoolInformationForm: React.FC<SchoolInformationFormProps> = ({
 
   return (
     <Form
-      onFinish={(form: SchoolRequest) => onFinish(form, editMode)}
+      onFinish={(req: SchoolRequest) => onFinish(req, editMode)}
       form={form}
     >
       <FormContainer title="School Information">
