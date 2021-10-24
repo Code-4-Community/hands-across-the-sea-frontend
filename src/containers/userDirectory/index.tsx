@@ -20,7 +20,6 @@ import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
 import styled from 'styled-components';
-import { convertEnumToRegularText } from '../../utils/helpers';
 const { Search } = Input;
 
 const DisabledContainer = styled.div`
@@ -162,9 +161,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
-      render(input: string) {
-        return convertEnumToRegularText(input);
-      },
+      render: renderDisabled,
     },
     {
       title: 'Email',
@@ -183,9 +180,7 @@ const UserDirectory: React.FC = () => {
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
-      render(input: string) {
-        return convertEnumToRegularText(input);
-      },
+      render: renderDisabled,
     },
     {
       title: 'Action',
