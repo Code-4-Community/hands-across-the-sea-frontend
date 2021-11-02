@@ -10,6 +10,7 @@ export const loadAllUsers = (): UserDirectoryThunkAction<void> => {
         dispatch(allUsers.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error"
         dispatch(allUsers.failed(error.response.data));
       });
   };

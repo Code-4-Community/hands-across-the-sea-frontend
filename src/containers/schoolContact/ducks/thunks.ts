@@ -16,6 +16,7 @@ export const loadSchoolContacts = (
         dispatch(schoolContacts.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(schoolContacts.failed(error.response.data));
       });
   };
@@ -33,6 +34,7 @@ export const updateSchoolContact = (
         dispatch(loadSchoolContacts(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(schoolContacts.failed(error.response.data));
       });
   };
@@ -49,6 +51,7 @@ export const createSchoolContact = (
         dispatch(loadSchoolContacts(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(schoolContacts.failed(error.response.data));
       });
   };
@@ -65,6 +68,7 @@ export const deleteSchoolContact = (
         dispatch(loadSchoolContacts(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(schoolContacts.failed(error.response.data));
       });
   };

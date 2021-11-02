@@ -15,6 +15,7 @@ export const getBookLogs = (schoolId: number): BookLogsThunkAction<void> => {
         dispatch(loadBookLogs.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error"
         dispatch(loadBookLogs.failed(error.response.data));
       });
   };
@@ -32,6 +33,7 @@ export const updateBookLog = (
         dispatch(getBookLogs(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(loadBookLogs.failed(error.response.data));
       });
   };
@@ -48,6 +50,7 @@ export const createBookLog = (
         dispatch(getBookLogs(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(loadBookLogs.failed(error.response.data));
       });
   };
@@ -64,6 +67,7 @@ export const deleteBookLog = (
         dispatch(getBookLogs(schoolId));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(loadBookLogs.failed(error.response.data));
       });
   };

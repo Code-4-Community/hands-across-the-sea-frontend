@@ -13,6 +13,7 @@ export const getPastSubmissionsReports = (
         dispatch(pastSubmissionsReports.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(pastSubmissionsReports.failed(error.response.data));
       });
   };

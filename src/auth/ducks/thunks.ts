@@ -22,6 +22,7 @@ export const login = (
         dispatch(authenticateUser.loaded(response));
       })
       .catch((error) => {
+        // window.location.href = "/"
         dispatch(authenticateUser.failed(error.response.data));
       });
   };
@@ -40,6 +41,7 @@ export const signup = (
         dispatch(authenticateUser.loaded(response));
       })
       .catch((error) => {
+        // window.location.href = "/"
         dispatch(authenticateUser.failed(error.response.data));
       });
   };

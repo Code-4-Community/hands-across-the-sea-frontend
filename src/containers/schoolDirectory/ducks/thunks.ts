@@ -13,6 +13,7 @@ export const deleteSchool = (
         dispatch(loadSchools());
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(schoolInformation.failed(error.response.data)); // TODO: make typesafe with utils
       });
   };

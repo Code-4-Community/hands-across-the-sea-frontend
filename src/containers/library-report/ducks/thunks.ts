@@ -12,6 +12,7 @@ export const loadLatestLibraryReport = (
         dispatch(latestLibraryReport.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(latestLibraryReport.failed(error.response.data));
       });
   };

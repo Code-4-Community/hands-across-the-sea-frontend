@@ -10,6 +10,7 @@ export const loadSchools = (): SelectSchoolThunkAction<void> => {
         dispatch(getAllSchools.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error"
         dispatch(getAllSchools.failed(error.response.data));
       });
   };

@@ -10,6 +10,7 @@ export const getPastSubmissionsSchools = (): PastSubmissionsThunkAction<void> =>
         dispatch(pastSubmissionsSchools.loaded(response));
       })
       .catch((error) => {
+        window.location.href = "/error";
         dispatch(pastSubmissionsSchools.failed(error.response.data));
       });
   };
