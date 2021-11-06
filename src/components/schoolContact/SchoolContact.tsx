@@ -6,6 +6,7 @@ import {
 import React, { useState } from 'react';
 import { Button, Form, Input, Row, Select } from 'antd';
 import FormPiece from '../form-style/FormPiece';
+import { InputLabel } from '../../components/index';
 
 interface SchoolContactProps {
   initialSchoolContact?: SchoolContactResponse;
@@ -46,30 +47,35 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
     >
       {!isFirst && <br />}
       <FormPiece>
+        <InputLabel>First Name</InputLabel>
         <Form.Item
           name="firstName"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="First Name*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Last Name</InputLabel>
         <Form.Item
           name="lastName"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Last Name*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Address</InputLabel>
         <Form.Item
           name="address"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Address*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Phone Number</InputLabel>
         <Form.Item
           name="phone"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Phone Number*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Email</InputLabel>
         <Form.Item
           name="email"
           rules={[
@@ -82,6 +88,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
         >
           <Input placeholder="Email*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Role</InputLabel>
         <Form.Item
           name="type"
           rules={[{ required: true, message: 'Required' }]}
