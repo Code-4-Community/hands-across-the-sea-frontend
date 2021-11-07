@@ -14,8 +14,8 @@ import { Routes } from '../../App';
 import { useHistory } from 'react-router';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import { loadSchools } from '../selectSchool/ducks/thunks';
-import { BackButton, Container } from '../../components';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Container } from '../../components';
+import BackButton from '../../components/BackButton';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;
@@ -54,9 +54,7 @@ const PastSubmissionsSchools: React.FC = (props) => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
-          <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-            Back
-          </BackButton>
+          <BackButton />
           <FormContentContainer>
             <Form
               name="select-school"

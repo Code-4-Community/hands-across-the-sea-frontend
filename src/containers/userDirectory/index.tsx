@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { DirectoryTitle, BackButton } from '../../components';
+import { DirectoryTitle } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
@@ -20,9 +20,7 @@ import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
 import styled from 'styled-components';
-import { convertEnumToRegularText } from '../../utils/helpers';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Routes } from '../../App';
+import BackButton from '../../components/BackButton';
 
 const { Search } = Input;
 
@@ -209,9 +207,7 @@ const UserDirectory: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
-          <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-            Back
-          </BackButton>
+          <BackButton />
           <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
             <CreateUser
               onFinish={handleOnFinishCreateUser}

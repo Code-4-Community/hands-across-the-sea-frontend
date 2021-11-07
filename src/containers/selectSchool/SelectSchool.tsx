@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select, Empty } from 'antd';
+import { Col, Form, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -16,8 +16,8 @@ import { GetUserResponse } from '../settings/ducks/types';
 import { selectSchoolId } from './ducks/actions';
 import { loadSchools } from './ducks/thunks';
 import { SchoolEntry } from './ducks/types';
-import { BackButton, Container } from '../../components';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Container } from '../../components';
+import BackButton from '../../components/BackButton';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -75,10 +75,8 @@ const SelectSchool: React.FC = () => {
 
       return (
         <Container>
-          <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-            Back
-          </BackButton>
           <FormContentContainer>
+            <BackButton />
             <Form
               name="select-school"
               onFinish={handleSubmit}

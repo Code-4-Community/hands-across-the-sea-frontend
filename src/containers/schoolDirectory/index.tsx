@@ -26,9 +26,7 @@ import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
 import { loadSchools } from '../selectSchool/ducks/thunks';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import { deleteSchool } from './ducks/thunks';
-import { BackButton } from '../../components';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Routes } from '../../App';
+import BackButton from '../../components/BackButton';
 
 const { Search } = Input;
 
@@ -273,9 +271,7 @@ const SchoolDirectory: React.FC = () => {
       }
       return (
         <Container>
-          <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-            Back
-          </BackButton>
+          <BackButton />
           <Modal
             visible={createSchool || updateSchool}
             width={1000}

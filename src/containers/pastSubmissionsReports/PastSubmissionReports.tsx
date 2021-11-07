@@ -14,8 +14,7 @@ import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/du
 import Loading from '../../components/Loading';
 import { ReportGenericListResponse } from './ducks/types';
 import PastSubmissionActions from './PastSubmissionActions';
-import { BackButton } from '../../components';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import BackButton from '../../components/BackButton';
 
 const PastSubmissionsReports: React.FC = () => {
   const dispatch = useDispatch();
@@ -104,9 +103,7 @@ const PastSubmissionsReports: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
-          <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-            Back
-          </BackButton>
+          <BackButton />
           <Row gutter={[0, 32]}>
             <Col flex={24}>
               <DirectoryTitle level={2}>Past Submissions</DirectoryTitle>
