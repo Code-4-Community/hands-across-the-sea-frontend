@@ -13,6 +13,11 @@ enum Options {
   SCHOOL = 'SCHOOL',
 }
 
+enum Rounded {
+  LEFT = '10px 0 0 10px',
+  RIGHT = '0 10px 10px 0',
+}
+
 const Container = styled.div`
   max-width: 800px;
   margin: auto;
@@ -24,10 +29,10 @@ const StyledSelect = styled(Select)`
 `;
 
 const StyledButton = styled(Button)<{
-  border: string;
+  borderradius: string;
   selected: boolean;
 }>`
-  border-radius: ${(props) => props.border};
+  border-radius: ${(props) => props.borderradius};
   background-color: ${(props) => (props.selected ? '#54679E' : '#D4D9E7')};
   color: ${(props) => (props.selected ? 'white' : 'black')};
   width: 100%;
@@ -63,7 +68,7 @@ const DataVisualization: React.FC = () => {
           <Col xs={{ span: 8 }} sm={{ span: 4 }}>
             <StyledButton
               selected={selectedButton === Options.COUNTRY}
-              border="10px 0 0 10px"
+              borderradius={Rounded.LEFT}
               onClick={() => updateSelectedButton(Options.COUNTRY)}
             >
               Country
@@ -72,7 +77,7 @@ const DataVisualization: React.FC = () => {
           <Col xs={{ span: 8 }} sm={{ span: 4 }}>
             <StyledButton
               selected={selectedButton === Options.SCHOOL}
-              border="0 10px 10px 0"
+              borderradius={Rounded.RIGHT}
               onClick={() => updateSelectedButton(Options.SCHOOL)}
             >
               School
