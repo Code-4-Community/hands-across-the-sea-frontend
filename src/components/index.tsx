@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography, Input } from 'antd';
+import { Typography, Input, Card } from 'antd';
 import { LinkButton } from './LinkButton';
 
 const { TextArea } = Input;
@@ -56,4 +56,15 @@ export const Inner = styled.div`
   padding: 32px 32px 32px 32px;
   background-color: white;
   border-radius: 5px;
+`;
+
+export const StyledDataCard = styled(Card)`
+  width: 261px;
+  height: 261px;
+  border-radius: 38px;
+  text-align: center; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
 `;
