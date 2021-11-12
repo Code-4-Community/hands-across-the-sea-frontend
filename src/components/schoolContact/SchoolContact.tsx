@@ -3,7 +3,7 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../../containers/schoolContact/ducks/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Row, Select } from 'antd';
 import FormPiece from '../form-style/FormPiece';
 
@@ -24,13 +24,19 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   isFirst,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!initialSchoolContact);
+  const [form] = Form.useForm()
 
-  const onSubmitHandler = (c: SchoolContactRequest) => {
-    onSubmit(c);
+  useEffect(() => {
+    form.setFieldsValue(initialSchoolContact);
+  }, [form, initialSchoolContact]);
+
+  const onSubmitHandler = () => {
+    onSubmit(form.getFieldsValue());
     setEditMode(false);
   };
 
   const onCancelHandler = () => {
+    form.setFieldsValue(initialSchoolContact)
     if (initialSchoolContact) {
       setEditMode(false);
     } else if (onCancel !== undefined) {
@@ -40,9 +46,8 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
 
   return (
     <Form
-      initialValues={initialSchoolContact}
+      form={form}
       name="school-contact"
-      onFinish={onSubmitHandler}
     >
       {!isFirst && <br />}
       <FormPiece>
@@ -101,7 +106,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
             <Button type="default" onClick={onCancelHandler}>
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" onClick={onSubmitHandler}>
               Submit
             </Button>
           </Row>
