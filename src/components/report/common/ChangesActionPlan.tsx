@@ -14,7 +14,7 @@ const ChangesActionPlan: React.FC<ChangesActionPlanProps> = ({ editable }) => {
     <FormContainer title="Changes and Action Plan">
       <Row>
         <Col flex={24}>
-          <FormPiece note="Action Plans">
+          <FormPiece note="Action Plans and Recommendations">
             <Form.Item name="actionPlan">
               {editable ? (
                 <FormTextArea placeholder="Please enter your answer here" />
@@ -23,7 +23,7 @@ const ChangesActionPlan: React.FC<ChangesActionPlanProps> = ({ editable }) => {
               )}
             </Form.Item>
           </FormPiece>
-          <FormPiece note="Success Stories?">
+          <FormPiece note="Concerns, Challenges and Opportunities">
             <Form.Item name="successStories">
               {editable ? (
                 <FormTextArea placeholder="Please enter your answer here" />

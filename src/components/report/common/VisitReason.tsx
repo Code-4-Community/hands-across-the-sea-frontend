@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormPiece from '../../form-style/FormPiece';
-import { Col, Input, Row, Select } from 'antd';
+import { Col, Input, Row, Select, Form } from 'antd';
 import FormContainer from '../../form-style/FormContainer';
 
 interface VisitReasonProps {
@@ -45,26 +45,34 @@ const VisitReason: React.FC<VisitReasonProps> = ({
       <Row>
         <Col flex={24}>
           <FormPiece note="What is the purpose for today's visit?" lastPiece>
-            <Select
-              placeholder="Select a reason"
-              onChange={onSelected}
-              disabled={!editable}
-              defaultValue={otherSelected ? 'Other' : visitReason || undefined}
-              style={{ width: '300px' }}
-            >
-              {reasons.map((reason, i) => (
-                <Select.Option value={reason} key={i}>
-                  {reason}
-                </Select.Option>
-              ))}
-            </Select>
-            {otherSelected && (
-              <Input
+            <Form.Item name="visitReason">
+              <Select
+                placeholder="Select a reason*"
+                onChange={onSelected}
                 disabled={!editable}
-                value={visitReason || ''}
-                onChange={(e) => setVisitReason(e.target.value)}
-              />
-            )}
+                defaultValue={
+                  otherSelected ? 'Other' : visitReason || undefined
+                }
+                style={{ width: '300px' }}
+              >
+                {reasons.map((reason, i) => (
+                  <Select.Option value={reason} key={i}>
+                    {reason}
+                  </Select.Option>
+                ))}
+              </Select>
+              {otherSelected && (
+                <>
+                  <br />
+                  <Input
+                    disabled={!editable}
+                    value={visitReason || ''}
+                    placeholder="Briefly explain..."
+                    onChange={(e) => setVisitReason(e.target.value)}
+                  />
+                </>
+              )}
+            </Form.Item>
           </FormPiece>
         </Col>
       </Row>

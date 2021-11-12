@@ -57,3 +57,8 @@ export const Inner = styled.div`
   background-color: white;
   border-radius: 5px;
 `;
+
+export const InputLabel = styled(Paragraph)`
+  margin-bottom: 0.25em !important;
+  margin-top: none !important;
+`;

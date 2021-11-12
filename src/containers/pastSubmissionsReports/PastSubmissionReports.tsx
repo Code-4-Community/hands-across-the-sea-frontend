@@ -14,6 +14,7 @@ import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/du
 import Loading from '../../components/Loading';
 import { ReportGenericListResponse } from './ducks/types';
 import PastSubmissionActions from './PastSubmissionActions';
+import BackButton from '../../components/BackButton';
 
 const PastSubmissionsReports: React.FC = () => {
   const dispatch = useDispatch();
@@ -60,14 +61,14 @@ const PastSubmissionsReports: React.FC = () => {
       },
     },
     {
-      title: 'School ID',
-      dataIndex: 'schoolId',
+      title: 'School Name',
+      dataIndex: 'schoolName',
     },
     {
-      title: 'User ID',
-      dataIndex: 'userId',
+      title: 'User Name',
+      dataIndex: 'userName',
       sorter: {
-        compare: (a, b) => (a.userId > b.userId ? 1 : -1),
+        compare: (a, b) => a.userName.localeCompare(b.userName),
         multiple: 1,
       },
     },
@@ -102,6 +103,7 @@ const PastSubmissionsReports: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
+          <BackButton />
           <Row gutter={[0, 32]}>
             <Col flex={24}>
               <DirectoryTitle level={2}>Past Submissions</DirectoryTitle>
