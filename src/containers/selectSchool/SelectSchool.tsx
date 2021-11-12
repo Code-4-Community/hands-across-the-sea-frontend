@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select, Empty } from 'antd';
+import { Col, Form, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -16,6 +16,8 @@ import { GetUserResponse } from '../settings/ducks/types';
 import { selectSchoolId } from './ducks/actions';
 import { loadSchools } from './ducks/thunks';
 import { SchoolEntry } from './ducks/types';
+import { Container } from '../../components';
+import BackButton from '../../components/BackButton';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -72,60 +74,58 @@ const SelectSchool: React.FC = () => {
       }
 
       return (
-        <FormContentContainer>
-          <Form
-            name="select-school"
-            onFinish={handleSubmit}
-            onValuesChange={setFormValues}
-          >
-            <FormContainer title="Select a School">
-              <Row gutter={[0, 0]}>
-                <Col flex={24}>
-                  <FormPiece note="Which school will you be monitoring today?">
-                    <Form.Item name="schoolId" rules={[{ required: true }]}>
-                      <Select
-                        placeholder="Select a school"
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option: any) =>
-                          option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        filterSort={(optionA, optionB) =>
-                          optionA.children
-                            .toLowerCase()
-                            .localeCompare(optionB.children.toLowerCase())
-                        }
-                        notFoundContent={
-                          <Empty
-                            description={<span>No School Data Found</span>}
-                          />
-                        }
-                      >
-                        {Array.from(
-                          availableSchools.result.filter(
-                            (school) =>
-                              privilegeLevel === PrivilegeLevel.ADMIN ||
-                              school.country === userInfo.country,
-                          ),
-                        ).map(renderSchoolOption)}
-                      </Select>
-                    </Form.Item>
-                  </FormPiece>
-                </Col>
-              </Row>
-            </FormContainer>
-            <FormButtons>
-              <FormButtons.Button
-                text="Next"
-                type="primary"
-                isSubmit
-                disabled={submitDisabled}
-              />
-            </FormButtons>
-          </Form>
-        </FormContentContainer>
+        <Container>
+          <FormContentContainer>
+            <BackButton />
+            <Form
+              name="select-school"
+              onFinish={handleSubmit}
+              onValuesChange={setFormValues}
+            >
+              <FormContainer title="Select a School">
+                <Row gutter={[0, 0]}>
+                  <Col flex={24}>
+                    <FormPiece note="Which school will you be monitoring today?">
+                      <Form.Item name="schoolId" rules={[{ required: true }]}>
+                        <Select
+                          placeholder="Select a school"
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={(input, option: any) =>
+                            option.children
+                              .toLowerCase()
+                              .indexOf(input.toLowerCase()) >= 0
+                          }
+                          filterSort={(optionA, optionB) =>
+                            optionA.children
+                              .toLowerCase()
+                              .localeCompare(optionB.children.toLowerCase())
+                          }
+                        >
+                          {Array.from(
+                            availableSchools.result.filter(
+                              (school) =>
+                                privilegeLevel === PrivilegeLevel.ADMIN ||
+                                school.country === userInfo.country,
+                            ),
+                          ).map(renderSchoolOption)}
+                        </Select>
+                      </Form.Item>
+                    </FormPiece>
+                  </Col>
+                </Row>
+              </FormContainer>
+              <FormButtons>
+                <FormButtons.Button
+                  text="Next"
+                  type="primary"
+                  isSubmit
+                  disabled={submitDisabled}
+                />
+              </FormButtons>
+            </Form>
+          </FormContentContainer>
+        </Container>
       );
   }
 };

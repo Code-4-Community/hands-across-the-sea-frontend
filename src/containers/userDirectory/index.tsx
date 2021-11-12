@@ -20,6 +20,8 @@ import { loadAllUsers } from './ducks/thunks';
 import authClient from '../../auth/authClient';
 import protectedApiClient from '../../api/protectedApiClient';
 import styled from 'styled-components';
+import BackButton from '../../components/BackButton';
+
 const { Search } = Input;
 
 const DisabledContainer = styled.div`
@@ -205,6 +207,7 @@ const UserDirectory: React.FC = () => {
     case AsyncRequestKinds.Completed:
       return (
         <Container>
+          <BackButton />
           <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
             <CreateUser
               onFinish={handleOnFinishCreateUser}
