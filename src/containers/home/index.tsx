@@ -255,9 +255,7 @@ const Home: React.FC = () => {
               <InContain
                 lastPiece
                 onClick={() => {
-                  dispatch(logout());
-                  history.replace(Routes.LOGIN);
-                  history.go(0);
+                  dispatch(logout(history));
                 }}
               >
                 <Row>

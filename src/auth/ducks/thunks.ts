@@ -1,13 +1,15 @@
+import { History } from 'history';
+import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
+import AppAxiosInstance from '../axios';
+import { authenticateUser, logoutUser } from './actions';
 import {
   LoginRequest,
   SignupRequest,
   TokenPayload,
   UserAuthenticationThunkAction,
 } from './types';
-import { authenticateUser, logoutUser } from './actions';
-import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
-import { asyncRequestIsComplete } from '../../utils/asyncRequest';
-import AppAxiosInstance from '../axios';
+import { Routes } from '../../App';
 
 export const login = (
   loginRequest: LoginRequest,
@@ -45,10 +47,10 @@ export const signup = (
   };
 };
 
-export const logout = (): UserAuthenticationThunkAction<void> => {
+export const logout = (
+  history: History<unknown>,
+): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
-    localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
-
     const state: C4CState = getState();
 
     if (asyncRequestIsComplete(state.authenticationState.tokens)) {
@@ -58,13 +60,21 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
         .logout(refreshToken)
         .then(() => {
           dispatch(logoutUser.loaded());
+          clearLocalStorageAndRedirect(history);
         })
         .catch(() => {
           dispatch(logoutUser.failed());
         });
     } else {
       dispatch(logoutUser.loaded());
+      clearLocalStorageAndRedirect(history);
       return Promise.resolve();
     }
   };
+};
+
+const clearLocalStorageAndRedirect = (history: History): void => {
+  localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+  history.replace(Routes.LOGIN);
+  history.go(0);
 };
