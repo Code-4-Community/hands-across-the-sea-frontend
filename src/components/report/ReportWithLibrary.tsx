@@ -1,14 +1,14 @@
-import {Form, message} from 'antd';
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {BookLogResponse} from '../../containers/bookLogs/types';
+import { Form, message } from 'antd';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { BookLogResponse } from '../../containers/bookLogs/types';
 import {
   LibraryReportResponse,
   ReportWithLibraryRequest,
   Timetable,
 } from '../../containers/library-report/ducks/types';
-import {C4CState} from '../../store';
-import {initializeNewReportForm} from '../../utils/reportForm';
+import { C4CState } from '../../store';
+import { initializeNewReportForm } from '../../utils/reportForm';
 import FormContentContainer from '../form-style/FormContentContainer';
 import ChangesActionPlan from './common/ChangesActionPlan';
 import StudentBookInformation from './common/StudentBookInformation';
@@ -16,7 +16,7 @@ import VisitReason from './common/VisitReason';
 import LibraryInfo from './withLibrary/LibraryInfo';
 import MonitoringInfo from './withLibrary/MonitoringInfo';
 import TrainingMentorshipInfo from './withLibrary/TrainingMentorshipInfo';
-import {useQuery} from 'react-query';
+import { useQuery } from 'react-query';
 import protectedApiClient from '../../api/protectedApiClient';
 
 interface ReportWithLibraryProps {

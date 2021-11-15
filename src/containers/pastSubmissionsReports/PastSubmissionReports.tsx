@@ -23,7 +23,11 @@ const PastSubmissionsReports: React.FC = () => {
   );
   const { isLoading, error, data } = useQuery(
     ['pastSubmissionsReports', schoolId, currentPage],
-    () => protectedApiClient.getPastSubmissionReports(schoolId as number, currentPage),
+    () =>
+      protectedApiClient.getPastSubmissionReports(
+        schoolId as number,
+        currentPage,
+      ),
     {
       enabled: schoolId !== undefined,
     },
