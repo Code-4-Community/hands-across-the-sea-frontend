@@ -7,21 +7,16 @@ import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { SchoolEntry } from '../selectSchool/ducks/types';
-
-enum Options {
-  COUNTRY = 'COUNTRY',
-  SCHOOL = 'SCHOOL',
-}
-
-enum Rounded {
-  LEFT = '10px 0 0 10px',
-  RIGHT = '0 10px 10px 0',
-}
+import { Options, Rounded } from './types';
 
 const Container = styled.div`
   max-width: 800px;
   margin: auto;
   padding-top: 10%;
+`;
+
+const StyledRow = styled(Row)`
+  margin-bottom: 20px;
 `;
 
 const StyledSelect = styled(Select)`
@@ -45,9 +40,9 @@ const StyledButton = styled(Button)<{
 `;
 
 const DataVisualization: React.FC = () => {
-  const [selectedButton, updateSelectedButton] = useState(Options.COUNTRY);
-  const [schools, updateSchools] = useState<SchoolEntry[]>([]);
-  const [selectedDropDownValue, updateSelectedDropDownValue] = useState<
+  const [selectedButton, setSelectedButton] = useState(Options.COUNTRY);
+  const [schools, setSchools] = useState<SchoolEntry[]>([]);
+  const [selectedDropDownValue, setSelectedDropDownValue] = useState<
     string | undefined
   >(undefined);
 
@@ -57,19 +52,19 @@ const DataVisualization: React.FC = () => {
 
   useEffect(() => {
     if (availableSchools.kind === AsyncRequestKinds.Completed) {
-      updateSchools(availableSchools.result);
+      setSchools(availableSchools.result);
     }
   }, [availableSchools]);
 
   return (
     <>
       <Container>
-        <Row style={{ marginBottom: '20px' }} justify="center">
+        <StyledRow justify="center">
           <Col xs={{ span: 8 }} sm={{ span: 4 }}>
             <StyledButton
               selected={selectedButton === Options.COUNTRY}
               borderradius={Rounded.LEFT}
-              onClick={() => updateSelectedButton(Options.COUNTRY)}
+              onClick={() => setSelectedButton(Options.COUNTRY)}
             >
               Country
             </StyledButton>
@@ -78,21 +73,19 @@ const DataVisualization: React.FC = () => {
             <StyledButton
               selected={selectedButton === Options.SCHOOL}
               borderradius={Rounded.RIGHT}
-              onClick={() => updateSelectedButton(Options.SCHOOL)}
+              onClick={() => setSelectedButton(Options.SCHOOL)}
             >
               School
             </StyledButton>
           </Col>
-        </Row>
-        <Row style={{ marginBottom: '20px' }} justify="center">
+        </StyledRow>
+        <StyledRow justify="center">
           <Col span={16}>
             <StyledSelect
               placeholder="Search"
               showSearch
               allowClear
-              onChange={(value) =>
-                updateSelectedDropDownValue(value.toString())
-              }
+              onChange={(value) => setSelectedDropDownValue(value.toString())}
               notFoundContent={
                 <Empty
                   description={
@@ -114,7 +107,7 @@ const DataVisualization: React.FC = () => {
                   ))}
             </StyledSelect>
           </Col>
-        </Row>
+        </StyledRow>
         {/* Cards will go in row */}
         <Row gutter={[12, 24]} justify="center" wrap></Row>
       </Container>
