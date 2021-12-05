@@ -3,9 +3,10 @@ import {
   SchoolContactRequest,
   SchoolContactResponse,
 } from '../../containers/schoolContact/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Row, Select } from 'antd';
 import FormPiece from '../form-style/FormPiece';
+import { InputLabel } from '../../components/index';
 
 interface SchoolContactProps {
   initialSchoolContact?: SchoolContactResponse;
@@ -24,13 +25,19 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   isFirst,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!initialSchoolContact);
+  const [form] = Form.useForm()
 
-  const onSubmitHandler = (c: SchoolContactRequest) => {
-    onSubmit(c);
+  useEffect(() => {
+    form.setFieldsValue(initialSchoolContact);
+  }, [form, initialSchoolContact]);
+
+  const onSubmitHandler = () => {
+    onSubmit(form.getFieldsValue());
     setEditMode(false);
   };
 
   const onCancelHandler = () => {
+    form.setFieldsValue(initialSchoolContact)
     if (initialSchoolContact) {
       setEditMode(false);
     } else if (onCancel !== undefined) {
@@ -40,36 +47,40 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
 
   return (
     <Form
-      initialValues={initialSchoolContact}
+      form={form}
       name="school-contact"
-      onFinish={onSubmitHandler}
     >
       {!isFirst && <br />}
       <FormPiece>
+        <InputLabel>First Name</InputLabel>
         <Form.Item
           name="firstName"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="First Name*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Last Name</InputLabel>
         <Form.Item
           name="lastName"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Last Name*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Address</InputLabel>
         <Form.Item
           name="address"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Address*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Phone Number</InputLabel>
         <Form.Item
           name="phone"
           rules={[{ required: true, message: 'Required' }]}
         >
           <Input placeholder="Phone Number*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Email</InputLabel>
         <Form.Item
           name="email"
           rules={[
@@ -82,6 +93,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
         >
           <Input placeholder="Email*" disabled={!editMode} />
         </Form.Item>
+        <InputLabel>Role</InputLabel>
         <Form.Item
           name="type"
           rules={[{ required: true, message: 'Required' }]}
@@ -101,7 +113,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
             <Button type="default" onClick={onCancelHandler}>
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" onClick={onSubmitHandler}>
               Submit
             </Button>
           </Row>

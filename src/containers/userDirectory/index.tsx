@@ -7,13 +7,13 @@ import protectedApiClient from '../../api/protectedApiClient';
 import authClient from '../../auth/authClient';
 import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
 import { DirectoryTitle } from '../../components';
+import BackButton from '../../components/BackButton';
 import { Container, Outer } from '../../components/form-style/FormContainer';
 import CreateUser from '../../components/userDirectory/CreateUser';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
 import { UpdateUserRequest, UserResponse } from './types';
-import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Search } = Input;
 
@@ -151,9 +151,7 @@ const UserDirectory: React.FC = () => {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
-      render(input: string) {
-        return convertEnumToRegularText(input);
-      },
+      render: renderDisabled,
     },
     {
       title: 'Email',
@@ -172,9 +170,7 @@ const UserDirectory: React.FC = () => {
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
-      render(input: string) {
-        return convertEnumToRegularText(input);
-      },
+      render: renderDisabled,
     },
     {
       title: 'Action',
@@ -196,6 +192,7 @@ const UserDirectory: React.FC = () => {
       {error && <p>An error occurred loading users</p>}
       {!error && (
         <Container>
+          <BackButton />
           <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
             <CreateUser
               onFinish={handleOnFinishCreateUser}

@@ -13,6 +13,7 @@ import { C4CState } from '../../store';
 import { LibraryReportResponse } from '../library-report/ducks/types';
 import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/ducks/types';
 import PastSubmissionActions from './PastSubmissionActions';
+import BackButton from '../../components/BackButton';
 
 const PastSubmissionsReports: React.FC = () => {
   const history = useHistory();
@@ -94,6 +95,7 @@ const PastSubmissionsReports: React.FC = () => {
       {error && <p>An error occurred loading past submissions</p>}
       {data && (
         <Container>
+          <BackButton />
           <Row gutter={[0, 32]}>
             <Col flex={24}>
               <DirectoryTitle level={2}>Past Submissions</DirectoryTitle>

@@ -97,18 +97,20 @@ const EditLibraryReport: React.FC = () => {
         (isYesReport ? (
           <ReportWithLibrary
             isNew={false}
+            // eslint-disable-next-line react/no-children-prop
             children={buttons}
             bookLogInfo={data}
-            editable={true}
+            editable={editMode}
             onSubmit={handleSubmit}
             values={report}
           />
         ) : (
           <ReportWithoutLibrary
             isNew={false}
+            // eslint-disable-next-line react/no-children-prop
             children={buttons}
             bookLogInfo={data}
-            editable={true}
+            editable={editMode}
             onSubmit={handleSubmit}
             values={report}
           />

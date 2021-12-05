@@ -16,6 +16,7 @@ import { Countries } from '../../utils/countries';
 import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/types';
 import { SchoolEntry } from '../selectSchool/ducks/types';
+import BackButton from '../../components/BackButton';
 
 const { Search } = Input;
 
@@ -73,7 +74,7 @@ const SchoolDirectory: React.FC = () => {
       }
       queryClient.invalidateQueries('schools');
     } catch (err) {
-      message.error(`An error occurred, please try again: ${err.message}`);
+      message.error(`An error occurred, please try again.`);
     }
   };
 
@@ -254,6 +255,7 @@ const SchoolDirectory: React.FC = () => {
       {error && <p>An error occurred loading schools</p>}
       {!error && (
         <Container>
+          <BackButton />
           <Modal
             visible={createSchool || updateSchool}
             width={1000}

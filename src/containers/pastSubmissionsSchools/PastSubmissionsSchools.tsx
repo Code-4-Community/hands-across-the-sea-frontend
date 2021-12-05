@@ -11,6 +11,7 @@ import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import { setPastSubmissionsSchoolId } from './ducks/actions';
+import BackButton from '../../components/BackButton';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;
@@ -43,6 +44,7 @@ const PastSubmissionsSchools: React.FC = () => {
       {error && <p>An error occurred loading past submissions</p>}
       {data && (
         <FormContentContainer>
+          <BackButton />
           <Form
             name="select-school"
             onFinish={handleSubmit}
