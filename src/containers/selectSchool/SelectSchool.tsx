@@ -18,7 +18,6 @@ import { C4CState } from '../../store';
 import { GetUserResponse } from '../settings/ducks/types';
 import { selectSchoolId } from './ducks/actions';
 import { SchoolEntry } from './ducks/types';
-import { Container } from '../../components';
 import BackButton from '../../components/BackButton';
 
 interface SelectSchoolForm {
