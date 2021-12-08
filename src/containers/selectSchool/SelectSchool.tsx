@@ -75,8 +75,8 @@ const SelectSchool: React.FC = () => {
 
       return (
         <Container>
+          <BackButton />
           <FormContentContainer>
-            <BackButton />
             <Form
               name="select-school"
               onFinish={handleSubmit}
