@@ -85,7 +85,7 @@ const DataVisualization: React.FC = () => {
               placeholder="Search"
               showSearch
               allowClear
-              onChange={(value) => setSelectedDropDownValue(value.toString())}
+              onChange={(value) => setSelectedDropDownValue(value?.toString())}
               notFoundContent={
                 <Empty
                   description={
