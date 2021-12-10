@@ -1,10 +1,10 @@
-import React from 'react';
 import { Button } from 'antd';
-import { LibraryReportResponse } from '../library-report/ducks/types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setActiveReport } from './ducks/actions';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
+import { LibraryReportResponse } from '../library-report/ducks/types';
+import { setActiveReport } from './ducks/actions';
 
 interface PastSubmissionActionsProps {
   report: LibraryReportResponse;

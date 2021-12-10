@@ -4,12 +4,12 @@ import moment from 'moment';
 import {
   BookLogRequest,
   BookLogResponse,
-} from '../../containers/bookLogs/ducks/types';
+} from '../../containers/bookLogs/types';
 
 interface BookLogProps {
   defaultBookLog?: BookLogResponse;
-  onSubmit: (c: BookLogRequest) => void;
-  onDelete?: () => void;
+  onSubmit: (c: BookLogRequest) => Promise<void>;
+  onDelete?: () => Promise<void>;
   onCancel?: () => void;
 }
 
@@ -29,8 +29,8 @@ const BookLog: React.FC<BookLogProps> = ({
   const [bookLog, setBookLog] = useState<BookLogRequest>(initialBookLog);
   const [editMode, setEditMode] = useState<boolean>(!defaultBookLog);
 
-  const onSubmitHandler = (c: BookLogRequest) => {
-    onSubmit(c);
+  const onSubmitHandler = async (c: BookLogRequest) => {
+    await onSubmit(c);
     setBookLog(c);
     setEditMode(false);
   };
@@ -72,7 +72,7 @@ const BookLog: React.FC<BookLogProps> = ({
 
 interface EditBookLogProps {
   initialBookLog: BookLogRequest;
-  onSubmit: (c: BookLogRequest) => void;
+  onSubmit: (c: BookLogRequest) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -93,8 +93,8 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
     date: moment(initialBookLog.date),
   };
 
-  const onSubmitHandler = (values: BookLogForm) => {
-    onSubmit({
+  const onSubmitHandler = async (values: BookLogForm) => {
+    await onSubmit({
       ...values,
       date: values.date.toISOString(),
     });

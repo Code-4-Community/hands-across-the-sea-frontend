@@ -13,39 +13,32 @@ import { setActiveReport } from './ducks/actions';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import { BookLogResponse } from '../bookLogs/ducks/types';
-import { getBookLogs } from '../bookLogs/ducks/thunks';
-import {
-  AsyncRequest,
-  asyncRequestIsComplete,
-  asyncRequestIsFailed,
-  asyncRequestIsLoading,
-  asyncRequestIsNotStarted,
-} from '../../utils/asyncRequest';
+import { useQuery } from 'react-query';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
   const report = useSelector(
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
   );
-  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
-    (state: C4CState) => state.bookLogsState.bookLogs,
+  const schoolId = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+  const { isLoading, error, data } = useQuery(
+    'bookLogs',
+    () => protectedApiClient.getBookLogs(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
   const history = useHistory();
   const isYesReport = report && report.libraryStatus === 'EXISTS';
   const [editMode, setEditMode] = useState(false);
-  const schoolId = useSelector(
-    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
-  );
 
   useEffect(() => {
     if (!report) {
       history.replace(Routes.PAST_SUBMISSIONS_REPORTS);
     }
-    if (schoolId !== undefined) {
-      dispatch(getBookLogs(schoolId));
-    }
-  }, [report, history, schoolId, dispatch]);
+  }, [report, history]);
 
   if (!report) return null;
 
@@ -98,15 +91,15 @@ const EditLibraryReport: React.FC = () => {
 
   return (
     <>
-      {(asyncRequestIsNotStarted(bookLogs) ||
-        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
-      {asyncRequestIsComplete(bookLogs) &&
+      {isLoading && <p>Loading school data...</p>}
+      {error && <p>Failed to load report data</p>}
+      {data &&
         (isYesReport ? (
           <ReportWithLibrary
             isNew={false}
+            // eslint-disable-next-line react/no-children-prop
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={editMode}
             onSubmit={handleSubmit}
             values={report}
@@ -114,8 +107,9 @@ const EditLibraryReport: React.FC = () => {
         ) : (
           <ReportWithoutLibrary
             isNew={false}
+            // eslint-disable-next-line react/no-children-prop
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={editMode}
             onSubmit={handleSubmit}
             values={report}

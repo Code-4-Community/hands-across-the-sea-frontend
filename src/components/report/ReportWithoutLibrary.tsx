@@ -9,17 +9,12 @@ import {
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withoutLibrary/LibraryInfo';
 import VisitReason from './common/VisitReason';
-import {
-  AsyncRequest,
-  asyncRequestIsComplete,
-  asyncRequestIsFailed,
-  asyncRequestIsLoading,
-  asyncRequestIsNotStarted,
-} from '../../utils/asyncRequest';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { BookLogResponse } from '../../containers/bookLogs/ducks/types';
+import { BookLogResponse } from '../../containers/bookLogs/types';
 import { initializeNewReportForm } from '../../utils/reportForm';
+import { useQuery } from 'react-query';
+import protectedApiClient from '../../api/protectedApiClient';
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
@@ -46,27 +41,29 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
     });
   };
 
-  const latestReport: AsyncRequest<LibraryReportResponse, any> = useSelector(
-    (state: C4CState) => state.libraryReportState.latestReport,
+  const schoolId: number | undefined = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+
+  const { isLoading, error, data } = useQuery(
+    'latestReport',
+    () => protectedApiClient.getLatestReport(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
 
   return (
     <>
-      {(asyncRequestIsNotStarted(latestReport) ||
-        asyncRequestIsLoading(latestReport)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(latestReport) && !isNew && (
-        <p>Failed to load report</p>
-      )}
-      {(asyncRequestIsComplete(latestReport) ||
-        asyncRequestIsFailed(latestReport)) && (
+      {isLoading && <p>Loading school data...</p>}
+      {error && !isNew && <p>Failed to load report</p>}
+      {(data || error) && (
         <FormContentContainer>
           <Form
             initialValues={
               isNew
                 ? (initializeNewReportForm(
-                    asyncRequestIsComplete(latestReport)
-                      ? latestReport.result
-                      : values,
+                    data ?? values,
                     bookLogInfo,
                     true,
                   ) as ReportWithoutLibraryRequest)

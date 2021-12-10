@@ -1,12 +1,5 @@
-import { genericAsyncActions } from '../../../utils/asyncRequest';
-import { ReportGenericListResponse } from './types';
-import { LibraryReportResponse } from '../../library-report/ducks/types';
 import { Action } from '../../../store';
-
-export const pastSubmissionsReports = genericAsyncActions<
-  ReportGenericListResponse,
-  any
->();
+import { LibraryReportResponse } from '../../library-report/ducks/types';
 
 export const SET_ACTIVE_REPORT = 'setActiveReport';
 
@@ -17,8 +10,4 @@ export const setActiveReport = (
   payload: report,
 });
 
-export type PastSubmissionsReportsActions =
-  | ReturnType<typeof setActiveReport>
-  | ReturnType<typeof pastSubmissionsReports.loading>
-  | ReturnType<typeof pastSubmissionsReports.loaded>
-  | ReturnType<typeof pastSubmissionsReports.failed>;
+export type PastSubmissionsReportsActions = ReturnType<typeof setActiveReport>;
