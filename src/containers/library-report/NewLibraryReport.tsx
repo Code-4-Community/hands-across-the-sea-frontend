@@ -1,51 +1,40 @@
 import { message } from 'antd';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import { loadLatestLibraryReport } from '../../containers/library-report/ducks/thunks';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
-} from '../../containers/library-report/ducks/types';
+} from './ducks/types';
 import { C4CState } from '../../store';
-import {
-  AsyncRequest,
-  asyncRequestIsComplete,
-  asyncRequestIsFailed,
-  asyncRequestIsLoading,
-  asyncRequestIsNotStarted,
-} from '../../utils/asyncRequest';
-import { getBookLogs } from '../bookLogs/ducks/thunks';
-import { BookLogResponse } from '../bookLogs/ducks/types';
 
-const NewLibraryReport = () => {
-  const dispatch = useDispatch();
+const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
   );
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-
-  useEffect(() => {
-    if (schoolId !== undefined) {
-      dispatch(loadLatestLibraryReport(schoolId));
-      dispatch(getBookLogs(schoolId));
-    }
-  }, [schoolId, dispatch]);
-
-  const bookLogs: AsyncRequest<BookLogResponse[], any> = useSelector(
-    (state: C4CState) => state.bookLogsState.bookLogs,
+  const { isLoading, error, data } = useQuery(
+    'bookLogs',
+    () => protectedApiClient.getBookLogs(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
-  const history = useHistory();
 
-  if (!schoolId) {
+  const history = useHistory();
+  const queryClient = useQueryClient();
+
+  if (schoolId === undefined) {
     history.replace(Routes.HOME);
+    return <></>;
   }
 
   const handleSubmit = async (
@@ -66,7 +55,7 @@ const NewLibraryReport = () => {
           report as ReportWithoutLibraryRequest,
         );
       }
-      dispatch(loadLatestLibraryReport(schoolId));
+      queryClient.invalidateQueries('latestLibraryReport');
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
       // TODO: show a better error message
@@ -82,15 +71,14 @@ const NewLibraryReport = () => {
 
   return (
     <>
-      {(asyncRequestIsNotStarted(bookLogs) ||
-        asyncRequestIsLoading(bookLogs)) && <p>Loading school data...</p>}
-      {asyncRequestIsFailed(bookLogs) && <p>Failed to load report data</p>}
-      {asyncRequestIsComplete(bookLogs) &&
+      {isLoading && <p>Loading school data...</p>}
+      {error && <p>Failed to load report data</p>}
+      {data &&
         (isYesReport ? (
           <ReportWithLibrary
             isNew={true}
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={true}
             onSubmit={handleSubmit}
           />
@@ -98,7 +86,7 @@ const NewLibraryReport = () => {
           <ReportWithoutLibrary
             isNew={true}
             children={buttons}
-            bookLogInfo={bookLogs.result}
+            bookLogInfo={data}
             editable={true}
             onSubmit={handleSubmit}
           />

@@ -1,37 +1,31 @@
-import React, { useEffect } from 'react';
-import {
-  SchoolInformationReducerState,
-  SchoolRequest,
-  SchoolResponse,
-} from './ducks/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSchoolRequest } from './ducks/thunks';
-import { C4CState } from '../../store';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../App';
-import SchoolInformationForm from './SchoolInformationForm';
-import protectedApiClient from '../../api/protectedApiClient';
 import { message } from 'antd';
+import React from 'react';
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import protectedApiClient from '../../api/protectedApiClient';
+import { Routes } from '../../App';
+import { C4CState } from '../../store';
+import { SelectSchoolReducerState } from '../selectSchool/ducks/types';
+import { SchoolRequest, SchoolResponse } from './types';
+import SchoolInformationForm from './SchoolInformationForm';
 
 const SchoolInformation: React.FC = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const schoolId: SelectSchoolReducerState['selectedSchoolId'] = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  const schoolInformation: SchoolInformationReducerState['schoolInformation'] = useSelector(
-    (state: C4CState) => state.schoolInformationState.schoolInformation,
+  const { isLoading, error, data } = useQuery(
+    'schoolInformation',
+    () => protectedApiClient.getSchool(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
-
-  useEffect(() => {
-    if (schoolId !== undefined) {
-      dispatch(getSchoolRequest(schoolId));
-    } else {
-      history.push(Routes.SELECT_SCHOOL);
-    }
-  }, [schoolId, dispatch, history]);
+  if (schoolId === undefined) {
+    history.push(Routes.SELECT_SCHOOL);
+    return <></>;
+  }
 
   const handleFinish = (schoolInfo: SchoolResponse) => async (
     schoolRequest: SchoolRequest,
@@ -48,20 +42,18 @@ const SchoolInformation: React.FC = () => {
     history.push('/school-contacts');
   };
 
-  switch (schoolInformation.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Loading:
-      return <p>Loading school information...</p>;
-    case AsyncRequestKinds.Failed:
-      return <p>Failed to load school information</p>;
-    case AsyncRequestKinds.Completed:
-      return (
+  return (
+    <>
+      {isLoading && <p>Loading school information...</p>}
+      {error && <p>Failed to load school information</p>}
+      {data && (
         <SchoolInformationForm
-          onFinish={handleFinish(schoolInformation.result)}
-          defaultSchoolInformation={schoolInformation.result}
+          onFinish={handleFinish(data)}
+          defaultSchoolInformation={data}
         />
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default SchoolInformation;

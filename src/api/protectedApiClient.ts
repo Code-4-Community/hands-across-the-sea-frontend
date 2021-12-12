@@ -1,17 +1,14 @@
 import AppAxiosInstance from '../auth/axios';
-import {
-  SchoolRequest,
-  SchoolResponse,
-} from '../containers/schoolInfo/ducks/types';
+import { SchoolRequest, SchoolResponse } from '../containers/schoolInfo/types';
 import {
   SchoolContactRequest,
   SchoolContactResponse,
-} from '../containers/schoolContact/ducks/types';
+} from '../containers/schoolContact/types';
 import {
   BookLogRequest,
   BookLogResponse,
   BookLogPostRequest,
-} from '../containers/bookLogs/ducks/types';
+} from '../containers/bookLogs/types';
 import { SchoolEntry } from '../containers/selectSchool/ducks/types';
 import {
   LibraryReportResponse,
@@ -25,7 +22,7 @@ import {
 import {
   GetAllUsersResponse,
   UpdateUserRequest,
-} from '../containers/userDirectory/ducks/types';
+} from '../containers/userDirectory/types';
 import { PastSubmissionsSchoolsResponse } from '../containers/pastSubmissionsSchools/ducks/types';
 import { ReportGenericListResponse } from '../containers/pastSubmissionsReports/ducks/types';
 
@@ -76,10 +73,6 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
 
   readonly getLatestReport: (
-    schoolId: number,
-  ) => Promise<LibraryReportResponse>;
-
-  readonly getLatestReportWithLibrary: (
     schoolId: number,
   ) => Promise<LibraryReportResponse>;
 
@@ -289,12 +282,6 @@ const getLatestReportWithLibrary = (
   ).then((res) => res.data);
 };
 
-const getLatestReport = (schoolId: number): Promise<LibraryReportResponse> => {
-  return AppAxiosInstance.get(
-    `${ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY}/${schoolId.toString()}`,
-  ).then((res) => res.data); // TODO
-};
-
 const createReportWithLibrary = (
   schoolId: number,
   report: ReportWithLibraryRequest,
@@ -444,14 +431,13 @@ const Client: ProtectedApiClient = Object.freeze({
   getBookLogs,
   deleteBookLog,
   getAllSchools,
-  getLatestReport,
   createReportWithLibrary,
   createReportWithoutLibrary,
   editReportWithLibrary,
   editReportWithoutLibrary,
   getPastSubmissionSchools,
   getPastSubmissionReports,
-  getLatestReportWithLibrary,
+  getLatestReport: getLatestReportWithLibrary,
 });
 
 export default Client;

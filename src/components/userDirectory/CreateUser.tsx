@@ -5,7 +5,7 @@ import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
-import { UserResponse } from '../../containers/userDirectory/ducks/types';
+import { UserResponse } from '../../containers/userDirectory/types';
 import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;

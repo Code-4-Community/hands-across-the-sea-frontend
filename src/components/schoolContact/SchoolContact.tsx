@@ -2,7 +2,7 @@ import {
   ContactType,
   SchoolContactRequest,
   SchoolContactResponse,
-} from '../../containers/schoolContact/ducks/types';
+} from '../../containers/schoolContact/types';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Row, Select } from 'antd';
 import FormPiece from '../form-style/FormPiece';
@@ -11,8 +11,8 @@ import { InputLabel } from '../../components/index';
 interface SchoolContactProps {
   initialSchoolContact?: SchoolContactResponse;
   suggestedContactType?: ContactType;
-  onSubmit: (c: SchoolContactRequest) => void;
-  onDelete?: () => void;
+  onSubmit: (c: SchoolContactRequest) => Promise<void>;
+  onDelete?: () => Promise<void>;
   onCancel?: () => void;
   isFirst?: boolean;
 }

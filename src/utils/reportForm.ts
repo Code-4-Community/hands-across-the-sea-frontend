@@ -1,4 +1,4 @@
-import { BookLogResponse } from '../containers/bookLogs/ducks/types';
+import { BookLogResponse } from '../containers/bookLogs/types';
 import {
   LibraryReportShared,
   ReadyTimeline,
@@ -16,7 +16,7 @@ export const initializeNewReportForm = (
       parseInt(b.date.toString().split(' ')[5], 10) -
       parseInt(a.date.toString().split(' ')[5], 10),
   );
-  let filledInValues = {
+  const filledInValues = {
     numberOfChildren: report === undefined ? null : report.numberOfChildren,
     gradesAttended: report === undefined ? [] : report.gradesAttended,
     numberOfBooks: bookLogs.reduce((a, b) => a + b.count, 0),

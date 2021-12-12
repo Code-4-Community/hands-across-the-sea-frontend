@@ -1,11 +1,4 @@
-import { genericAsyncActions } from '../../../utils/asyncRequest';
-import { LibraryReportResponse } from './types';
 import { Action } from '../../../store';
-
-export const latestLibraryReport = genericAsyncActions<
-  LibraryReportResponse,
-  any
->();
 
 export const SET_IS_YES_REPORT = 'setIsYesReport';
 export const setIsYesReport = (
@@ -15,8 +8,4 @@ export const setIsYesReport = (
   payload: yesOrNo,
 });
 
-export type LibraryReportActions =
-  | ReturnType<typeof latestLibraryReport.loading>
-  | ReturnType<typeof latestLibraryReport.loaded>
-  | ReturnType<typeof latestLibraryReport.failed>
-  | ReturnType<typeof setIsYesReport>;
+export type LibraryReportActions = ReturnType<typeof setIsYesReport>;

@@ -25,10 +25,7 @@ const FormItemDropdown: React.FC<FormPieceDropdownProps> = ({
   return (
     <>
       {clarifyText && <ClarifyText>{clarifyText}</ClarifyText>}
-      <Form.Item
-        name={name}
-        rules={[{ required: required, message: 'Required' }]}
-      >
+      <Form.Item name={name} rules={[{ required, message: 'Required' }]}>
         <Select placeholder={text} onChange={onChange} disabled={disabled}>
           {getOptionsFromEnum(optionsEnum)}
         </Select>

@@ -6,7 +6,7 @@ import FormPiece from '../form-style/FormPiece';
 import {
   SchoolRequest,
   SchoolResponse,
-} from '../../containers/schoolInfo/ducks/types';
+} from '../../containers/schoolInfo/types';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
