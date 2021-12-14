@@ -11,6 +11,7 @@ import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import { setPastSubmissionsSchoolId } from './ducks/actions';
+import { Container } from '../../components';
 import BackButton from '../../components/BackButton';
 
 interface SelectPasSubmissionSchoolForm {
@@ -43,53 +44,55 @@ const PastSubmissionsSchools: React.FC = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>An error occurred loading past submissions</p>}
       {data && (
-        <FormContentContainer>
+        <Container>
           <BackButton />
-          <Form
-            name="select-school"
-            onFinish={handleSubmit}
-            onValuesChange={setFormValues}
-          >
-            <FormContainer title="Select a School">
-              <Row gutter={[0, 0]}>
-                <Col flex={24}>
-                  <FormPiece note="Which school would you like to see past reports of?">
-                    <Form.Item
-                      name="pastSubmissionsSchoolId"
-                      rules={[{ required: true }]}
-                    >
-                      <Select
-                        placeholder="Select a school"
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option: any) =>
-                          option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        filterSort={(optionA, optionB) =>
-                          optionA.children
-                            .toLowerCase()
-                            .localeCompare(optionB.children.toLowerCase())
-                        }
+          <FormContentContainer>
+            <Form
+              name="select-school"
+              onFinish={handleSubmit}
+              onValuesChange={setFormValues}
+            >
+              <FormContainer title="Select a School">
+                <Row gutter={[0, 0]}>
+                  <Col flex={24}>
+                    <FormPiece note="Which school would you like to see past reports of?">
+                      <Form.Item
+                        name="pastSubmissionsSchoolId"
+                        rules={[{ required: true }]}
                       >
-                        {Array.from(data.schools).map(renderSchoolOption)}
-                      </Select>
-                    </Form.Item>
-                  </FormPiece>
-                </Col>
-              </Row>
-            </FormContainer>
-            <FormButtons>
-              <FormButtons.Button
-                text="Next"
-                type="primary"
-                isSubmit
-                disabled={submitDisabled}
-              />
-            </FormButtons>
-          </Form>
-        </FormContentContainer>
+                        <Select
+                          placeholder="Select a school"
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={(input, option: any) =>
+                            option.children
+                              .toLowerCase()
+                              .indexOf(input.toLowerCase()) >= 0
+                          }
+                          filterSort={(optionA, optionB) =>
+                            optionA.children
+                              .toLowerCase()
+                              .localeCompare(optionB.children.toLowerCase())
+                          }
+                        >
+                          {Array.from(data.schools).map(renderSchoolOption)}
+                        </Select>
+                      </Form.Item>
+                    </FormPiece>
+                  </Col>
+                </Row>
+              </FormContainer>
+              <FormButtons>
+                <FormButtons.Button
+                  text="Next"
+                  type="primary"
+                  isSubmit
+                  disabled={submitDisabled}
+                />
+              </FormButtons>
+            </Form>
+          </FormContentContainer>
+        </Container>
       )}
     </>
   );

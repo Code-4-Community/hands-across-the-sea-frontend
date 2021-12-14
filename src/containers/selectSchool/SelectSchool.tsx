@@ -18,6 +18,7 @@ import { C4CState } from '../../store';
 import { GetUserResponse } from '../settings/ducks/types';
 import { selectSchoolId } from './ducks/actions';
 import { SchoolEntry } from './ducks/types';
+import { Container } from '../../components';
 import BackButton from '../../components/BackButton';
 
 interface SelectSchoolForm {
@@ -68,56 +69,58 @@ const SelectSchool: React.FC = () => {
       )}
       {error && <p>An error occurred loading schools</p>}
       {data && (
-        <FormContentContainer>
+        <Container>
           <BackButton />
-          <Form
-            name="select-school"
-            onFinish={handleSubmit}
-            onValuesChange={setFormValues}
-          >
-            <FormContainer title="Select a School">
-              <Row gutter={[0, 0]}>
-                <Col flex={24}>
-                  <FormPiece note="Which school will you be monitoring today?">
-                    <Form.Item name="schoolId" rules={[{ required: true }]}>
-                      <Select
-                        placeholder="Select a school"
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option: any) =>
-                          option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        filterSort={(optionA, optionB) =>
-                          optionA.children
-                            .toLowerCase()
-                            .localeCompare(optionB.children.toLowerCase())
-                        }
-                      >
-                        {data
-                          .filter(
-                            (school) =>
-                              privilegeLevel === PrivilegeLevel.ADMIN ||
-                              school.country === userInfo.country,
-                          )
-                          .map(renderSchoolOption)}
-                      </Select>
-                    </Form.Item>
-                  </FormPiece>
-                </Col>
-              </Row>
-            </FormContainer>
-            <FormButtons>
-              <FormButtons.Button
-                text="Next"
-                type="primary"
-                isSubmit
-                disabled={submitDisabled}
-              />
-            </FormButtons>
-          </Form>
-        </FormContentContainer>
+          <FormContentContainer>
+            <Form
+              name="select-school"
+              onFinish={handleSubmit}
+              onValuesChange={setFormValues}
+            >
+              <FormContainer title="Select a School">
+                <Row gutter={[0, 0]}>
+                  <Col flex={24}>
+                    <FormPiece note="Which school will you be monitoring today?">
+                      <Form.Item name="schoolId" rules={[{ required: true }]}>
+                        <Select
+                          placeholder="Select a school"
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={(input, option: any) =>
+                            option.children
+                              .toLowerCase()
+                              .indexOf(input.toLowerCase()) >= 0
+                          }
+                          filterSort={(optionA, optionB) =>
+                            optionA.children
+                              .toLowerCase()
+                              .localeCompare(optionB.children.toLowerCase())
+                          }
+                        >
+                          {data
+                            .filter(
+                              (school) =>
+                                privilegeLevel === PrivilegeLevel.ADMIN ||
+                                school.country === userInfo.country,
+                            )
+                            .map(renderSchoolOption)}
+                        </Select>
+                      </Form.Item>
+                    </FormPiece>
+                  </Col>
+                </Row>
+              </FormContainer>
+              <FormButtons>
+                <FormButtons.Button
+                  text="Next"
+                  type="primary"
+                  isSubmit
+                  disabled={submitDisabled}
+                />
+              </FormButtons>
+            </Form>
+          </FormContentContainer>
+        </Container>
       )}
     </>
   );
