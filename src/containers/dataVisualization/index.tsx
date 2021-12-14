@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Col, Empty, Row, Select } from 'antd';
 import { Countries } from '../../utils/countries';
 import { convertEnumToRegularText } from '../../utils/helpers';
-import { useSelector } from 'react-redux';
-import { C4CState } from '../../store';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { SchoolEntry } from '../selectSchool/ducks/types';
 import { Options, Rounded } from './types';
+import { useQuery } from 'react-query';
+import protectedApiClient from '../../api/protectedApiClient';
+import { SchoolSummaryResponse } from '../pastSubmissionsSchools/ducks/types';
 
 const Container = styled.div`
   max-width: 800px;
@@ -41,76 +40,76 @@ const StyledButton = styled(Button)<{
 
 const DataVisualization: React.FC = () => {
   const [selectedButton, setSelectedButton] = useState(Options.COUNTRY);
-  const [schools, setSchools] = useState<SchoolEntry[]>([]);
   const [selectedDropDownValue, setSelectedDropDownValue] = useState<
     string | undefined
   >(undefined);
 
-  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
+  const { isLoading, error, data } = useQuery(
+    'pastSubmissionsSchools',
+    protectedApiClient.getPastSubmissionSchools,
   );
-
-  useEffect(() => {
-    if (availableSchools.kind === AsyncRequestKinds.Completed) {
-      setSchools(availableSchools.result);
-    }
-  }, [availableSchools]);
 
   return (
     <>
-      <Container>
-        <StyledRow justify="center">
-          <Col xs={{ span: 8 }} sm={{ span: 4 }}>
-            <StyledButton
-              selected={selectedButton === Options.COUNTRY}
-              borderradius={Rounded.LEFT}
-              onClick={() => setSelectedButton(Options.COUNTRY)}
-            >
-              Country
-            </StyledButton>
-          </Col>
-          <Col xs={{ span: 8 }} sm={{ span: 4 }}>
-            <StyledButton
-              selected={selectedButton === Options.SCHOOL}
-              borderradius={Rounded.RIGHT}
-              onClick={() => setSelectedButton(Options.SCHOOL)}
-            >
-              School
-            </StyledButton>
-          </Col>
-        </StyledRow>
-        <StyledRow justify="center">
-          <Col span={16}>
-            <StyledSelect
-              placeholder="Search"
-              showSearch
-              allowClear
-              onChange={(value) => setSelectedDropDownValue(value?.toString())}
-              notFoundContent={
-                <Empty
-                  description={
-                    <span>{`No ${selectedButton.toLocaleLowerCase()} data found`}</span>
-                  }
-                />
-              }
-            >
-              {selectedButton === Options.COUNTRY
-                ? Object.keys(Countries).map((key: string) => (
-                    <Select.Option key={key} value={key}>
-                      {convertEnumToRegularText(key)}
-                    </Select.Option>
-                  ))
-                : schools.map((school: SchoolEntry) => (
-                    <Select.Option key={school.id} value={school.name}>
-                      {school.name}
-                    </Select.Option>
-                  ))}
-            </StyledSelect>
-          </Col>
-        </StyledRow>
-        {/* Cards will go in row */}
-        <Row gutter={[12, 24]} justify="center" wrap></Row>
-      </Container>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>An error occurred loading the page</p>}
+      {data && (
+        <Container>
+          <StyledRow justify="center">
+            <Col xs={{ span: 8 }} sm={{ span: 4 }}>
+              <StyledButton
+                selected={selectedButton === Options.COUNTRY}
+                borderradius={Rounded.LEFT}
+                onClick={() => setSelectedButton(Options.COUNTRY)}
+              >
+                Country
+              </StyledButton>
+            </Col>
+            <Col xs={{ span: 8 }} sm={{ span: 4 }}>
+              <StyledButton
+                selected={selectedButton === Options.SCHOOL}
+                borderradius={Rounded.RIGHT}
+                onClick={() => setSelectedButton(Options.SCHOOL)}
+              >
+                School
+              </StyledButton>
+            </Col>
+          </StyledRow>
+          <StyledRow justify="center">
+            <Col span={16}>
+              <StyledSelect
+                placeholder="Search"
+                showSearch
+                allowClear
+                onChange={(value) =>
+                  setSelectedDropDownValue(value?.toString())
+                }
+                notFoundContent={
+                  <Empty
+                    description={
+                      <span>{`No ${selectedButton.toLocaleLowerCase()} data found`}</span>
+                    }
+                  />
+                }
+              >
+                {selectedButton === Options.COUNTRY
+                  ? Object.keys(Countries).map((key: string) => (
+                      <Select.Option key={key} value={key}>
+                        {convertEnumToRegularText(key)}
+                      </Select.Option>
+                    ))
+                  : data.schools.map((school: SchoolSummaryResponse) => (
+                      <Select.Option key={school.id} value={school.name}>
+                        {school.name}
+                      </Select.Option>
+                    ))}
+              </StyledSelect>
+            </Col>
+          </StyledRow>
+          {/* Cards will go in row */}
+          <Row gutter={[12, 24]} justify="center" wrap></Row>
+        </Container>
+      )}
     </>
   );
 };
