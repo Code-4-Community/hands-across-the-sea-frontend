@@ -68,3 +68,10 @@ export const StyledDataCard = styled(Card)`
   justify-content: center;
   margin-bottom: 10px;
 `;
+
+export const DisplayCard = styled(Card)`
+  width: 261; 
+  height: 70; 
+  borderRadius: 38; 
+  textAlign: center;
+`
