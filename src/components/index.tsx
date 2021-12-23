@@ -5,12 +5,6 @@ import { LinkButton } from './LinkButton';
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
 
-export const BackButton = styled(LinkButton)`
-  margin: auto;
-  background: transparent;
-  color: #54679e;
-`;
-
 export const FormTextArea = styled(TextArea)`
   resize: none;
 `;
