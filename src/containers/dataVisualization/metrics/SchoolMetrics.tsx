@@ -10,7 +10,7 @@ import { SchoolEntry } from '../../selectSchool/ducks/types';
 import DataCard from '../../../components/dataVisualization/DataCard';
 import { MetricMapping } from '../types';
 
-const SchoolStat: React.FC = () => {
+const SchoolMetrics: React.FC = () => {
   const queryClient = useQueryClient();
   const [selectedCountry, setSelectedCountry] = useState<string | undefined>(
     undefined,
@@ -29,7 +29,7 @@ const SchoolStat: React.FC = () => {
 
   const schoolMetricsQuery = useQuery(
     ['schoolMetrics', selectedSchool],
-    () => protectedApiClient.getSchoolStat(selectedSchool as number),
+    () => protectedApiClient.getSchoolMetrics(selectedSchool as number),
     {
       enabled: selectedSchool !== undefined,
     },
@@ -37,6 +37,7 @@ const SchoolStat: React.FC = () => {
 
   const handleCountrySelect = async (selectedValue: string) => {
     setSelectedCountry(selectedValue);
+    setSelectedSchool(undefined);
     await queryClient.invalidateQueries('getAllSchools');
   };
 
@@ -84,22 +85,24 @@ const SchoolStat: React.FC = () => {
           </SelectDropDown>
         </Col>
       </StyledRow>
-      <Row gutter={[12, 24]} justify="center" wrap>
-        {schoolMetricsQuery.isLoading && <p>Loading metric...</p>}
-        {schoolMetricsQuery.error || schoolMetricsQuery.data === undefined ? (
-          <p>An error occurred loading metric</p>
-        ) : (
-          Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
-            <DataCard
-              key={key}
-              data={prepareData(key, value)}
-              title={MetricMapping[key as keyof typeof MetricMapping]}
-            />
-          ))
-        )}
-      </Row>
+      {selectedSchool !== undefined && (
+        <Row gutter={[12, 24]} justify="center" wrap>
+          {schoolMetricsQuery.isLoading && <p>Loading metric...</p>}
+          {schoolMetricsQuery.error || schoolMetricsQuery.data === undefined ? (
+            <p>An error occurred loading metric</p>
+          ) : (
+            Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
+              <DataCard
+                key={key}
+                data={prepareData(key, value)}
+                title={MetricMapping[key as keyof typeof MetricMapping]}
+              />
+            ))
+          )}
+        </Row>
+      )}
     </>
   );
 };
 
-export default SchoolStat;
+export default SchoolMetrics;

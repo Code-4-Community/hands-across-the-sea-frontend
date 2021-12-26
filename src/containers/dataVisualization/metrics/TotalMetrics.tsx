@@ -5,10 +5,10 @@ import DataCard from '../../../components/dataVisualization/DataCard';
 import { MetricMapping } from '../types';
 import { Row } from 'antd';
 
-const TotalStat: React.FC = () => {
+const TotalMetrics: React.FC = () => {
   const { isLoading, error, data } = useQuery(
     'totalMetric',
-    protectedApiClient.getTotalStat,
+    protectedApiClient.getTotalMetrics,
   );
 
   return (
@@ -29,4 +29,4 @@ const TotalStat: React.FC = () => {
   );
 };
 
-export default TotalStat;
+export default TotalMetrics;

@@ -4,9 +4,9 @@ import { Radio, RadioChangeEvent, Typography } from 'antd';
 import { convertEnumToRegularText } from '../../utils/helpers';
 import { DataManagerOptions } from './types';
 import { StyledRow } from '../../components/dataVisualization';
-import TotalStat from './statistics/TotalStat';
-import CountryStat from './statistics/CountryStat';
-import SchoolStat from './statistics/SchoolStat';
+import TotalMetrics from './metrics/TotalMetrics';
+import CountryMetrics from './metrics/CountryMetrics';
+import SchoolMetrics from './metrics/SchoolMetrics';
 
 const { Title } = Typography;
 
@@ -46,11 +46,11 @@ const DataVisualization: React.FC = () => {
           </Radio.Group>
         </StyledRow>
         {selectedButton === DataManagerOptions.TOTAL ? (
-          <TotalStat />
+          <TotalMetrics />
         ) : selectedButton === DataManagerOptions.COUNTRY ? (
-          <CountryStat />
+          <CountryMetrics />
         ) : (
-          <SchoolStat />
+          <SchoolMetrics />
         )}
       </Container>
     </>

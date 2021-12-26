@@ -9,7 +9,7 @@ import { Countries } from '../../../utils/countries';
 import DataCard from '../../../components/dataVisualization/DataCard';
 import { MetricMapping } from '../types';
 
-const CountryStat: React.FC = () => {
+const CountryMetrics: React.FC = () => {
   const queryClient = useQueryClient();
   const [selectedCountry, setSelectedCountry] = useState<string | undefined>(
     undefined,
@@ -17,7 +17,7 @@ const CountryStat: React.FC = () => {
 
   const { isLoading, error, data } = useQuery(
     ['countryMetrics', selectedCountry],
-    () => protectedApiClient.getCountryStat(selectedCountry as string),
+    () => protectedApiClient.getCountryMetrics(selectedCountry as string),
     {
       enabled: selectedCountry !== undefined,
     },
@@ -63,4 +63,4 @@ const CountryStat: React.FC = () => {
   );
 };
 
-export default CountryStat;
+export default CountryMetrics;

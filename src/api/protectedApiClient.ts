@@ -37,7 +37,6 @@ export interface ApiExtraArgs {
 
 export interface ProtectedApiClient {
   readonly changePassword: (request: ChangePasswordRequest) => Promise<void>;
-
   readonly createSchool: (request: SchoolRequest) => Promise<SchoolResponse>;
   readonly getSchool: (schoolId: number) => Promise<SchoolResponse>;
   readonly deleteSchool: (schoolId: number) => Promise<void>;
@@ -48,10 +47,12 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
 
   readonly deleteUser: (request: { password: string }) => Promise<void>;
+
   readonly updateUser: (
     request: UpdateUserRequest,
     userId: number,
   ) => Promise<void>;
+
   readonly getUser: () => Promise<GetUserResponse>;
   readonly disableUser: (userId: number) => Promise<void>;
   readonly enableUser: (userId: number) => Promise<void>;
@@ -123,19 +124,15 @@ export interface ProtectedApiClient {
 
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
   readonly getAllSchoolsByCountry: (country: string) => Promise<SchoolEntry[]>;
-
   readonly getPastSubmissionSchools: () => Promise<PastSubmissionsSchoolsResponse>;
-
   readonly getPastSubmissionReports: (
     schoolId: number,
     page: number,
   ) => Promise<ReportGenericListResponse>;
 
-  readonly getTotalStat: () => Promise<TotalMetric>;
-
-  readonly getCountryStat: (country: string) => Promise<CountryMetric>;
-
-  readonly getSchoolStat: (schoolId: number) => Promise<SchoolMetric>;
+  readonly getTotalMetrics: () => Promise<TotalMetric>;
+  readonly getCountryMetrics: (country: string) => Promise<CountryMetric>;
+  readonly getSchoolMetrics: (schoolId: number) => Promise<SchoolMetric>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -430,19 +427,19 @@ const editReportWithoutLibrary = (
   ).then((res) => res.data);
 };
 
-const getTotalStat = (): Promise<TotalMetric> => {
+const getTotalMetrics = (): Promise<TotalMetric> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.DATA_VIS}/total`,
   ).then((res) => res.data);
 };
 
-const getCountryStat = (country: string): Promise<CountryMetric> => {
+const getCountryMetrics = (country: string): Promise<CountryMetric> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.DATA_VIS}/country/${country}`,
   ).then((res) => res.data);
 };
 
-const getSchoolStat = (schoolId: number): Promise<SchoolMetric> => {
+const getSchoolMetrics = (schoolId: number): Promise<SchoolMetric> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.DATA_VIS}/school/${schoolId}`,
   ).then((res) => res.data);
@@ -477,9 +474,9 @@ const Client: ProtectedApiClient = Object.freeze({
   getPastSubmissionSchools,
   getPastSubmissionReports,
   getLatestReport: getLatestReportWithLibrary,
-  getTotalStat,
-  getCountryStat,
-  getSchoolStat,
+  getTotalMetrics,
+  getCountryMetrics,
+  getSchoolMetrics,
 });
 
 export default Client;
