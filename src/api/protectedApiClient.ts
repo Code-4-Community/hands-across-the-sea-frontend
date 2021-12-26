@@ -30,7 +30,6 @@ import {
   SchoolMetric,
   TotalMetric,
 } from '../containers/dataVisualization/types';
-import { Countries } from '../utils/countries';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -133,9 +132,7 @@ export interface ProtectedApiClient {
 
   readonly getTotalStat: () => Promise<TotalMetric>;
 
-  readonly getCountryStat: (
-    country: typeof Countries,
-  ) => Promise<CountryMetric>;
+  readonly getCountryStat: (country: string) => Promise<CountryMetric>;
 
   readonly getSchoolStat: (schoolId: number) => Promise<SchoolMetric>;
 }
@@ -431,7 +428,7 @@ const getTotalStat = (): Promise<TotalMetric> => {
   ).then((res) => res.data);
 };
 
-const getCountryStat = (country: typeof Countries): Promise<CountryMetric> => {
+const getCountryStat = (country: string): Promise<CountryMetric> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.DATA_VIS}/country/${country}`,
   ).then((res) => res.data);
