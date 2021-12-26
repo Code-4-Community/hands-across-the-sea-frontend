@@ -122,6 +122,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
 
   readonly getAllSchools: () => Promise<SchoolEntry[]>;
+  readonly getAllSchoolsByCountry: (country: string) => Promise<SchoolEntry[]>;
 
   readonly getPastSubmissionSchools: () => Promise<PastSubmissionsSchoolsResponse>;
 
@@ -149,6 +150,7 @@ export enum ProtectedApiClientRoutes {
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
   DATA_VIS = '/api/v1/protected/data',
+  COUNTRIES = '/api/v1/protected/countries/',
 }
 
 export type WithCount<T> = T & {
@@ -371,6 +373,12 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
   );
 };
 
+const getAllSchoolsByCountry = (country: string): Promise<SchoolEntry[]> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.COUNTRIES}/${country}/schools`,
+  ).then((res) => res.data);
+};
+
 const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
   return AppAxiosInstance.get(
     ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
@@ -461,6 +469,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getBookLogs,
   deleteBookLog,
   getAllSchools,
+  getAllSchoolsByCountry,
   createReportWithLibrary,
   createReportWithoutLibrary,
   editReportWithLibrary,

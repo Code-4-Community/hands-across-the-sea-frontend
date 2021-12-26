@@ -17,11 +17,7 @@ const CountryStat: React.FC = () => {
 
   const { isLoading, error, data } = useQuery(
     ['countryMetrics', selectedCountry],
-    () => {
-      protectedApiClient
-        .getCountryStat(selectedCountry as string)
-        .then((r) => r);
-    },
+    () => protectedApiClient.getCountryStat(selectedCountry as string),
     {
       enabled: selectedCountry !== undefined,
     },

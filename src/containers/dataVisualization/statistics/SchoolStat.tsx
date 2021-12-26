@@ -3,7 +3,7 @@ import { StyledRow } from '../../../components/dataVisualization';
 import { Col, Row, Select } from 'antd';
 import SelectDropDown from '../../../components/dataVisualization/SelectDropDown';
 import { Countries } from '../../../utils/countries';
-import { convertEnumToRegularText } from '../../../utils/helpers';
+import { convertEnumToRegularText, prepareData } from '../../../utils/helpers';
 import { useQuery, useQueryClient } from 'react-query';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { SchoolEntry } from '../../selectSchool/ducks/types';
@@ -20,8 +20,11 @@ const SchoolStat: React.FC = () => {
   );
 
   const getAllSchoolsQuery = useQuery(
-    'getAllSchools',
-    protectedApiClient.getAllSchools,
+    ['getAllSchools', selectedCountry],
+    () => protectedApiClient.getAllSchoolsByCountry(selectedCountry as string),
+    {
+      enabled: selectedCountry !== undefined,
+    },
   );
 
   const schoolMetricsQuery = useQuery(
@@ -89,7 +92,7 @@ const SchoolStat: React.FC = () => {
           Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
             <DataCard
               key={key}
-              data={value}
+              data={prepareData(key, value)}
               title={MetricMapping[key as keyof typeof MetricMapping]}
             />
           ))

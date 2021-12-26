@@ -29,3 +29,11 @@ export const convertEnumToRegularText = (input: string) => {
 export function daysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }
+
+export const prepareData = (key: string, data: number): number | string => {
+  if (key.includes('percent')) {
+    return `${data}%`;
+  } else {
+    return data;
+  }
+};

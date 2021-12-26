@@ -11,7 +11,7 @@ export const MetricMapping = {
   countAdminAccounts: 'Admin Accounts',
   avgCountBooksPerStudent: 'Average Books Per Students',
   avgCountStudentLibrariansPerSchool: 'Average Student Librarians Per School',
-  percentSchoolsWithLibraries: 'Schools With Libraries',
+  percentSchoolsWithLibraries: 'Schools Have Libraries',
   countBooksPerStudent: 'Books Per Student',
   countStudentLibrarians: 'Student Librarians',
   netBooksInOut: 'Net Books In/Out',
