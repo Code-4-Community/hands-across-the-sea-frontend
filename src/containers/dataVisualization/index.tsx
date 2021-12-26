@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  Radio,
-  Col,
-  Empty,
-  Row,
-  Select,
-  Typography,
-  RadioChangeEvent,
-} from 'antd';
-import { Countries } from '../../utils/countries';
+import { Radio, RadioChangeEvent, Typography } from 'antd';
 import { convertEnumToRegularText } from '../../utils/helpers';
-import { SchoolEntry } from '../selectSchool/ducks/types';
 import { DataManagerOptions } from './types';
+import { StyledRow } from '../../components/dataVisualization';
+import TotalStat from './statistics/TotalStat';
+import CountryStat from './statistics/CountryStat';
+import SchoolStat from './statistics/SchoolStat';
 
 const { Title } = Typography;
 
@@ -27,32 +21,10 @@ const DataTitle = styled(Title)`
   padding: 24px;
 `;
 
-const StyledRow = styled(Row)`
-  margin-bottom: 20px;
-`;
-
-const StyledSelect = styled(Select)`
-  width: 100%;
-`;
-
 const DataVisualization: React.FC = () => {
   const [selectedButton, setSelectedButton] = useState(
     DataManagerOptions.TOTAL,
   );
-  const [schools, setSchools] = useState<SchoolEntry[]>([]);
-  const [selectedDropDownValue, setSelectedDropDownValue] = useState<
-    string | undefined
-  >(undefined);
-
-  /*const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
-  );
-
-  useEffect(() => {
-    if (availableSchools.kind === AsyncRequestKinds.Completed) {
-      setSchools(availableSchools.result);
-    }
-  }, [availableSchools]);*/
 
   return (
     <>
@@ -73,41 +45,13 @@ const DataVisualization: React.FC = () => {
             ))}
           </Radio.Group>
         </StyledRow>
-        {selectedButton !== DataManagerOptions.TOTAL && (
-          <StyledRow justify="center">
-            <Col span={16}>
-              <StyledSelect
-                placeholder="Search"
-                showSearch
-                allowClear
-                onChange={(value) =>
-                  setSelectedDropDownValue(value?.toString())
-                }
-                notFoundContent={
-                  <Empty
-                    description={
-                      <span>{`No ${selectedButton.toLocaleLowerCase()} data found`}</span>
-                    }
-                  />
-                }
-              >
-                {selectedButton === DataManagerOptions.COUNTRY
-                  ? Object.keys(Countries).map((key: string) => (
-                      <Select.Option key={key} value={key}>
-                        {convertEnumToRegularText(key)}
-                      </Select.Option>
-                    ))
-                  : schools.map((school: SchoolEntry) => (
-                      <Select.Option key={school.id} value={school.name}>
-                        {school.name}
-                      </Select.Option>
-                    ))}
-              </StyledSelect>
-            </Col>
-          </StyledRow>
+        {selectedButton === DataManagerOptions.TOTAL ? (
+          <TotalStat />
+        ) : selectedButton === DataManagerOptions.COUNTRY ? (
+          <CountryStat />
+        ) : (
+          <SchoolStat />
         )}
-        {/* Cards will go in row */}
-        <Row gutter={[12, 24]} justify="center" wrap></Row>
       </Container>
     </>
   );

@@ -25,6 +25,12 @@ import {
 } from '../containers/userDirectory/types';
 import { PastSubmissionsSchoolsResponse } from '../containers/pastSubmissionsSchools/ducks/types';
 import { ReportGenericListResponse } from '../containers/pastSubmissionsReports/ducks/types';
+import {
+  CountryMetric,
+  SchoolMetric,
+  TotalMetric,
+} from '../containers/dataVisualization/types';
+import { Countries } from '../utils/countries';
 
 export interface ApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -124,6 +130,14 @@ export interface ProtectedApiClient {
     schoolId: number,
     page: number,
   ) => Promise<ReportGenericListResponse>;
+
+  readonly getTotalStat: () => Promise<TotalMetric>;
+
+  readonly getCountryStat: (
+    country: typeof Countries,
+  ) => Promise<CountryMetric>;
+
+  readonly getSchoolStat: (schoolId: number) => Promise<SchoolMetric>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -137,6 +151,7 @@ export enum ProtectedApiClientRoutes {
   SINGLE_LIBRARY_REPORT = '/api/v1/protected/schools/:school_id/report',
   BOOK_REPORTS = '/api/v1/protected/schools/:school_id/books',
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
+  DATA_VIS = '/api/v1/protected/data',
 }
 
 export type WithCount<T> = T & {
@@ -410,6 +425,24 @@ const editReportWithoutLibrary = (
   ).then((res) => res.data);
 };
 
+const getTotalStat = (): Promise<TotalMetric> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.DATA_VIS}/total`,
+  ).then((res) => res.data);
+};
+
+const getCountryStat = (country: typeof Countries): Promise<CountryMetric> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.DATA_VIS}/country/${country}`,
+  ).then((res) => res.data);
+};
+
+const getSchoolStat = (schoolId: number): Promise<SchoolMetric> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.DATA_VIS}/school/${schoolId}`,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
@@ -438,6 +471,9 @@ const Client: ProtectedApiClient = Object.freeze({
   getPastSubmissionSchools,
   getPastSubmissionReports,
   getLatestReport: getLatestReportWithLibrary,
+  getTotalStat,
+  getCountryStat,
+  getSchoolStat,
 });
 
 export default Client;
