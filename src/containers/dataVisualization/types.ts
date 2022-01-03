@@ -16,6 +16,7 @@ export const MetricMapping = {
   countStudentLibrarians: 'Student Librarians',
   netBooksInOut: 'Net Books In/Out',
   countStudents: 'Students',
+  countOfficerAccounts: 'Officers',
 };
 
 export interface TotalMetric {
@@ -27,6 +28,7 @@ export interface TotalMetric {
 export interface CountryMetric {
   countSchools: number | null;
   countVolunteerAccounts: number | null;
+  countOfficerAccounts: number | null;
   countAdminAccounts: number | null;
   avgCountBooksPerStudent: number | null;
   avgCountStudentLibrariansPerSchool: number | null;
