@@ -4,6 +4,7 @@ import protectedApiClient from '../../../api/protectedApiClient';
 import DataCard from '../../../components/dataVisualization/DataCard';
 import { MetricMapping } from '../types';
 import { Row } from 'antd';
+import { prepareData } from '../../../utils/helpers';
 
 const TotalMetrics: React.FC = () => {
   const { isLoading, error, data } = useQuery(
@@ -20,7 +21,7 @@ const TotalMetrics: React.FC = () => {
         Object.entries(data).map(([key, value]) => (
           <DataCard
             key={key}
-            data={value}
+            data={prepareData(key, value)}
             title={MetricMapping[key as keyof typeof MetricMapping]}
           />
         ))

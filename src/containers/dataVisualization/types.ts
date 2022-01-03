@@ -15,25 +15,30 @@ export const MetricMapping = {
   countBooksPerStudent: 'Books Per Student',
   countStudentLibrarians: 'Student Librarians',
   netBooksInOut: 'Net Books In/Out',
+  countStudents: 'Students',
 };
 
 export interface TotalMetric {
-  countSchools: number;
-  countBooks: number;
+  countSchools: number | null;
+  countBooks: number | null;
+  countStudents: number | null;
 }
 
 export interface CountryMetric {
-  countSchools: number;
-  countVolunteerAccounts: number;
-  countAdminAccounts: number;
-  avgCountBooksPerStudent: number;
-  avgCountStudentLibrariansPerSchool: number;
-  percentSchoolsWithLibraries: number;
+  countSchools: number | null;
+  countVolunteerAccounts: number | null;
+  countAdminAccounts: number | null;
+  avgCountBooksPerStudent: number | null;
+  avgCountStudentLibrariansPerSchool: number | null;
+  percentSchoolsWithLibraries: number | null;
+  countStudents: number | null;
+  countBooks: number | null;
 }
 
 export interface SchoolMetric {
-  countBooksPerStudent: number;
-  countStudents: number;
-  countStudentLibrarians: number;
-  netBooksInOut: number;
+  countBooksPerStudent: number | null;
+  countBooks: number | null;
+  countStudents: number | null;
+  countStudentLibrarians: number | null;
+  netBooksInOut: number | null;
 }

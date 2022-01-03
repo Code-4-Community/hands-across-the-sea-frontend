@@ -30,8 +30,13 @@ export function daysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }
 
-export const prepareData = (key: string, data: number): number | string => {
-  if (key.includes('percent')) {
+export const prepareData = (
+  key: string,
+  data: number | null,
+): number | string => {
+  if (data === null) {
+    return 'N/A';
+  } else if (key.includes('percent')) {
     return `${data}%`;
   } else {
     return data;

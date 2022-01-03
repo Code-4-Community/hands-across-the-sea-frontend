@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyledRow } from '../../../components/dataVisualization';
 import { Col, Row, Select } from 'antd';
 import SelectDropDown from '../../../components/dataVisualization/SelectDropDown';
-import { convertEnumToRegularText } from '../../../utils/helpers';
+import { convertEnumToRegularText, prepareData } from '../../../utils/helpers';
 import { useQuery, useQueryClient } from 'react-query';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { Countries } from '../../../utils/countries';
@@ -53,7 +53,7 @@ const CountryMetrics: React.FC = () => {
           Object.entries(data).map(([key, value]) => (
             <DataCard
               key={key}
-              data={value}
+              data={prepareData(key, value)}
               title={MetricMapping[key as keyof typeof MetricMapping]}
             />
           ))
