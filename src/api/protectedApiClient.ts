@@ -373,14 +373,15 @@ const getAllSchools = (): Promise<SchoolEntry[]> => {
 const getAllSchoolsByCountry = (country: string): Promise<SchoolEntry[]> => {
   return AppAxiosInstance.get(
     `${ProtectedApiClientRoutes.COUNTRIES}/${country}/schools`,
-  ).then((res) => res.data);
+  ).then((res) => res.data.schools);
 };
 
-const getPastSubmissionSchools = (): Promise<PastSubmissionsSchoolsResponse> => {
-  return AppAxiosInstance.get(
-    ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
-  ).then((res) => res.data);
-};
+const getPastSubmissionSchools =
+  (): Promise<PastSubmissionsSchoolsResponse> => {
+    return AppAxiosInstance.get(
+      ProtectedApiClientRoutes.PAST_SUBMISSIONS_SCHOOLS,
+    ).then((res) => res.data);
+  };
 
 const getPastSubmissionReports = (
   schoolId: number,

@@ -13,19 +13,17 @@ const TotalMetrics: React.FC = () => {
   );
 
   return (
-    <Row gutter={[12, 24]} justify="center" wrap>
+    <Row justify="center" wrap>
       {isLoading && <p>Loading metric...</p>}
-      {error || data === undefined ? (
-        <p>An error occurred loading metric</p>
-      ) : (
+      {error && <p>An error occurred loading metric</p>}
+      {data &&
         Object.entries(data).map(([key, value]) => (
           <DataCard
             key={key}
             data={prepareData(key, value)}
             title={MetricMapping[key as keyof typeof MetricMapping]}
           />
-        ))
-      )}
+        ))}
     </Row>
   );
 };

@@ -11,7 +11,7 @@ import SchoolMetrics from './metrics/SchoolMetrics';
 const { Title } = Typography;
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
 `;
 

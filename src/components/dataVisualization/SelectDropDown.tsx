@@ -1,5 +1,4 @@
 import { Empty } from 'antd';
-import { DataManagerOptions } from '../../containers/dataVisualization/types';
 import React from 'react';
 import { StyledSelect } from './index';
 

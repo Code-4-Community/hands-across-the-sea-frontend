@@ -36,9 +36,18 @@ export const prepareData = (
 ): number | string => {
   if (data === null) {
     return 'N/A';
-  } else if (key.includes('percent')) {
-    return `${data}%`;
   } else {
-    return data;
+    let display: number | string = data;
+    // check if data is a fixed-point number and limit
+    // decimals to 4 places
+    if (data % 1 !== 0) {
+      display = data.toFixed(2);
+    }
+    // format the number if it needs a sign
+    if (key.includes('percent')) {
+      return `${display}%`;
+    } else {
+      return display;
+    }
   }
 };

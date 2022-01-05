@@ -86,19 +86,17 @@ const SchoolMetrics: React.FC = () => {
         </Col>
       </StyledRow>
       {selectedSchool !== undefined && (
-        <Row gutter={[12, 24]} justify="center" wrap>
+        <Row justify="center" wrap>
           {schoolMetricsQuery.isLoading && <p>Loading metric...</p>}
-          {schoolMetricsQuery.error || schoolMetricsQuery.data === undefined ? (
-            <p>An error occurred loading metric</p>
-          ) : (
+          {schoolMetricsQuery.error && <p>An error occurred loading metric</p>}
+          {schoolMetricsQuery.data &&
             Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
               <DataCard
                 key={key}
                 data={prepareData(key, value)}
                 title={MetricMapping[key as keyof typeof MetricMapping]}
               />
-            ))
-          )}
+            ))}
         </Row>
       )}
     </>
