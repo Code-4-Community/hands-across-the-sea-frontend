@@ -3,12 +3,13 @@ import { Helmet } from 'react-helmet';
 import { ContentContainer, Outer } from '../../components';
 import { Col, Row, Typography } from 'antd';
 import {
+  DatabaseOutlined,
   FolderOpenOutlined,
   FormOutlined,
   PoweroffOutlined,
-  UserOutlined,
-  DatabaseOutlined,
   TeamOutlined,
+  UserOutlined,
+  LineChartOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
@@ -38,7 +39,7 @@ const Container = styled(ContentContainer)`
 
 const HeadTitle = styled(Title)`
   font-weight: bold;
-  padding: 50px 0px 30px 0px;
+  padding: 12px 0px 12px 0px;
   text-align: center;
 `;
 
@@ -219,6 +220,7 @@ const Home: React.FC = () => {
           <Row gutter={[32, 0]} wrap>
             <Col span={12}>
               <InContain
+                lastPiece={privilegeLevel !== PrivilegeLevel.ADMIN}
                 onClick={() => {
                   history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
                 }}
@@ -252,6 +254,7 @@ const Home: React.FC = () => {
             </Col>
             <Col span={12}>
               <InContain
+                lastPiece={privilegeLevel !== PrivilegeLevel.ADMIN}
                 onClick={() => {
                   dispatch(logout());
                   history.replace(Routes.LOGIN);
@@ -297,7 +300,7 @@ const Home: React.FC = () => {
                 >
                   <Row>
                     <Col span={8}>
-                      <DatabaseOutlined
+                      <LineChartOutlined
                         style={{
                           fontSize: '50px',
                           marginTop: '14px',
