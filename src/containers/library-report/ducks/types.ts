@@ -85,6 +85,21 @@ export const TIMETABLE_COLUMNS: string[] = [
   'formFive',
 ];
 
+export const TimeTableLabelMapping = {
+  kindergarten: 'Kindergarten',
+  firstGrade: 'First Grade',
+  secondGrade: 'Second Grade',
+  thirdGrade: 'Third Grade',
+  fourthGrade: 'Fourth Grade',
+  fifthGrade: 'Fifth Grade',
+  sixthGrade: 'Sixth Grade',
+  formOne: 'Form One',
+  formTwo: 'Form Two',
+  formThree: 'Form Three',
+  formFour: 'Form Four',
+  formFive: 'Form Five',
+};
+
 export interface Timetable {
   year: number;
   month: number;
