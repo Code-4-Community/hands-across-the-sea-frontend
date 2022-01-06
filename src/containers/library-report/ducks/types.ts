@@ -76,6 +76,7 @@ export const TIMETABLE_COLUMNS: string[] = [
   'secondGrade',
   'thirdGrade',
   'fourthGrade',
+  'fifthGrade',
   'sixthGrade',
   'formOne',
   'formTwo',
