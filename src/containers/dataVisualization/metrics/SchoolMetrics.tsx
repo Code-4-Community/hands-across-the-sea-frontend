@@ -76,7 +76,6 @@ const SchoolMetrics: React.FC = () => {
             }
             loading={getAllSchoolsQuery.isLoading}
           >
-            {console.log(getAllSchoolsQuery.data)}
             {getAllSchoolsQuery.data &&
               getAllSchoolsQuery.data.map((school: SchoolEntry) => (
                 <Select.Option key={school.id} value={school.id}>
