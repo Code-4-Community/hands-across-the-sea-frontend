@@ -12,7 +12,7 @@ interface FormContentContainerProps {
 
 const { Title } = Typography;
 
-const FormTitle = styled(Title)`
+export const FormTitle = styled(Title)`
   text-align: center;
   margin: 24px 0 0 0;
 `;
