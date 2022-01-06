@@ -33,8 +33,9 @@ const CountryMetrics: React.FC = () => {
       <StyledRow justify="center">
         <Col span={16}>
           <SelectDropDown
+            value={selectedCountry}
             selectedButton={'country'}
-            setSelectedDropDownValue={handleCountrySelect}
+            onChange={handleCountrySelect}
             placeholder={'Select a country'}
           >
             {Object.keys(Countries).map((key: string) => (

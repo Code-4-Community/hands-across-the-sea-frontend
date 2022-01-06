@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyledRow } from '../../../components/dataVisualization';
-import { Col, Row, Select } from 'antd';
+import { Col, message, Row, Select } from 'antd';
 import SelectDropDown from '../../../components/dataVisualization/SelectDropDown';
 import { Countries } from '../../../utils/countries';
 import { convertEnumToRegularText, prepareData } from '../../../utils/helpers';
@@ -46,13 +46,18 @@ const SchoolMetrics: React.FC = () => {
     await queryClient.invalidateQueries('schoolMetrics');
   };
 
+  if (schoolMetricsQuery.isError) {
+    message.error('This school does not have a report filled out.');
+  }
+
   return (
     <>
       <StyledRow justify="center">
         <Col span={16}>
           <SelectDropDown
+            value={selectedCountry}
             selectedButton={'country'}
-            setSelectedDropDownValue={handleCountrySelect}
+            onChange={handleCountrySelect}
             placeholder={'Select a country'}
           >
             {Object.keys(Countries).map((key: string) => (
@@ -66,8 +71,9 @@ const SchoolMetrics: React.FC = () => {
       <StyledRow justify="center">
         <Col span={16}>
           <SelectDropDown
+            value={selectedSchool}
             selectedButton={'school'}
-            setSelectedDropDownValue={handleSchoolSelect}
+            onChange={handleSchoolSelect}
             placeholder={'Select a school'}
             noDataText={
               selectedCountry === undefined || getAllSchoolsQuery.error
@@ -88,7 +94,9 @@ const SchoolMetrics: React.FC = () => {
       {selectedSchool !== undefined && (
         <Row justify="center" wrap>
           {schoolMetricsQuery.isLoading && <p>Loading metric...</p>}
-          {schoolMetricsQuery.error && <p>An error occurred loading metric</p>}
+          {!schoolMetricsQuery.isLoading && schoolMetricsQuery.error && (
+            <p>An error occurred loading metric</p>
+          )}
           {schoolMetricsQuery.data &&
             Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
               <DataCard

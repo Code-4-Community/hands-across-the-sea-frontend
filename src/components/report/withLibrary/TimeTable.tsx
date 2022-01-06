@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {
   Timetable,
   TIMETABLE_COLUMNS,
+  TimeTableLabelMapping,
 } from '../../../containers/library-report/ducks/types';
 import { daysInMonth } from '../../../utils/helpers';
 import moment, { Moment } from 'moment';
@@ -37,6 +38,7 @@ const SmallInputNumber = styled(InputNumber)`
 interface TimeTableDataType {
   key: string;
   grade: string;
+  label: string;
 }
 
 const TimeTable: React.FC<TimeTableProps> = ({
@@ -65,7 +67,7 @@ const TimeTable: React.FC<TimeTableProps> = ({
     {
       title: 'Grade',
       width: 150,
-      dataIndex: 'grade',
+      dataIndex: 'label',
       key: 'grade',
       fixed: 'left',
     },
@@ -135,6 +137,7 @@ const TimeTable: React.FC<TimeTableProps> = ({
 
   const data: TimeTableDataType[] = TIMETABLE_COLUMNS.map((grade) => ({
     key: grade,
+    label: TimeTableLabelMapping[grade as keyof typeof TimeTableLabelMapping],
     grade,
   }));
 

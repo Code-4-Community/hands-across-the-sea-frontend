@@ -4,7 +4,8 @@ import { StyledSelect } from './index';
 
 interface SelectDropDownProps {
   readonly selectedButton: string;
-  readonly setSelectedDropDownValue: (dv: any) => void;
+  readonly value: any;
+  readonly onChange: (dv: any) => void;
   readonly placeholder?: string;
   readonly noDataText?: string;
   readonly loading?: boolean;
@@ -12,7 +13,8 @@ interface SelectDropDownProps {
 
 const SelectDropDown: React.FC<SelectDropDownProps> = ({
   selectedButton,
-  setSelectedDropDownValue,
+  value,
+  onChange,
   placeholder,
   noDataText,
   loading,
@@ -21,10 +23,11 @@ const SelectDropDown: React.FC<SelectDropDownProps> = ({
   return (
     <StyledSelect
       placeholder={placeholder || 'Search'}
+      value={value}
       loading={loading || false}
       showSearch
       allowClear
-      onChange={(value) => setSelectedDropDownValue(value)}
+      onChange={(v) => onChange(v)}
       notFoundContent={
         <Empty
           description={
