@@ -27,20 +27,19 @@ const SchoolInformation: React.FC = () => {
     return <></>;
   }
 
-  const handleFinish = (schoolInfo: SchoolResponse) => async (
-    schoolRequest: SchoolRequest,
-    editMade: boolean,
-  ): Promise<void> => {
-    try {
-      if (editMade && schoolId) {
-        schoolRequest.hidden = schoolInfo.hidden;
-        await protectedApiClient.updateSchool(schoolId, schoolRequest);
+  const handleFinish =
+    (schoolInfo: SchoolResponse) =>
+    async (schoolRequest: SchoolRequest, editMade: boolean): Promise<void> => {
+      try {
+        if (editMade && schoolId) {
+          schoolRequest.hidden = schoolInfo.hidden;
+          await protectedApiClient.updateSchool(schoolId, schoolRequest);
+        }
+      } catch (error) {
+        message.warning(error);
       }
-    } catch (error) {
-      message.warning(error);
-    }
-    history.push('/school-contacts');
-  };
+      history.push('/school-contacts');
+    };
 
   return (
     <>

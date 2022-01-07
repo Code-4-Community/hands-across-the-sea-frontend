@@ -256,9 +256,7 @@ const Home: React.FC = () => {
               <InContain
                 lastPiece={privilegeLevel !== PrivilegeLevel.ADMIN}
                 onClick={() => {
-                  dispatch(logout());
-                  history.replace(Routes.LOGIN);
-                  history.go(0);
+                  dispatch(logout(history));
                 }}
               >
                 <Row>

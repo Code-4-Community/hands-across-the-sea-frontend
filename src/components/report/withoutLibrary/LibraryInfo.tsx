@@ -48,20 +48,20 @@ const LibraryInfo: React.FC<ReportWithoutLibraryProps> = ({ editable }) => {
 
       <Row gutter={[0, 24]}>
         <Col flex={24}>
-            <FormPiece
-              addPaddingBottom={21}
-              note="Does this school have a designated space for a library?*"
+          <FormPiece
+            addPaddingBottom={21}
+            note="Does this school have a designated space for a library?*"
+          >
+            <Form.Item
+              name="hasSpace"
+              rules={[{ required: true, message: 'Required' }]}
             >
-              <Form.Item
-                name="hasSpace"
-                rules={[{ required: true, message: 'Required' }]}
-              >
-                <Radio.Group buttonStyle="solid" disabled={!editable}>
-                  <Radio.Button value={true}>Yes</Radio.Button>
-                  <Radio.Button value={false}>No</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
-            </FormPiece>
+              <Radio.Group buttonStyle="solid" disabled={!editable}>
+                <Radio.Button value={true}>Yes</Radio.Button>
+                <Radio.Button value={false}>No</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+          </FormPiece>
         </Col>
       </Row>
       <Row gutter={[0, 24]}>
