@@ -83,6 +83,7 @@ export const TIMETABLE_COLUMNS: string[] = [
   'formThree',
   'formFour',
   'formFive',
+  'formSix',
 ];
 
 export const TimeTableLabelMapping = {
@@ -98,6 +99,7 @@ export const TimeTableLabelMapping = {
   formThree: 'Form Three',
   formFour: 'Form Four',
   formFive: 'Form Five',
+  formSix: 'Form Six',
 };
 
 export interface Timetable {
@@ -115,6 +117,7 @@ export interface Timetable {
   formThree?: TimetableGrade;
   formFour?: TimetableGrade;
   formFive?: TimetableGrade;
+  formSix?: TimetableGrade;
 }
 
 export enum AssignedPersonRole {
@@ -152,6 +155,7 @@ export enum Grade {
   FORM_THREE = 'FORM_THREE',
   FORM_FOUR = 'FORM_FOUR',
   FORM_FIVE = 'FORM_FIVE',
+  FORM_SIX = 'FORM_SIX',
 }
 
 export enum ReadyTimeline {
