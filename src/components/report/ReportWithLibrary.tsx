@@ -39,15 +39,13 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   const [checkInTimeTable, setCheckInTimeTable] = useState<Timetable | null>(
     null,
   );
-  const [showCheckInTimeTable, setShowCheckInTimeTable] = useState<boolean>(
-    false,
-  );
+  const [showCheckInTimeTable, setShowCheckInTimeTable] =
+    useState<boolean>(false);
   const [checkOutTimeTable, setCheckOutTimeTable] = useState<Timetable | null>(
     null,
   );
-  const [showCheckOutTimeTable, setShowCheckOutTimeTable] = useState<boolean>(
-    false,
-  );
+  const [showCheckOutTimeTable, setShowCheckOutTimeTable] =
+    useState<boolean>(false);
 
   const schoolId: number | undefined = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,

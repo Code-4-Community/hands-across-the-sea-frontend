@@ -1,3 +1,5 @@
+import { History } from 'history';
+import { Routes } from '../../App';
 import {
   LoginRequest,
   SignupRequest,
@@ -45,10 +47,10 @@ export const signup = (
   };
 };
 
-export const logout = (): UserAuthenticationThunkAction<void> => {
+export const logout = (
+  history: History<unknown>,
+): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
-    localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
-
     const state: C4CState = getState();
 
     if (asyncRequestIsComplete(state.authenticationState.tokens)) {
@@ -58,13 +60,21 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
         .logout(refreshToken)
         .then(() => {
           dispatch(logoutUser.loaded());
+          clearLocalStorageAndRedirect(history);
         })
         .catch(() => {
           dispatch(logoutUser.failed());
         });
     } else {
       dispatch(logoutUser.loaded());
+      clearLocalStorageAndRedirect(history);
       return Promise.resolve();
     }
   };
+};
+
+const clearLocalStorageAndRedirect = (history: History): void => {
+  localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+  history.replace(Routes.LOGIN);
+  history.go(0);
 };

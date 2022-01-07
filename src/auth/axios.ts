@@ -21,8 +21,8 @@ const responseErrorInterceptor = (error: AxiosError) => {
     _retry: true,
   };
 
-  const tokens: UserAuthenticationReducerState['tokens'] = store.getState()
-    .authenticationState.tokens;
+  const tokens: UserAuthenticationReducerState['tokens'] =
+    store.getState().authenticationState.tokens;
 
   if (
     asyncRequestIsComplete(tokens) &&

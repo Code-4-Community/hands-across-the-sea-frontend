@@ -2,7 +2,8 @@ import { C4CAction } from '../../../store';
 import { SET_PAST_SUBMISSIONS_SCHOOL_ID } from './actions';
 import { PastSubmissionsSchoolsReducerState } from './types';
 
-export const initialPastSubmissionsSchools: PastSubmissionsSchoolsReducerState = {};
+export const initialPastSubmissionsSchools: PastSubmissionsSchoolsReducerState =
+  {};
 
 const reducers = (
   state: PastSubmissionsSchoolsReducerState = initialPastSubmissionsSchools,

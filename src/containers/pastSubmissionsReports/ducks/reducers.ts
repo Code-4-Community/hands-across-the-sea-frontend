@@ -2,7 +2,8 @@ import { C4CAction } from '../../../store';
 import { SET_ACTIVE_REPORT } from './actions';
 import { PastSubmissionsReportsReducerState } from './types';
 
-export const initialPastSubmissionsReports: PastSubmissionsReportsReducerState = {};
+export const initialPastSubmissionsReports: PastSubmissionsReportsReducerState =
+  {};
 
 const reducers = (
   state: PastSubmissionsReportsReducerState = initialPastSubmissionsReports,

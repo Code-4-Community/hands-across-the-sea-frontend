@@ -18,10 +18,11 @@ import BackButton from '../../components/BackButton';
 const PastSubmissionsReports: React.FC = () => {
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const schoolId: PastSubmissionsSchoolsReducerState['pastSubmissionSelectedSchoolId'] = useSelector(
-    (state: C4CState) =>
-      state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
-  );
+  const schoolId: PastSubmissionsSchoolsReducerState['pastSubmissionSelectedSchoolId'] =
+    useSelector(
+      (state: C4CState) =>
+        state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
+    );
   const { isLoading, error, data } = useQuery(
     ['pastSubmissionsReports', schoolId, currentPage],
     () =>

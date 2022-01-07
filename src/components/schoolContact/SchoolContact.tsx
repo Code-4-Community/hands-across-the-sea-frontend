@@ -25,7 +25,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   isFirst,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(!initialSchoolContact);
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   useEffect(() => {
     form.setFieldsValue(initialSchoolContact);
@@ -37,7 +37,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   };
 
   const onCancelHandler = () => {
-    form.setFieldsValue(initialSchoolContact)
+    form.setFieldsValue(initialSchoolContact);
     if (initialSchoolContact) {
       setEditMode(false);
     } else if (onCancel !== undefined) {
@@ -46,10 +46,7 @@ const SchoolContact: React.FC<SchoolContactProps> = ({
   };
 
   return (
-    <Form
-      form={form}
-      name="school-contact"
-    >
+    <Form form={form} name="school-contact">
       {!isFirst && <br />}
       <FormPiece>
         <InputLabel>First Name</InputLabel>

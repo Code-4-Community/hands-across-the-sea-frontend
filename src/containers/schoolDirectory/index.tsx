@@ -190,29 +190,28 @@ const SchoolDirectory: React.FC = () => {
   };
 
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = (school: SchoolEntry) => async (
-    key: SchoolDirectoryAction,
-  ) => {
-    if (key === SchoolDirectoryAction.EDIT) {
-      try {
-        const schoolResponse = await protectedApiClient.getSchool(school.id);
-        setUpdatedSchool(schoolResponse);
-        setUpdateSchool(true);
-      } catch (err) {
-        message.error(`An error occurred, please try again`);
+  const handleActionButtonOnClick =
+    (school: SchoolEntry) => async (key: SchoolDirectoryAction) => {
+      if (key === SchoolDirectoryAction.EDIT) {
+        try {
+          const schoolResponse = await protectedApiClient.getSchool(school.id);
+          setUpdatedSchool(schoolResponse);
+          setUpdateSchool(true);
+        } catch (err) {
+          message.error(`An error occurred, please try again`);
+        }
+      } else if (key === SchoolDirectoryAction.DELETE) {
+        await protectedApiClient.deleteSchool(school.id);
+        setUpdateSchoolList(!updateSchoolList);
+      } else if (key === SchoolDirectoryAction.BOOKS) {
+        queryClient.invalidateQueries(['bookLogs', school.id]);
+        setBookLogsSchool({
+          id: school.id,
+          name: school.name,
+        });
+        setBookLogs(!bookLogs);
       }
-    } else if (key === SchoolDirectoryAction.DELETE) {
-      await protectedApiClient.deleteSchool(school.id);
-      setUpdateSchoolList(!updateSchoolList);
-    } else if (key === SchoolDirectoryAction.BOOKS) {
-      queryClient.invalidateQueries(['bookLogs', school.id]);
-      setBookLogsSchool({
-        id: school.id,
-        name: school.name,
-      });
-      setBookLogs(!bookLogs);
-    }
-  };
+    };
 
   const columns: ColumnType<SchoolEntry>[] = [
     {
