@@ -12,7 +12,7 @@ interface NewPasswords {
 }
 
 const ForgotPasswordReset: React.FC = () => {
-  const { key } = useParams();
+  const { key } = useParams<{ key: string }>();
 
   const onFinish = (values: NewPasswords) => {
     if (values.password.length < 8) {

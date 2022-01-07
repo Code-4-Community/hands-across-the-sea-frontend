@@ -29,8 +29,11 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
     <FormContainer title="Student and Book Information">
       <Row gutter={[24, 24]}>
         <Col span={12}>
-          <FormPiece note="How Many Children attended?">
-            <Form.Item name="numberOfChildren">
+          <FormPiece note="How Many Children attended?*">
+            <Form.Item
+              name="numberOfChildren"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               {editable ? (
                 <InputNumberNoArrows placeholder="#" min={0} />
               ) : (
@@ -43,7 +46,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
           <FormPiece note="How Many Books?">
             <Form.Item name="numberOfBooks">
               {editable ? (
-                <InputNumberNoArrows placeholder="#" min={0} />
+                <InputNumberNoArrows placeholder="#" min={0} disabled />
               ) : (
                 <FormText />
               )}
@@ -53,8 +56,11 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
       </Row>
       <Row gutter={[24, 0]}>
         <Col span={12}>
-          <FormPiece note="What grades attended?">
-            <Form.Item name="gradesAttended">
+          <FormPiece note="What grades attended?*">
+            <Form.Item
+              name="gradesAttended"
+              rules={[{ required: true, message: 'Required' }]}
+            >
               <Checkbox.Group disabled={!editable} options={gradeOptions} />
             </Form.Item>
           </FormPiece>
@@ -63,7 +69,7 @@ const StudentBookInformation: React.FC<StudentBookInformationProps> = ({
           <FormPiece note="Most recent shipment year?">
             <Form.Item name="mostRecentShipmentYear">
               {editable ? (
-                <InputNumberNoArrows placeholder="#" min={0} />
+                <InputNumberNoArrows placeholder="#" min={0} disabled />
               ) : (
                 <FormText />
               )}

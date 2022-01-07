@@ -9,18 +9,28 @@ import {
 } from '../../containers/library-report/ducks/types';
 import LibraryInfo from './withoutLibrary/LibraryInfo';
 import VisitReason from './common/VisitReason';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { BookLogResponse } from '../../containers/bookLogs/types';
+import { initializeNewReportForm } from '../../utils/reportForm';
+import { useQuery } from 'react-query';
+import protectedApiClient from '../../api/protectedApiClient';
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
   editable: boolean;
   onSubmit: (values: ReportWithoutLibraryRequest) => void;
+  bookLogInfo: BookLogResponse[];
+  isNew: boolean;
 }
 
 const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
   values,
   editable,
   onSubmit,
+  bookLogInfo,
   children,
+  isNew,
 }) => {
   const [visitReason, setVisitReason] = useState(values?.visitReason || null);
 
@@ -31,28 +41,54 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
     });
   };
 
+  const schoolId: number | undefined = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+
+  const { isLoading, error, data } = useQuery(
+    'latestReport',
+    () => protectedApiClient.getLatestReport(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
+  );
+
   return (
-    <FormContentContainer>
-      <Form
-        initialValues={values}
-        onFinish={handleSubmit}
-        onFinishFailed={() =>
-          message.error(
-            'Error submitting form, please double check your responses and try again.',
-          )
-        }
-      >
-        <VisitReason
-          setVisitReason={setVisitReason}
-          visitReason={visitReason}
-          editable={editable}
-        />
-        <StudentBookInformation editable={editable} />
-        <LibraryInfo editable={editable} />
-        <ChangesActionPlan editable={editable} />
-        {children}
-      </Form>
-    </FormContentContainer>
+    <>
+      {isLoading && <p>Loading school data...</p>}
+      {error && !isNew && <p>Failed to load report</p>}
+      {(data || error) && (
+        <FormContentContainer>
+          <Form
+            initialValues={
+              isNew
+                ? (initializeNewReportForm(
+                    data ?? values,
+                    bookLogInfo,
+                    true,
+                  ) as ReportWithoutLibraryRequest)
+                : values
+            }
+            onFinish={handleSubmit}
+            onFinishFailed={() =>
+              message.error(
+                'Error submitting form, please double check your responses and try again.',
+              )
+            }
+          >
+            <VisitReason
+              setVisitReason={setVisitReason}
+              visitReason={visitReason}
+              editable={editable}
+            />
+            <StudentBookInformation editable={editable} />
+            <LibraryInfo editable={editable} />
+            <ChangesActionPlan editable={editable} />
+            {children}
+          </Form>
+        </FormContentContainer>
+      )}
+    </>
   );
 };
 

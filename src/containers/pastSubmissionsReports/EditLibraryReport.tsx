@@ -13,11 +13,22 @@ import { setActiveReport } from './ducks/actions';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
+import { useQuery } from 'react-query';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
   const report = useSelector(
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
+  );
+  const schoolId = useSelector(
+    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+  );
+  const { isLoading, error, data } = useQuery(
+    'bookLogs',
+    () => protectedApiClient.getBookLogs(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
   const history = useHistory();
   const isYesReport = report && report.libraryStatus === 'EXISTS';
@@ -78,17 +89,33 @@ const EditLibraryReport: React.FC = () => {
     </FormButtons>
   );
 
-  const props = {
-    values: report,
-    editable: editMode,
-    children: buttons,
-    onSubmit: handleSubmit,
-  };
-
-  return isYesReport ? (
-    <ReportWithLibrary {...props} />
-  ) : (
-    <ReportWithoutLibrary {...props} />
+  return (
+    <>
+      {isLoading && <p>Loading school data...</p>}
+      {error && <p>Failed to load report data</p>}
+      {data &&
+        (isYesReport ? (
+          <ReportWithLibrary
+            isNew={false}
+            // eslint-disable-next-line react/no-children-prop
+            children={buttons}
+            bookLogInfo={data}
+            editable={editMode}
+            onSubmit={handleSubmit}
+            values={report}
+          />
+        ) : (
+          <ReportWithoutLibrary
+            isNew={false}
+            // eslint-disable-next-line react/no-children-prop
+            children={buttons}
+            bookLogInfo={data}
+            editable={editMode}
+            onSubmit={handleSubmit}
+            values={report}
+          />
+        ))}
+    </>
   );
 };
 

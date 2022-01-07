@@ -6,10 +6,11 @@ import FormPiece from '../form-style/FormPiece';
 import {
   SchoolRequest,
   SchoolResponse,
-} from '../../containers/schoolInfo/ducks/types';
+} from '../../containers/schoolInfo/types';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
+import { convertEnumToRegularText } from '../../utils/helpers';
 
 const { Option } = Select;
 
@@ -51,40 +52,46 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 name="name"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="School Name" />
+                <Input placeholder="School Name*" />
               </Form.Item>
               <Form.Item
                 name="address"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="Street Address" />
+                <Input placeholder="Street Address*" />
               </Form.Item>
               <Form.Item
                 name="area"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="Town or District" />
+                <Input placeholder="Town or District*" />
               </Form.Item>
               <Form.Item
                 name="email"
-                rules={[{ required: true, message: 'Required' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Required',
+                    pattern: RegExp('^\\S+@\\S+\\.\\S{2,}$'),
+                  },
+                ]}
               >
-                <Input placeholder="Email Address" />
+                <Input placeholder="Email Address*" />
               </Form.Item>
               <Form.Item
                 name="phone"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Input placeholder="Phone Number" />
+                <Input placeholder="Phone Number*" />
               </Form.Item>
               <Form.Item
                 name="country"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Select placeholder="School's Country">
+                <Select placeholder="School's Country*">
                   {Object.keys(Countries).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>
@@ -93,10 +100,10 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 name="libraryStatus"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Select placeholder="Library Status">
+                <Select placeholder="Library Status*">
                   {Object.keys(LibraryStatus).map((key: string) => (
                     <Option key={key} value={key}>
-                      {key}
+                      {convertEnumToRegularText(key)}
                     </Option>
                   ))}
                 </Select>
@@ -105,7 +112,7 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                 name="hidden"
                 rules={[{ required: true, message: 'Required' }]}
               >
-                <Select placeholder="Hidden?">
+                <Select placeholder="Hidden?*">
                   <Option value="true">True</Option>
                   <Option value="false">False</Option>
                 </Select>

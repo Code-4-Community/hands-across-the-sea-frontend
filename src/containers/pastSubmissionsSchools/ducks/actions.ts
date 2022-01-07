@@ -1,17 +1,8 @@
-import { genericAsyncActions } from '../../../utils/asyncRequest';
-import { PastSubmissionsSchoolsResponse } from './types';
 import { Action } from '../../../store';
 
-export const pastSubmissionsSchools = genericAsyncActions<
-  PastSubmissionsSchoolsResponse,
-  any
->();
-
-export type PastSubmissionsSchoolsActions =
-  | ReturnType<typeof setPastSubmissionsSchoolId>
-  | ReturnType<typeof pastSubmissionsSchools.loading>
-  | ReturnType<typeof pastSubmissionsSchools.loaded>
-  | ReturnType<typeof pastSubmissionsSchools.failed>;
+export type PastSubmissionsSchoolsActions = ReturnType<
+  typeof setPastSubmissionsSchoolId
+>;
 
 export const SET_PAST_SUBMISSIONS_SCHOOL_ID = 'setPastSubmissionsSchoolId';
 

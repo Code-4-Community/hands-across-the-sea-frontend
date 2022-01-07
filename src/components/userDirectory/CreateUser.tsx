@@ -5,8 +5,10 @@ import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
-import { UserResponse } from '../../containers/userDirectory/ducks/types';
-import { getOptionsFromEnum } from '../../utils/helpers';
+import { UserResponse } from '../../containers/userDirectory/types';
+import { convertEnumToRegularText } from '../../utils/helpers';
+
+const { Option } = Select;
 
 interface CreateUserProps {
   readonly onFinish: (userInfoRequest: SignupRequest, update: boolean) => void;
@@ -47,17 +49,17 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 <Col flex={12}>
                   <Form.Item
                     name="firstName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="First Name" />
+                    <Input placeholder="First Name*" />
                   </Form.Item>
                 </Col>
                 <Col flex={12}>
                   <Form.Item
                     name="lastName"
-                    rules={[{ required: true, message: 'Cannot be blank!' }]}
+                    rules={[{ required: true, message: 'Required' }]}
                   >
-                    <Input required placeholder="Last Name" />
+                    <Input placeholder="Last Name*" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -73,7 +75,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       },
                     ]}
                   >
-                    <Input required placeholder="Email Address" />
+                    <Input placeholder="Email Address*" />
                   </Form.Item>
                 </Col>
                 {!update && (
@@ -91,7 +93,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                         },
                       ]}
                     >
-                      <Input.Password placeholder="Password" />
+                      <Input.Password placeholder="Password*" />
                     </Form.Item>
                   </Col>
                 )}
@@ -103,23 +105,33 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     rules={[{ required: true, message: 'Required' }]}
                   >
                     <Select placeholder="School's Country">
-                      {getOptionsFromEnum(Countries)}
+                      {Object.keys(Countries).map((key: string) => (
+                        <Option key={key} value={key}>
+                          {convertEnumToRegularText(key)}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[0, 24]}>
-                <Col flex={24}>
-                  <Form.Item
-                    name="privilegeLevel"
-                    rules={[{ required: true, message: 'Required' }]}
-                  >
-                    <Select placeholder="User's Privilege">
-                      {getOptionsFromEnum(UserPrivilegeLevel)}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
+              {update && (
+                <Row gutter={[0, 24]}>
+                  <Col flex={24}>
+                    <Form.Item
+                      name="privilegeLevel"
+                      rules={[{ required: true, message: 'Required' }]}
+                    >
+                      <Select placeholder="User's Privilege">
+                        {Object.keys(UserPrivilegeLevel).map((key: string) => (
+                          <Option key={key} value={key}>
+                            {convertEnumToRegularText(key)}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              )}
             </FormPiece>
           </Col>
         </Row>

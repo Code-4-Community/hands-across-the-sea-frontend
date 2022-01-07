@@ -1,7 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
 import { C4CState } from '../../../store';
-import { AsyncRequest } from '../../../utils/asyncRequest';
 import { LibraryReportActions } from './actions';
 
 export type LibraryReportThunkAction<R> = ThunkAction<
@@ -12,7 +11,6 @@ export type LibraryReportThunkAction<R> = ThunkAction<
 >;
 
 export interface LibraryReportReducerState {
-  readonly latestReport: AsyncRequest<LibraryReportResponse, any>;
   readonly isYesReport?: boolean;
 }
 
@@ -23,6 +21,7 @@ export interface LibraryReportShared {
   visitReason: null | string;
   readonly actionPlans: null | string;
   readonly successStories: null | string;
+  readonly gradesAttended: string[];
 }
 
 export interface ReportWithLibraryRequest extends LibraryReportShared {
@@ -35,11 +34,13 @@ export interface ReportWithLibraryRequest extends LibraryReportShared {
   readonly hasCheckInTimetables: null | boolean;
   readonly hasBookCheckoutSystem: null | boolean;
   readonly numberOfStudentLibrarians: null | number;
+  readonly numberOfStudentLibrariansTrainers: null | number;
   readonly reasonNoStudentLibrarians: null | string;
   readonly hasSufficientTraining: null | boolean;
   readonly teacherSupport: null | string;
   readonly parentSupport: null | string;
-  readonly timetable: null | Timetable;
+  readonly checkInTimetable: null | Timetable;
+  readonly checkOutTimetable: null | Timetable;
 }
 
 export interface ReportWithoutLibraryRequest extends LibraryReportShared {
@@ -56,6 +57,8 @@ export type LibraryReportResponse = {
   readonly updatedAt: string;
   readonly schoolId: number;
   readonly userId: number;
+  readonly userName: string;
+  readonly schoolName: string;
 } & (
   | ({
       readonly libraryStatus: 'EXISTS';
@@ -73,6 +76,7 @@ export const TIMETABLE_COLUMNS: string[] = [
   'secondGrade',
   'thirdGrade',
   'fourthGrade',
+  'fifthGrade',
   'sixthGrade',
   'formOne',
   'formTwo',
@@ -80,6 +84,21 @@ export const TIMETABLE_COLUMNS: string[] = [
   'formFour',
   'formFive',
 ];
+
+export const TimeTableLabelMapping = {
+  kindergarten: 'Kindergarten',
+  firstGrade: 'First Grade',
+  secondGrade: 'Second Grade',
+  thirdGrade: 'Third Grade',
+  fourthGrade: 'Fourth Grade',
+  fifthGrade: 'Fifth Grade',
+  sixthGrade: 'Sixth Grade',
+  formOne: 'Form One',
+  formTwo: 'Form Two',
+  formThree: 'Form Three',
+  formFour: 'Form Four',
+  formFive: 'Form Five',
+};
 
 export interface Timetable {
   year: number;

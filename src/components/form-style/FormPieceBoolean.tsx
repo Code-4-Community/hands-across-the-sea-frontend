@@ -13,12 +13,16 @@ interface FormPieceBooleanProps {
   readonly value?: any;
   readonly onChange?: (event: any) => void;
   readonly disabled?: boolean;
+  readonly required?: boolean;
 }
 
 const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
   return (
     <FormPiece addPaddingBottom={props.addPaddingBottom} note={props.note}>
-      <Form.Item name={props.name}>
+      <Form.Item
+        name={props.name}
+        rules={[{ required: props.required, message: 'Required' }]}
+      >
         <Radio.Group
           buttonStyle="solid"
           onChange={props.onChange}

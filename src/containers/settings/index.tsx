@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Descriptions, Form, Input } from 'antd';
 import ProtectedApiClient from '../../api/protectedApiClient';
-import { BackButton, Container, DirectoryTitle, Outer } from '../../components';
+import { Container, DirectoryTitle, Outer } from '../../components';
 import FormPiece from '../../components/form-style/FormPiece';
 import { GetUserResponse } from './ducks/types';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { getUserID } from '../../auth/ducks/selectors';
-import { Routes } from '../../App';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Countries } from '../../utils/countries';
+import BackButton from '../../components/BackButton';
 
 const Settings: React.FC = () => {
   const userId = useSelector((state: C4CState) => {
@@ -43,9 +42,7 @@ const Settings: React.FC = () => {
         <title>Your Profile</title>
       </Helmet>
       <Container>
-        <BackButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
-          Back
-        </BackButton>
+        <BackButton />
         <DirectoryTitle level={2}>Your Profile</DirectoryTitle>
         <Outer>
           <FormPiece note="Personal Info" titleLevel={4}>

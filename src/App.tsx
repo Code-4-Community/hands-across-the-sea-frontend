@@ -32,6 +32,7 @@ import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubm
 import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
 import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
 import NewLibraryReport from './containers/library-report/NewLibraryReport';
+import DataVisualization from './containers/dataVisualization';
 
 const { Content } = Layout;
 
@@ -58,6 +59,7 @@ export enum Routes {
   PAST_SUBMISSIONS_SCHOOLS = '/past-submissions-schools',
   PAST_SUBMISSIONS_REPORTS = '/past-submissions-reports',
   EDIT_LIBRARY_REPORT = '/edit-library-report',
+  DATA_VISUALIZATION = '/data-visualization',
 }
 
 const App: React.FC = () => {
@@ -150,6 +152,11 @@ const App: React.FC = () => {
                           exact
                           component={Settings}
                         />
+                        <Route
+                          path={Routes.DATA_VISUALIZATION}
+                          exact
+                          component={DataVisualization}
+                        />
                         <Route path="*" exact component={NotFound} />
                       </Switch>
                     );
@@ -236,7 +243,11 @@ const App: React.FC = () => {
                       </Switch>
                     );
                   default:
-                    return <div>Error: Unknown Privilege Level: {privilegeLevel}</div>;
+                    return (
+                      <div>
+                        Error: Unknown Privilege Level: {privilegeLevel}
+                      </div>
+                    );
                 }
               })()}
             </AppInnerContainer>

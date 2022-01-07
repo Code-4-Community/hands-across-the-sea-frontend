@@ -3,13 +3,13 @@ import { Helmet } from 'react-helmet';
 import { ContentContainer, Outer } from '../../components';
 import { Col, Row, Typography } from 'antd';
 import {
+  DatabaseOutlined,
   FolderOpenOutlined,
   FormOutlined,
   PoweroffOutlined,
-  UserOutlined,
-  DatabaseOutlined,
   TeamOutlined,
-  BulbOutlined,
+  UserOutlined,
+  LineChartOutlined,
 } from '@ant-design/icons';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
@@ -39,7 +39,7 @@ const Container = styled(ContentContainer)`
 
 const HeadTitle = styled(Title)`
   font-weight: bold;
-  padding: 50px 0px 30px 0px;
+  padding: 12px 0px 12px 0px;
   text-align: center;
 `;
 
@@ -218,80 +218,43 @@ const Home: React.FC = () => {
             </Row>
           )}
           <Row gutter={[32, 0]} wrap>
-            {privilegeLevel === PrivilegeLevel.ADMIN ? (
-              <Col span={12}>
-                <InContain
-                  lastPiece
-                  onClick={() => {
-                    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <BulbOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Data Insights
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
-            ) : (
-              <Col span={12}>
-                <InContain
-                  lastPiece
-                  onClick={() => {
-                    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
-                  }}
-                >
-                  <Row>
-                    <Col span={8}>
-                      <FolderOpenOutlined
-                        style={{
-                          fontSize: '50px',
-                          marginTop: '14px',
-                          marginLeft: '5px',
-                        }}
-                      />
-                    </Col>
-                    <Col span={16}>
-                      <Row>
-                        <Col>
-                          <ButtonDescription level={3}>
-                            Form History
-                          </ButtonDescription>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Paragraph>View past forms</Paragraph>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </InContain>
-              </Col>
-            )}
             <Col span={12}>
               <InContain
-                lastPiece
+                lastPiece={privilegeLevel !== PrivilegeLevel.ADMIN}
+                onClick={() => {
+                  history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
+                }}
+              >
+                <Row>
+                  <Col span={8}>
+                    <FolderOpenOutlined
+                      style={{
+                        fontSize: '50px',
+                        marginTop: '14px',
+                        marginLeft: '5px',
+                      }}
+                    />
+                  </Col>
+                  <Col span={16}>
+                    <Row>
+                      <Col>
+                        <ButtonDescription level={3}>
+                          Form History
+                        </ButtonDescription>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Paragraph>View past forms</Paragraph>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </InContain>
+            </Col>
+            <Col span={12}>
+              <InContain
+                lastPiece={privilegeLevel !== PrivilegeLevel.ADMIN}
                 onClick={() => {
                   dispatch(logout());
                   history.replace(Routes.LOGIN);
@@ -326,6 +289,46 @@ const Home: React.FC = () => {
               </InContain>
             </Col>
           </Row>
+          {privilegeLevel === PrivilegeLevel.ADMIN && (
+            <Row gutter={[32, 48]} wrap>
+              <Col span={24}>
+                <InContain
+                  lastPiece
+                  onClick={() => {
+                    history.push(Routes.DATA_VISUALIZATION);
+                  }}
+                >
+                  <Row>
+                    <Col span={8}>
+                      <LineChartOutlined
+                        style={{
+                          fontSize: '50px',
+                          marginTop: '14px',
+                          marginLeft: '5px',
+                        }}
+                      />
+                    </Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col>
+                          <ButtonDescription level={3}>
+                            Data Visualization
+                          </ButtonDescription>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Paragraph>
+                            View and manage all your collected data
+                          </Paragraph>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </InContain>
+              </Col>
+            </Row>
+          )}
         </Outer>
       </Container>
     </>

@@ -1,20 +1,24 @@
 import { Col, Form, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import ProtectedApiClient from '../../api/protectedApiClient';
+import {
+  default as protectedApiClient,
+  default as ProtectedApiClient,
+} from '../../api/protectedApiClient';
 import { Routes } from '../../App';
-import { getUserID } from '../../auth/ducks/selectors';
+import { getPrivilegeLevel, getUserID } from '../../auth/ducks/selectors';
+import { PrivilegeLevel } from '../../auth/ducks/types';
 import FormButtons from '../../components/form-style/FormButtons';
 import FormContainer from '../../components/form-style/FormContainer';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
 import { C4CState } from '../../store';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { GetUserResponse } from '../settings/ducks/types';
 import { selectSchoolId } from './ducks/actions';
-import { loadSchools } from './ducks/thunks';
 import { SchoolEntry } from './ducks/types';
+import BackButton from '../../components/BackButton';
 
 interface SelectSchoolForm {
   schoolId: number;
@@ -22,9 +26,11 @@ interface SelectSchoolForm {
 
 const SelectSchool: React.FC = () => {
   const dispatch = useDispatch();
-  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
+  const { isLoading, error, data } = useQuery(
+    'schools',
+    protectedApiClient.getAllSchools,
   );
+
   const history = useHistory();
   const [formValues, setFormValues] = useState({} as any);
   const [userInfo, setUserInfo] = useState<GetUserResponse>(
@@ -34,9 +40,9 @@ const SelectSchool: React.FC = () => {
     return getUserID(state.authenticationState.tokens);
   });
 
-  useEffect(() => {
-    dispatch(loadSchools());
-  }, [dispatch]);
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
 
   useEffect(() => {
     ProtectedApiClient.getUser()
@@ -55,19 +61,15 @@ const SelectSchool: React.FC = () => {
     <Select.Option value={school.id}>{school.name}</Select.Option>
   );
 
-  switch (availableSchools.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Loading:
-      return <p>Loading schools...</p>;
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading schools</p>;
-    case AsyncRequestKinds.Completed:
-      if (Object.keys(userInfo).length === 0) {
-        return <p>Loading schools...</p>;
-      }
-
-      return (
+  return (
+    <>
+      {(isLoading || Object.keys(userInfo).length === 0) && (
+        <p>Loading schools...</p>
+      )}
+      {error && <p>An error occurred loading schools</p>}
+      {data && (
         <FormContentContainer>
+          <BackButton />
           <Form
             name="select-school"
             onFinish={handleSubmit}
@@ -93,11 +95,13 @@ const SelectSchool: React.FC = () => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(
-                          availableSchools.result.filter(
-                            (school) => school.country === userInfo.country,
-                          ),
-                        ).map(renderSchoolOption)}
+                        {data
+                          .filter(
+                            (school) =>
+                              privilegeLevel === PrivilegeLevel.ADMIN ||
+                              school.country === userInfo.country,
+                          )
+                          .map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>
@@ -114,8 +118,9 @@ const SelectSchool: React.FC = () => {
             </FormButtons>
           </Form>
         </FormContentContainer>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default SelectSchool;

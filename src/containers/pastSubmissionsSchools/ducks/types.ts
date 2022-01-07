@@ -1,8 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
-import { C4CState } from '../../../store';
 import { ApiExtraArgs } from '../../../api/protectedApiClient';
+import { C4CState } from '../../../store';
 import { PastSubmissionsSchoolsActions } from './actions';
-import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export type PastSubmissionsThunkAction<R> = ThunkAction<
   R,
@@ -12,7 +11,6 @@ export type PastSubmissionsThunkAction<R> = ThunkAction<
 >;
 
 export interface PastSubmissionsSchoolsReducerState {
-  readonly pastSubmissionsSchools: AsyncRequest<PastSubmissionsSchoolsResponse>;
   readonly pastSubmissionSelectedSchoolId?: number;
 }
 

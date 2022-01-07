@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import FormContainer from '../../components/form-style/FormContainer';
 import { Col, Form, Row, Select } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
-import { getPastSubmissionsSchools } from './ducks/thunks';
-import {
-  PastSubmissionsSchoolsResponse,
-  SchoolSummaryResponse,
-} from './ducks/types';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import protectedApiClient from '../../api/protectedApiClient';
+import { Routes } from '../../App';
+import FormButtons from '../../components/form-style/FormButtons';
+import FormContainer from '../../components/form-style/FormContainer';
+import { SchoolSummaryResponse } from './ducks/types';
 import FormContentContainer from '../../components/form-style/FormContentContainer';
 import FormPiece from '../../components/form-style/FormPiece';
-import FormButtons from '../../components/form-style/FormButtons';
-import Loading from '../../components/Loading';
 import { setPastSubmissionsSchoolId } from './ducks/actions';
-import { Routes } from '../../App';
-import { useHistory } from 'react-router';
+import BackButton from '../../components/BackButton';
 
 interface SelectPasSubmissionSchoolForm {
   pastSubmissionsSchoolId: number;
 }
 
-const PastSubmissionsSchools: React.FC = (props) => {
+const PastSubmissionsSchools: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const availableSchools: AsyncRequest<
-    PastSubmissionsSchoolsResponse,
-    any
-  > = useSelector(
-    (state: C4CState) =>
-      state.pastSubmissionSchoolsState.pastSubmissionsSchools,
+  const { isLoading, error, data } = useQuery(
+    'pastSubmissionsSchools',
+    protectedApiClient.getPastSubmissionSchools,
   );
-
-  useEffect(() => {
-    dispatch(getPastSubmissionsSchools());
-  }, [dispatch]);
 
   const renderSchoolOption = (school: SchoolSummaryResponse) => (
     <Select.Option value={school.id}>{school.name}</Select.Option>
@@ -49,15 +38,13 @@ const PastSubmissionsSchools: React.FC = (props) => {
   const [formValues, setFormValues] = useState({} as any);
   const submitDisabled = !formValues.pastSubmissionsSchoolId;
 
-  switch (availableSchools.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading past submissions</p>;
-    case AsyncRequestKinds.Loading:
-      return <Loading title={'Past Submissions'} />;
-    case AsyncRequestKinds.Completed:
-      return (
+  return (
+    <>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>An error occurred loading past submissions</p>}
+      {data && (
         <FormContentContainer>
+          <BackButton />
           <Form
             name="select-school"
             onFinish={handleSubmit}
@@ -86,9 +73,7 @@ const PastSubmissionsSchools: React.FC = (props) => {
                             .localeCompare(optionB.children.toLowerCase())
                         }
                       >
-                        {Array.from(availableSchools.result.schools).map(
-                          renderSchoolOption,
-                        )}
+                        {Array.from(data.schools).map(renderSchoolOption)}
                       </Select>
                     </Form.Item>
                   </FormPiece>
@@ -105,8 +90,9 @@ const PastSubmissionsSchools: React.FC = (props) => {
             </FormButtons>
           </Form>
         </FormContentContainer>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default PastSubmissionsSchools;

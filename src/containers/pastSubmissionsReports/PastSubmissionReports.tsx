@@ -1,46 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Outer } from '../../components/form-style/FormContainer';
 import { Col, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { DirectoryTitle } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
-import { C4CState } from '../../store';
-import { getPastSubmissionsReports } from './ducks/thunks';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
+import { DirectoryTitle } from '../../components';
+import { Container, Outer } from '../../components/form-style/FormContainer';
+import Loading from '../../components/Loading';
+import { C4CState } from '../../store';
 import { LibraryReportResponse } from '../library-report/ducks/types';
 import { PastSubmissionsSchoolsReducerState } from '../pastSubmissionsSchools/ducks/types';
-import Loading from '../../components/Loading';
-import { ReportGenericListResponse } from './ducks/types';
 import PastSubmissionActions from './PastSubmissionActions';
+import BackButton from '../../components/BackButton';
 
 const PastSubmissionsReports: React.FC = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
-
   const [currentPage, setCurrentPage] = useState<number>(1);
-
   const schoolId: PastSubmissionsSchoolsReducerState['pastSubmissionSelectedSchoolId'] = useSelector(
     (state: C4CState) =>
       state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
   );
-
-  useEffect(() => {
-    if (schoolId !== undefined) {
-      dispatch(getPastSubmissionsReports(schoolId, 1));
-    } else {
-      history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
-    }
-  }, [schoolId, dispatch, history]);
-
-  const availableReports: AsyncRequest<
-    ReportGenericListResponse,
-    any
-  > = useSelector(
-    (state: C4CState) =>
-      state.pastSubmissionReportsState.pastSubmissionsReports,
+  const { isLoading, error, data } = useQuery(
+    ['pastSubmissionsReports', schoolId, currentPage],
+    () =>
+      protectedApiClient.getPastSubmissionReports(
+        schoolId as number,
+        currentPage,
+      ),
+    {
+      enabled: schoolId !== undefined,
+    },
   );
+
+  if (schoolId === undefined) {
+    history.push(Routes.PAST_SUBMISSIONS_SCHOOLS);
+    return <></>;
+  }
 
   const columns: ColumnType<LibraryReportResponse>[] = [
     {
@@ -60,27 +57,26 @@ const PastSubmissionsReports: React.FC = () => {
       },
     },
     {
-      title: 'School ID',
-      dataIndex: 'schoolId',
+      title: 'School Name',
+      dataIndex: 'schoolName',
     },
     {
-      title: 'User ID',
-      dataIndex: 'userId',
+      title: 'User Name',
+      dataIndex: 'userName',
       sorter: {
-        compare: (a, b) => (a.userId > b.userId ? 1 : -1),
+        compare: (a, b) => a.userName.localeCompare(b.userName),
         multiple: 1,
       },
     },
     {
       title: 'Actions',
       // eslint-disable-next-line react/display-name
-      render: (data) => <PastSubmissionActions report={data} />,
+      render: (report) => <PastSubmissionActions report={report} />,
     },
   ];
 
   const onPageChange = (page: any, pageSize: any) => {
     if (page !== currentPage && schoolId !== undefined && page !== undefined) {
-      dispatch(getPastSubmissionsReports(schoolId, page));
       setCurrentPage(page);
     }
   };
@@ -93,15 +89,13 @@ const PastSubmissionsReports: React.FC = () => {
     );
   };
 
-  switch (availableReports.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading past submissions</p>;
-    case AsyncRequestKinds.Loading:
-      return <Loading title={'Past Submissions'} />;
-    case AsyncRequestKinds.Completed:
-      return (
+  return (
+    <>
+      {isLoading && <Loading title={'Past Submissions'} />}
+      {error && <p>An error occurred loading past submissions</p>}
+      {data && (
         <Container>
+          <BackButton />
           <Row gutter={[0, 32]}>
             <Col flex={24}>
               <DirectoryTitle level={2}>Past Submissions</DirectoryTitle>
@@ -109,28 +103,27 @@ const PastSubmissionsReports: React.FC = () => {
           </Row>
           <Outer>
             <Table
-              dataSource={(availableReports.result.reports || []).map(
-                (report) => {
-                  return {
-                    ...report,
-                    updatedAt: convertToAtlanticTime(report.updatedAt),
-                    createdAt: convertToAtlanticTime(report.createdAt),
-                  };
-                },
-              )}
-              rowKey={(data) => data.libraryStatus + data.id}
+              dataSource={(data.reports || []).map((report) => {
+                return {
+                  ...report,
+                  updatedAt: convertToAtlanticTime(report.updatedAt),
+                  createdAt: convertToAtlanticTime(report.createdAt),
+                };
+              })}
+              rowKey={(report) => report.libraryStatus + report.id}
               columns={columns}
               pagination={{
                 current: currentPage,
-                total: availableReports.result.count,
+                total: data.count,
                 pageSize: 10,
                 onChange: onPageChange,
               }}
             />
           </Outer>
         </Container>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default PastSubmissionsReports;

@@ -1,31 +1,40 @@
 import { message } from 'antd';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useQuery, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import protectedApiClient from '../../api/protectedApiClient';
 import { Routes } from '../../App';
 import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
-import { loadLatestLibraryReport } from '../../containers/library-report/ducks/thunks';
 import {
   ReportWithLibraryRequest,
   ReportWithoutLibraryRequest,
-} from '../../containers/library-report/ducks/types';
+} from './ducks/types';
 import { C4CState } from '../../store';
 
-const NewLibraryReport = () => {
-  const dispatch = useDispatch();
+const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
     (state: C4CState) => state.libraryReportState.isYesReport,
   );
   const schoolId = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
-  const history = useHistory();
+  const { isLoading, error, data } = useQuery(
+    'bookLogs',
+    () => protectedApiClient.getBookLogs(schoolId as number),
+    {
+      enabled: schoolId !== undefined,
+    },
+  );
 
-  if (!schoolId) {
+  const history = useHistory();
+  const queryClient = useQueryClient();
+
+  if (schoolId === undefined) {
     history.replace(Routes.HOME);
+    return <></>;
   }
 
   const handleSubmit = async (
@@ -46,7 +55,7 @@ const NewLibraryReport = () => {
           report as ReportWithoutLibraryRequest,
         );
       }
-      dispatch(loadLatestLibraryReport(schoolId));
+      queryClient.invalidateQueries('latestLibraryReport');
       history.replace(Routes.FORM_SUB_CONFIRMATION);
     } catch (err) {
       // TODO: show a better error message
@@ -60,16 +69,29 @@ const NewLibraryReport = () => {
     </FormButtons>
   );
 
-  const props = {
-    editable: true,
-    onSubmit: handleSubmit,
-    children: buttons,
-  };
-
-  return isYesReport ? (
-    <ReportWithLibrary {...props} />
-  ) : (
-    <ReportWithoutLibrary {...props} />
+  return (
+    <>
+      {isLoading && <p>Loading school data...</p>}
+      {error && <p>Failed to load report data</p>}
+      {data &&
+        (isYesReport ? (
+          <ReportWithLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={data}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ) : (
+          <ReportWithoutLibrary
+            isNew={true}
+            children={buttons}
+            bookLogInfo={data}
+            editable={true}
+            onSubmit={handleSubmit}
+          />
+        ))}
+    </>
   );
 };
 

@@ -1,15 +1,8 @@
 import styled from 'styled-components';
-import { Typography, Input } from 'antd';
-import { LinkButton } from './LinkButton';
+import { Card, Input, Typography } from 'antd';
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
-
-export const BackButton = styled(LinkButton)`
-  margin: auto;
-  background: transparent;
-  color: #54679e;
-`;
 
 export const FormTextArea = styled(TextArea)`
   resize: none;
@@ -26,7 +19,7 @@ export const ClarifyText = styled(Paragraph)`
 
 export const DirectoryTitle = styled(Title)`
   text-align: center;
-  margin: 24px; 0px; 24px; 0px;
+  margin: 24px 0px 24px 0px;
 `;
 
 export const ContentContainer = styled.div`
@@ -56,4 +49,27 @@ export const Inner = styled.div`
   padding: 32px 32px 32px 32px;
   background-color: white;
   border-radius: 5px;
+`;
+
+export const InputLabel = styled(Paragraph)`
+  margin-bottom: 0.25em !important;
+  margin-top: none !important;
+`;
+
+export const StyledDataCard = styled(Card)`
+  width: 261px;
+  height: 261px;
+  border-radius: 38px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
+`;
+
+export const DisplayCard = styled(Card)`
+  width: 261px;
+  min-height: 70px;
+  border-radius: 38px;
+  text-align: center;
 `;

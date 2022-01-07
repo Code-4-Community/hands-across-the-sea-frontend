@@ -1,8 +1,8 @@
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import protectedApiClient from '../../api/protectedApiClient';
 import { DirectoryTitle } from '../../components';
 import { Container, Outer } from '../../components/form-style/FormContainer';
@@ -12,20 +12,11 @@ import EditBookLog from '../../components/schoolDirectory/EditBookLog';
 import SchoolDirectoryActionMenu, {
   SchoolDirectoryAction,
 } from '../../components/schoolDirectory/SchoolDirectoryActionMenu';
-import { C4CState } from '../../store';
-import { AsyncRequest, AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Countries } from '../../utils/countries';
-import {
-  createBookLog,
-  deleteBookLog,
-  getBookLogs,
-  updateBookLog,
-} from '../bookLogs/ducks/thunks';
-import { BookLogPostRequest, BookLogRequest } from '../bookLogs/ducks/types';
-import { SchoolRequest, SchoolResponse } from '../schoolInfo/ducks/types';
-import { loadSchools } from '../selectSchool/ducks/thunks';
+import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
+import { SchoolRequest, SchoolResponse } from '../schoolInfo/types';
 import { SchoolEntry } from '../selectSchool/ducks/types';
-import { deleteSchool } from './ducks/thunks';
+import BackButton from '../../components/BackButton';
 
 const { Search } = Input;
 
@@ -60,16 +51,11 @@ const SchoolDirectory: React.FC = () => {
     SchoolResponse | undefined
   >(undefined);
 
-  const dispatch = useDispatch();
-  const availableSchools: AsyncRequest<SchoolEntry[], any> = useSelector(
-    (state: C4CState) => state.selectSchoolState.schools,
+  const queryClient = useQueryClient();
+  const { isLoading, error, data } = useQuery(
+    'schools',
+    protectedApiClient.getAllSchools,
   );
-
-  // need useEffect inside of component because the state "updateSchoolList"
-  // needs to be a dependency
-  useEffect(() => {
-    dispatch(loadSchools());
-  }, [dispatch, updateSchoolList]);
 
   // handles submitting create a school form
   const handleOnFinishCreateSchool = async (
@@ -86,9 +72,9 @@ const SchoolDirectory: React.FC = () => {
         setCreateSchool(false);
         setUpdateSchoolList(!updateSchoolList);
       }
-      dispatch(loadSchools());
+      queryClient.invalidateQueries('schools');
     } catch (err) {
-      message.error(`An error occured, please try again: ${err.message}`);
+      message.error(`An error occurred, please try again.`);
     }
   };
 
@@ -106,18 +92,28 @@ const SchoolDirectory: React.FC = () => {
 
   // handles saving the book logs - posts all of the newly added book logs to the backend
   // and also deletes all of the deleted book logs
-  const handleOnSaveBookLogs = () => {
-    for (const bookLog of bookLogsList) {
-      const logValue: BookLogPostRequest = {
-        count: bookLog.count,
-        date: moment(bookLog.date),
-        notes: bookLog.notes,
-      };
-      dispatch(createBookLog(bookLogsSchool.id, logValue));
-    }
-    for (const deletedLog of deletedLogs) {
-      dispatch(deleteBookLog(bookLogsSchool.id, deletedLog));
-    }
+  const handleOnSaveBookLogs = async () => {
+    await Promise.all(
+      bookLogsList.map(async (bookLog) => {
+        const logValue: BookLogPostRequest = {
+          count: bookLog.count,
+          date: moment(bookLog.date),
+          notes: bookLog.notes,
+        };
+        return await protectedApiClient.createBookLog(
+          bookLogsSchool.id,
+          logValue,
+        );
+      }),
+    );
+
+    await Promise.all(
+      deletedLogs.map(async (logId) => {
+        await protectedApiClient.deleteBookLog(bookLogsSchool.id, logId);
+      }),
+    );
+    queryClient.invalidateQueries(['bookLogs', bookLogsSchool.id]);
+
     setBookLogs(false);
     setBookLogsSchool({ id: -1, name: '' });
     setBookLogsList([]);
@@ -174,9 +170,13 @@ const SchoolDirectory: React.FC = () => {
   };
 
   // handles saving the updates to a book log
-  const handleOnSaveEditBookLogs = (bookLog: BookLogRequest) => {
+  const handleOnSaveEditBookLogs = async (bookLog: BookLogRequest) => {
     if (editedBookLog.id > 0) {
-      dispatch(updateBookLog(bookLogsSchool.id, editedBookLog.id, bookLog));
+      await protectedApiClient.updateBookLog(
+        bookLogsSchool.id,
+        editedBookLog.id,
+        bookLog,
+      );
     } else {
       bookLog.id = editedBookLog.id;
       const editedBookLogs = bookLogsList.map((log) => {
@@ -189,37 +189,28 @@ const SchoolDirectory: React.FC = () => {
     setBookLogs(true);
   };
 
-  const errorLoadingSchool = (error: any) => {
-    message.error(error.response.data);
-  };
-
   // handles determining what action to do when an action is executed
-  const handleActionButtonOnClick = (school: SchoolEntry) => (
+  const handleActionButtonOnClick = (school: SchoolEntry) => async (
     key: SchoolDirectoryAction,
   ) => {
-    switch (key) {
-      case SchoolDirectoryAction.EDIT:
-        protectedApiClient
-          .getSchool(school.id)
-          .then((schoolResponse: SchoolResponse) => {
-            setUpdatedSchool(schoolResponse);
-            setUpdateSchool(true);
-          })
-          .catch(errorLoadingSchool);
-        return;
-      case SchoolDirectoryAction.BOOKS:
-        dispatch(getBookLogs(school.id));
-
-        setBookLogsSchool({
-          id: school.id,
-          name: school.name,
-        });
-        setBookLogs(!bookLogs);
-
-        return;
-      case SchoolDirectoryAction.DELETE:
-        dispatch(deleteSchool(school.id));
-        setUpdateSchoolList(!updateSchoolList);
+    if (key === SchoolDirectoryAction.EDIT) {
+      try {
+        const schoolResponse = await protectedApiClient.getSchool(school.id);
+        setUpdatedSchool(schoolResponse);
+        setUpdateSchool(true);
+      } catch (err) {
+        message.error(`An error occurred, please try again`);
+      }
+    } else if (key === SchoolDirectoryAction.DELETE) {
+      await protectedApiClient.deleteSchool(school.id);
+      setUpdateSchoolList(!updateSchoolList);
+    } else if (key === SchoolDirectoryAction.BOOKS) {
+      queryClient.invalidateQueries(['bookLogs', school.id]);
+      setBookLogsSchool({
+        id: school.id,
+        name: school.name,
+      });
+      setBookLogs(!bookLogs);
     }
   };
 
@@ -259,17 +250,12 @@ const SchoolDirectory: React.FC = () => {
     },
   ];
 
-  switch (availableSchools.kind) {
-    case AsyncRequestKinds.NotStarted:
-    case AsyncRequestKinds.Failed:
-      return <p>An error occurred loading schools</p>;
-    case AsyncRequestKinds.Loading:
-    case AsyncRequestKinds.Completed:
-      if (availableSchools.kind === AsyncRequestKinds.Completed) {
-        availableSchools.result.sort((s1, s2) => s1.id - s2.id);
-      }
-      return (
+  return (
+    <>
+      {error && <p>An error occurred loading schools</p>}
+      {!error && (
         <Container>
+          <BackButton />
           <Modal
             visible={createSchool || updateSchool}
             width={1000}
@@ -292,6 +278,7 @@ const SchoolDirectory: React.FC = () => {
             onCancel={handleOnCancelBookLogs}
           >
             <BookLogsMenu
+              schoolId={bookLogsSchool.id}
               onAddBook={handleAddBookLog}
               onSave={handleOnSaveBookLogs}
               onEdit={handleOnEditBookLog}
@@ -333,21 +320,24 @@ const SchoolDirectory: React.FC = () => {
           <Outer>
             <Table
               dataSource={
-                availableSchools.kind === AsyncRequestKinds.Completed
-                  ? availableSchools.result.filter((entry) =>
-                      entry.name
-                        .toLocaleLowerCase()
-                        .startsWith(searchText.toLowerCase()),
-                    )
+                data
+                  ? data
+                      .sort((s1, s2) => s1.id - s2.id)
+                      .filter((entry) =>
+                        entry.name
+                          .toLocaleLowerCase()
+                          .startsWith(searchText.toLowerCase()),
+                      )
                   : undefined
               }
               columns={columns}
-              loading={availableSchools.kind === AsyncRequestKinds.Loading}
+              loading={isLoading}
             />
           </Outer>
         </Container>
-      );
-  }
+      )}
+    </>
+  );
 };
 
 export default SchoolDirectory;

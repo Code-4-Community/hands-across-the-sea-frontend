@@ -1,20 +1,3 @@
-import { ThunkAction } from 'redux-thunk';
-import { C4CState } from '../../../store';
-import { ApiExtraArgs } from '../../../api/protectedApiClient';
-import { SchoolInformationActions } from './actions';
-import { AsyncRequest } from '../../../utils/asyncRequest';
-
-export type SchoolInformationThunkAction<R> = ThunkAction<
-  R,
-  C4CState,
-  ApiExtraArgs,
-  SchoolInformationActions
->;
-
-export interface SchoolInformationReducerState {
-  readonly schoolInformation: AsyncRequest<SchoolResponse, any>;
-}
-
 export interface SchoolResponse extends SchoolRequest {
   readonly id: number;
   readonly contacts: Contact[];
