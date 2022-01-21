@@ -31,9 +31,8 @@ const HeadTitle = styled.h1`
 // 69dfc3- aqua green, rgb(105, 223, 195)
 // 7797bb- lighter blue, rgb(119, 151, 187)
 const Header: React.FC = () => {
-  let number = '50bcbe';
   const NavRow = styled(Row)`
-    background-color: #${number};
+    background-color: #${'50bcbe'};
   `;
   return (
   <NavRow>
