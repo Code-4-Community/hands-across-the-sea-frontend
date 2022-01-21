@@ -30,8 +30,8 @@ const FormPieceBoolean: React.FC<FormPieceBooleanProps> = (props) => {
           style={{ userSelect: 'none' }}
           disabled={props.disabled}
         >
-          <Radio.Button value={true}>{props.textTrue || 'Yes'}</Radio.Button>
-          <Radio.Button value={false}>{props.textFalse || 'No'}</Radio.Button>
+          <Radio.Button style={{backgroundColor: 'rgb(80, 188, 190)', borderColor: 'rgb(80, 188, 190)'}} value={true}>{props.textTrue || 'Yes'}</Radio.Button>
+          <Radio.Button style={{backgroundColor: 'rgb(80, 188, 190)', borderColor: 'rgb(80, 188, 190)'}} value={false}>{props.textFalse || 'No'}</Radio.Button>
         </Radio.Group>
       </Form.Item>
       {props.children}

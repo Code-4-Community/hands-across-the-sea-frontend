@@ -62,8 +62,8 @@ const EditBookLog: React.FC<EditBookLogProps> = ({
         <Footer>
           <Row gutter={[0, 24]}>
             <Col flex={24}>
-              <CancelButton onClick={onCancel}>Cancel</CancelButton>
-              <SaveButton htmlType={'submit'}>Save</SaveButton>
+              <CancelButton style={{backgroundColor: 'rgb(80, 188, 190)', borderColor: 'rgb(80, 188, 190)'}} onClick={onCancel}>Cancel</CancelButton>
+              <SaveButton style={{backgroundColor: 'rgb(80, 188, 190)', borderColor: 'rgb(80, 188, 190)'}} htmlType={'submit'}>Save</SaveButton>
             </Col>
           </Row>
         </Footer>

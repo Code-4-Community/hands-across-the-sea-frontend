@@ -42,7 +42,7 @@ const FormButton: React.FC<FormButtonProps> = ({
 }) => {
   const cursor = disabled ? 'default' : 'pointer';
   const opacity = disabled ? 0.5 : 1;
-  const backgroundColor = type === 'primary' ? '#294186' : '#E3E5E5';
+  const backgroundColor = type === 'primary' ? 'rgb(80, 188, 190)' : '#E3E5E5';
   const foregroundColor = type === 'primary' ? '#FFF' : '#333';
   return (
     <FormButtonElement

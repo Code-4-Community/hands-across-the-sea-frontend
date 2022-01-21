@@ -73,6 +73,8 @@ export const AddBookButton = styled(SubmitButton)`
   margin-left: 38%;
   width: 24%;
   height: 42px;
+  background-color: rgb(80, 188, 190);
+  border-color: rgb(80, 188, 190);
 `;
 
 export const CancelButton = styled(SubmitButton)`
@@ -82,6 +84,7 @@ export const CancelButton = styled(SubmitButton)`
   border: 2px solid #294186;
   height: 42px;
   margin-right: 20px;
+  border-color: rgb(80, 188, 190);
 `;
 
 export const SaveButton = styled(SubmitButton)`
@@ -90,6 +93,8 @@ export const SaveButton = styled(SubmitButton)`
   color: white;
   height: 42px;
   margin-left: 20px;
+  background-color: rgb(80, 188, 190);
+  border-color: rgb(80, 188, 190);
 `;
 
 const BookLogsMenu: React.FC<BookLogsMenuProps> = ({

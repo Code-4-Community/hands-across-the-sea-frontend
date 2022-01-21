@@ -112,7 +112,7 @@ const Settings: React.FC = () => {
                 <Input.Password />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{backgroundColor: 'rgb(80, 188, 190)', borderColor: 'rgb(80, 188, 190)'}}>
                   Change Password
                 </Button>
               </Form.Item>

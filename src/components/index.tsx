@@ -39,7 +39,7 @@ export const Container = styled(ContentContainer)`
 `;
 
 export const Outer = styled.div`
-  background-color: #d4d9e7;
+  background-color: rgb(80, 188, 190, 0.75);
   padding: 32px 32px;
   border-radius: 5px;
   margin: auto;
