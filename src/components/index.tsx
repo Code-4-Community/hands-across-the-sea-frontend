@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Card, Input, Typography } from 'antd';
+import getColorPalette from '../utils/colors';
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
@@ -39,7 +40,7 @@ export const Container = styled(ContentContainer)`
 `;
 
 export const Outer = styled.div`
-  background-color: #d4d9e7;
+  background-color: ${getColorPalette().secondary};
   padding: 32px 32px;
   border-radius: 5px;
   margin: auto;
@@ -47,7 +48,7 @@ export const Outer = styled.div`
 
 export const Inner = styled.div`
   padding: 32px 32px 32px 32px;
-  background-color: white;
+  background-color: ${getColorPalette().background};
   border-radius: 5px;
 `;
 

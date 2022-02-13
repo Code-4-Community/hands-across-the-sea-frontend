@@ -19,6 +19,7 @@ import { logout } from '../../auth/ducks/thunks';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import getColorPalette from '../../utils/colors';
 
 const { Title, Paragraph } = Typography;
 
@@ -52,7 +53,7 @@ const InContain: React.FC<InContainProps> = ({
   const ContainDiv = styled.div`
     padding: 15px 20px 15px 20px;
     margin: 0px 0px ${bottomMargin} 0px;
-    background-color: white;
+    background-color: ${getColorPalette().background};
     border-radius: 5px;
     &:hover {
       cursor: pointer;

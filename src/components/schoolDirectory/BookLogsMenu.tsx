@@ -20,6 +20,7 @@ import {
   BookLogRequest,
   BookLogResponse,
 } from '../../containers/bookLogs/types';
+import getColorPalette from '../../utils/colors';
 
 const { Title } = Typography;
 
@@ -66,9 +67,9 @@ export const InlineFormContainer = styled.div`
 `;
 
 export const AddBookButton = styled(SubmitButton)`
-  background: #294186;
+  background: ${getColorPalette().primary};
   border-radius: 92px;
-  color: white;
+  color: ${getColorPalette().lightText};
   margin: 0 auto;
   margin-left: 38%;
   width: 24%;
@@ -76,18 +77,18 @@ export const AddBookButton = styled(SubmitButton)`
 `;
 
 export const CancelButton = styled(SubmitButton)`
-  background: #fff;
+  background: ${getColorPalette().lightText};
   border-radius: 92px;
-  color: #294186;
-  border: 2px solid #294186;
+  color: ${getColorPalette().primary};
+  border: 2px solid ${getColorPalette().primary};
   height: 42px;
   margin-right: 20px;
 `;
 
 export const SaveButton = styled(SubmitButton)`
-  background: #294186;
+  background: ${getColorPalette().primary};
   border-radius: 34px;
-  color: white;
+  color: ${getColorPalette().lightText};
   height: 42px;
   margin-left: 20px;
 `;
@@ -118,7 +119,10 @@ const BookLogsMenu: React.FC<BookLogsMenuProps> = ({
           date: log.date,
           id: log.id,
           notes: log.notes,
-          style: ind > added - 1 ? '#fff' : '#E6F7FF',
+          style:
+            ind > added - 1
+              ? getColorPalette().background
+              : getColorPalette().tertiary,
         };
         return styledLog;
       });
