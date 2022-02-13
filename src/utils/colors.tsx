@@ -1,11 +1,5 @@
 import { Countries } from './countries';
 
-export const PRIMARY = '#3BD1BC';
-export const SECONDARY = '#F88812';
-export const BACKGROUND = '#FFFFFF';
-export const LINK = '#1890ff';
-export const HEADER_TEXT = '#FFFFFF';
-
 interface HexColorPalette {
   readonly primary: string;
   readonly primaryDark: string;
@@ -21,10 +15,11 @@ interface HexColorPalette {
 
 export default function getColorPalette(country?: string): HexColorPalette {
   switch (country) {
+    // example of how to create a country specific country palette
     case Countries.UNITED_STATES:
       return {
-        primary: '#3BD1BC',
-        primaryDark: '#299283',
+        primary: '#3BD1BC', // these are the same as in the default palette, but you could
+        primaryDark: '#299283', // change them to red white and blue if you wanted
         secondary: '#F88812',
         tertiary: '#E3E5E5',
         background: '#FFFFFF',

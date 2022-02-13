@@ -10,7 +10,7 @@ import {
 import { C4CState } from '../../store';
 import { connect } from 'react-redux';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import getColorPalette, { PRIMARY } from '../../utils/colors';
+import getColorPalette from '../../utils/colors';
 import { Routes } from '../../App';
 
 const { Text } = Typography;
