@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import getColorPalette from '../../utils/colors';
 
 const FormButtonsContainer = styled.div`
   display: flex;
@@ -42,8 +43,11 @@ const FormButton: React.FC<FormButtonProps> = ({
 }) => {
   const cursor = disabled ? 'default' : 'pointer';
   const opacity = disabled ? 0.5 : 1;
-  const backgroundColor = type === 'primary' ? '#294186' : '#E3E5E5';
-  const foregroundColor = type === 'primary' ? '#FFF' : '#333';
+  const backgroundColor = getColorPalette().tertiary;
+  const foregroundColor =
+    type === 'primary'
+      ? getColorPalette().lightText
+      : getColorPalette().darkText;
   return (
     <FormButtonElement
       type={isSubmit ? 'submit' : 'button'}

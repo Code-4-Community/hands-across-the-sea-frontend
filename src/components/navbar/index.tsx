@@ -10,7 +10,7 @@ import {
 import { C4CState } from '../../store';
 import { connect } from 'react-redux';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { PRIMARY } from '../../utils/colors';
+import getColorPalette from '../../utils/colors';
 import { Routes } from '../../App';
 
 const { Text } = Typography;
@@ -24,12 +24,12 @@ const NavBarButton = styled(Button)`
     color: inherit;
   }
   :hover {
-    color: ${PRIMARY};
+    color: ${getColorPalette().primary};
   }
 `;
 
 const ActiveNavBarButton = styled(NavBarButton)`
-  color: ${PRIMARY};
+  color: ${getColorPalette().primary};
   font-weight: 500;
 `;
 
@@ -64,7 +64,7 @@ const NavBarText = styled(Text)`
 `;
 
 const Subtitle = styled(Text)`
-  color: ${PRIMARY};
+  color: ${getColorPalette().primary};
 `;
 
 const UserContainer = styled.div`
