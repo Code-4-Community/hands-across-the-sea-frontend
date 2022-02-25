@@ -3,6 +3,7 @@ import { Row, Col, Typography } from 'antd';
 import { ClarifyText } from '..';
 import { DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import getColorPalette from '../../utils/colors';
 
 type LevelOptions = 1 | 2 | 3 | 4 | 5 | undefined;
 
@@ -48,7 +49,7 @@ const BigClarify = styled(Title)`
 `;
 
 const Piece = styled.div`
-  background-color: white;
+  background-color: ${getColorPalette().background};
   border-radius: 5px;
   margin: 0px 0px 0px 0px;
 `;

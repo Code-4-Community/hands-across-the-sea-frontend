@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContentContainer, SectionTitle } from '..';
 import styled from 'styled-components';
+import getColorPalette from '../../utils/colors';
 
 interface FormContainerProps {
   // title of form section
@@ -8,7 +9,7 @@ interface FormContainerProps {
 }
 
 export const Outer = styled.div`
-  background-color: #d4d9e7;
+  background-color: ${getColorPalette().secondary};
   padding: 32px 32px 32px 32px;
   border-radius: 5px;
 `;

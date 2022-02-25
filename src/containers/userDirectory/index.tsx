@@ -13,12 +13,13 @@ import CreateUser from '../../components/userDirectory/CreateUser';
 import UserDirectoryActionMenu, {
   UserDirectoryAction,
 } from '../../components/userDirectory/UserDirectoryActionMenu';
+import getColorPalette from '../../utils/colors';
 import { UpdateUserRequest, UserResponse } from './types';
 
 const { Search } = Input;
 
 const DisabledContainer = styled.div`
-  color: red;
+  color: ${getColorPalette().disabled};
 `;
 
 const UserDirectory: React.FC = () => {

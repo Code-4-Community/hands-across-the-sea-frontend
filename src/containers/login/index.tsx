@@ -15,6 +15,7 @@ import {
   UserAuthenticationReducerState,
   LoginRequest,
 } from '../../auth/ducks/types';
+import getColorPalette from '../../utils/colors';
 
 const { Paragraph } = Typography;
 
@@ -32,7 +33,7 @@ const Center = styled.div`
 const SubText = styled(Paragraph)`
   font-size: 12px;
   font-weight: 400;
-  color: #767a7d;
+  color: ${getColorPalette().subtext};
 `;
 
 type LoginProps = UserAuthenticationReducerState;
