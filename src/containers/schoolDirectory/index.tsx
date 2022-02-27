@@ -1,7 +1,7 @@
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import protectedApiClient from '../../api/protectedApiClient';
 import { DirectoryTitle } from '../../components';
@@ -52,10 +52,14 @@ const SchoolDirectory: React.FC = () => {
   >(undefined);
 
   const queryClient = useQueryClient();
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data, refetch } = useQuery(
     'schools',
     protectedApiClient.getAllSchools,
   );
+
+  useEffect(() => {
+    refetch();
+  }, [updateSchoolList]);
 
   // handles submitting create a school form
   const handleOnFinishCreateSchool = async (
