@@ -52,7 +52,7 @@ const SchoolDirectory: React.FC = () => {
   >(undefined);
 
   const queryClient = useQueryClient();
-  const { isLoading, error, data, refetch } = useQuery(
+  const { isLoading, error, data, refetch, isRefetching } = useQuery(
     'schools',
     protectedApiClient.getAllSchools,
   );
@@ -334,7 +334,7 @@ const SchoolDirectory: React.FC = () => {
                   : undefined
               }
               columns={columns}
-              loading={isLoading}
+              loading={isLoading || isRefetching}
             />
           </Outer>
         </Container>
