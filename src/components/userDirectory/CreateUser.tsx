@@ -114,24 +114,22 @@ const CreateUser: React.FC<CreateUserProps> = ({
                   </Form.Item>
                 </Col>
               </Row>
-              {update && (
-                <Row gutter={[0, 24]}>
-                  <Col flex={24}>
-                    <Form.Item
-                      name="privilegeLevel"
-                      rules={[{ required: true, message: 'Required' }]}
-                    >
-                      <Select placeholder="User's Privilege">
-                        {Object.keys(UserPrivilegeLevel).map((key: string) => (
-                          <Option key={key} value={key}>
-                            {convertEnumToRegularText(key)}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              )}
+              <Row gutter={[0, 24]}>
+                <Col flex={24}>
+                  <Form.Item
+                    name="privilegeLevel"
+                    rules={[{ required: true, message: 'Required' }]}
+                  >
+                    <Select placeholder="User's Privilege">
+                      {Object.keys(UserPrivilegeLevel).map((key: string) => (
+                        <Option key={key} value={key}>
+                          {convertEnumToRegularText(key)}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
             </FormPiece>
           </Col>
         </Row>
