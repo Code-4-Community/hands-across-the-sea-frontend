@@ -193,7 +193,13 @@ const UserDirectory: React.FC = () => {
       {!error && (
         <Container>
           <BackButton />
-          <Modal visible={createUser} width={1000} footer={null} destroyOnClose>
+          <Modal
+            visible={createUser}
+            width={1000}
+            footer={null}
+            destroyOnClose
+            onCancel={handleOnCancelCreateUser}
+          >
             <CreateUser
               onFinish={handleOnFinishCreateUser}
               onCancel={handleOnCancelCreateUser}
