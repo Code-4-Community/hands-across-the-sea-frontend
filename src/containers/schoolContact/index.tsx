@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -23,7 +23,6 @@ const SchoolContacts: React.FC = () => {
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
   const [showAddContact, setShowAddContact] = useState<boolean>(false);
-  const [updateContactList, setUpdateContactList] = useState<boolean>(false);
 
   const { isLoading, error, data, refetch, isRefetching } = useQuery(
     ['schoolContacts', schoolId],
@@ -33,10 +32,6 @@ const SchoolContacts: React.FC = () => {
     },
   );
 
-  useEffect(() => {
-    refetch();
-  }, [updateContactList]);
-
   if (schoolId === undefined) {
     history.replace(Routes.HOME);
     return <></>;
@@ -44,7 +39,7 @@ const SchoolContacts: React.FC = () => {
 
   const deleteContact = async (contactId: number) => {
     await protectedApiClient.deleteSchoolContact(schoolId, contactId);
-    setUpdateContactList(!updateContactList);
+    await refetch();
   };
 
   const renderExistingSchoolContact = (
@@ -70,7 +65,7 @@ const SchoolContacts: React.FC = () => {
     const submitCallback = async (c: SchoolContactRequest): Promise<void> => {
       await protectedApiClient.createSchoolContact(schoolId, c);
       setShowAddContact(false);
-      setUpdateContactList(!updateContactList);
+      await refetch();
     };
     return (
       <SchoolContact
