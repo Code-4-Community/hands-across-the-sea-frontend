@@ -10,7 +10,6 @@ import {
 import thunk from 'redux-thunk';
 import protectedApiClient, { ApiExtraArgs } from './api/protectedApiClient';
 import authClient from './auth/authClient';
-import AppAxiosInstance from './auth/axios';
 import { UserAuthenticationActions } from './auth/ducks/actions';
 import userReducer, { initialUserState } from './auth/ducks/reducers';
 import {
@@ -37,7 +36,6 @@ import selectSchoolReducer, {
   initialSelectSchoolState,
 } from './containers/selectSchool/ducks/reducers';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
-import { asyncRequestIsComplete } from './utils/asyncRequest';
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   selectSchoolState: SelectSchoolReducerState;
@@ -81,21 +79,26 @@ export const LOCALSTORAGE_STATE_KEY = 'state';
 const loadStateFromLocalStorage = (): C4CState | undefined => {
   try {
     const serializedState = localStorage.getItem(LOCALSTORAGE_STATE_KEY);
+    console.log(serializedState);
     if (serializedState === null) {
       return undefined;
     }
     const state: C4CState = JSON.parse(serializedState);
-    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
-      AppAxiosInstance.defaults.headers['X-Access-Token'] =
-        state.authenticationState.tokens.result.accessToken;
-    }
     return state;
   } catch (err) {
+    console.error(err);
     return undefined;
   }
 };
 
 const preloadedState: C4CState | undefined = loadStateFromLocalStorage();
+
+if (preloadedState) {
+  console.log('Loaded state from local storage');
+  console.log(preloadedState);
+} else {
+  console.log('No state in local storage');
+}
 
 const thunkExtraArgs: ThunkExtraArgs = {
   authClient,
@@ -124,6 +127,7 @@ const store: Store<C4CState, C4CAction> = createStore<
 
 store.subscribe(
   throttle(() => {
+    console.log('persisting state...');
     const state: C4CState = store.getState();
     try {
       const serializedState = JSON.stringify(state);

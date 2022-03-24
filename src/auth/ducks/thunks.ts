@@ -1,15 +1,16 @@
 import { History } from 'history';
 import { Routes } from '../../App';
+import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
+import AppAxiosInstance from '../axios';
+import { authenticateUser, logoutUser } from './actions';
 import {
   LoginRequest,
+  RefreshTokenResponse,
   SignupRequest,
   TokenPayload,
   UserAuthenticationThunkAction,
 } from './types';
-import { authenticateUser, logoutUser } from './actions';
-import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
-import { asyncRequestIsComplete } from '../../utils/asyncRequest';
-import AppAxiosInstance from '../axios';
 
 export const login = (
   loginRequest: LoginRequest,
@@ -77,4 +78,26 @@ const clearLocalStorageAndRedirect = (history: History): void => {
   localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
   history.replace(Routes.LOGIN);
   history.go(0);
+};
+
+export const refresh = (
+  refreshToken: string,
+): UserAuthenticationThunkAction<void> => {
+  return (dispatch, getState, { authClient }): Promise<void> => {
+    console.log('refreshing token...');
+    dispatch(authenticateUser.loading());
+    return authClient
+      .refresh(refreshToken)
+      .then((refreshTokenResponse: RefreshTokenResponse) => {
+        dispatch(
+          authenticateUser.loaded({
+            accessToken: refreshTokenResponse.freshAccessToken,
+            refreshToken,
+          }),
+        );
+      })
+      .catch((error) => {
+        dispatch(authenticateUser.failed(error.response.data));
+      });
+  };
 };
