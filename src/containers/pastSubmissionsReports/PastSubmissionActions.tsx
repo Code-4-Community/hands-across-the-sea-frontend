@@ -39,7 +39,7 @@ const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
   const downloadReport = () => {
     console.log(data);
     if (data) {
-      fileDownload(data, 'reportData.csv');
+      fileDownload(data, `$Report${report.schoolName}-${report.id}.csv`);
     }
   };
 
