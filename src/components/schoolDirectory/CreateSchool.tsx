@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
 import { LibraryStatus } from '../../utils/libraryStatus';
 import { convertEnumToRegularText } from '../../utils/helpers';
+import getColorPalette from '../../utils/colors';
 
 const { Option } = Select;
 
@@ -27,6 +28,8 @@ const Footer = styled.div`
 `;
 const SubmitButton = styled(Button)`
   width: 200px;
+  background-color: ${getColorPalette().primary};
+  color: ${getColorPalette().lightText};
 `;
 
 const CreateSchool: React.FC<CreateSchoolProps> = ({
