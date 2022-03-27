@@ -24,7 +24,7 @@ const SchoolContacts: React.FC = () => {
   );
   const [showAddContact, setShowAddContact] = useState<boolean>(false);
 
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data, refetch, isRefetching } = useQuery(
     ['schoolContacts', schoolId],
     () => protectedApiClient.getSchoolContacts(schoolId as number),
     {
@@ -39,6 +39,7 @@ const SchoolContacts: React.FC = () => {
 
   const deleteContact = async (contactId: number) => {
     await protectedApiClient.deleteSchoolContact(schoolId, contactId);
+    await refetch();
   };
 
   const renderExistingSchoolContact = (
@@ -64,6 +65,7 @@ const SchoolContacts: React.FC = () => {
     const submitCallback = async (c: SchoolContactRequest): Promise<void> => {
       await protectedApiClient.createSchoolContact(schoolId, c);
       setShowAddContact(false);
+      await refetch();
     };
     return (
       <SchoolContact
@@ -75,7 +77,7 @@ const SchoolContacts: React.FC = () => {
   };
   return (
     <>
-      {isLoading && <p>Loading school contacts...</p>}
+      {isLoading && isRefetching && <p>Loading school contacts...</p>}
       {error && <p>Failed to load contacts</p>}
       {data && (
         <>
