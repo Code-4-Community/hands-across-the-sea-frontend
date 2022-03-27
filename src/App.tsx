@@ -2,12 +2,7 @@ import { Layout } from 'antd';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { Router, Redirect, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { PrivilegeLevel } from './auth/ducks/types';
