@@ -13,6 +13,7 @@ import {
   ReportWithoutLibraryRequest,
 } from './ducks/types';
 import { C4CState } from '../../store';
+import Loading from '../../components/Loading';
 
 const NewLibraryReport: React.FC = () => {
   const isYesReport = useSelector(
@@ -71,7 +72,7 @@ const NewLibraryReport: React.FC = () => {
 
   return (
     <>
-      {isLoading && <p>Loading school data...</p>}
+      {isLoading && <Loading title={'Loading school data...'} />}
       {error && <p>Failed to load report data</p>}
       {data &&
         (isYesReport ? (
