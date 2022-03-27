@@ -53,7 +53,6 @@ const responseErrorInterceptor = (error: AxiosError) => {
     error?.response?.data === INVALID_ACCESS_TOKEN &&
     !isTokenValid(tokens.result.refreshToken)
   ) {
-    console.log('invalid refresh token. logging out...');
     logout(history)(
       store.dispatch,
       store.getState,

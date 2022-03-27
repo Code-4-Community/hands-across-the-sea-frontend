@@ -79,26 +79,17 @@ export const LOCALSTORAGE_STATE_KEY = 'state';
 const loadStateFromLocalStorage = (): C4CState | undefined => {
   try {
     const serializedState = localStorage.getItem(LOCALSTORAGE_STATE_KEY);
-    console.log(serializedState);
     if (serializedState === null) {
       return undefined;
     }
     const state: C4CState = JSON.parse(serializedState);
     return state;
   } catch (err) {
-    console.error(err);
     return undefined;
   }
 };
 
 const preloadedState: C4CState | undefined = loadStateFromLocalStorage();
-
-if (preloadedState) {
-  console.log('Loaded state from local storage');
-  console.log(preloadedState);
-} else {
-  console.log('No state in local storage');
-}
 
 const thunkExtraArgs: ThunkExtraArgs = {
   authClient,
@@ -127,7 +118,6 @@ const store: Store<C4CState, C4CAction> = createStore<
 
 store.subscribe(
   throttle(() => {
-    console.log('persisting state...');
     const state: C4CState = store.getState();
     try {
       const serializedState = JSON.stringify(state);
