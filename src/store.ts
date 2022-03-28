@@ -10,7 +10,6 @@ import {
 import thunk from 'redux-thunk';
 import protectedApiClient, { ApiExtraArgs } from './api/protectedApiClient';
 import authClient from './auth/authClient';
-import AppAxiosInstance from './auth/axios';
 import { UserAuthenticationActions } from './auth/ducks/actions';
 import userReducer, { initialUserState } from './auth/ducks/reducers';
 import {
@@ -37,7 +36,6 @@ import selectSchoolReducer, {
   initialSelectSchoolState,
 } from './containers/selectSchool/ducks/reducers';
 import { SelectSchoolReducerState } from './containers/selectSchool/ducks/types';
-import { asyncRequestIsComplete } from './utils/asyncRequest';
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   selectSchoolState: SelectSchoolReducerState;
@@ -85,10 +83,6 @@ const loadStateFromLocalStorage = (): C4CState | undefined => {
       return undefined;
     }
     const state: C4CState = JSON.parse(serializedState);
-    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
-      AppAxiosInstance.defaults.headers['X-Access-Token'] =
-        state.authenticationState.tokens.result.accessToken;
-    }
     return state;
   } catch (err) {
     return undefined;

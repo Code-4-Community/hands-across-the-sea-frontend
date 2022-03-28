@@ -19,7 +19,7 @@ export const getOptionsFromEnum = (e: {
   ));
 };
 
-export const convertEnumToRegularText = (input: string) => {
+export const convertEnumToRegularText = (input: string): string => {
   return input
     .replaceAll('_', ' ')
     .toLowerCase()

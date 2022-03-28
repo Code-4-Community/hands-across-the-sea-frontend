@@ -1,38 +1,33 @@
+import { Layout } from 'antd';
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-
-import Home from './containers/home';
-import Login from './containers/login';
+import { useSelector } from 'react-redux';
+import { Router, Redirect, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+import { getPrivilegeLevel } from './auth/ducks/selectors';
+import { PrivilegeLevel } from './auth/ducks/types';
+import NavBar from './components/navbar/NavBar';
+import DataVisualization from './containers/dataVisualization';
 import ForgotPassword from './containers/forgotPasswordRequest';
 import ForgotPasswordReset from './containers/forgotPasswordReset';
-import Settings from './containers/settings';
-import VerifyEmail from './containers/verifyEmail';
-import NotFound from './containers/notFound';
-import NavBar from './components/navbar/NavBar';
-import { Layout } from 'antd';
-import styled from 'styled-components';
-import { PrivilegeLevel } from './auth/ducks/types';
-import { C4CState } from './store';
-import { getPrivilegeLevel } from './auth/ducks/selectors';
-import { useSelector } from 'react-redux';
+import FormSubmission from './containers/formSubmission';
+import Home from './containers/home';
+import NewLibraryReport from './containers/library-report/NewLibraryReport';
 import YesOrNoLibrary from './containers/library-report/YesOrNoLibrary';
-import SelectSchool from './containers/selectSchool/SelectSchool';
+import Login from './containers/login';
+import NotFound from './containers/notFound';
+import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
+import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
+import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
+import SchoolContacts from './containers/schoolContact';
 import SchoolDirectory from './containers/schoolDirectory';
 import SchoolInformation from './containers/schoolInfo';
-import SchoolContacts from './containers/schoolContact';
-import FormSubmission from './containers/formSubmission';
+import SelectSchool from './containers/selectSchool/SelectSchool';
+import Settings from './containers/settings';
 import UserDirectory from './containers/userDirectory';
-import PastSubmissionsSchools from './containers/pastSubmissionsSchools/PastSubmissionsSchools';
-import PastSubmissionReports from './containers/pastSubmissionsReports/PastSubmissionReports';
-import EditLibraryReport from './containers/pastSubmissionsReports/EditLibraryReport';
-import NewLibraryReport from './containers/library-report/NewLibraryReport';
-import DataVisualization from './containers/dataVisualization';
+import VerifyEmail from './containers/verifyEmail';
+import history from './history';
+import { C4CState } from './store';
 
 const { Content } = Layout;
 
@@ -80,7 +75,7 @@ const App: React.FC = () => {
         />
       </Helmet>
 
-      <Router>
+      <Router history={history}>
         <Layout>
           <NavBar />
           <Content>
