@@ -8,7 +8,6 @@ import Flag from './Flag';
 
 const NavRow = styled(Row)`
   background-color: ${getColorPalette().primary};
-  display: flex;
   justify-content: space-between;
 `;
 

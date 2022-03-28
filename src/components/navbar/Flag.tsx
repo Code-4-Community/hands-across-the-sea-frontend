@@ -53,7 +53,7 @@ const Flag: React.FC = () => {
   }, [userId]);
   const flagImage = getFlagImage(country);
   return userId !== NO_USER_ID && country && flagImage ? (
-    <img src={flagImage} alt={country + ' FLAG'} />
+    <img src={flagImage} alt={country + ' FLAG'} height={82} />
   ) : (
     <></>
   );
