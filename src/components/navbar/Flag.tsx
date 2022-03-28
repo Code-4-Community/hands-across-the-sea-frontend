@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { default as ProtectedApiClient } from '../../api/protectedApiClient';
-import { GetUserResponse } from '../../containers/settings/ducks/types';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { getUserID } from '../../auth/ducks/selectors';
