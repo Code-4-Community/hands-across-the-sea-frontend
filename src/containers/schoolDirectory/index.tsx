@@ -52,7 +52,7 @@ const SchoolDirectory: React.FC = () => {
   >(undefined);
 
   const queryClient = useQueryClient();
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data, refetch, isRefetching } = useQuery(
     'schools',
     protectedApiClient.getAllSchools,
   );
@@ -203,6 +203,7 @@ const SchoolDirectory: React.FC = () => {
       } else if (key === SchoolDirectoryAction.DELETE) {
         await protectedApiClient.deleteSchool(school.id);
         setUpdateSchoolList(!updateSchoolList);
+        await refetch();
       } else if (key === SchoolDirectoryAction.BOOKS) {
         queryClient.invalidateQueries(['bookLogs', school.id]);
         setBookLogsSchool({
@@ -330,7 +331,7 @@ const SchoolDirectory: React.FC = () => {
                   : undefined
               }
               columns={columns}
-              loading={isLoading}
+              loading={isLoading || isRefetching}
             />
           </Outer>
         </Container>

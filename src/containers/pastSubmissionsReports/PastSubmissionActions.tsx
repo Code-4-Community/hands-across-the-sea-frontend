@@ -1,13 +1,20 @@
-import { Button } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
 import { LibraryReportResponse } from '../library-report/ducks/types';
 import { setActiveReport } from './ducks/actions';
+import protectedApiClient from '../../api/protectedApiClient';
+import fileDownload from 'js-file-download';
 
 interface PastSubmissionActionsProps {
   report: LibraryReportResponse;
+}
+
+interface EventProps {
+  key: string;
 }
 
 const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
@@ -21,11 +28,40 @@ const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
     history.push(Routes.EDIT_LIBRARY_REPORT);
   };
 
+  const { data } = useQuery(
+    'reports',
+    () => protectedApiClient.getReportWithLibraryCsv(report.id),
+    {
+      enabled: report.id !== undefined,
+    },
+  );
+
+  const downloadReport = () => {
+    if (data) {
+      fileDownload(data, `Report${report.schoolName}-${report.id}.csv`);
+    }
+  };
+
+  const handleMenuClick = (e: EventProps) => {
+    if (e.key === '1') {
+      viewReport();
+    } else if (e.key === '2') {
+      downloadReport();
+    }
+  };
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">View/Edit</Menu.Item>
+      <Menu.Item key="2">Download as CSV</Menu.Item>
+    </Menu>
+  );
+
   return (
     <div>
-      <Button type="primary" onClick={viewReport}>
-        View/Edit
-      </Button>
+      <Dropdown overlay={menu}>
+        <Button type="primary">Actions</Button>
+      </Dropdown>
     </div>
   );
 };

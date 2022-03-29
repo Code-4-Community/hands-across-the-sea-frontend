@@ -43,7 +43,8 @@ const FormButton: React.FC<FormButtonProps> = ({
 }) => {
   const cursor = disabled ? 'default' : 'pointer';
   const opacity = disabled ? 0.5 : 1;
-  const backgroundColor = getColorPalette().tertiary;
+  const backgroundColor =
+    type === 'primary' ? getColorPalette().primary : getColorPalette().tertiary;
   const foregroundColor =
     type === 'primary'
       ? getColorPalette().lightText

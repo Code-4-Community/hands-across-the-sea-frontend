@@ -133,6 +133,9 @@ export interface ProtectedApiClient {
   readonly getTotalMetrics: () => Promise<TotalMetric>;
   readonly getCountryMetrics: (country: string) => Promise<CountryMetric>;
   readonly getSchoolMetrics: (schoolId: number) => Promise<SchoolMetric>;
+
+  readonly getReportWithLibraryCsv: (reportId: number) => Promise<string>;
+  readonly getReportWithoutLibraryCsv: (reportId: number) => Promise<string>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -148,6 +151,8 @@ export enum ProtectedApiClientRoutes {
   PAST_SUBMISSIONS_SCHOOLS = '/api/v1/protected/schools/reports/users',
   DATA_VIS = '/api/v1/protected/data',
   COUNTRIES = '/api/v1/protected/countries/',
+  REPORT_WITH_LIBRARY_CSV = '/api/v1/protected/schools/reports/with-library',
+  REPORT_WITHOUT_LIBRARY_CSV = '/api/v1/protected/schools/reports/without-library',
 }
 
 export type WithCount<T> = T & {
@@ -446,6 +451,18 @@ const getSchoolMetrics = (schoolId: number): Promise<SchoolMetric> => {
   ).then((res) => res.data);
 };
 
+const getReportWithLibraryCsv = (reportId: number): Promise<string> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.REPORT_WITH_LIBRARY_CSV}/${reportId}`,
+  ).then((res) => res.data);
+};
+
+const getReportWithoutLibraryCsv = (reportId: number): Promise<string> => {
+  return AppAxiosInstance.get(
+    `${ProtectedApiClientRoutes.REPORT_WITHOUT_LIBRARY_CSV}/${reportId}`,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
   createSchool,
@@ -478,6 +495,8 @@ const Client: ProtectedApiClient = Object.freeze({
   getTotalMetrics,
   getCountryMetrics,
   getSchoolMetrics,
+  getReportWithLibraryCsv,
+  getReportWithoutLibraryCsv,
 });
 
 export default Client;

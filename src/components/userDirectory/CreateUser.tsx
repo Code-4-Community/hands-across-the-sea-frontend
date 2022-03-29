@@ -7,6 +7,7 @@ import { Countries } from '../../utils/countries';
 import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/types';
 import { convertEnumToRegularText } from '../../utils/helpers';
+import getColorPalette from '../../utils/colors';
 
 const { Option } = Select;
 
@@ -23,6 +24,8 @@ const Footer = styled.div`
 `;
 const SubmitButton = styled(Button)`
   width: 200px;
+  background-color: ${getColorPalette().primary};
+  color: ${getColorPalette().lightText};
 `;
 
 const CreateUser: React.FC<CreateUserProps> = ({
