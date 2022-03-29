@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { Routes } from '../../App';
 import { Link } from 'react-router-dom';
 import getColorPalette from '../../utils/colors';
+import Flag from './Flag';
 
 const NavRow = styled(Row)`
   background-color: ${getColorPalette().primary};
+  justify-content: space-between;
 `;
 
 const HeadTitle = styled.h1`
@@ -25,6 +27,7 @@ const Header: React.FC = () => (
         <HeadTitle>Hands Across The Sea</HeadTitle>
       </Link>
     </Col>
+    <Flag />
   </NavRow>
 );
 export default Header;
