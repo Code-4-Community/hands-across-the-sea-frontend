@@ -56,6 +56,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
     () => protectedApiClient.getLatestReport(schoolId as number),
     {
       enabled: schoolId !== undefined,
+      retry: false,
     },
   );
 
