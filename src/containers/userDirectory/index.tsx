@@ -62,6 +62,7 @@ const UserDirectory: React.FC = () => {
           setUpdateUserList(!updateUserList);
         })
         .catch(() => errorMessage('Updating user failed. Try again.'));
+      window.location.reload();
     } else {
       authClient
         .signup(userInfo as SignupRequest)
@@ -71,6 +72,7 @@ const UserDirectory: React.FC = () => {
         })
         .catch(() => errorMessage('Signup request failed. Try again.'));
     }
+    setUpdateUserList(!updateUserList);
   };
 
   // handles canceling the create user form
