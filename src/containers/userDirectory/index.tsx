@@ -96,6 +96,7 @@ const UserDirectory: React.FC = () => {
           setCreateUser(true);
           return;
         case UserDirectoryAction.ENABLE:
+          setDefaultUser(record);
           protectedApiClient
             .enableUser(record.id)
             .then(() => setUpdateUserList(!updateUserList))
@@ -106,6 +107,7 @@ const UserDirectory: React.FC = () => {
             );
           return;
         case UserDirectoryAction.DISABLE:
+          setDefaultUser(record);
           protectedApiClient
             .disableUser(record.id)
             .then(() => setUpdateUserList(!updateUserList))
@@ -116,6 +118,7 @@ const UserDirectory: React.FC = () => {
             );
           return;
         default:
+          setDefaultUser(record);
           return;
       }
     };

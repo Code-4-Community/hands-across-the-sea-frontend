@@ -4,7 +4,7 @@ import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
 import styled from 'styled-components';
 import { Countries } from '../../utils/countries';
-import { SignupRequest, UserPrivilegeLevel } from '../../auth/ducks/types';
+import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
 import { UserResponse } from '../../containers/userDirectory/types';
 import { convertEnumToRegularText } from '../../utils/helpers';
 import getColorPalette from '../../utils/colors';
@@ -124,7 +124,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     rules={[{ required: true, message: 'Required' }]}
                   >
                     <Select placeholder="User's Privilege">
-                      {Object.keys(UserPrivilegeLevel).map((key: string) => (
+                      {Object.keys(PrivilegeLevel).map((key: string) => (
                         <Option key={key} value={key}>
                           {convertEnumToRegularText(key)}
                         </Option>

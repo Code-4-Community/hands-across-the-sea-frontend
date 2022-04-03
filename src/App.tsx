@@ -155,7 +155,8 @@ const App: React.FC = () => {
                         <Route path="*" exact component={NotFound} />
                       </Switch>
                     );
-                  case PrivilegeLevel.VOLUNTEER || PrivilegeLevel.OFFICER:
+                  case PrivilegeLevel.VOLUNTEER:
+                  case PrivilegeLevel.OFFICER:
                     return (
                       <Switch>
                         <Route path={Routes.HOME} exact component={Home} />
