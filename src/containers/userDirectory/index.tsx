@@ -62,7 +62,7 @@ const UserDirectory: React.FC = () => {
           setUpdateUserList(!updateUserList);
         })
         .catch(() => errorMessage('Updating user failed. Try again.'));
-      window.location.reload();
+     // window.location.reload();
     } else {
       authClient
         .signup(userInfo as SignupRequest)
