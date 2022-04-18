@@ -109,8 +109,10 @@ const SchoolMetrics: React.FC = () => {
                     key={key}
                     data={
                       schoolMetricsQuery.data.countStudents !== 0
-                        ? schoolMetricsQuery.data.countBooks /
-                          schoolMetricsQuery.data.countStudents
+                        ? (
+                            schoolMetricsQuery.data.countBooks /
+                            schoolMetricsQuery.data.countStudents
+                          ).toFixed(2)
                         : 'N/A'
                     }
                     title={MetricMapping[key as keyof typeof MetricMapping]}
