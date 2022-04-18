@@ -150,7 +150,7 @@ const TrainingMentorshipInfo: React.FC<TrainingMentorshipInfoProps> = ({
             value={involvedParents}
             onChange={handleChangeInvolvedParents}
             note={
-              'Has the school involved the students parents in the use of the library?*'
+              "Has the school involved the students' parents in the use of the library?*"
             }
             disabled={!editable}
             required={true}
