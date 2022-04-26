@@ -21,7 +21,8 @@ const EditLibraryReport: React.FC = () => {
     (state: C4CState) => state.pastSubmissionReportsState.activeReport,
   );
   const schoolId = useSelector(
-    (state: C4CState) => state.selectSchoolState.selectedSchoolId,
+    (state: C4CState) =>
+      state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
   );
   const { isLoading, error, data } = useQuery(
     'bookLogs',
@@ -40,7 +41,9 @@ const EditLibraryReport: React.FC = () => {
     }
   }, [report, history]);
 
-  if (!report) return null;
+  if (!report) {
+    return null;
+  }
 
   const handleSubmit = async (
     submittedReport: ReportWithLibraryRequest | ReportWithoutLibraryRequest,

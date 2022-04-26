@@ -98,36 +98,13 @@ const SchoolMetrics: React.FC = () => {
             <p>An error occurred loading metric</p>
           )}
           {schoolMetricsQuery.data &&
-            Object.entries(schoolMetricsQuery.data).map(([key, value]) => {
-              if (
-                key === 'countBooksPerStudent' &&
-                schoolMetricsQuery.data.countBooks !== null &&
-                schoolMetricsQuery.data.countStudents !== null
-              ) {
-                return (
-                  <DataCard
-                    key={key}
-                    data={
-                      schoolMetricsQuery.data.countStudents !== 0
-                        ? (
-                            schoolMetricsQuery.data.countBooks /
-                            schoolMetricsQuery.data.countStudents
-                          ).toFixed(2)
-                        : 'N/A'
-                    }
-                    title={MetricMapping[key as keyof typeof MetricMapping]}
-                  />
-                );
-              } else {
-                return (
-                  <DataCard
-                    key={key}
-                    data={prepareData(key, value)}
-                    title={MetricMapping[key as keyof typeof MetricMapping]}
-                  />
-                );
-              }
-            })}
+            Object.entries(schoolMetricsQuery.data).map(([key, value]) => (
+              <DataCard
+                key={key}
+                data={prepareData(key, value)}
+                title={MetricMapping[key as keyof typeof MetricMapping]}
+              />
+            ))}
         </Row>
       )}
     </>

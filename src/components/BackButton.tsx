@@ -3,9 +3,17 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { LinkButton } from './LinkButton';
 import { Routes } from '../App';
 
-const BackButton: React.FC = () => {
+interface BackButtonProps {
+  readonly path?: string;
+}
+
+const BackButton: React.FC<BackButtonProps> = ({ path }) => {
   return (
-    <LinkButton icon={<ArrowLeftOutlined />} type="text" to={Routes.HOME}>
+    <LinkButton
+      icon={<ArrowLeftOutlined />}
+      type="text"
+      to={path ? path : Routes.HOME}
+    >
       Back
     </LinkButton>
   );

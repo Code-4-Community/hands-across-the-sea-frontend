@@ -47,9 +47,18 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
   const [showCheckOutTimeTable, setShowCheckOutTimeTable] =
     useState<boolean>(false);
 
-  const schoolId: number | undefined = useSelector(
+  const selectSchoolId: number | undefined = useSelector(
     (state: C4CState) => state.selectSchoolState.selectedSchoolId,
   );
+
+  const pastSubmissionSchoolId: number | undefined = useSelector(
+    (state: C4CState) =>
+      state.pastSubmissionSchoolsState.pastSubmissionSelectedSchoolId,
+  );
+
+  const schoolId: number | undefined = isNew
+    ? selectSchoolId
+    : pastSubmissionSchoolId;
 
   const { isLoading, error, data } = useQuery(
     'latestReport',

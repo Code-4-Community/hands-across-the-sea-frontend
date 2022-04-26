@@ -60,6 +60,10 @@ const PastSubmissionsReports: React.FC = () => {
     {
       title: 'School Name',
       dataIndex: 'schoolName',
+      sorter: {
+        compare: (a, b) => a.schoolName.localeCompare(b.schoolName),
+        multiple: 1,
+      },
     },
     {
       title: 'User Name',
