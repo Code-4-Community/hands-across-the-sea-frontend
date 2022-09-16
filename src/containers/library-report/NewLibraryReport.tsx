@@ -26,6 +26,7 @@ const NewLibraryReport: React.FC = () => {
     () => protectedApiClient.getBookLogs(schoolId as number),
     {
       enabled: schoolId !== undefined,
+      retry: false,
     },
   );
 

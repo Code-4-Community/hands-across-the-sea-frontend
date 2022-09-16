@@ -30,7 +30,13 @@ const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
 
   const { data } = useQuery(
     'reports',
-    () => protectedApiClient.getReportWithLibraryCsv(report.id),
+    () => {
+      if (report && report.libraryStatus === 'EXISTS') {
+        protectedApiClient.getReportWithLibraryCsv(report.id);
+      } else {
+        protectedApiClient.getReportWithoutLibraryCsv(report.id);
+      }
+    },
     {
       enabled: report.id !== undefined,
     },

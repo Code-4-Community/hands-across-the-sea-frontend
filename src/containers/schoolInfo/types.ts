@@ -13,6 +13,7 @@ export interface SchoolRequest {
   readonly notes: string;
   hidden: boolean;
   readonly libraryStatus: string;
+  readonly totalStudents: number;
 }
 
 export interface Contact {

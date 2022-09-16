@@ -57,10 +57,11 @@ export enum PrivilegeLevel {
   VOLUNTEER = 'VOLUNTEER',
 }
 
-export enum UserPrivilegeLevel {
-  ADMIN = 'ADMIN',
-  OFFICER = 'OFFICER',
-  VOLUNTEER = 'VOLUNTEER',
-}
+export const UserPrivilegeLevel = {
+  ADMIN: 'Admin',
+  OFFICER: 'Officer',
+  VOLUNTEER: 'Volunteer',
+  NONE: 'None',
+};
 
 export const NO_USER_ID = -1;

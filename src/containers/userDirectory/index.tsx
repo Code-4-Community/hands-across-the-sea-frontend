@@ -1,11 +1,15 @@
 import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import protectedApiClient from '../../api/protectedApiClient';
 import authClient from '../../auth/authClient';
-import { PrivilegeLevel, SignupRequest } from '../../auth/ducks/types';
+import {
+  PrivilegeLevel,
+  SignupRequest,
+  UserPrivilegeLevel,
+} from '../../auth/ducks/types';
 import { DirectoryTitle } from '../../components';
 import BackButton from '../../components/BackButton';
 import { Container, Outer } from '../../components/form-style/FormContainer';
@@ -15,6 +19,7 @@ import UserDirectoryActionMenu, {
 } from '../../components/userDirectory/UserDirectoryActionMenu';
 import getColorPalette from '../../utils/colors';
 import { UpdateUserRequest, UserResponse } from './types';
+import { Countries } from '../../utils/countries';
 
 const { Search } = Input;
 
@@ -36,6 +41,7 @@ const UserDirectory: React.FC = () => {
   });
   const [updateUserList, setUpdateUserList] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
+  const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery(
     'users',
@@ -49,7 +55,7 @@ const UserDirectory: React.FC = () => {
   };
 
   // handles submitting create a user form
-  const handleOnFinishCreateUser = (
+  const handleOnFinishCreateUser = async (
     userInfo: SignupRequest | UpdateUserRequest,
     update: boolean,
   ) => {
@@ -71,6 +77,8 @@ const UserDirectory: React.FC = () => {
         })
         .catch(() => errorMessage('Signup request failed. Try again.'));
     }
+    setUpdateUserList(!updateUserList);
+    await queryClient.invalidateQueries('users');
   };
 
   // handles canceling the create user form
@@ -86,7 +94,7 @@ const UserDirectory: React.FC = () => {
 
   // handles determining what action to do when an action is executed
   const handleActionButtonOnClick =
-    (record: UserResponse) => (key: UserDirectoryAction) => {
+    (record: UserResponse) => async (key: UserDirectoryAction) => {
       switch (key) {
         case UserDirectoryAction.EDIT:
           setUpdateUser(true);
@@ -94,7 +102,8 @@ const UserDirectory: React.FC = () => {
           setCreateUser(true);
           return;
         case UserDirectoryAction.ENABLE:
-          protectedApiClient
+          setDefaultUser(record);
+          await protectedApiClient
             .enableUser(record.id)
             .then(() => setUpdateUserList(!updateUserList))
             .catch(() =>
@@ -102,9 +111,11 @@ const UserDirectory: React.FC = () => {
                 'You are not authenticated or the user does not exist.',
               ),
             );
+          await queryClient.invalidateQueries('users');
           return;
         case UserDirectoryAction.DISABLE:
-          protectedApiClient
+          setDefaultUser(record);
+          await protectedApiClient
             .disableUser(record.id)
             .then(() => setUpdateUserList(!updateUserList))
             .catch(() =>
@@ -112,17 +123,31 @@ const UserDirectory: React.FC = () => {
                 'You are not authenticated or the user does not exist.',
               ),
             );
+          await queryClient.invalidateQueries('users');
           return;
         default:
+          setDefaultUser(record);
           return;
       }
     };
 
-  const renderDisabled = (value: any, record: UserResponse, index: number) => {
+  const renderDisabled = (
+    value: any,
+    record: UserResponse,
+    index: number,
+    type?: string,
+  ) => {
     if (record.disabled) {
       return <DisabledContainer>{value}</DisabledContainer>;
+    } else if (type && type === 'COUNTRY') {
+      return <p>{Countries[value as keyof typeof Countries]}</p>;
+    } else if (type && type === 'PRIVILEGE_LEVEL') {
+      return (
+        <p>{UserPrivilegeLevel[value as keyof typeof UserPrivilegeLevel]}</p>
+      );
+    } else {
+      return <p>{value}</p>;
     }
-    return <p>{value}</p>;
   };
 
   const columns: ColumnType<UserResponse>[] = [
@@ -138,6 +163,7 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Last Name',
       dataIndex: 'lastName',
+      key: 'key',
       sorter: {
         compare: (a, b) => a.lastName.localeCompare(b.lastName),
         multiple: 1,
@@ -147,15 +173,18 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Country',
       dataIndex: 'country',
+      key: 'key',
       sorter: {
         compare: (a, b) => a.country.localeCompare(b.country),
         multiple: 1,
       },
-      render: renderDisabled,
+      render: (value: any, record: UserResponse, index: number) =>
+        renderDisabled(value, record, index, 'COUNTRY'),
     },
     {
       title: 'Email',
       dataIndex: 'email',
+      key: 'key',
       sorter: {
         compare: (a, b) => a.email.localeCompare(b.email),
         multiple: 1,
@@ -165,18 +194,20 @@ const UserDirectory: React.FC = () => {
     {
       title: 'Privilege',
       dataIndex: 'privilegeLevel',
+      key: 'key',
       sorter: {
         compare: (a, b) =>
           a.privilegeLevel.valueOf().localeCompare(b.privilegeLevel.valueOf()),
         multiple: 1,
       },
-      render: renderDisabled,
+      render: (value: any, record: UserResponse, index: number) =>
+        renderDisabled(value, record, index, 'PRIVILEGE_LEVEL'),
     },
     {
       title: 'Action',
       dataIndex: '',
       // need key because no dataindex
-      key: 'action',
+      key: 'key',
       render(record: UserResponse) {
         return (
           <UserDirectoryActionMenu
@@ -224,15 +255,20 @@ const UserDirectory: React.FC = () => {
             <Table
               dataSource={
                 data &&
-                data.users.filter(
-                  (entry) =>
-                    entry.firstName
-                      .toLocaleLowerCase()
-                      .startsWith(searchText.toLowerCase()) ||
-                    entry.lastName
-                      .toLocaleLowerCase()
-                      .startsWith(searchText.toLowerCase()),
-                )
+                data.users
+                  .filter(
+                    (entry) =>
+                      entry.firstName
+                        .toLocaleLowerCase()
+                        .startsWith(searchText.toLowerCase()) ||
+                      entry.lastName
+                        .toLocaleLowerCase()
+                        .startsWith(searchText.toLowerCase()),
+                  )
+                  .map((user) => ({
+                    ...user,
+                    key: `${user.id}${user.privilegeLevel}`,
+                  }))
               }
               columns={columns}
               loading={isLoading}

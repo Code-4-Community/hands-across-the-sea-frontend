@@ -1,4 +1,4 @@
-import { Button, Col, Input, message, Modal, Row, Table } from 'antd';
+import { Button, Col, Input, message, Modal, Row, Select, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import React, { useState } from 'react';
@@ -17,6 +17,7 @@ import { BookLogPostRequest, BookLogRequest } from '../bookLogs/types';
 import { SchoolRequest, SchoolResponse } from '../schoolInfo/types';
 import { SchoolEntry } from '../selectSchool/ducks/types';
 import BackButton from '../../components/BackButton';
+import styled from 'styled-components';
 
 const { Search } = Input;
 
@@ -24,6 +25,10 @@ interface BookLogsSchoolInfo {
   readonly id: number;
   readonly name: string;
 }
+
+const CountryFilter = styled(Select)`
+  min-width: 200px;
+`;
 
 const SchoolDirectory: React.FC = () => {
   const [createSchool, setCreateSchool] = useState<boolean>(false);
@@ -56,6 +61,11 @@ const SchoolDirectory: React.FC = () => {
     'schools',
     protectedApiClient.getAllSchools,
   );
+
+  // handles selecting a country to filter
+  const handleCountryFilter = async (value: any) => {
+    return;
+  };
 
   // handles submitting create a school form
   const handleOnFinishCreateSchool = async (
@@ -315,11 +325,25 @@ const SchoolDirectory: React.FC = () => {
               <DirectoryTitle level={2}>School Directory</DirectoryTitle>
             </Col>
           </Row>
-          <Row gutter={[48, 32]}>
+          <Row gutter={[0, 32]}>
             <Col flex={18}>
               <Search onChange={(e) => setSearchText(e.target.value)} />
             </Col>
-            <Col flex={6}>
+            <Col flex={3}>
+              <CountryFilter
+                onChange={handleCountryFilter}
+                placeholder="Country To Filter"
+                defaultValue=""
+              >
+                <Select.Option value="">All Countries</Select.Option>
+                {Object.keys(Countries).map((key: string) => (
+                  <Select.Option key={key} value={key}>
+                    {Countries[key as keyof typeof Countries]}
+                  </Select.Option>
+                ))}
+              </CountryFilter>
+            </Col>
+            <Col flex={3}>
               <Button onClick={handleOnClickCreateSchool}>Add School</Button>
             </Col>
           </Row>

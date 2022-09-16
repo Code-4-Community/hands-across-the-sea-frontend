@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Select } from 'antd';
+import { Button, Col, Form, Input, InputNumber, Row, Select } from 'antd';
 import { FormTextArea } from '../';
 import FormContainer from '../form-style/FormContainer';
 import FormPiece from '../form-style/FormPiece';
@@ -99,6 +99,14 @@ const CreateSchool: React.FC<CreateSchoolProps> = ({
                   ))}
                 </Select>
               </Form.Item>
+              {!update && (
+                <Form.Item
+                  name="totalStudents"
+                  rules={[{ required: true, message: 'Required' }]}
+                >
+                  <InputNumber placeholder="Total Number of Students" style={{ width: '100%' }}/>
+                </Form.Item>
+              )}
               <Form.Item
                 name="libraryStatus"
                 rules={[{ required: true, message: 'Required' }]}
