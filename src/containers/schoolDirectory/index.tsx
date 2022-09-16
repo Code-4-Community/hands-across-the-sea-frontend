@@ -201,9 +201,15 @@ const SchoolDirectory: React.FC = () => {
           message.error(`An error occurred, please try again`);
         }
       } else if (key === SchoolDirectoryAction.DELETE) {
-        await protectedApiClient.deleteSchool(school.id);
-        setUpdateSchoolList(!updateSchoolList);
-        await refetch();
+        if (
+          window.confirm(
+            `Are you sure you want to delete this school (${school.name})?`,
+          )
+        ) {
+          await protectedApiClient.deleteSchool(school.id);
+          setUpdateSchoolList(!updateSchoolList);
+          await refetch();
+        }
       } else if (key === SchoolDirectoryAction.BOOKS) {
         queryClient.invalidateQueries(['bookLogs', school.id]);
         setBookLogsSchool({
