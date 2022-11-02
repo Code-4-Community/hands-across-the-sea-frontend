@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Row, Typography } from 'antd';
 import { ContentContainer } from '..';
+import BackButton from '../../components/BackButton';
 import styled from 'styled-components';
 
 interface FormContentContainerProps {
@@ -22,9 +23,19 @@ const ChildrenContainer = styled.div`
   margin: auto;
 `;
 
+const BackButtonContainer = styled.div`
+  display: block;
+  margin: auto;
+  max-width: 960px;
+  padding-left: 24px;
+`;
+
 const FormContentContainer: React.FC<FormContentContainerProps> = (props) => {
   return (
     <ContentContainer>
+      <BackButtonContainer>
+        <BackButton />
+      </BackButtonContainer>
       <Row gutter={[0, 32]}>
         <Col flex={24}>
           <FormTitle level={2}>
