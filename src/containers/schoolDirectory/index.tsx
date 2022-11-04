@@ -347,6 +347,7 @@ const SchoolDirectory: React.FC = () => {
               <Button onClick={handleOnClickCreateSchool}>Add School</Button>
             </Col>
           </Row>
+        <br/>
           <Outer>
             <Table
               dataSource={

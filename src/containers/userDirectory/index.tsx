@@ -251,6 +251,7 @@ const UserDirectory: React.FC = () => {
               <Button onClick={handleOnClickCreateUser}>Add User</Button>
             </Col>
           </Row>
+          <br/>
           <Outer>
             <Table
               dataSource={
