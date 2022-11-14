@@ -1,11 +1,11 @@
-import { Button, Dropdown, Menu } from 'antd';
+import {Button, Dropdown, Menu} from 'antd';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../App';
-import { LibraryReportResponse } from '../library-report/ducks/types';
-import { setActiveReport } from './ducks/actions';
+import {useDispatch} from 'react-redux';
+import {useQuery} from 'react-query';
+import {useHistory} from 'react-router-dom';
+import {Routes} from '../../App';
+import {LibraryReportResponse} from '../library-report/ducks/types';
+import {setActiveReport} from './ducks/actions';
 import protectedApiClient from '../../api/protectedApiClient';
 import fileDownload from 'js-file-download';
 
@@ -32,9 +32,13 @@ const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
     'reports',
     () => {
       if (report && report.libraryStatus === 'EXISTS') {
-        protectedApiClient.getReportWithLibraryCsv(report.id);
+        return Promise.resolve(
+          protectedApiClient.getReportWithLibraryCsv(report.id),
+        );
       } else {
-        protectedApiClient.getReportWithoutLibraryCsv(report.id);
+        return Promise.resolve(
+          protectedApiClient.getReportWithoutLibraryCsv(report.id),
+        );
       }
     },
     {
