@@ -18,6 +18,7 @@ import MonitoringInfo from './withLibrary/MonitoringInfo';
 import TrainingMentorshipInfo from './withLibrary/TrainingMentorshipInfo';
 import { useQuery } from 'react-query';
 import protectedApiClient from '../../api/protectedApiClient';
+import Loading from '../Loading';
 
 interface ReportWithLibraryProps {
   values?: LibraryReportResponse;
@@ -84,7 +85,7 @@ const ReportWithLibrary: React.FC<ReportWithLibraryProps> = ({
 
   return (
     <>
-      {isLoading && <p>Loading school data...</p>}
+      {isLoading && <Loading title={'Loading school data...'} />}
       {error && !isNew && <p>Failed to load report</p>}
       {(data || error) && (
         <FormContentContainer>

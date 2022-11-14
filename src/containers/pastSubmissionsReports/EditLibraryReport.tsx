@@ -14,6 +14,7 @@ import FormButtons from '../../components/form-style/FormButtons';
 import ReportWithLibrary from '../../components/report/ReportWithLibrary';
 import ReportWithoutLibrary from '../../components/report/ReportWithoutLibrary';
 import { useQuery } from 'react-query';
+import Loading from '../../components/Loading';
 
 const EditLibraryReport: React.FC = () => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const EditLibraryReport: React.FC = () => {
 
   return (
     <>
-      {isLoading && <p>Loading school data...</p>}
+      {isLoading && <Loading title={'Loading school data...'} />}
       {error && <p>Failed to load report data</p>}
       {data &&
         (isYesReport ? (

@@ -15,6 +15,7 @@ import { BookLogResponse } from '../../containers/bookLogs/types';
 import { initializeNewReportForm } from '../../utils/reportForm';
 import { useQuery } from 'react-query';
 import protectedApiClient from '../../api/protectedApiClient';
+import Loading from "../Loading";
 
 interface ReportWithoutLibraryProps {
   values?: LibraryReportResponse;
@@ -56,7 +57,7 @@ const ReportWithoutLibrary: React.FC<ReportWithoutLibraryProps> = ({
 
   return (
     <>
-      {isLoading && <p>Loading school data...</p>}
+      {isLoading && <Loading title={'Loading school data...'} />}
       {error && !isNew && <p>Failed to load report</p>}
       {(data || error) && (
         <FormContentContainer>
