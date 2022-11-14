@@ -35,6 +35,10 @@ const EditLibraryReport: React.FC = () => {
   const isYesReport = report && report.libraryStatus === 'EXISTS';
   const [editMode, setEditMode] = useState(false);
 
+  const goPrev = () => {
+    history.push('/past-submissions-reports');
+  };
+
   useEffect(() => {
     if (!report) {
       history.replace(Routes.PAST_SUBMISSIONS_REPORTS);
@@ -73,6 +77,7 @@ const EditLibraryReport: React.FC = () => {
 
   const buttons = (
     <FormButtons>
+      <FormButtons.Button text="Back" type="secondary" onClick={goPrev} />
       {editMode ? (
         <>
           <FormButtons.Button
