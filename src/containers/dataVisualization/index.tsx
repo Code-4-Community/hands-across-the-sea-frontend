@@ -7,6 +7,7 @@ import { StyledRow } from '../../components/dataVisualization';
 import TotalMetrics from './metrics/TotalMetrics';
 import CountryMetrics from './metrics/CountryMetrics';
 import SchoolMetrics from './metrics/SchoolMetrics';
+import VisualizationMetrics from './metrics/VisualizationMetrics';
 
 const { Title } = Typography;
 
@@ -49,8 +50,10 @@ const DataVisualization: React.FC = () => {
           <TotalMetrics />
         ) : selectedButton === DataManagerOptions.COUNTRY ? (
           <CountryMetrics />
-        ) : (
+        ) : selectedButton === DataManagerOptions.SCHOOL ? (
           <SchoolMetrics />
+        ) : (
+          <VisualizationMetrics />
         )}
       </Container>
     </>

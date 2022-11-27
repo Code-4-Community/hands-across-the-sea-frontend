@@ -2,6 +2,7 @@ export enum DataManagerOptions {
   TOTAL = 'TOTAL',
   COUNTRY = 'COUNTRY',
   SCHOOL = 'SCHOOL',
+  VISUALIZATION = 'VISUALIZATION',
 }
 
 export const MetricMapping = {
