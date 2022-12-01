@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Row } from 'antd';
-import { Line, Column, Area, Pie } from '@ant-design/plots';
+import { Line, Column, Area } from '@ant-design/plots';
 import { useQuery } from 'react-query';
 import protectedApiClient from '../../../api/protectedApiClient';
 import moment from 'moment';
@@ -11,8 +11,7 @@ import FormItemDropdown from '../../../components/form-style/FormItemDropdown';
 enum CHART_TYPES {
   LINE = "Line",
   COLUMN = "Column",
-  AREA = "Area",
-  PIE = "Pie"
+  AREA = "Area"
 }
 
 const VisualizationMetrics: React.FC = () => {
@@ -84,17 +83,6 @@ const VisualizationMetrics: React.FC = () => {
     } else if (selectedChartType === "AREA") {
       return <Area 
           {...config}
-          tooltip={{
-            formatter: (record) => {
-              return { name: 'Number of Books', value: record.count };
-            },
-          }}
-      />
-    } else if (selectedChartType === "PIE") {
-      return <Pie 
-          {...config}
-          angleField='count'
-          colorField='date'
           tooltip={{
             formatter: (record) => {
               return { name: 'Number of Books', value: record.count };
