@@ -90,7 +90,7 @@ const VisualizationMetrics: React.FC = () => {
             },
           }}
       />
-    } else if (selectedChartType == "PIE") {
+    } else if (selectedChartType === "PIE") {
       return <Pie 
           {...config}
           angleField='count'
