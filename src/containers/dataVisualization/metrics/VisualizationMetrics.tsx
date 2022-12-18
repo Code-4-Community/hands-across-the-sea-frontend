@@ -64,34 +64,6 @@ const VisualizationMetrics: React.FC = () => {
     return data;
   }
 
-  // initial code where the x-axis is time and y-axis is number of books
-
-  // function formatDate(date: string) {
-  //   return moment(date).format('MM/DD/YYYY');
-  // }
-
-  // async function getAggregatedData() {
-  //   const allSchoolIds = (await protectedApiClient.getAllSchools()).map(
-  //     (school) => school.id,
-  //   );
-
-  //   let aggregatedData: { date: string; count: number }[] = [];
-  //   for (const id of allSchoolIds) {
-  //     const bookLogs = (await protectedApiClient.getBookLogs(id)).map((log) => {
-  //       return { date: formatDate(log.date.toString()), count: log.count };
-  //     });
-  //     aggregatedData = aggregatedData.concat(bookLogs);
-  //   }
-  //   aggregatedData.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-  //   let totalBooks = 0;
-  //   for (const log of aggregatedData) {
-  //     totalBooks += log.count;
-  //     log.count = totalBooks;
-  //   }
-
-  //   return aggregatedData;
-  // }
-
   const { isLoading, error, data, refetch } = useQuery(
     'data',
     getDataPerCountry
