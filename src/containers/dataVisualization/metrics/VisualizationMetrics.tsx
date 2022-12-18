@@ -38,7 +38,7 @@ const VisualizationMetrics: React.FC = () => {
   );
    const handlexAxisSelect = async (selectedValue: string) => {
     setSelectedxAxis(selectedValue);
-    await refetch()
+    refetch()
   };
   const handleyAxisSelect = async (selectedValue: string) => {
     setSelectedyAxis(selectedValue);
@@ -49,23 +49,23 @@ const VisualizationMetrics: React.FC = () => {
   const [selectedChartType, setSelectedChartType] = useState<string>("LINE");
 
   async function getDataPerCountry() {
-    let data = [];
+    let aggregatedData = [];
   
     for (let country of Object.keys(Countries)){
       const metric = await protectedApiClient.getCountryMetrics(country)
 
       if(selectedyAxis === yAxis.NUMBER_OF_BOOKS)  {
-        data.push({country, countBooks: metric.countBooks ?? 0})
+        aggregatedData.push({country, countBooks: metric.countBooks ?? 0})
       } else if(selectedyAxis === yAxis.NUMBER_OF_CHILDREN) {
-        data.push({country, countStudents: metric.countStudents ?? 0})
+        aggregatedData.push({country, countStudents: metric.countStudents ?? 0})
       }
     }
 
-    return data;
+    return aggregatedData;
   }
 
   const { isLoading, error, data, refetch } = useQuery(
-    'data',
+    'aggregatedData',
     getDataPerCountry
   );
 
