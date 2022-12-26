@@ -157,34 +157,40 @@ const VisualizationMetrics: React.FC = () => {
             required={true}
             onChange={(value) => setSelectedChartType(value)}
           />
-        </Col>
-      </StyledRow>
 
-      <StyledRow justify="center">
-       <Col span={8}>
-         <SelectDropDown
+      <StyledRow justify="start">
+       <Col span={16}>
+        Select Data to Display on X-Axis
+       </Col>
+       </StyledRow>
+          <SelectDropDown
            value={selectedxAxis}
            selectedButton={'x-axis'}
            onChange={handlexAxisSelect}
-           placeholder={'Select the x-axis'}
-         >
+           placeholder={'Country'}
+           >
            {Object.values(xAxis).map((key: string) => (
              <Select.Option key={key} value={key}>
                {convertEnumToRegularText(key)}
              </Select.Option>
            ))}
          </SelectDropDown>
+        </Col>
+      </StyledRow>
+
+      <StyledRow justify="center">
+       <Col span={16}>
+       Select Data to Display on Y-Axis
        </Col>
-     </StyledRow>
-    
-     
-     <StyledRow justify="center">
-       <Col span={8}>
-         <SelectDropDown
+       </StyledRow>
+
+       <StyledRow justify="center">
+       <Col span={16}>
+       <SelectDropDown
            value={selectedyAxis}
            selectedButton={'y-axis'}
            onChange={handleyAxisSelect} 
-           placeholder={'Select the y-axis'}
+           placeholder={'Number of Books'}
          >
            {Object.values(yAxis).map((key: string) => (
              <Select.Option key={key} value={key}>
@@ -192,8 +198,8 @@ const VisualizationMetrics: React.FC = () => {
              </Select.Option>
            ))}
          </SelectDropDown>
-       </Col>
-     </StyledRow>
+         </Col>
+         </StyledRow>
 
       <Row justify="center">
         {isLoading && <p>Loading visualization...</p>}
