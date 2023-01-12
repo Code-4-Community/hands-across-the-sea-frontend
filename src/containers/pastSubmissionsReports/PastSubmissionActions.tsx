@@ -32,9 +32,13 @@ const PastSubmissionActions: React.FC<PastSubmissionActionsProps> = ({
     'reports',
     () => {
       if (report && report.libraryStatus === 'EXISTS') {
-        protectedApiClient.getReportWithLibraryCsv(report.id);
+        return Promise.resolve(
+          protectedApiClient.getReportWithLibraryCsv(report.id),
+        );
       } else {
-        protectedApiClient.getReportWithoutLibraryCsv(report.id);
+        return Promise.resolve(
+          protectedApiClient.getReportWithoutLibraryCsv(report.id),
+        );
       }
     },
     {
