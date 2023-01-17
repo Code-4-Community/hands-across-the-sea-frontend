@@ -11,62 +11,59 @@ import { yAxis } from '../../../utils/yaxis';
 import { convertEnumToRegularText } from '../../../utils/helpers';
 import { Countries } from '../../../utils/countries';
 
-
-
 enum CHART_TYPES {
-  LINE = "Line",
-  COLUMN = "Column",
-  AREA = "Area",
+  LINE = 'Line',
+  COLUMN = 'Column',
+  AREA = 'Area',
 }
 
 interface DisplayDict {
-  [index: string]: string
+  [index: string]: string;
 }
 
 const DISPLAY_TO_PARAM: DisplayDict = {
-  "Number of Books": "countBooks",
-  "Number of Children": "countStudents"
-}
+  'Number of Books': 'countBooks',
+  'Number of Children': 'countStudents',
+};
 
 const VisualizationMetrics: React.FC = () => {
-
-  const [selectedxAxis, setSelectedxAxis] = useState<string>(
-    xAxis.COUNTRY,
-  );
+  const [selectedxAxis, setSelectedxAxis] = useState<string>(xAxis.COUNTRY);
   const [selectedyAxis, setSelectedyAxis] = useState<string>(
     yAxis.NUMBER_OF_BOOKS,
   );
-   const handlexAxisSelect = async (selectedValue: string) => {
+  const handlexAxisSelect = async (selectedValue: string) => {
     setSelectedxAxis(selectedValue);
-    await refetch()
+    await refetch();
   };
   const handleyAxisSelect = async (selectedValue: string) => {
     setSelectedyAxis(selectedValue);
-    await refetch()
-    refetch()
+    await refetch();
   };
 
-  const [selectedChartType, setSelectedChartType] = useState<string>("LINE");
+  const [selectedChartType, setSelectedChartType] = useState<string>('LINE');
 
   async function getDataPerCountry() {
-    let aggregatedData = [];
-  
-    for (let country of Object.keys(Countries)){
-      const metric = await protectedApiClient.getCountryMetrics(country)
+    const aggregatedData = [];
 
-      if(selectedyAxis === yAxis.NUMBER_OF_BOOKS)  {
-        aggregatedData.push({country, countBooks: metric.countBooks ?? 0})
-      } else if(selectedyAxis === yAxis.NUMBER_OF_CHILDREN) {
-        aggregatedData.push({country, countStudents: metric.countStudents ?? 0})
+    for (const country of Object.keys(Countries)) {
+      const metric = await protectedApiClient.getCountryMetrics(country);
+
+      if (selectedyAxis === yAxis.NUMBER_OF_BOOKS) {
+        aggregatedData.push({ country, countBooks: metric.countBooks ?? 0 });
+      } else if (selectedyAxis === yAxis.NUMBER_OF_CHILDREN) {
+        aggregatedData.push({
+          country,
+          countStudents: metric.countStudents ?? 0,
+        });
       }
     }
 
     return aggregatedData;
   }
-  
+
   const { isLoading, error, data, refetch } = useQuery(
     'aggregatedData',
-    getDataPerCountry
+    getDataPerCountry,
   );
 
   const displayChart = () => {
@@ -74,54 +71,67 @@ const VisualizationMetrics: React.FC = () => {
       width: 750,
       data: data || [],
       xAxis: {
-        title: { text: selectedxAxis}, tickCount: 7
+        title: { text: selectedxAxis },
+        tickCount: 7,
       },
       yAxis: {
-        title: { text: selectedyAxis}
+        title: { text: selectedyAxis },
       },
-      xField: "country",
-      yField: DISPLAY_TO_PARAM[selectedyAxis]
-    }
+      xField: 'country',
+      yField: DISPLAY_TO_PARAM[selectedyAxis],
+    };
 
-    if (selectedChartType === "LINE") {
-      return <Line 
+    if (selectedChartType === 'LINE') {
+      return (
+        <Line
           {...config}
           tooltip={{
             formatter: (record) => {
-              return { name: DISPLAY_TO_PARAM[selectedyAxis], value: record.count };
+              return {
+                name: DISPLAY_TO_PARAM[selectedyAxis],
+                value: record.count,
+              };
             },
           }}
-      />
-    } else if (selectedChartType === "COLUMN") {
-      return <Column 
+        />
+      );
+    } else if (selectedChartType === 'COLUMN') {
+      return (
+        <Column
           {...config}
           tooltip={{
             formatter: (record) => {
-              return { name: DISPLAY_TO_PARAM[selectedyAxis], value: record.count };
+              return {
+                name: DISPLAY_TO_PARAM[selectedyAxis],
+                value: record.count,
+              };
             },
           }}
-      />
-    } else if (selectedChartType === "AREA") {
-      return <Area 
+        />
+      );
+    } else if (selectedChartType === 'AREA') {
+      return (
+        <Area
           {...config}
           tooltip={{
             formatter: (record) => {
-              return { name: DISPLAY_TO_PARAM[selectedyAxis], value: record.count };
+              return {
+                name: DISPLAY_TO_PARAM[selectedyAxis],
+                value: record.count,
+              };
             },
           }}
-      />
-    } 
-  }
- 
+        />
+      );
+    }
+  };
 
   return (
     <>
       <StyledRow justify="center">
         <Col span={16}>
           <FormItemDropdown
-            clarifyText={
-              'Select Graph Type'
-            }
+            clarifyText={'Select Graph Type'}
             optionsEnum={CHART_TYPES}
             name={'chartType'}
             text={'Line'}
@@ -130,46 +140,42 @@ const VisualizationMetrics: React.FC = () => {
             onChange={(value) => setSelectedChartType(value)}
           />
           <StyledRow justify="start">
-       <Col span={16}>
-        Select Data to Display on X-Axis
-       </Col>
-       </StyledRow>
-       <SelectDropDown
-           value={selectedxAxis}
-           selectedButton={'x-axis'}
-           onChange={handlexAxisSelect}
-           placeholder={'Select the x-axis'}
-         >
-           {Object.values(xAxis).map((key: string) => (
-             <Select.Option key={key} value={key}>
-               {convertEnumToRegularText(key)}
-             </Select.Option>
-           ))}
-         </SelectDropDown>
+            <Col span={16}>Select Data to Display on X-Axis</Col>
+          </StyledRow>
+          <SelectDropDown
+            value={selectedxAxis}
+            selectedButton={'x-axis'}
+            onChange={handlexAxisSelect}
+            placeholder={'Select the x-axis'}
+          >
+            {Object.values(xAxis).map((key: string) => (
+              <Select.Option key={key} value={key}>
+                {convertEnumToRegularText(key)}
+              </Select.Option>
+            ))}
+          </SelectDropDown>
         </Col>
       </StyledRow>
 
       <StyledRow justify="center">
-       <Col span={16}>
-       Select Data to Display on Y-Axis
-       </Col>
-       </StyledRow>
-     <StyledRow justify="center">
-       <Col span={16}>
-         <SelectDropDown
-           value={selectedyAxis}
-           selectedButton={'y-axis'}
-           onChange={handleyAxisSelect} 
-           placeholder={'Select the y-axis'}
-         >
-           {Object.values(yAxis).map((key: string) => (
-             <Select.Option key={key} value={key}>
-               {convertEnumToRegularText(key)}
-             </Select.Option>
-           ))}
-         </SelectDropDown>
-       </Col>
-     </StyledRow>
+        <Col span={16}>Select Data to Display on Y-Axis</Col>
+      </StyledRow>
+      <StyledRow justify="center">
+        <Col span={16}>
+          <SelectDropDown
+            value={selectedyAxis}
+            selectedButton={'y-axis'}
+            onChange={handleyAxisSelect}
+            placeholder={'Select the y-axis'}
+          >
+            {Object.values(yAxis).map((key: string) => (
+              <Select.Option key={key} value={key}>
+                {convertEnumToRegularText(key)}
+              </Select.Option>
+            ))}
+          </SelectDropDown>
+        </Col>
+      </StyledRow>
 
       <Row justify="center">
         {isLoading && <p>Loading visualization...</p>}

@@ -1,3 +1,4 @@
 export const xAxis = {
-    COUNTRY: 'Country',
-  };
+  COUNTRY: 'Country',
+  TIME: 'Time',
+};
