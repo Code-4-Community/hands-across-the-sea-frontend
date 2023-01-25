@@ -76,7 +76,7 @@ const VisualizationMetrics: React.FC = () => {
           countSchools: 0,
         };
       })
-      .sort((a, b) => Date.parse(a.time) - Date.parse(b.time));
+      .sort((a, b) => Date.parse(a?.time ?? '') - Date.parse(b?.time ?? ''));
     return sortedData.find((report) => report.libraryExists);
   }
 
