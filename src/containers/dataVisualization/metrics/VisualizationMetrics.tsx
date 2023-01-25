@@ -130,7 +130,7 @@ const VisualizationMetrics: React.FC = () => {
     }
     aggregatedData = aggregatedData
       .filter((report) => report)
-      .sort((a, b) => Date.parse(a.time) - Date.parse(b.time));
+      .sort((a, b) => Date.parse(a?.time ?? '') - Date.parse(b?.time ?? ''));
     return aggregatedData;
   }
 
