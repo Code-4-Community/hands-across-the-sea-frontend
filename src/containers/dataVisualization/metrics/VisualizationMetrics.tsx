@@ -23,6 +23,13 @@ interface DisplayDict {
   [index: string]: string;
 }
 
+type DataPoint = (
+  | { countBooks: number }
+  | { countStudents: number }
+  | { countSchools: number }
+) &
+  ({ country: string } | { time: string });
+
 const DISPLAY_TO_PARAM: DisplayDict = {
   'Number of Books': 'countBooks',
   'Number of Children': 'countStudents',
@@ -77,19 +84,28 @@ const VisualizationMetrics: React.FC = () => {
         };
       })
       .sort((a, b) => Date.parse(a?.time ?? '') - Date.parse(b?.time ?? ''));
-    return sortedData.find((report) => report.libraryExists);
+    const libraryAcquisitionDate = sortedData.find(
+      (report) => report.libraryExists,
+    );
+    if (libraryAcquisitionDate) {
+      delete libraryAcquisitionDate.libraryExists;
+    }
+    return libraryAcquisitionDate;
   }
 
-  async function getDataOverTime() {
+  async function getDataOverTime(): Promise<DataPoint[]> {
     const allSchools = (await protectedApiClient.getAllSchools()).map(
       (school) => school.id,
     );
     let aggregatedData = [];
     if (selectedyAxis === yAxis.NUMBER_OF_SCHOOLS_WITH_LIBRARIES) {
       for (const schoolId of allSchools) {
-        aggregatedData.push(
-          getLibraryAcquisitionDate(await aggregatePaginatedReports(schoolId)),
+        const libraryAcquisitionDate = getLibraryAcquisitionDate(
+          await aggregatePaginatedReports(schoolId),
         );
+        if (libraryAcquisitionDate) {
+          aggregatedData.push(libraryAcquisitionDate);
+        }
       }
       let index = 0;
       aggregatedData
@@ -103,9 +119,12 @@ const VisualizationMetrics: React.FC = () => {
         });
     } else if (selectedyAxis === yAxis.NUMBER_OF_SCHOOLS_WITHOUT_LIBRARIES) {
       for (const schoolId of allSchools) {
-        aggregatedData.push(
-          getLibraryAcquisitionDate(await aggregatePaginatedReports(schoolId)),
+        const libraryAcquisitionDate = getLibraryAcquisitionDate(
+          await aggregatePaginatedReports(schoolId),
         );
+        if (libraryAcquisitionDate) {
+          aggregatedData.push(libraryAcquisitionDate);
+        }
       }
       let index = allSchools.length;
       aggregatedData
@@ -123,7 +142,7 @@ const VisualizationMetrics: React.FC = () => {
         for (const report of paginatedReports) {
           aggregatedData.push({
             time: formatDate(report.createdAt),
-            countStudents: report.numberOfChildren,
+            countStudents: report.numberOfChildren ?? 0,
           });
         }
       }
@@ -134,7 +153,7 @@ const VisualizationMetrics: React.FC = () => {
     return aggregatedData;
   }
 
-  async function getDataPerCountry() {
+  async function getDataPerCountry(): Promise<DataPoint[]> {
     const aggregatedData = [];
 
     for (const country of Object.keys(Countries)) {
@@ -153,8 +172,8 @@ const VisualizationMetrics: React.FC = () => {
     return aggregatedData;
   }
 
-  async function getData() {
-    let aggregatedData;
+  async function getData(): Promise<DataPoint[]> {
+    let aggregatedData: DataPoint[] = [];
     if (selectedxAxis === xAxis.COUNTRY) {
       aggregatedData = await getDataPerCountry();
     } else if (selectedxAxis === xAxis.TIME) {
