@@ -10,6 +10,8 @@ import { xAxis } from '../../../utils/xaxis';
 import { yAxis } from '../../../utils/yaxis';
 import { convertEnumToRegularText } from '../../../utils/helpers';
 import { Countries } from '../../../utils/countries';
+import { LibraryReportResponse } from '../../library-report/ducks/types';
+import moment from 'moment';
 
 enum CHART_TYPES {
   LINE = 'Line',
@@ -24,6 +26,8 @@ interface DisplayDict {
 const DISPLAY_TO_PARAM: DisplayDict = {
   'Number of Books': 'countBooks',
   'Number of Children': 'countStudents',
+  'Number of Schools with Libraries': 'countSchools',
+  'Number of Schools Without Libraries': 'countSchools',
 };
 
 const VisualizationMetrics: React.FC = () => {
@@ -40,7 +44,95 @@ const VisualizationMetrics: React.FC = () => {
     await refetch();
   };
 
+  function formatDate(date: string) {
+    return moment(date).format('MM/DD/YYYY');
+  }
+
   const [selectedChartType, setSelectedChartType] = useState<string>('LINE');
+
+  async function aggregatePaginatedReports(schoolId: number) {
+    let aggregatedData: LibraryReportResponse[] = [];
+    let currentPageData;
+    let currentPageNum = 1;
+    do {
+      currentPageData = (
+        await protectedApiClient.getPastSubmissionReports(
+          schoolId,
+          currentPageNum,
+        )
+      ).reports;
+      aggregatedData = [...aggregatedData, ...currentPageData];
+      currentPageNum++;
+    } while (currentPageData.length > 0);
+    return aggregatedData;
+  }
+
+  function getLibraryAcquisitionDate(aggregatedData: LibraryReportResponse[]) {
+    const sortedData = aggregatedData
+      .map((report) => {
+        return {
+          time: formatDate(report.createdAt),
+          libraryExists: report.libraryStatus === 'EXISTS',
+          countSchools: 0,
+        };
+      })
+      .sort((a, b) => Date.parse(a.time) - Date.parse(b.time));
+    return sortedData.find((report) => report.libraryExists);
+  }
+
+  async function getDataOverTime() {
+    const allSchools = (await protectedApiClient.getAllSchools()).map(
+      (school) => school.id,
+    );
+    let aggregatedData = [];
+    if (selectedyAxis === yAxis.NUMBER_OF_SCHOOLS_WITH_LIBRARIES) {
+      for (const schoolId of allSchools) {
+        aggregatedData.push(
+          getLibraryAcquisitionDate(await aggregatePaginatedReports(schoolId)),
+        );
+      }
+      let index = 0;
+      aggregatedData
+        .sort((a, b) => Date.parse(a?.time ?? '') - Date.parse(b?.time ?? ''))
+        .map((report) => {
+          if (report) {
+            index++;
+            report.countSchools = index;
+          }
+          return report;
+        });
+    } else if (selectedyAxis === yAxis.NUMBER_OF_SCHOOLS_WITHOUT_LIBRARIES) {
+      for (const schoolId of allSchools) {
+        aggregatedData.push(
+          getLibraryAcquisitionDate(await aggregatePaginatedReports(schoolId)),
+        );
+      }
+      let index = allSchools.length;
+      aggregatedData
+        .sort((a, b) => Date.parse(a?.time ?? '') - Date.parse(b?.time ?? ''))
+        .map((report) => {
+          if (report) {
+            index--;
+            report.countSchools = index;
+          }
+          return report;
+        });
+    } else if (selectedyAxis === yAxis.NUMBER_OF_CHILDREN) {
+      for (const schoolId of allSchools) {
+        const paginatedReports = await aggregatePaginatedReports(schoolId);
+        for (const report of paginatedReports) {
+          aggregatedData.push({
+            time: formatDate(report.createdAt),
+            countStudents: report.numberOfChildren,
+          });
+        }
+      }
+    }
+    aggregatedData = aggregatedData
+      .filter((report) => report)
+      .sort((a, b) => Date.parse(a.time) - Date.parse(b.time));
+    return aggregatedData;
+  }
 
   async function getDataPerCountry() {
     const aggregatedData = [];
@@ -61,9 +153,19 @@ const VisualizationMetrics: React.FC = () => {
     return aggregatedData;
   }
 
+  async function getData() {
+    let aggregatedData;
+    if (selectedxAxis === xAxis.COUNTRY) {
+      aggregatedData = await getDataPerCountry();
+    } else if (selectedxAxis === xAxis.TIME) {
+      aggregatedData = await getDataOverTime();
+    }
+    return aggregatedData;
+  }
+
   const { isLoading, error, data, refetch } = useQuery(
     'aggregatedData',
-    getDataPerCountry,
+    getData,
   );
 
   const displayChart = () => {
@@ -72,57 +174,20 @@ const VisualizationMetrics: React.FC = () => {
       data: data || [],
       xAxis: {
         title: { text: selectedxAxis },
-        tickCount: 7,
       },
       yAxis: {
         title: { text: selectedyAxis },
       },
-      xField: 'country',
+      xField: selectedxAxis === xAxis.COUNTRY ? 'country' : 'time',
       yField: DISPLAY_TO_PARAM[selectedyAxis],
     };
 
     if (selectedChartType === 'LINE') {
-      return (
-        <Line
-          {...config}
-          tooltip={{
-            formatter: (record) => {
-              return {
-                name: DISPLAY_TO_PARAM[selectedyAxis],
-                value: record.count,
-              };
-            },
-          }}
-        />
-      );
+      return <Line {...config} />;
     } else if (selectedChartType === 'COLUMN') {
-      return (
-        <Column
-          {...config}
-          tooltip={{
-            formatter: (record) => {
-              return {
-                name: DISPLAY_TO_PARAM[selectedyAxis],
-                value: record.count,
-              };
-            },
-          }}
-        />
-      );
+      return <Column {...config} />;
     } else if (selectedChartType === 'AREA') {
-      return (
-        <Area
-          {...config}
-          tooltip={{
-            formatter: (record) => {
-              return {
-                name: DISPLAY_TO_PARAM[selectedyAxis],
-                value: record.count,
-              };
-            },
-          }}
-        />
-      );
+      return <Area {...config} />;
     }
   };
 
@@ -145,7 +210,9 @@ const VisualizationMetrics: React.FC = () => {
           <SelectDropDown
             value={selectedxAxis}
             selectedButton={'x-axis'}
-            onChange={handlexAxisSelect}
+            onChange={async (selectedValue) =>
+              await handlexAxisSelect(selectedValue)
+            }
             placeholder={'Select the x-axis'}
           >
             {Object.values(xAxis).map((key: string) => (
@@ -165,7 +232,9 @@ const VisualizationMetrics: React.FC = () => {
           <SelectDropDown
             value={selectedyAxis}
             selectedButton={'y-axis'}
-            onChange={handleyAxisSelect}
+            onChange={async (selectedValue) =>
+              await handleyAxisSelect(selectedValue)
+            }
             placeholder={'Select the y-axis'}
           >
             {Object.values(yAxis).map((key: string) => (
