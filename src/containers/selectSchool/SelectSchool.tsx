@@ -97,6 +97,7 @@ const SelectSchool: React.FC = () => {
                           .filter(
                             (school) =>
                               privilegeLevel === PrivilegeLevel.ADMIN ||
+                              privilegeLevel === PrivilegeLevel.OFFICER ||
                               school.country === userInfo.country,
                           )
                           .map(renderSchoolOption)}
